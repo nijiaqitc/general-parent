@@ -1,0 +1,412 @@
+@charset "UTF-8";
+
+
+
+body, h1, h2, h3, h4, p, ul, ol, dl, dd, dt {
+  margin: 0;
+  font-weight: normal; }
+
+ul, ol {
+  padding-left: 0;
+  list-style-type: none; }
+
+a {
+  text-decoration: none;
+  cursor: pointer; }
+
+a:hover {
+  text-decoration: none; }
+
+/*image with no-border*/
+a img {
+  border: 0; }
+
+a:visited {
+  color: inherit; }
+
+input, button, select, textarea {
+  outline: none; }
+
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  visibility: hidden; }
+
+.clearfix {
+  zoom: 1; }
+
+.ui-left {
+  float: left; }
+
+.ui-right {
+  float: right; }
+
+
+
+body.theme-white {
+  background: #edecea;
+  color: #666666; }
+  body.theme-dark .user-container .user-bookshelf-signIn body.theme-white a, body.theme-dark .main_control .main_control_dialog body.theme-white .main_control_dialog_button, body.theme-white .user-container .user-bookshelf-signIn a, body.theme-white .main_control .main_control_dialog .main_control_dialog_button {
+    background-color: #f98629;
+    color: #fff;
+    border: #e67113; }
+    body.theme-dark .user-container .user-bookshelf-signIn body.theme-white a:hover, body.theme-dark .main_control .main_control_dialog body.theme-white .main_control_dialog_button:hover, body.theme-white .user-container .user-bookshelf-signIn a:hover, body.theme-white .main_control .main_control_dialog .main_control_dialog_button:hover {
+      background-color: #ff9126; }
+    body.theme-dark .user-container .user-bookshelf-signIn body.theme-white a:active, body.theme-dark .main_control .main_control_dialog body.theme-white .main_control_dialog_button:active, body.theme-white .user-container .user-bookshelf-signIn a:active, body.theme-white .main_control .main_control_dialog .main_control_dialog_button:active {
+      background-color: #e76e09; }
+  body.theme-white a, body.theme-white a:visited {
+    color: #333333; }
+  body.theme-white a:hover {
+    color: #e66201; }
+  body.theme-white .logo {
+    background-image: url("../images/ac_comicview_all.png"); }
+  body.theme-white .logo:hover {
+    background-position: -242px -1px; }
+  body.theme-white .nav {
+    border-color: #d6d6d6;
+    background-color: #fdfdfd; }
+    body.theme-white .nav .notice .notice-title {
+      color: #e66201;
+      background: #fdfdfd; }
+    body.theme-white .nav .user-notice {
+      background-color: #fdfdfd; }
+  body.theme-white .ico-top,
+  body.theme-white .ico-bottom-3c {
+    background-image: url("../images/ac_comicview_all.png"); }
+  body.theme-white .recommend {
+    background-color: #fbfbfb;
+    border-right-color: #d6d6d6; }
+    body.theme-white .recommend .recommend_close {
+      background-color: #fbfbfb; }
+    body.theme-white .recommend .recommend-info-container {
+      border-color: transparent; }
+      body.theme-white .recommend .recommend-info-container .recommend-info {
+        background-color: #fbfbfb; }
+      body.theme-white .recommend .recommend-info-container .recommend-info-title {
+        border-bottom-color: #e1e1e1; }
+      body.theme-white .recommend .recommend-info-container .recommend-info-more {
+        color: #e66201; }
+      body.theme-white .recommend .recommend-info-container p {
+        color: #666666; }
+    body.theme-white .recommend ul.recommend_list li {
+      border-color: transparent; }
+    body.theme-white .recommend ul.recommend_list li:hover {
+      border-color: #d6d6d6; }
+      body.theme-white .recommend ul.recommend_list li:hover .recommend-info-container {
+        border-color: #d6d6d6; }
+  body.theme-white .recommend_stack:hover .recommend_stack_all img {
+    color: rgba(255, 255, 255, 0.5); }
+  body.theme-white .recommend_stack:hover .recommend_open {
+    color: #e66201; }
+  body.theme-white .user-container {
+    color: #333333;
+    background: #fdfdfd; }
+    body.theme-white .user-container .user-bookshelf-signIn, body.theme-white .user-container .user-bookshelf-list {
+      border-color: #d6d6d6;
+      background-color: #fdfdfd;
+      /*&::before {
+        border-color: transparent;
+        border-bottom-color: setColors($type, mod_dialog_title_bg);
+      }*/ }
+    body.theme-white .user-container .user-bookshelf-signIn a {
+      border-radius: 2px; }
+    body.theme-white .user-container .user-addFavourites, body.theme-white .user-container .user-bookshelf {
+      border-color: #d6d6d6;
+      background-color: #ffffff; }
+    body.theme-white .user-container .bookshelf-ft {
+      color: #feb300; }
+    body.theme-white .user-container .user-bookshelf-list li {
+      border-color: #ececec; }
+      body.theme-white .user-container .user-bookshelf-list li a:hover span {
+        color: #e66201; }
+      body.theme-white .user-container .user-bookshelf-list li a .user-bookshelf-favourite-new {
+        color: #feb300; }
+      body.theme-white .user-container .user-bookshelf-list li a .user-bookshelf-favourite-chapter {
+        color: #666666; }
+      body.theme-white .user-container .user-bookshelf-list li a .user-bookshelf-favourite-count {
+        color: #f3f2f0; }
+      body.theme-white .user-container .user-bookshelf-list li a .user-bookshelf-favourite-chapter-new {
+        color: #666666; }
+    body.theme-white .user-container .user-bookshelf-list ul {
+      background-color: #fdfdfd; }
+    body.theme-white .user-container .user-bookshelf-list .user-bookshelf-favourite-count {
+      color: #666666;
+      background-color: #f3f2f0; }
+  body.theme-white .main {
+    background-color: #edecea; }
+  body.theme-white .main_control .main_control_button_normal {
+    color: #f98629; }
+    body.theme-white .main_control .main_control_button_normal:before {
+      background-color: #fff; }
+  body.theme-white .main_control .main_control_button_trigger {
+    color: #878787; }
+  body.theme-white .main_control .main_control_dialog {
+    border-color: #d6d6d6;
+    background-color: #fdfdfd; }
+    body.theme-white .main_control .main_control_dialog dt {
+      background-color: #f3f2f0; }
+    body.theme-white .main_control .main_control_dialog .main_control_dialog_count {
+      color: #e66201; }
+    body.theme-white .main_control .main_control_dialog .main_control_dialog_borderRight {
+      border-color: #e1e1e1; }
+    body.theme-white .main_control .main_control_dialog:after {
+      border-color: transparent;
+      border-top-color: #fdfdfd; }
+  body.theme-white .ico-loading {
+    background: url(../images/loading2.gif); }
+  body.theme-white .comic-contain .main_ad_bottom,
+  body.theme-white .comic-contain .main_ad_top {
+    background-color: #edecea; }
+  body.theme-white .tool_chapters_list li {
+    border-color: #ececec; }
+  body.theme-white .tool_title {
+    background-color: #fbfbfb;
+    color: #212121; }
+  body.theme-white .tool {
+    /*工具栏按钮部分*/
+    /*工具栏目录部分*/
+    /*.tool_chapters_button {
+      &:after {
+        border-color: transparent;
+        border-top-color: setColors($type, mod_dialog_bg);
+      }
+    }*/ }
+    body.theme-white .tool .tool_icon_list li {
+        /*a{
+
+        }
+        a:hover {
+          span {
+            color: setColors($type, static_tool_icon_hover);
+          }
+        }*/ }
+    body.theme-white .tool .tool_icon_list .tool_icon_open_li {
+      color: #454545; }
+    body.theme-white .tool .tool_icon_list .tool_btn_open {
+      background: #fff url(../images/ac_comicview_all.png) no-repeat 12px -64px; }
+    body.theme-white .tool .tool_icon_list .tool_btn_open:hover {
+      background: #fff url(../images/ac_comicview_all.png) no-repeat 12px -128px; }
+    body.theme-white .tool .tool_chapters_dialog {
+      border-color: #d6d6d6;
+      background-color: #fdfdfd; }
+      body.theme-white .tool .tool_chapters_dialog .tool_chapters_dialog_title_wrap {
+        background-color: #f3f2f0; }
+      body.theme-white .tool .tool_chapters_dialog .tool_chapters_dialog_title {
+        background-color: #f3f2f0; }
+        body.theme-white .tool .tool_chapters_dialog .tool_chapters_dialog_title a {
+          color: #666666; }
+      body.theme-white .tool .tool_chapters_dialog .tool_chapters_list li.now-reading span {
+        color: #e66201; }
+  body.theme-white .scroll-relative .scroll-scrollbar {
+    background-color: #e8e8e8; }
+    body.theme-white .scroll-relative .scroll-scrollbar .scroll-scrollbar-thumb {
+      background-color: #bababa; }
+  body.theme-white .btn-lookani {
+    background-color: #fdfdfd; }
+  body.theme-white .ani-info {
+    background-color: #fdfdfd;
+    border-color: #d6d6d6; }
+  body.theme-white .page-dialog {
+    border-color: #d6d6d6;
+    background-color: #fdfdfd; }
+    body.theme-white .page-dialog .page-dialog-tit {
+      background-color: #fafafa; }
+    body.theme-white .page-dialog .page-chapter-list li {
+      border-color: #ececec; }
+
+body.cross-page .comic-contain li {
+  background: none; }
+
+body.view .nav .user-container .user-notice:hover .tool_title, body.view .nav .user-bookshelf-dialog .user-bookshelf-list .user-bookshelf-favourite-chapter, body.view .nav .user-bookshelf-dialog .user-bookshelf-list .user-bookshelf-favourite-chapter-new, body.view .main .main_control .main_control_next, body.view .recommend ul.recommend_list li .recommend-info-container dl.recommend-info .recommend-info-title h2, body.view .tool ul.tool_icon_list li.tool_icon_list_li, body.view .tool ul.tool_icon_list li.tool_icon_list_li a:hover .tool_title, body.view .tool div.tool_chapters_dialog ul.tool_chapters_list li a span.tool_chapters_list_number, body.view .tool div.tool_chapters_dialog ul.tool_chapters_list li a span.icon-gold {
+  display: inline-block;
+  *zoom: 1;
+  *display: inline; }
+
+body.view .main .main_control .main_control_dialog .main_control_dialog_count_list {
+  overflow: hidden; }
+  body.view .main .main_control .main_control_dialog .main_control_dialog_count_list:after {
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both; }
+
+
+
+
+
+
+
+
+
+
+body.view {
+  overflow: auto;
+  font-size: 14px;
+  /*左边 腾讯动漫 logo*/
+  /* 公用箭头 */
+  /* 顶部按钮 */
+  /*头部导航部分 begin*/
+  /*头部导航部分 end*/
+  /*中间主体漫画部分 begin*/
+  /*中间主体漫画部分 end*/
+  /*左边 推荐部份 begin*/
+  /*左边 推荐部份 end*/
+  /*底部 工具栏部分 begin*/
+  /*底部 工具栏部分 end*/
+  /* 公共图标 */
+  /*全屏遮罩 begin*/
+  /*全屏遮罩 end*/
+  /*滚动条样式 begin*/
+  /*滚动条样式 end*/ }
+  body.view .logo-wrap {
+    width: 376px;
+    height: 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px 0 0 22px; }
+  body.view .logo-sub-wrap {
+    position: fixed;
+    z-index: 2; }
+  body.view .logo {
+    width: 88px;
+    height: 25px;
+    display: block;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    text-indent: -9999px; }
+    body.view .logo h1 {
+      display: none; }
+  body.view .ico-top,
+  body.view .ico-bottom-3c,
+  body.view .ico-top-fff {
+    width: 17px;
+    height: 9px;
+    display: block; }
+  body.view .top-btn-wrap {
+    position: absolute;
+    top: 0;
+    left: 166px; }
+  body.view .top-btn-wrap a {
+    mragin-right: 8px;
+    line-height: 50px;
+    font-family: "Microsoft YaHei";
+    font-size: 15px; }
+  body.view .nav-wrap {
+    height: 80px;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-width: 1000px; }
+  body.view .user-ico {
+    background: url("../images/ac_comicview_all.png");
+    width: 13px;
+    height: 7px;
+    display: block; }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    body.view .nav .title {
+      text-align: center;
+      line-height: 50px;
+      font-size: 14px;
+      font-weight: normal;
+      font-family: "Microsoft YaHei";
+      font-size: 15px; }
+      body.view .nav .title .title-comicHeading {
+        font-weight: bold; }
+    body.view .nav .notice {
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
+      margin: 0 370px;
+      overflow: hidden;
+      white-space: nowrap; }
+    body.view .nav .user-container {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      height: 32px;
+      line-height: 32px;
+      padding-right: 20px;
+      *width: 400px;
+      /*.user-name{
+        margin-left:-4px;
+      }*/ }
+      body.view .nav .user-container .user-addFavourites, body.view .nav .user-container .user-bookshelf {
+        height: 30px;
+        display: inline-block;
+        text-align: center;
+        border-width: 1px;
+        border-style: solid;
+        line-height: 30px; }
+      body.view .nav .user-container .user-notice {
+        float: left;
+        width: 18px;
+        padding: 0 20px 0 10px;
+        line-height: 18px;
+        position: relative;
+        margin-top: 6px;
+        height: 18px; }
+      body.view .nav .user-container .user-notice .tool_title {
+        top: 30px;
+        left: -11px; }
+      body.view .nav .user-container .user-name, body.view .nav .user-container .user-signOut {
+        margin-right: 25px;
+        font-family: "Microsoft YaHei";
+        font-size: 15px; }
+      body.view .nav .user-container .user-addFavourites {
+        width: 75px;
+        margin-right: 10px; }
+      body.view .nav .user-container .user-bookshelf {
+        position: relative; }
+      body.view .nav .user-container .user-addFavourites, body.view .nav .user-container .user-bookshelf {
+        font-family: "Microsoft YaHei";
+        font-size: 15px; }
+      body.view .nav .user-container .user-bookshelf {
+        text-align: left; }
+      body.view .nav .user-container .user-bookshelf-button .user-bookshelf-count {
+        margin: 0 29px 0 0; }
+      body.view .nav .user-container .user-bookshelf-button .user-ico {
+        position: absolute;
+        top: 12px;
+        right: 10px; }
+      body.view .nav .user-container .user-bookshelf-button .user-ft-ml {
+        margin-left: 10px; }
+      body.view .nav .user-container .user-bookshelf-button .user-ico-top {
+        background-position: 0 0; }
+      body.view .nav .user-container .user-bookshelf-button .user-ico-bottom {
+        background-position: -16px 0; }

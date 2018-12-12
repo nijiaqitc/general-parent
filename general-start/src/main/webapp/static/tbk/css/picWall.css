@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+.atitleSize{
+	font-size: 14px;
+}
+.aoutDiv{
+	width: 1190px;
+}
+.aoutDiv1{
+	height: 550px;clear: both;
+}
+.aoutDiv2{
+	padding: 6px;border: solid 1px #ececec;display: block;width: 260px;
+}
+.aoutDiv3{
+	width: 260px;height: 20px;
+}
+.aoutDiv4{
+	margin-left: 20px;margin-top: -12px;font-weight: 600; 	
+}
+.aoutDiv5{
+	clear: both;width: 240px;text-indent: 24px;
+}
+.aoutDiv6{
+	font-size: 12px;line-height: 14px;
+}
+.aoutDiv7{
+	height: 300px;margin-top: 20px;margin-left:20px;width: 272px;float: left;display: inline;
+}
+.picWallSize{
+	width: 259px;
+	height: 200px;
+}

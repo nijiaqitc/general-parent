@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>样式风格三</title>
+<link href="../css/njqEditor_styleThree.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="njqEditor" align="center"  class="njq_editor_total">
+        <div id="njqEditor_toolDiv" align="center" class="toolsDiv">
+            <div align="right" class="topNumCountArea">
+                <div align="left">字数：</div>
+                <div id="njqEditor_topWordCount" align="left" >0</div>
+            </div>
+            <div class="toolsArea" style="overflow: auto;padding: 4px;padding-top: 10px;border-right: 1px solid #ddd;"></div>
+            <div class="toolBtnParaType madeNode"  nodeId="njqEditor_fontType">
+                <div style='width: 100%;height: 20px;overflow: hidden;border: 1px solid #ccc;'>
+                    <div style='cursor: default;float:left;width: 60px;height: 18px;line-height: 20px;'>arial</div>
+                    <div class='toolBtnRightsjx'></div>
+                </div>
+            </div>
+            <div class="toolBtnParaType madeNode"  nodeId="njqEditor_fontSize">
+                <div style='width: 100%;height: 20px;overflow: hidden;border: 1px solid #ccc;'>
+                    <div style='cursor: default;float:left;width: 60px;height: 18px;line-height: 20px;'>16px</div>
+                    <div class='toolBtnRightsjx'></div>
+                </div>
+            </div>
+            <div class="btnDiv madeNode"  nodeId="njqEditor_fontColor">
+                <div class='boderOutDiv'>
+                    <div class='toolBtnBackImg toolBtnFontColorCus' style="margin-top: 0px;">
+                              <div style='height:4px;margin-top: 12px;'></div>
+                       </div>
+                       <div class='toolBtnRightsjx'></div>
+                      </div>
+            </div>
+            <div class="btnDiv madeNode"  nodeId="njqEditor_backgroundColor">
+                <div class='boderOutDiv'>
+                   <div class='toolBtnBackImg toolBtnBackGroundColorCus' style="margin-top: 0px;">
+                       <div style='height:4px;margin-top: 12px;'></div>
+                   </div>
+                   <div class='toolBtnRightsjx'></div>
+                </div>
+            </div>
+            <div class="toolBtnParaType madeNode"  nodeId="njqEditor_setTitle">
+                <div style='width: 100%;height: 20px;overflow: hidden;border: 1px solid #ccc;'>
+                    <div style='cursor: default;float:left;width: 60px;height: 18px;line-height: 20px;'>段落</div>
+                    <div class='toolBtnRightsjx'></div>
+                </div>
+            </div>
+            <div class="toolBtnParaType madeNode" nodeId="njqEditor_custom">
+                <div style='width: 100%;height: 20px;overflow: hidden;border: 1px solid #ccc;'>
+                    <div style='cursor: default;float:left;width: 60px;height: 18px;line-height: 20px;'>特殊样式</div>
+                    <div class='toolBtnRightsjx'></div>
+                </div>
+            </div>
+            <div class="btnDiv madeNode" nodeId="njqEditor_upPic">
+                <div class='boderOutDiv'>
+                   <div class='toolBtnBackImg toolBtnUpPic'>
+                       <input id='testIput' type='file'  style='display:none;'>
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div id="njqEditor_body" align="center" class="context-background">
+            <div id="njqEditor_editorDiv" align="center" class="text-context">
+                <div>
+                   <div>
+                       <span id="njqEditor_num_value"></span><span id="njqEditor_name_value"></span>
+                   </div>
+                </div>
+                <div id="njqEditor_context" align="left" contenteditable="true" spellcheck="false" class="contextCenter" >
+                </div>
+            </div>
+        </div>
+        <div id="njqEditor_tip" class="textTip" align="left">
+            <div class="text"></div>
+        </div>
+        <div align="right" class="textNum">
+            <div id="njqEditor_wordCount" class="text">当前输入字数为：<label>0</label></div>
+        </div>
+        <div id="njqEditor_shadeBox" class="shade-box"></div>
+        <div id="njqEditor_dlg_div"></div>
+    </div>
+    
+    <div id="njqEditorDiv" unEvent="true"></div>
+    <!--    加载用户自定义配置 -->
+    <script type="text/javascript" src="../js/njqEditor_config.js"></script>
+    <!--    加载按钮配置 -->
+    <script type="text/javascript" src="../js/njqEditor_toolConfig.js"></script>
+    <script type="text/javascript" src="../js/njqEditor_util.js"></script>
+    <!--    加载样式配置 -->
+    <script type="text/javascript" src="../js/njqEditor_styleConfig.js"></script>
+    <script type="text/javascript" id="njqEditor_eval_js">
+        (function(){
+        	var util=njqEditor.util;
+            //从window中获取出所有按钮的配置
+            var tools=window.njqEditor.toolConfig.tools;
+            //储存所有转换好后的按钮对象，以id为名字，节点为对象
+            var toolsNode=window.njqEditor.toolConfig.toolsNode={};
+            var styles=window.njqEditor.styleConfig;
+            var toolDiv=document.getElementById("njqEditor_toolDiv");
+            var btnArea=util.getElementsByClassName(toolDiv,"toolsArea")[0]; 
+            var madeNode=util.getElementsByClassName(toolDiv,"madeNode");
+            var cusNode={},nodeId="";
+            for(var i in madeNode){
+                nodeId=madeNode[i].getAttribute("nodeId");
+                cusNode[nodeId]=madeNode[i].innerHTML;
+                util.remove(madeNode[i]);
+            }
+            var userConfig=njqEditor.userConfig;
+            var allBtns={1:[],2:[],3:[],4:[],5:[]};
+            for(var name in tools){
+            	if(util.indexOf(userConfig.useBtn,name)==-1){
+            		continue;
+            	}
+                if(name){
+                    var node=document.createElement("div");
+                    var object=tools[name];
+                    for(var attr in object){
+                        node[attr]=object[attr];
+                    }
+                    node.id=name;
+                    node.title=node.title;
+                    toolsNode[name]=node;
+                    if(!node.isEnable){
+                        styles.btnDisable(node);
+                    }
+                    //给按钮添加默认系统样式，如果不需要系统样式可以去掉
+                    styles.btnDefault(node);
+                    //表示当前按钮是工具按钮的一个标志
+                    node.toolBtn=true;
+                    if(node.cus){
+                        node.innerHTML=cusNode[node.id];
+                        node.className=node.defaultClass;
+                    }else{
+                        var childNode1=document.createElement("div");
+                        var childNode2=document.createElement("div");
+                        childNode2.classList.add("boderOutDiv");
+                        childNode1.className=node.defaultClass;
+                        childNode2.appendChild(childNode1);
+                        if(node.hasRightBtn){
+                            var downNode=document.createElement("div");
+                            downNode.classList.add("toolBtnRightsjx");
+                            childNode2.appendChild(downNode);
+                        }
+                        node.appendChild(childNode2);
+                    }
+                    allBtns[node.btnType].push(node);
+                }
+            }
+            
+            for(var i in allBtns){
+                for(var j=0;j<allBtns[i].length;j++){
+                    btnArea.appendChild(allBtns[i][j]);
+                }
+                if(allBtns[i].length>0){
+	                var splidDiv=document.createElement("div");
+	                splidDiv.classList.add("solidicon");
+	                splidDiv.appendChild(document.createElement("div"));
+	                btnArea.appendChild(splidDiv);
+                }
+            }
+            util.remove(btnArea.lastChild);
+        })()
+    </script>
+    
+        
+</body>
+</html>

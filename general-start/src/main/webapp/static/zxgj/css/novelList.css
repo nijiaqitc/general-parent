@@ -1,0 +1,108 @@
+li, ol, ul {
+    list-style: none outside none;
+}
+
+
+.lockEm{
+	float: right;
+    color: #bfbfbf;
+    line-height: 40px;
+    font-size: 16px;
+}
+.topjj{
+	font: 14px/34px PingFangSC-Regular,'-apple-system',Simsun;
+    display: inline-block;
+    width: 120px;
+    height: 34px;
+    margin-right: 20px;
+    text-align: center;
+    vertical-align: middle;
+    border-width: 1px;
+    border-style: solid;
+}
+.red-btn{
+	position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    border-color: #bf2c24;
+    background: #bf2c24;
+    cursor: pointer;
+}
+.red-btn a{
+	color: #fff;
+}
+.red-btn:hover{
+	border-color: #f98983;
+    background: #f98983;
+}
+.uop{
+	cursor: pointer;
+}
+.uop:hover{
+	color:#f98983; 
+}
+.opactive{
+	color:#f98983;
+}
+.topgen{
+	width: 990px;height: 232px;border: 1px solid;margin-top: 20px;
+}
+.topgen .leftpart{
+	float: left;
+}
+.topgen .leftpart img{
+	float: left;width: 144px;height: 192px;margin: 20px 20px 0;
+}
+.topgen .centerpart{
+	float: left;margin-top: 20px;
+}
+.topgen .centerpart .docTitle{
+	clear:both;font: 700 28px/38px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;overflow: hidden;height: 38px;margin-bottom: 12px;
+}
+.topgen .centerpart .contextDesc{
+	height: 106px;width: 560px;" 
+}
+.topgen .rightpart{
+	float: right;width: 200px;height: 200px;margin-right: 30px;margin-top: 20px;
+}
+.topgen .rightpart .numfen{
+	font-size: 32px;font-family: fantasy;margin-top: 10px;
+}
+.topgen .rightpart .plxl{
+	font: 12px/16px PingFangSC-Regular,'-apple-system',Simsun;width: 110px;min-height: 17px;margin: 4px 0 12px;color: #a6a6a6;margin-top: 14px;
+}
+.topgen .rightpart .thi{
+	height: 80px;
+}
+.topgen .rightpart .risp{
+	margin-left: 20px;
+}
+
+.cengen{
+	width: 1150px;margin-bottom: 50px;
+}
+.cengen .hantp{
+	margin-top: 40px;
+}
+
+.cengen .hantp .tt{
+	font: 700 18px/24px sans-serif;overflow: hidden;height: 20px;padding-bottom: 11px;border-bottom: 1px solid #666;
+}
+
+.cengen .hantp .zwqy{
+	width: 1150px;overflow: hidden;
+}
+.cengen .hantp .zwqy .ttul{
+	overflow: hidden;width: 1200px;
+}
+
+.cengen .hantp .zwqy .ttul li{
+    font: 14px/40px PingFangSC-Regular,'-apple-system',Simsun;
+    float: left;
+    overflow: hidden;
+    width: 340px;
+    height: 40px;
+    padding-right: 60px;
+    border-bottom: 1px solid #ebebeb;
+}

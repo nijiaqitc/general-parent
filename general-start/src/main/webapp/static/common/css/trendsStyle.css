@@ -1,0 +1,16 @@
+@media only screen and (min-width: 768px) and (max-width: 979px){
+	#leftMenu{width: 50px;}
+	#leftMenu .fd{width: 70px;}
+	#leftMenu a{font-size:20px;width:80px;height: 40px;}
+	#leftMenu .wmenu li a label {display: block;}
+	#leftMenu span{display: none;}
+	#leftMenu .wmenu li {width:80px;}
+	#rightContext{margin-left: 70px;}
+	.nnum2i{
+		margin-left: 5px;
+	}
+}
+@media only screen and (max-width: 767px){
+	#leftMenu{display: none;}
+	#rightContext{margin-left: 20px;}
+}

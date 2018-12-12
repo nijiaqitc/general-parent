@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+.aoutDiv1{
+	height: 400px;clear: both;
+}
+.aoutDiv2{
+	width: 1190px;margin-top: 20px;
+}
+/*首页开始*/
+.ahomeDiv{
+	height: 400px;width: 280px;float: left;display: inline;
+}
+.ahomeDiv1{
+	margin: 20px 20px;
+}
+.ahomeDiv2{
+	font-size: 30px;font-weight: bold;
+}
+.ahomeDiv3{
+	font-size: 14px;line-height: 20px;margin-top: 20px;text-indent: 28px;
+}
+.ahomeDiv4{
+	margin-top: 40px;color: red;
+}
+/*首页结束*/
+
+.adocsearch{
+	height: 400px;margin-left:10px;width: 280px;float: left;display: inline;
+}
+.adocsearch1{
+	height: 200px;margin-top: 10px;margin-left:10px;width: 280px;float: left;display: inline;
+}
+.adocsearch2{
+	height: 190px;margin-left:10px;width: 280px;float: left;display: inline;
+}

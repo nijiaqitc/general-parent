@@ -1,0 +1,449 @@
+
+.edui-icon {
+    width: 20px !important;
+    height: 20px !important;
+    background: url(../images/icons.png) 0 -4000px;
+    background: url(../images/icons.gif) 0 -4000px\9;
+}
+/*按钮样式*/
+.edui-default .forundo{
+    background-position: -160px 0;
+}
+
+.forredo{
+    background-position: -100px 0;
+}
+
+.forbold{
+    background-position: 0 0;
+}
+
+.foritalic{
+    background-position: -60px 0;
+}
+
+.forfontborder{
+    background-position:-160px -40px;
+}
+.forunderline{
+    background-position: -140px 0;
+}
+
+.forstrikethrough{
+    background-position: -120px 0;
+}
+
+.forsubscript{
+    background-position: -600px 0;
+}
+
+.forsuperscript{
+    background-position: -620px 0;
+}
+
+.forblockquote{
+    background-position: -220px 0;
+}
+
+.forforecolor{
+    background-position: -720px 0;
+}
+
+.forbackcolor{
+    background-position: -760px 0;
+}
+
+.forinserttable{
+    background-position: -580px -20px;
+}
+
+.forautotypeset{
+    background-position: -640px -40px;
+}
+
+.forjustifyleft{
+    background-position: -460px 0;
+}
+
+.forjustifycenter{
+    background-position: -420px 0;
+}
+
+.forjustifyright{
+    background-position: -480px 0;
+}
+
+.forjustifyjustify{
+    background-position: -440px 0;
+}
+
+.forinsertorderedlist{
+    background-position: -80px 0;
+}
+
+.forinsertunorderedlist{
+    background-position: -20px 0;
+}
+
+.forlineheight{
+    background-position: -725px -40px;
+}
+
+.forrowspacingbottom{
+    background-position: -745px -40px;
+}
+
+.forrowspacingtop{
+    background-position: -765px -40px;
+}
+
+.forhorizontal{
+    background-position: -360px 0;
+}
+
+.forlink{
+    background-position: -500px 0;
+}
+
+.forcode{
+    background-position: -440px -40px;
+}
+
+.forinsertimage{
+    background-position: -726px -77px;
+}
+
+.forinsertframe{
+    background-position: -240px -40px;
+}
+
+.foremoticon{
+    background-position: -60px -20px;
+}
+
+.forspechars{
+    background-position: -240px 0;
+}
+
+.forhelp{
+    background-position: -340px 0;
+}
+
+.forprint{
+    background-position: -440px -20px;
+}
+
+.forpreview{
+    background-position: -420px -20px;
+}
+
+.forselectall{
+    background-position: -400px -20px;
+}
+
+.forsearchreplace{
+    background-position: -520px -20px;
+}
+
+.formap{
+    background-position: -40px -40px;
+}
+
+.forgmap{
+    background-position: -260px -40px;
+}
+
+.forinsertvideo{
+    background-position: -320px -20px;
+}
+
+.fortime{
+    background-position: -160px -20px;
+}
+
+.fordate{
+    background-position: -140px -20px;
+}
+
+.forcut{
+    background-position: -680px 0;
+}
+
+.forcopy{
+    background-position: -700px 0;
+}
+
+.forpaste{
+    background-position: -560px 0;
+}
+
+.forformatmatch{
+    background-position: -40px 0;
+}
+
+.forpasteplain{
+    background-position: -360px -20px;
+}
+
+.fordirectionalityltr{
+    background-position: -20px -20px;
+}
+
+.fordirectionalityrtl{
+    background-position: -40px -20px;
+}
+
+.forsource{
+    background-position: -261px -0px;
+}
+
+.forremoveformat{
+    background-position: -580px 0;
+}
+
+.forunlink{
+    background-position: -640px 0;
+}
+
+.fortouppercase{
+    background-position: -786px 0;
+}
+
+.fortolowercase{
+    background-position: -806px 0;
+}
+
+.forinsertrow{
+    background-position: -478px -76px;
+}
+
+.forinsertrownext{
+    background-position: -498px -76px;
+}
+
+.forinsertcol{
+    background-position: -455px -76px;
+}
+
+.forinsertcolnext{
+    background-position: -429px -76px;
+}
+
+.formergeright{
+    background-position: -60px -40px;
+}
+
+.formergedown{
+    background-position: -80px -40px;
+}
+
+.forsplittorows{
+    background-position: -100px -40px;
+}
+
+.forsplittocols{
+    background-position: -120px -40px;
+}
+
+.forinsertparagraphbeforetable{
+    background-position: -140px -40px;
+}
+
+.fordeleterow{
+    background-position: -660px -20px;
+}
+
+.fordeletecol{
+    background-position: -640px -20px;
+}
+
+.forsplittocells{
+    background-position: -800px -20px;
+}
+
+.formergecells{
+    background-position: -760px -20px;
+}
+
+.fordeletetable{
+    background-position: -620px -20px;
+}
+
+.forcleardoc{
+    background-position: -520px 0;
+}
+
+.forfullscreen{
+    background-position: -100px -20px;
+}
+
+.foranchor{
+    background-position: -200px 0;
+}
+
+.forpagebreak{
+    background-position: -460px -40px;
+}
+
+.forimagenone{
+    background-position: -480px -40px;
+}
+
+.forimageleft{
+    background-position: -500px -40px;
+}
+
+.forwordimage{
+    background-position: -660px -40px;
+}
+
+.forimageright{
+    background-position: -520px -40px;
+}
+
+.forimagecenter{
+    background-position: -540px -40px;
+}
+
+.forindent{
+    background-position: -400px 0;
+}
+
+.foroutdent{
+    background-position: -540px 0;
+}
+
+.forwebapp{
+    background-position: -601px -40px
+}
+
+.fortable{
+    background-position: -580px -20px;
+}
+
+.foredittable{
+    background-position: -420px -40px;
+}
+
+.fortemplate{
+    background-position: -339px -40px;
+}
+
+.fordelete{
+    background-position: -360px -40px;
+}
+
+.forattachment{
+    background-position: -620px -40px;
+}
+
+.foredittd{
+    background-position: -700px -40px;
+}
+
+.forsnapscreen{
+    background-position: -581px -40px
+}
+
+.forscrawl{
+    background-position: -801px -41px
+}
+
+.forbackground{
+    background-position: -680px -40px;
+}
+
+.formusic{
+    background-position: -18px -40px
+}
+
+.forformula{
+    background-position: -200px -40px
+}
+
+.foraligntd{
+    background-position: -236px -76px;
+}
+
+.forinsertparagraphtrue{
+    background-position: -625px -76px;
+}
+
+.forinsertparagraph{
+    background-position: -602px -76px;
+}
+
+.forinsertcaption{
+    background-position: -336px -76px;
+}
+
+.fordeletecaption{
+    background-position: -362px -76px;
+}
+
+.forinserttitle{
+    background-position: -286px -76px;
+}
+
+.fordeletetitle{
+    background-position: -311px -76px;
+}
+
+.foraligntable{
+    background-position: -440px 0;
+}
+
+.fortablealignment-left{
+    background-position: -460px 0;
+}
+
+.fortablealignment-center{
+    background-position: -420px 0;
+}
+
+.fortablealignment-right{
+    background-position: -480px 0;
+}
+
+.fordrafts{
+    background-position: -560px 0;
+}
+
+.forcharts{
+    background: url( ../images/charts.png ) no-repeat 2px 3px!important;
+}
+
+.forinserttitlecol{
+    background-position: -673px -76px;
+}
+
+.fordeletetitlecol{
+    background-position: -698px -76px;
+}
+
+.forsimpleupload{
+    background-position: -380px 0px;
+}
+
+
+.edui-state-checked,.edui-state-hover{
+	background-color: #ffe69f;
+    padding: 0;
+    border: 1px solid #dcac6c;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+.edui-state-checked{
+	background-color: #ffe69f;
+    padding: 0;
+    border: 1px solid #dcac6c;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+.edui-state-hover{
+	background-color: #fff5d4;
+    padding: 0;
+    border: 1px solid #dcac6c;
+}

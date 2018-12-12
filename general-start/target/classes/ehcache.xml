@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"  
+    updateCheck="false">
+    <diskStore path="java.io.tmpdir"/>
+    <!-- 默认配置 -->
+    <!--maxEntriesLocalHeap 堆内存中最大缓存对象数，0没有限制。  -->
+    <!--eternal 是否永不过期 -->
+    <!--timeToIdleSeconds 对象空闲时间，指对象在多长时间没有被访问就会失效。
+    		只对eternal为false的有效。默认值0，表示一直可以访问  -->
+    <!-- timeToLiveSeconds 对象存活时间，指对象从创建到失效所需要的时间。
+    	只对eternal为false的有效。默认值0，表示一直可以访问 -->
+    <!-- overflowToDisk 如果内存中数据超过内存限制，是否要缓存到磁盘上。 -->	
+    <defaultCache eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="600" overflowToDisk="true" />
+   	<!--数据字典缓存，缓存前台使用的分页数、邮箱代理信息-->
+    <cache name="code" maxEntriesLocalHeap="100" maxElementsInMemory="100" 
+    	eternal="false" overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="600"  />
+    
+</ehcache>

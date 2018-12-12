@@ -1,0 +1,67 @@
+/* start:��������������� */
+.customPage{
+	font-size: 14px;
+}
+.customPage a{
+	border: 1px solid #ddd;
+	text-decoration: none;
+	margin: 0px 3px;
+	padding: 4px 6px;
+	font-size: 14px;
+	color: #383e4b;
+	
+}
+.customPage input{
+	margin-top: 10px;
+	height: 12px;
+	width: 15px;
+	border-color: #e4e6eb!important;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	-moz-transition: border linear .2s,box-shadow linear .2s;
+	-o-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+	display: inline-block;
+	/* height: 20px; */
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #555;
+	vertical-align: middle;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.customPage a:hover{
+	text-decoration: none;
+	background-color: #f5f5f5;
+}
+.customPage span{
+	margin: 0px 10px;
+}
+
+.selectIndex{
+	background-color: #efefef;
+}
+/* end:��������������� */
+
+
+/* start:jqueryValid������ */
+label.error{
+	color:red;
+	font-size: 5px;
+	display: inline-table;
+	margin-left: 10px;
+}
+/* end:jqueryValid������ */

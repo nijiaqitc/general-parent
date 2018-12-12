@@ -1,0 +1,208 @@
+@charset "utf-8";
+/*     开始：全局样式 */
+body{
+	min-width: 1250px;
+}
+body, button, input, select, textarea {
+    font: 14px "Microsoft YaHei", Helvetica, Arial, Lucida Grande, Tahoma, sans-serif;
+    color: #444; 
+    line-height: 180%;
+    background: #f1f1f1;
+}
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    border: 0;
+    font-family: inherit;
+    font-size: 100%;
+    font-style: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+table{border-collapse:collapse;border-spacing:0}
+img,fieldset{border:0;vertical-align:middle}
+a{
+	text-decoration:none;
+	color:#444;
+}
+a:hover{color:#2f889a}
+ul,li,ol{list-style:none}
+em,i{font-style:normal}
+em{color:red}
+iframe{display:block}
+fieldset{border:1px solid #c0c0c0;margin:0 2px 18px;padding:0.35em 0.625em 0.75em}
+legend{border:0;padding:0;white-space:normal;*margin-left:-7px}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+s{text-decoration:none;}
+h2{font-family: "microsoft yahei"; font-size: 14px;}
+/*     结束：全局样式 */
+
+/*     开始：div块 */
+.menu-box {
+    background: #fff;
+    width: 100%;
+    z-index: 999;
+    border-bottom: 1px solid #ddd;
+    transition-duration: .5s;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin: 0;
+}
+/* 	结束：div块 */
+
+/* 开始：顶部联系方式*/
+.topMenu{
+     height: 30px;
+     position:fixed; 
+     top:0; 
+     left: 0;
+ }
+.topMenu div{
+  
+}
+ .topFont{
+     color: #999;
+     font-size: 13px;
+ }
+.topUl li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    float: left;   
+}
+.topUl{
+    list-style: none;
+}
+.topDiv{
+	width: 1000px;
+}
+.popover{
+	position: absolute;
+	max-width: 300px;
+	margin-top: 10px;
+	padding: 1px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: 6px;
+	z-index: 1010;
+	top: 31px;  display: none;width:148px;height: 169px;
+}
+.commonUl{
+    left: auto;
+    right: 10px;
+    position: fixed;
+    bottom: 140px;
+    margin-left: 498px;
+    z-index: 1005;
+    list-style: none;
+    display: none;
+}
+.commonUl a{
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    background-image:url('../images/helptip.png');
+}
+
+.commonUl li{
+	cursor:pointer;
+	margin-top: 5px;
+}
+.commonUl a.helpTip:hover{
+	background-position: 0px -55px;
+	visibility: visible;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	opacity: 1;
+}
+.weili{
+	margin-left: 20px;
+}
+.weili img{
+	width: 20px;cursor: pointer;
+}
+
+.erwei{
+	width: 50px;top: -29px;left: 34%;position: absolute;
+}
+.ma{
+	width:148px;
+}
+.ma p{
+	font-size: 14px;color: #999;
+}
+.ma img{
+	width: 140px;
+}
+.aloginButton1{
+	font-size: 12px;color: #999;border: 1px solid;
+}
+.aloginButton2{
+	font-size: 12px;color: #999;
+}
+/* 结束：顶部联系方式 */
+/*     开始：导航条 */
+.anavi1{
+	height: 30px;
+}
+.anavi2{
+	margin-top: 10px;height: 150px;
+}
+.menuName {
+   list-style: none;
+   position: absolute;
+   padding-left: 207px;
+   padding-top: 114px;
+   width: 720px;
+}
+.menuName li {
+   display: list-item;
+   text-align: -webkit-match-parent;
+   float: left;   
+}
+.menuName li a{
+    font-size: 18px;
+    font-family: 'Microsoft YaHei';
+}
+.menuName li a span{
+    font-size: 18px;
+    font-family: 'Microsoft YaHei';
+}
+.menuName a:hover{
+    color:2f889a
+}
+.menuName a:hover span{
+    color: #2f889a;
+}
+.menuName  a:link {
+ color: #444; /*连接默认的颜色变化*/
+}
+.menuName  a:visited {
+   color: #444; /*连接访问的颜色变化*/
+}
+.menuName  a:active { 
+   color: #444; /*鼠标按下的颜色变化*/
+}
+/* 	结束：导航条 */
+/*底部开始*/
+.aBootomFoot{
+	position: fixed;bottom: 0;
+}
+.aFootBefore{
+	clear:both; height: 50px;
+}
+.aFootTotal{
+	clear:both; height: 100px;
+}
+.aFootTotal span{
+	font-size: 14px;
+}
+.aFootDiv1{
+	width: 100%;height: 20px;background-color: #555
+}
+.aFootDiv2{
+	margin-top: 10px;
+}
+/*底部结束*/
+

@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+.contentDiv1{
+	height: 500px;
+}
+.contentDiv2{
+	height: 340px;width: 340px;
+}
+.contentDiv3{
+	font-weight: 600;padding-top: 10px;
+}
+.contentDiv4{
+	color: red;
+}
+.contentDiv5{
+	margin-top: 10px;
+}
+.contentDiv6{
+	color: red;
+}
+.contentDiv7{
+	height: 160px;border-top: 1px solid #eee;width: 340px;
+}
+.contentDiv8{
+	font-weight: 600;padding-top: 10px;
+}
+.contentDiv12{
+	text-indent: 24px;
+}	
+

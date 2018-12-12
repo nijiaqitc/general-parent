@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+.aTotal{
+	width: 1190px;
+}
+ /*左边推荐文章开始*/
+.aYulanTotal{
+	margin-top: 20px;width: 360px;float: left;display: inline;
+}
+.aYulanText{
+	font-size: 1.4em;font-weight: bold;height: 60px;
+}
+.aYulanText p{
+	margin-top: 28px;margin-left: 20px;
+}
+.aUl{
+	width: 360px;margin-left: 20px;
+}
+.aUlLi1{
+	height: 160px;margin: 0;
+}
+.aUlLi1p1{
+	padding: 0em 0em 1em 0em;letter-spacing: 1px;text-transform: uppercase;font-size: 8pt;color: #A2A2A2;
+}
+.aUlLi1p2{
+	font-size: 14px;margin-top: -6px;font-weight: bold;
+}
+.aUlLi1p3{
+	margin-bottom: 1em;width: 312px;font-size: 13px;line-height: 16px;
+}
+.aUlLi1img{
+	clear: both;float: left;margin-right: 20px;width: 70px;height: 53px;
+}
+.aUlLi2{
+	height: 140px;margin: 0;padding: 1em 0em 1.5em 0em;border-top: 1px solid #ECECEC;
+}
+ /*左边推荐文章结束*/
+ 
+/*右边正文开始*/
+.aTotalDiv{
+	margin-top: 20px;margin-left:10px;width: 820px;float: left;display: inline;
+}
+.aTotalDiv1{
+	width: 780px;
+}
+.aTitle{
+	font-size: 2em;font-weight: bold;height: 38px;margin-top: 50px;text-shadow: 6px 6px 10px #C8C8C8;
+}
+.aGeneral{
+	font-size: 1em;display: block;margin: 1.5em 0 0px 0;padding: 0 0 0.5em 0;color: #985C5C;font-weight: 600;
+}
+.aTypeTip{
+	padding: 0em 0em 1em 0em;letter-spacing: 1px;text-transform: uppercase;font-size: 8pt;color: #A2A2A2;font-weight: bolder;
+}
+/*右边正文结束*/
+
+/*全屏开始*/
+.adocDiv{
+	z-index: 998;width: 100%;margin: 10px;position:absolute;
+	margin-top: -150px;display: none;
+}
+.adocDiv1{
+	background-color: #fff;border-radius: 6px;width: 997px;box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+}
+.transparent_class {  
+    /* Required for IE 5, 6, 7 */  
+    /* ...or something to trigger hasLayout, like zoom: 1; */  
+    width: 100%;
+    height: 100%; 
+    position: fixed;
+    line-height:300px;  
+    text-align:center;  
+    background:#cccccc;  
+    color:#fff;  
+    top: 0;right: 0;bottom: 0;left: 0; 
+    display: none;
+}
+
+.aopenWord{
+	width: 20px;border-radius: 2px;cursor: pointer;
+}
+.aopenWord1{
+	background: url('../../tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+}
+.aopenWord2{
+	background-color: #ffe69f;width: 20px;border: 1px #dcac6c solid;border-radius: 2px;cursor: pointer;
+}
+.aopenWord3{
+	background: url('../../tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+}
+.aopenWord4{
+	width:760px;padding-top: 60px;
+}
+.aopenWord5{
+	font-family:'SimHei';font-size: 30px;
+}
+.aopenWord6{
+	margin-top: 30px;text-indent: 30px;
+}
+.aopenWord7{
+	margin-top: 30px;font-size: 14px;
+}
+.aopenWord8{
+	font-family:'SimSun';font-size: 16px;line-height: 26px;margin-top: 50px;
+}
+.aopenWord9{
+	font-weight: 600;font-size: 12px;margin: 10px 0 4px 0;
+}
+.aopenWord10{
+	font-weight: 600;font-size: 12px;margin-bottom: 20px;
+}
+.aopenWord11{
+	color: red;font-size: 14px;
+}
+.aopenWord12{
+	
+}
+.aopenWord13{
+	width: 50px;
+}
+/*全屏结束*/

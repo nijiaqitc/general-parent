@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+em {
+	font-style: normal;
+	color: #c00;
+}
+/*搜索框开始*/
+.aoutDiv1{
+	height: 550px;clear: both;
+}
+.asearchDiv{
+	width: 1190px;
+}
+.asearchDiv1{
+	clear:both; height: 60px;margin-top: 20px;
+}
+.asearchDiv2{
+	width: 640px;height: 40px;padding-top: 10px;
+}
+.asearchText{
+	border: 1px solid #b6b6b6;vertical-align: top;height: 36px;width: 520px;-webkit-appearance: textfield;padding: 1px;background-color: white;border-image-source: initial;border-image-slice: initial;border-image-width: initial;border-image-outset: initial;border-image-repeat: initial;-webkit-rtl-ordering: logical;-webkit-user-select: text;cursor: auto;margin: 0em;color: initial;letter-spacing: normal;word-spacing: normal;text-transform: none;text-indent: 0px;text-shadow: none;display: inline-block;text-align: start;
+}
+.asearchbutton{
+	cursor: pointer;width: 100px;height: 40px;width: 100px;height: 40px;color: white;background-color: #E12422;font-size: 16px;border: 0;
+}
+/*搜索框结束*/
+
+/*搜索内容开始*/
+.asearchValueDiv{
+	margin-top: 20px; width: 700px;
+	/* float: left;display: inline; */
+}
+.asearchValueDiv1{
+	width: 700px;
+}
+.asearchValueDiv2{
+	width: 680px;height: 140px;margin-left: 20px;padding-top: 12px;
+}
+.asearchValueDiv2height{
+	height: 40px;
+}
+.atipfontstyle{
+	height: 40px;font-weight: 600;margin-top: 15px;
+}
+.asearchValueDiv3{
+	height: 80px;width: 105px;float: left;display: inline;
+}
+.asearchValueDiv3 img{
+	clear: both;float: left;width: 95px;height: 70px;margin-top: 10px;
+}
+.asearchValueDiv4{
+	height: 20px;width: 550px;float: left;display: inline;margin-top: -8px;
+}
+.asearchValueDiv4 span{
+	margin-left: 10px;font-size: 12px;color: #596485
+}
+.asearchValueDiv5{
+	height: 50px;width: 550px;float: left;display: inline;margin-top: 8px;
+}
+.asearchValueDiv5 span{
+	font-size: 12px;line-height: 18px;
+}
+.asearchValueDiv6{
+	height: 20px;width: 650px;float: left;display: inline;font-size: 12px;
+}
+.asearchValueTitle{
+	font-weight:600; 
+}
+/*搜索内容结束*/
+
+/*左边区域开始*/
+.aleftOutDiv1{
+	height: 300px;margin-top: 20px;width: 250px;float: left;display: inline;
+}
+.aleftOutDiv2{
+	height: 300px;width: 250px;display: none;
+}
+/*左边区域结束*/
+
+/*右边区域开始*/
+.arightDiv1{
+	height: 300px;margin-top: 20px;margin-left:20px; width: 250px;float: left;display: inline;
+}
+.arightDiv2{
+	height: 300px;width: 250px;margin-top: 20px;display: none;
+}
+/*右边区域结束*/
+.aDiv{
+	width: 1190px;
+}
+.fenyeDiv{
+	width: 650px;height: 40px;margin-top: 6px;
+}

@@ -1,0 +1,137 @@
+.contextAare{
+	min-height: 800px;overflow: auto;
+}
+.asearchValueDiv2 {
+    height: 150px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 12px;
+    margin-top: 10px;
+/*     border-bottom: 1px solid #ddd; */
+}
+.asearchValueTitle {
+    font-weight: 600;
+}
+.asearchValueDiv3 {
+    height: 80px;
+    width: 105px;
+    float: left;
+    display: inline;
+}
+.asearchValueDiv4 {
+    height: 30px;
+    float: left;
+    display: inline;
+    font-size: 12px;
+    margin-left: 20px;
+}
+.asearchValueDiv4 span{
+    border: 1px solid #d6d6d6;
+    margin-left: 10px;
+    padding: 4px 10px;
+}
+.asearchValueDiv4 span:hover{
+        background-color: aliceblue;
+}
+.asearchValueDiv5 {
+    min-height: 50px;
+    float: left;
+    display: inline;
+    margin-top: 8px;
+    text-indent: 24px;
+    word-break: break-word;
+}
+.asearchValueDiv5 a{
+    font-size: 12px;
+}
+.asearchValueDiv6 {
+    width:250px;
+    height: 30px;
+    float: right;
+    display: inline;
+    font-size: 12px;
+    /* margin-right: 20px; */
+}
+.tip{
+    font-size: 12px;
+    border: 1px solid #d7d7d7;
+    background: #f4f4f4;
+    float: left;
+    padding: 1px 3px 0 6px;
+    margin: 4px 4px 2px;
+    white-space: nowrap;
+}
+.contextAare .dtcontextArea{
+	width: 1250px;min-height: 800px;
+}
+.contextAare .dtcontextArea .leftArea{
+	float: left;min-height: 780px;width: 960px;padding-bottom: 30px;
+}
+.contextAare .dtcontextArea .leftArea .topArea{
+	margin-bottom: 30px;
+}
+.contextAare .dtcontextArea .rightArea{
+	float: right;height: 780px;width: 270px;
+}
+.contextAare .dtcontextArea .rightArea .searchArea{
+	margin-top: 30px;
+}
+.contextAare .dtcontextArea .rightArea .asearchText {
+    border: 1px solid #b6b6b6;
+    vertical-align: top;
+    height: 26px;
+    width: 200px;
+    -webkit-appearance: textfield;
+    padding: 1px;
+    background-color: white;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+    margin: 0em;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+}
+.contextAare .dtcontextArea .rightArea .asearchbutton {
+    cursor: pointer;
+    width: 50px;
+    height: 30px;
+    color: white;
+    background-color: #E12422;
+    font-size: 12px;
+    border: 0;
+}
+
+.contextAare .dtcontextArea .rightArea .seleArea{
+	overflow: auto;margin-left: 20px;
+}
+.contextAare .dtcontextArea .rightArea .tipsArea{
+	width: 240px;margin-top: 10px;cursor: pointer;
+}
+.contextAare .dtcontextArea .rightArea .tips{
+	border: 1px solid #eee;cursor: pointer;margin-left: 10px;
+}
+.contextAare .dtcontextArea .rightArea .tips:hover{
+	background-color: #eee;
+}
+.contextAare .isty{
+	color: red;font-size: 16px;margin-left: 10px;float: right;margin-right: 20px;
+}
+
+.contextArea .docUnderLine{
+	height: 1px;width: 100%;border-top: 1px solid #ccc;
+}
+
+.docTipsAreas{
+	overflow: auto;margin-top: 10px;clear: both;height: 30px;
+}

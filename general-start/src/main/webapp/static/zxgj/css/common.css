@@ -1,0 +1,201 @@
+@charset "utf-8";
+/*     开始：全局样式 */
+body{
+	min-width: 1250px;
+}
+body, button, input, select, textarea {
+    font: 14px "Microsoft YaHei", Helvetica, Arial, Lucida Grande, Tahoma, sans-serif;
+    color: #444; 
+    line-height: 180%;
+    background: #fff;
+}
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    border: 0;
+    font-family: inherit;
+    font-style: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+table{border-collapse:collapse;border-spacing:0}
+img,fieldset{border:0;vertical-align:middle}
+a{
+	text-decoration:none;
+	color:#444;
+}
+a:hover{color:#2f889a}
+ul,li,ol{list-style:none}
+em,i{font-style:normal}
+em{color:red}
+fieldset{border:1px solid #c0c0c0;margin:0 2px 18px;padding:0.35em 0.625em 0.75em}
+legend{border:0;padding:0;white-space:normal;*margin-left:-7px}
+h2{font-family: "microsoft yahei"; font-size: 14px;}
+/*     结束：全局样式 */
+
+/*     开始：div块 */
+.menu-box {
+    background: #fff;
+    width: 100%;
+    z-index: 999;
+    border-bottom: 1px solid #ddd;
+    transition-duration: .5s;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin: 0;
+}
+/* 	结束：div块 */
+
+/* 开始：导航条*/
+.nagivationMenu li{float: left;font-size: 16px;width: 120px;font:16px/1.5 "\5FAE\8F6F\96C5\9ED1",Helvetica,"黑体",Arial,Tahoma;line-height: 80px;position: relative;z-index: 1;}
+.nagivationMenu li:hover{
+    cursor: pointer;
+    color: #fff;
+}
+.nagivationBottom{
+    height: 6px;background-color: #ec8316;display: none;
+}
+.nagivationBottomSelect{
+    display: block;
+}
+
+.topBarMenuDiv{
+    height: 80px;line-height: 80px;font-size: 32px;background-color:#fff;
+}
+.topBarMenuDiv .incBarMenuDiv{
+    width: 1250px;overflow: auto;
+}
+.topBarMenuDiv .topBarLeft{
+    float: left;
+}
+.topBarMenuDiv .topBarRight{
+    float: right;
+}
+.topBarMenuDiv .topFontStyle{
+    width: 80px;height: 75px;
+}
+.topBarMenuDiv .moveDiv{
+    background-color: #ec8316;height: 82px;position: absolute;z-index: 0;display: none;
+}
+/* 结束：导航条 */
+
+/*底部开始*/
+.bottomInfoDiv{
+	height: 80px;background-color: #3973ae;
+}
+.bottomInfoAuto{
+ 	position: fixed; 
+    width: 100%;
+    bottom: 0px;
+}
+.bottomInfoDiv .widDiv{
+    width: 600px;
+}
+.bottomInfoDiv .fontSt{
+	height: 80px;line-height: 80px;color: #fff;
+}
+/*底部结束*/
+
+
+/* banner区域 开始*/
+.banner{
+/*     background: url('../img/5446852_top_011.jpeg') center 0px no-repeat; */
+    height: 420px;
+    width: 100%;
+    /*子绝父相*/
+    position: relative;
+    /*超出部分全部隐藏，解决横向滚动条*/
+    overflow: hidden;
+}
+.banner ul{
+    position: relative;
+    z-index: 2;
+}
+.banner ul li{
+    /*这个100%是相对于父盒子的（会把父盒子的宽度继承过来,如父盒子300%,这这里的100%就会相当于300%）*/
+    width: 100%;
+    height: 420px;
+    float: left;
+    background:  no-repeat center center;
+}
+.banner ol{
+    /*width: 60px;*/
+    height: 20px;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    left:50%;
+    /*margin-left: -40px;*/
+    bottom: 30px;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+.banner ol li{
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin: 5px 5px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+.banner ol .current{
+    background: rgba(255,255,255,1);
+}
+.banner i{
+    width: 58px;
+    height: 120px;
+    position: absolute;
+    top: 50%;
+    margin-top: -60px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: none;
+}
+.banner .left{
+    left: 60px;
+    background: url('../img/left_right.png') no-repeat 0 0px;
+    z-index: 2;
+}
+.banner .right{
+    right: 60px;
+    background: url('../img/left_right.png') no-repeat 0px -120px;
+    z-index: 2;
+}
+.banner .left:hover , .banner .right:hover{
+    background-color: rgba(0, 0, 0, 0.31);
+}
+/* banner区域结束 */
+
+.commonUl{
+    left: auto;
+    right: 10px;
+    position: fixed;
+    bottom: 140px;
+    margin-left: 498px;
+    z-index: 1005;
+    list-style: none;
+    display: none;
+}
+.commonUl a{
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    background-image:url('../img/helptip.png');
+    border-radius: 4px;
+}
+
+.commonUl li{
+	cursor:pointer;
+	margin-top: 5px;
+	border-radius: 4px;
+}
+.commonUl a.helpTip:hover{
+	background-position: 0px -56px;
+	visibility: visible;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	opacity: 1;
+    border: 1px solid #458FCE;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #458FCE;
+    cursor: pointer;
+}

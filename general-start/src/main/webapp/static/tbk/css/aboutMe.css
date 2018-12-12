@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+.aoutDiv1{
+	height: 550px;clear: both;
+}
+.aoutDiv2{
+	width: 990px;margin-top: 20px;
+}
+.aoutDiv3{
+	background-position: -80px -50px;width: 660px;height: 518px;background-image: url('../images/me.jpg');display: inline;float: left;
+}
+.aoutDiv4{
+	display: inline;float: left;width: 300px;margin-left: 20px;
+}
+.aoutDiv5{
+	margin: 20px 20px;
+}
+.aoutDiv5span1{
+	margin-left: -4px;font-size: 22px;font-weight: bold;color: rgb(155,10,10);
+}
+.aoutDiv5span2{
+	text-decoration:underline;
+}
+.aoutDiv5span3{
+	-webkit-transform: scale(0.5);display: block;margin-left: -70px;margin-top: -10px;text-decoration:underline;
+}
+.aoutDiv5span4{
+	font-size: 12px;
+}
+.aoutDiv5span5{
+	text-indent:24px
+}

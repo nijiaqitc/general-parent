@@ -1,0 +1,274 @@
+@charset "utf-8";
+
+ /*开始：banner*/
+.acenterBanner{
+ 	height: 950px;clear: both;
+ }
+.acenterBanner1{
+	 width: 1190px;margin-top: 20px;clear: both;
+}
+.acenterBanner2{
+	width: 990px;height: 300px;float:left;display: inline;
+}
+.acenterBanner3{
+	margin-left:20px; width: 180px;height: 300px;float:left;display: inline;
+}
+ /*结束：banner*/
+ /*开始：banner旁的分类*/
+ .centerType{
+ 	
+ }
+ /*结束：banner旁的分类*/
+ 
+
+/*开始：banner*/
+#focus {width:1190px; height:300px; overflow:hidden; position:relative;}
+#focus ul {height:300px; position:absolute; bottom:0;}
+#focus ul li {float:left; width:1190px; height:300px; overflow:hidden; position:relative;}
+#focus ul li div {position:absolute; overflow:hidden;}
+#focus ul li p{ color:#FFF; font-size:12px; height:28px; line-height:28px; position:absolute; bottom:0; left:15px;}
+#focus .btnBg {}
+#focus .btn {position:absolute; bottom:5px; right:5px; z-index:10;}
+#focus .btn span { background:#8C8C8C; width:62px; height:7px;  cursor:pointer;display:block; float:left; margin-left:1px; text-indent:-100em; overflow:hidden;}
+#focus .pre {left:0; display:none;}
+#focus .next {right:0; background-position:right top; display:none;}
+/*结束：banner*/
+
+/*结束：短文本域开始*/
+.littleDiv{
+    width: 1190px;
+    height: 320px;
+}
+.littleDivTop{
+	height: 42px;
+	width: 379px;
+}
+.littleDivCenter{
+	height: 130px;
+	width: 380px
+}
+.littleDivCenterTitle{
+	float:left;
+	display: inline;
+	height: 30px;
+	width: 380px;
+	margin-left: 20px;
+}
+.littleDivCenterTitle span{
+	font-size: 18px;
+	font-family: 'Microsoft YaHei';
+}
+.littleDivCenterDiv{
+	float:left;
+	display: inline;
+	height: 100px;
+	width: 150px;
+}
+.littleDivCenterDiv img{
+	width: 120px;
+	height: 90px;
+	margin-left: 10px;
+}
+.littleDivCenterDivText{
+	float:left;
+	display: inline;
+	height: 100px;
+	background-color: #fff;
+	margin-left: 10px;
+    width: 214px;
+    margin-top: -2px;
+    text-indent: 24px;
+    line-height: 24px;
+}
+.littleDivBottom{
+	height: 128px;
+	width: 360px;
+	margin-left: 20px;
+}
+.littleDivBottomDiv{
+	width: 340px;
+	height: 28px;
+}
+.littleDivBottomText{
+	float:left;
+	display: inline;
+	height: 28px;
+	width: 280px;		
+}
+.littleDivBottomTime{
+	float:right;
+	display: inline;
+	height: 28px;
+	width: 60px;
+}
+.littleTopPic{
+	background: url('../images/biaoqian.png') no-repeat;
+	width: 200px;
+	height: 40px;
+	margin-top: 8px;
+	margin-left: -8px;
+}
+.littleTopPic span{
+	padding-left: 56px;
+	font-family: 'Microsoft YaHei';
+}
+/*结束：短文本域开始*/
+/*开始：长文本域开始*/
+.divStyle{
+   float: left; 
+   display: inline;
+   width:380px; 
+   height: 300px;
+}
+.divStyleLeft{
+   float: left; 
+   display: inline;
+   width:380px; 
+   height: 300px;
+   margin-left:25px;
+}
+.divLeft{
+    float: left; 
+    display: inline;
+}
+/*开始：长文本域开始*/
+.longText{
+    width: 860px;
+    height: 180px;
+    margin-top: 20px;
+    background: url('../images/3.png') no-repeat;
+    background-color: #fff;
+    background-position: 761px 0px;
+}
+.longTextTop{
+	width: 860px;
+	height: 30px;
+	float:left;
+	display: inline;
+}
+.longTextLeft{
+	width: 200px;
+	height: 150px;	
+	float:left;
+	display: inline;
+}
+.longTextLeft img{
+	width: 180px;
+	height: 130px;
+	margin-left: 20px;
+}
+.longTextRight1{
+	width: 620px;
+	height: 110px;
+	float:left;
+	display: inline;
+	margin-left: 30px;
+}
+.longTextRight2{
+	width: 620px;
+	height: 30px;
+	float:left;
+	display: inline;
+	margin-left: 30px;
+}
+.longTextRight2Left{
+	width: 100px;
+	float:left;
+	display: inline;
+}
+.longTextRight2Left a{
+	font-size: 14px;
+	font-family: 'Microsoft YaHei';
+}
+.longTextRight2Right{
+	width: 220px;
+	float:right;
+	display: inline;
+}
+.longTextTitle{
+	font-size: 18px;
+	font-family: 'Microsoft YaHei';
+	margin-left: 20px;
+}
+.longTextStyle{
+	text-indent: 24px;
+	margin-top: 20px;
+	font:14px "Microsoft YaHei", Helvetica, Arial, Lucida Grande, Tahoma, sans-serif;
+}
+/*结束：长文本域开始*/
+
+
+
+
+.cf:after {content: "";clear: both;display: block;height: 0;overflow: hidden}
+.cf {zoom: 1}
+.fl{display:inline;float:left}.fr{display:inline;float:right}
+.lh36 {line-height: 36px}
+.lh30 {line-height: 30px}
+.pl20 {padding-left: 20px}
+
+
+.wd240{ width: 240px;}
+.wd252{width: 232px;}
+.ht399{height: 399px;}
+.ht14{ height: 14px;}
+.lh33{ line-height: 33px;}
+.lh23{ line-height: 23px;}
+.lh12{ line-height: 12px;}
+.pb10{ padding-bottom: 10px;}
+.pb20{ padding-bottom: 20px;}
+.pr20{ padding-right:20px;}
+.wd204{ width: 204px;}
+.wd443{ width: 443px;}
+.wd185{ width: 185px;}
+.ml19{ margin-left: 19px;}
+.pt30{ padding-top: 30px;} 
+.pb12{ padding-bottom: 12px;}
+.bt{border-top: 1px solid #eae7e7;}
+.gray{color: #999;}
+.blee{ border-left: 1px solid #eeeeee;}
+.fwblod{ font-weight:bold;}
+
+.nav-wrap{ position:relative;*z-index:2;width: 100%; background: #ff6600;}
+.nav{ position: relative; width: 770px; height: 40px; margin: 0 auto; padding-left: 190px;}
+.goods{ position: absolute; top: 0;left: 0;width: 190px;height: 40px;}
+.goods h2 a {display: block;height: 40px;padding-left: 20px;line-height: 40px;color: #fff;}
+.goods h2 a:hover{ text-decoration:none;}
+
+.nav-list{ height: 40px;}
+.nav-list li{ float: left; margin-right:1px;}
+.nav-list a{ display: block; height: 40px; float: left; padding: 0 15px; text-align: center;color: #fff;font: bold 15px/40px "microsoft yahei";text-decoration: none;}
+.nav-list a:hover{ background: #d25400; text-decoration: none;}
+.nav-list a.on{ background: #d25400;}
+.all-goods{ position: absolute;top: 0px;left: 0px;width: 176px;height: 300px;background: #FAFAFA;border: solid #ffffff;border-width: 0 2px 2px;overflow: visible;border-bottom: 1px solid #ddd;}
+.all-goods .item{width: 177px;height: 36px;}
+.all-goods .btnone{ border-top:none;}
+.all-goods .item .product{z-index: 999; width: 177px;}
+.all-goods .item .product h3{width: 157px;height: 34px;padding-left: 0px;border-width: 1px 0;font-weight: normal;line-height: 36px; }
+.all-goods .item .product h3 a{ color: #666666; font-size:14px; font-family:"������";}
+.all-goods .item .product h3 a:hover{ text-decoration:none;}
+.all-goods .item .product s{display: block;position: absolute;top: 13px;left: 167px;width: 6px;height: 9px;}
+.all-goods .active .product h3{line-height:32px;background-position:-12px -185px;background-color:#ffffff;border:1px solid #ddd; border-width:1px 0;width: 180px;margin-left: -3px;}
+.all-goods .active .product h3 a{ color: #ff6600;}
+.all-goods .product-wrap{ position: absolute; width: 478px; z-index: 99; background: #ffffff;padding: 20px; display: none;}
+.all-goods .product-wrap p{ color:#999999;}
+.all-goods .posone{left: -520px; top: 0px;}
+.all-goods .postwo{left: -520px; top: 37px;}
+.all-goods .posthree{left: -520px; top: 74px;}
+.all-goods .posfour{left: -520px; top: 111px;}
+.all-goods .posfive{left: -520px; top: 148px;}
+.all-goods .possix{left: -520px; top: 185px;}
+.all-goods .posseven{left: -520px; bottom: -2px;}
+.all-goods .poseight{left: -520px; bottom: -2px;}
+.all-goods .posnine{left: -520px; bottom: -2px;}
+.all-goods .posten{left: -520px; bottom: -2px;}
+.all-goods .poseleven{left: -520px; bottom: -2px;}
+.all-goods .product-wrap h2{ font-size: 16px;color: #333;font-weight: bold;}
+.all-goods .product-wrap h2 a{height: auto;line-height: 16px;color: #333;padding-left: 0;}
+.all-goods .product-wrap ul{ border-top: 2px solid #c1c1c1; }
+.all-goods .product-wrap ul li{ float: left; display: inline; margin-right: 15px; margin-top: 15px; white-space:nowrap;}
+.all-goods .product-wrap ul li a{ padding-left: 30px; color: #666666;display: inline-block;line-height: 18px; text-decoration: none; font-weight:bold;}
+.all-goods .product-wrap ul li a:hover{ text-decoration: none; background-position: -8px -219px; color: #ff6600;}
+.all-goods .product-wrap div dd,.all-goods .product-wrap div dl a{ display:block; width:185px; height:120px; overflow:hidden;}
+
+

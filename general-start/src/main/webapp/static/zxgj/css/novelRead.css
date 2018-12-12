@@ -1,0 +1,33 @@
+body{
+	background-color: #ede7da;
+}
+.contextAare{
+	margin-bottom: 40px;
+}
+.contextAare .outDiv{
+	background-color: #f6f1e7;padding-top: 10px;width: 1000px;min-width: 860px;padding-top: 60px;
+}
+.contextAare .outDiv .topTitle{
+	font-size: 28px;font-weight: 600;
+}
+.contextAare .outDiv .topTitleBt{
+	width: 400px;border-bottom: 1px solid #888;;margin-top: 4px;
+}
+.contextAare .outDiv .topTitleBt .geninfo{
+	font-size: 12px;color: #666;margin-left: 20px;
+}
+.contextAare .outDiv .contextText{
+	width: 800px;font-size: 18px;margin-top: 24px;margin-bottom: 30px;
+}
+.contextAare .outDiv .bottomArea{
+	border-top: 1px solid #ddd;color: black;height: 40px;line-height: 40px;
+}
+.contextAare .outDiv .bottomArea .pnbtn{
+	width: 320px;float: left;
+}
+.contextAare .outDiv .bottomArea .unbtn{
+	width: 320px;float: left;color: #ccc;
+}
+.contextAare .outDiv .bottomArea .uub{
+	color: #ccc;
+}

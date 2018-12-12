@@ -1,0 +1,139 @@
+.btnStyle{
+    background: #67c2ef;
+    color: #fff;
+    padding: 4px 0;
+    width: 36px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 9px;
+    cursor: pointer;
+}
+.btnStyle:HOVER{
+	background: #7a9daf !important;
+}
+.genTitleList{
+    cursor: pointer;
+}
+.genTitleList:hover{
+    background-color: #666;color:white;
+}
+.titleActive{
+    background-color: #fdb6b6 !important;
+}
+.rightContextt{
+    overflow:auto; min-height: 400px;background-color: white !important;
+}
+
+.rightContextt .leftGenList{
+    height:100%;float: left;width: 200px;min-height:660px; background-color: #fff;font-size: 12px;border-right: 1px solid #aaa;overflow: auto;position: fixed;
+}
+.rightContextt .leftGenList .leftTitleTools{
+    cursor: pointer;height: 45px;
+}
+.rightContextt .leftGenList .gentitle{
+    font-weight: 600;text-indent: 12px;height: 30px;line-height: 30px;
+}
+.rightContextt .leftGenList .gen{
+    text-indent: 24px;min-height: 60px;word-break: break-all;
+}
+.rightContextt .rightContextArea{
+    min-height:660px;overflow: hidden;height:100%;margin-left: 200px;
+}
+
+.rightContextt .rightContextArea .outdiv{
+    margin-left: 10px;margin-right: 10px;height:100%;
+}
+.rightContextt .rightContextArea .outdiv .topBtns{
+    overflow: auto;margin-top: 10px;
+}
+.rightContextt .rightContextArea .outdiv .topBtns .lefttitles{
+    float: left;height: 30px;
+}
+
+.rightContextt .rightContextArea .outdiv .topBtns .lefttitles .hidinput{
+    background-color: white;border: none;width: 450px;outline:none;
+}
+.rightContextt .rightContextArea .outdiv .topBtns .righttitles{
+    margin-top: 20px;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+.rightContextt .rightContextArea .outdiv .topBtns .righttitles span{
+    cursor: pointer;
+}
+.rightContextt .rightContextArea .outdiv .fontLine{
+    clear: both;padding:10px 0;color: #aaa;
+}
+
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.leftGenList::-webkit-scrollbar{
+    width: 10px;
+    height: 30px;
+    background-color: #f5f5f5;
+}
+/*定义滚动条的轨道，内阴影及圆角*/
+.leftGenList::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    border-radius: 0px;
+    background-color: #f5f5f5;
+}
+/*定义滑块，内阴影及圆角*/
+.leftGenList::-webkit-scrollbar-thumb{
+    /*width: 10px;*/
+    height: 20px;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+.menuBox {
+    background: #fff;
+    width: 100%;
+    z-index: 999;
+    border-bottom: 1px solid #ddd;
+    transition-duration: .5s;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin: 0;
+}
+.righttitles .btn:hover{
+    color: #ff5eaa;
+}
+.rightContextArea .emptyShow{
+    color: #bbb;font-size: 16px;text-align: center;height: 400px;line-height: 400px;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+.selectSt{
+	width: 100%;border-radius:0px;
+}
+
+.csdialogdlg{
+	display:none;position: fixed; width: 430px; min-height: 150px; background-color: rgb(255, 255, 255); top: 130px; border: 1px solid rgb(136, 136, 136); top:30%;left:30%;z-index: 1050;
+}
+.csdialogdlg .innarea{
+	width: 300px;margin-top: 30px;
+}
+.csdialogdlg .innarea .inputCss{
+	width: 214px;height: 20px;
+}
+
+.csdialogdlg .dlgarea{
+	width: 145px;overflow: auto;margin-top: 20px;margin-bottom: 20px;
+}
+.csdialogdlg .dlgarea .dlgInBtn{
+	cursor:pointer;float: left;width: 50px;height: 26px;background-color: #4aa0f5;line-height: 26px;
+}
+
+.csdialogdlg .dlgarea .dlgInBtn:HOVER{
+	background-color: #76a8da;
+}
+
+td{
+	min-width:120px;
+	width: auto !important;
+	vertical-align: top;
+    display: table-cell;
+    padding: 5px 10px;
+    border: 1px solid rgb(221, 221, 221);
+}

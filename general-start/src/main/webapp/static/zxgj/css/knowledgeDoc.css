@@ -1,0 +1,40 @@
+.centerDiv{
+    overflow: auto;
+}
+.centerDiv .leftMenuTop{
+    width: 260px;float: left;background-color: #f1f1f1;border-right: 1px solid #ccc;border-bottom:1px solid #ccc;position: fixed;margin-left: -260px;height: 540px;margin-top: 10px;
+}
+.centerDiv .leftMenuTop .leftMenuRightTitle{
+    position: absolute;background-color: #a5e3f1;margin-top: 200px;margin-left: 256px;cursor: pointer;width: 24px;
+}
+.centerDiv .leftMenuTop .leftMenuTopTitle{
+    background-color: #d0e4f9;
+}
+.centerDiv .leftMenuTop .menuList{  
+    font-size: 14px;overflow: auto;height: 480px;margin-top: 10px;
+/*     text-indent: 2em;width: 220px; */
+}
+.centerDiv .leftMenuTop .menuList .tt1{
+	clear: both;overflow: auto;margin-top: 2px;border-bottom: 1px solid dimgrey;font-size: 13px;
+}
+.centerDiv .leftMenuTop .menuList .tt1 .tt2{
+	float: left;width: 40px;background-color: dimgrey;color: white;
+}
+.centerDiv .leftMenuTop .menuList .tt1 .tt3{
+	float: right;margin-right: 10px;
+}
+.centerDiv .leftMenuTop .menuList .active{
+   color: #0e37ff;
+}
+.centerDiv .docContext{
+   overflow: auto;float: left;width: 100%;margin-bottom: 30px;
+}
+.centerDiv .contextArea{
+    width: 1000px;min-height: 600px;background-color: #fff;text-align: left;margin-bottom: 40px;margin-top: 20px;
+}
+.centerDiv .contextArea .noWord{
+   font-weight: 600;margin-top: 40px;font-size: 20px;
+}
+.centerDiv .contextArea .textSt{
+   font-size: 30px;height: 60px;line-height: 60px;font-weight: 600;
+}

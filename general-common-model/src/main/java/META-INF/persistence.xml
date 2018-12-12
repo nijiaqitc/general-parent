@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="general-common-model">
+		<class>com.njq.common.model.po.BaseBanner</class>
+		<class>com.njq.common.model.po.BaseChannel</class>
+		<class>com.njq.common.model.po.BaseCode</class>
+		<class>com.njq.common.model.po.BaseLog</class>
+		<class>com.njq.common.model.po.BaseMessage</class>
+		<class>com.njq.common.model.po.BaseRule</class>
+		<class>com.njq.common.model.po.BaseRuleChannelConfig</class>
+		<class>com.njq.common.model.po.BaseUser</class>
+		<class>com.njq.common.model.po.BaseUserChannelConfig</class>
+		<class>com.njq.common.model.po.BaseUserRuleConfig</class>
+		<class>com.njq.common.model.po.TbkDoc</class>
+		<class>com.njq.common.model.po.TbkDocPicConfig</class>
+		<class>com.njq.common.model.po.TbkDocTipConfig</class>
+		<class>com.njq.common.model.po.TbkPic</class>
+		<class>com.njq.common.model.po.TbkRecommendDocView</class>
+		<class>com.njq.common.model.po.TbkTip</class>
+		<class>com.njq.common.model.po.TbkType</class>
+		<class>com.njq.common.model.po.TbkTypeDocConfig</class>
+		<class>com.njq.common.model.po.TbkTypePicConfig</class>
+		<class>com.njq.common.model.po.ToolFeeling</class>
+		<class>com.njq.common.model.po.ToolMaterial</class>
+		<class>com.njq.common.model.po.ToolNameM</class>
+		<class>com.njq.common.model.po.ToolNameX</class>
+		<class>com.njq.common.model.po.ToolResourceshare</class>
+		<class>com.njq.common.model.po.XsDocDetail</class>
+		<class>com.njq.common.model.po.XsDocDiscuss</class>
+		<class>com.njq.common.model.po.XsDocGeneralInfo</class>
+		<class>com.njq.common.model.po.XsDocUserOp</class>
+		<class>com.njq.common.model.po.XsTitleDesign</class>
+		<class>com.njq.common.model.po.XsTitleDetail</class>
+		<class>com.njq.common.model.po.YxlColumnDefine</class>
+		<class>com.njq.common.model.po.YxlColumnStore</class>
+		<class>com.njq.common.model.po.YxlDoc</class>
+		<class>com.njq.common.model.po.YxlDocSearch</class>
+		<class>com.njq.common.model.po.YxlDocTipConfig</class>
+		<class>com.njq.common.model.po.YxlFolder</class>
+		<class>com.njq.common.model.po.YxlNote</class>
+		<class>com.njq.common.model.po.YxlNoteGeneral</class>
+		<class>com.njq.common.model.po.YxlTip</class>
+		<class>com.njq.common.model.po.YxlType</class>
+		<class>com.njq.common.model.po.YxlTypeName</class>
+		<class>com.njq.common.model.po.BaseMenu</class>
+		<class>com.njq.common.model.po.BaseTip</class>
+		<class>com.njq.common.model.po.BaseTitle</class>
+		<class>com.njq.common.model.po.BaseType</class>
+		<class>com.njq.common.model.po.BaseTypeNum</class>
+		<class>com.njq.common.model.po.GrabDoc</class>
+		<class>com.njq.common.model.po.BaseTitleGrab</class>
+		<class>com.njq.common.model.po.BaseTitleLoading</class>
+		<class>com.njq.common.model.po.GrabUrlInfo</class>
+	</persistence-unit>
+</persistence>

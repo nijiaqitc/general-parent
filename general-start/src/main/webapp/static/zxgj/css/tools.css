@@ -1,0 +1,20 @@
+.btnArea{
+    width: 1250px;margin-top: 40px;overflow: auto;
+}
+.btnArea .btn{
+    width: 200px;height: 80px;border: 1px solid #ddd;float: left;margin-left: 20px;margin: 20px;line-height: 80px;cursor: pointer;
+}
+.btnArea .btn:hover{
+    background-color: green;
+}
+.btnArea .toolsTitleDec{
+    width: 150px;position: relative;top: 1px;z-index: 999;background-color: #fff;
+    border-top: 1px solid #25ab1d;border-left: 1px solid #25ab1d;border-right: 1px solid #25ab1d;
+    height: 50px;line-height:50px;font-size: 24px;font-weight: 600;cursor: pointer;
+}
+.btnArea .toolsBtn{
+    border: 1px dashed #bf6032;overflow: auto;
+}
+.contextArea .bottomD{
+    height: 100px;
+}

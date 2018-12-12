@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+.adocDiv1{
+	margin-top: 20px;height: 170px;
+}
+.adocDiv2{
+	padding-top: 5px;
+}
+.adocDiv3{
+	float: left;width: 37px;height: 37px;border-radius:50%; overflow:hidden;margin-left: 4px;
+}
+.adocDiv4{
+	width: 37px;height: 37px;
+}
+.adocDiv5{
+	float: left;width: 80%;margin-left: 8px;
+}
+.adocDiv6{
+	float: left;margin-left: 8px;
+}
+.adocDiv7{
+	clear: both;
+}
+.adocDiv8{
+	height: 94px;margin-left: 16px;width: 92%;text-indent: 24px;padding-top: 6px;font-size: 0.8rem;
+}
+.adocDiv9{
+	margin-right: 15px;
+}
+.adocDiv10{
+	margin-top: 10px;
+}
+.aspan1{
+	float: right;
+    margin-right: -16px;
+}

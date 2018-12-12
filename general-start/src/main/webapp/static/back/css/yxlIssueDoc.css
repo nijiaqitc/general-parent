@@ -1,0 +1,34 @@
+.tip{
+    font-size: 12px;
+    border: 1px solid #d7d7d7;
+    background: #f4f4f4;
+    float: left;
+    padding: 1px 3px 0 6px;
+    margin: 4px 4px 2px;
+    white-space: nowrap;
+}
+.tipinput{
+    float: left;
+    margin-bottom: 3px;
+    border: 1px solid #fff;
+    padding: 0px 2px 0;
+    margin-top: 4px;
+    width: 130px;
+    outline: none;
+    white-space: nowrap;
+}
+input,textarea {
+    background:#fff;
+}
+.rightBtn{
+    width: 50px;height: 50px;background-color: red;position: fixed;right: 0px;line-height: 50px;text-align: center;cursor: pointer;
+}
+.rightBtnsz{
+    top: 78px;
+}
+.rightBtn:hover{
+    background-color: green;
+}
+.rightBtnse{
+    top: 128px;
+}

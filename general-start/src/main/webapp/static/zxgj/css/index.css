@@ -1,0 +1,75 @@
+@charset "utf-8";
+.toolsBtn{
+    width: 126px;height: 56px;background-color: #481478;float: left;margin: 10px;padding: 1px;cursor: pointer;
+}
+.toolsBtn3{
+    width: 138px;height: 66px;background-color: #481478;float: left;margin: 5px;padding: 1px;cursor: pointer;
+}
+.toolsBtn4{
+    width: 126px;height: 56px;background-color: #481478;float: left;margin: 5px;padding: 1px;cursor: pointer;border:1px solid #ddd;
+}
+.btnWord{
+    background-color: #fff;padding: 0px;line-height: 58px;
+}
+
+.areaTotal{
+	overflow: auto;clear: both;background-color: #fff;
+}
+.showArea1{
+	width: 1250px;margin-top: 20px;overflow: auto;
+}
+.showArea1 .toolArea{
+    width: 600px;height: 250px;float: left;margin-left: 20px;margin-top: 20px;
+}
+.showArea1 .toolArea .topTitle{
+	height: 50px;
+}
+.showArea1 .toolArea .topTitle .moreLink{
+    color: rgb(192, 0, 0)
+}
+.showArea1 .toolArea .linkArea{
+	overflow: auto;
+}
+.showArea2{
+	width: 1250px;margin-top: 20px;overflow: auto;height: 440px;
+}
+.showArea2 .contextCloud{
+	overflow: auto;
+}
+.showArea2 .contextCloud .toolsBtn2{
+    cursor: pointer;width: 386px;height: 56px;background-color: #481478;float: left;margin: 10px;background-color: #fff;border:1px solid #ddd;padding: 0px;line-height: 58px;
+}
+.showArea2 .contextCloud .titleStyleDiv{
+    line-height: 20px;height: 110px;border: none;border-bottom: 1px #ddd dashed;
+}
+.showArea2 .contextCloud .titleStyleDiv2{
+    border-left: none !important;border-right: none !important; text-indent: 24px;
+}
+.showArea2 .contextCloud .toolsBtn2 .showTitle{
+    height: 60px;line-height: 60px;margin-left: 20px;
+}
+.showArea2 .contextCloud .toolsBtn2 .labelStyle{
+	font-size: 12px;margin-left: 10px;overflow: auto;margin-top: 10px;
+}
+.showArea2 .contextCloud .toolsBtn2 .labelStyle .labelNameStyle{
+    float: left;
+}
+.showArea2 .contextCloud .toolsBtn2 .textType{
+    display: block;float: left;width: 60px;height: 24px;text-align: center;margin-left: 10px;border: 1px solid #ddd;line-height: 24px;
+}
+.showArea2 .contextCloud .toolsBtn2 .readNum{
+	float: right;font-size: 12px;
+}
+.toolsTitle{
+    width: 150px;float: left;height: 100%;font-family: 微软雅黑, 'Microsoft YaHei';font-size: 24px;color: rgb(192, 0, 0);border-left: 4px solid;line-height: 40px;cursor: default;position: relative;
+}
+.toolsMore{
+    float: right;font-size: 12px;width: 100px;height: 100%;font-family: 微软雅黑, 'Microsoft YaHei';
+}
+
+.modelTitleDiv{
+	height: 40px;margin-top: 20px;
+}
+.modelTitleDiv .modelArea{
+	background-image: url('../img/2000002636.png');width: 590px;height: 23px;font-size: 24px;font-family: 微软雅黑, 'Microsoft YaHei';color: black;
+}

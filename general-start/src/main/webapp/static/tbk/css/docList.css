@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+.acenterDiv{
+	width: 940px;
+}
+em {
+	font-style: normal;
+	color: #c00;
+}
+/* 左边区域开始*/
+.aleftDiv{
+	height: 392px;width: 250px;float: left;display: inline;
+}
+.aleftDiv1{
+	height: 392px;width: 250px;display: none;
+}
+.aleftDiv2{
+	width: 200px;margin-top: 20px;
+}
+.aleftDiv3{
+	margin-left: 48px;padding-top: 20px;
+}
+.aleftDiv4{
+	font-size: 18px;font-weight: bold;margin-bottom: 8px;margin-left: -20px;
+}
+/* 左边区域结束*/
+/* 右边区域开始*/
+.arightDiv{
+	margin-top: 20px;margin-left:20px; width: 650px;float: left;display: inline;
+}
+.arightDiv1{
+	width: 650px;
+}
+.arightDiv2{
+	width: 610px;height: 120px;margin-left: 20px;padding-top: 12px;
+}
+.arightDiv2div1{
+	height: 80px;width: 105px;float: left;display: inline;
+}
+.arightDiv2div1 img{
+	clear: both;float: left;width: 95px;height: 70px;margin-top: 8px;
+}
+.arightDiv2div2{
+	height: 20px;width: 500px;float: left;display: inline;margin-top: -8px;
+}
+.arightDiv2div2 span{
+	margin-left: 10px;font-size: 12px;color: #596485
+}
+.arightDiv2div3{
+	height: 50px;width: 500px;float: left;display: inline;margin-top: 8px;text-indent: 24px;
+}
+.arightDiv2div3 span{
+	font-size: 6px;line-height: 18px;
+}
+.arightDiv2div4{
+	height: 20px;width: 600px;float: left;display: inline;font-size: 10px;margin-top: 8px;
+}
+.arightDiv3{
+	border-top: 1px solid #ECECEC;width: 610px;height: 120px;margin-top: 28px;margin-left: 20px;padding-top: 12px;
+}
+/* 右边区域结束*/

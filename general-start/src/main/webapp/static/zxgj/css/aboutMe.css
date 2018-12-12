@@ -1,0 +1,40 @@
+@charset "utf-8";
+.aboutContextArea{
+    width: 1000px;margin-top: 60px;margin-bottom: 60px;
+}
+
+.aboutContextArea .uitops{
+    cursor:default; height:100%; width:100%;
+}
+.aboutContextArea .uitops .editableContent{
+    line-height:1.5;
+}
+.aboutContextArea .uitops .editableContent .titleTopTwoEnc{
+    border-bottom: 1px solid;width: 400px;border-bottom-width: 1px;box-shadow: 0 0 0 transparent;overflow: auto;height: 110px;
+}
+.aboutContextArea .uitops .editableContent .titleTopTwoEnc .titleInnerFir{
+    text-align: center; 
+}
+
+.aboutContextArea .uitops .editableContent .titleTopTwoEnc .titleInnerFir .titleInnerFirSp{
+    font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman'; font-size: 42px; color: rgb(63, 63, 63);
+}
+
+.aboutContextArea .uitops .editableContent .titleTopTwoEnc .titleInnerSec{
+    text-align: center; line-height: normal;
+}
+.aboutContextArea .uitops .editableContent .titleTopTwoEnc .titleInnerSec .titleInnerSecSp{
+    font-size: 16px; font-family: 微软雅黑, 'Microsoft YaHei'; color: rgb(63, 63, 63);
+}
+.aboutContextArea .uitops .editableContent .brSp{
+    line-height: 3em; text-align: center;
+}
+.aboutContextArea .uitops .editableContent .twisp{
+	line-height: 2em; text-indent: 2em;
+}
+.aboutContextArea .uitops .editableContent .twiss{
+	line-height: 2em;
+}
+.aboutContextArea .uitops .editableContent .twisp .innerWord{
+	line-height: 150%; font-family: 微软雅黑, sans-serif; font-size: 14px;
+}

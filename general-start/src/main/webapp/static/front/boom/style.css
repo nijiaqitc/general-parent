@@ -1,0 +1,46 @@
+
+p{
+	padding:0 0;
+	margin:0 0;
+}
+ul{
+	padding:0 0;
+	margin:0 0;	
+}
+body{
+	padding:0 0;
+	margin:0 0; 
+	font-family: 'Source Sans Pro', sans-serif;
+}
+.header-top {
+	background:rgba(232, 232, 232, 0.35);
+	height: 3em;
+	padding: 1em 0;
+}
+
+ ul li{
+	display:inline-block;
+	
+}
+ ul li a:hover {
+	color: #EF4D98;
+}
+.message {
+	width: 20px;
+	height: 20px;
+	background: url('../images/img-sprite.png') no-repeat 0px 0px;
+	display: inline-block;
+	vertical-align:middle;
+}
+.phone {
+	width: 20px;
+	height: 20px;
+	background: url("../images/img-sprite.png") no-repeat -20px 0px;
+	display: inline-block;
+	vertical-align:middle;
+}
+
+
+	
+				
+		

@@ -1,0 +1,93 @@
+.selType{
+    width: 286px;height: 120px;float: left;margin-left: 10px;background-color: #f1f1f1;cursor: pointer;
+}
+.selType img{
+    margin-top: 10px;
+} 
+.selType:hover{
+    background-color: #ec8316;
+}
+.apiBtn{
+    cursor: pointer;height: 30px;line-height: 30px;color: white;background-color: #c16e17;font-size: 12px;border: 0;margin-left: 10px;margin-top: 6px;padding: 4px; float: left;
+}
+.apiBtn:hover{
+    background-color: green;
+}
+.bline{
+ text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+ background-color:#ec8316;
+ box-shadow: 0 1px 0 rgba(255,255,255,.1);
+ height: 30px;
+ border: 1px solid transparent;
+ border-width: 0 0 1px;
+ position: relative;
+ width: 100%;
+ border-color:#ce6e0a;
+ color: white;
+}
+.bline a{
+    color: white;
+}
+.blinebtoom{
+    color: #ffffff;width: 100%;
+    height: 20px;
+}
+.blinebtoom span{
+    text-align: left;
+ margin-left: 50px;
+ font-size: 30px;
+ font-family: "微软雅黑", Microsoft YaHei;
+ height: 80px;
+ line-height: 80px;
+ font-weight: 600;
+ margin-left: 20px;
+}
+.blinebtoom span a{
+ color: white;    
+}
+.blinebtoom h1{
+    text-align: left;
+    margin-left: 50px;
+    font-size: 60px;
+    font-family: "微软雅黑", Microsoft YaHei;
+    height: 80px;
+    line-height: 80px;
+}
+.blinebtoom p{
+    text-align: left;
+    margin-left: 100px;
+    font-size: 20px;
+}
+.menuline{
+	display: block;
+ height: 1px;
+ background-color: #ec8316;
+ width: 100%;
+ float: right;
+}
+
+.styleBtnArea{
+	border-bottom: 1px solid #ec8316;overflow: auto;width: 100%; width: 965px;padding-left: 80px;
+}
+.styleBtnArea a{
+	display: block;
+}
+.styleBtn{
+	float: left;
+ background-color:#fff;
+ width: 100px;
+ color:block;
+ cursor: pointer;
+}
+.styleBtn:hover{
+	background-color: aqua;
+}
+.leftLabel{
+	cursor:pointer;float: left;background-image: url('../img/leftLabel.png');height: 50px;width: 100px;position: absolute;left: -10px;line-height: 50px;
+}
+.apiAreastyle1{
+	width: 100%;border-bottom: 1px solid #ec8316;position: absolute;left: -2000px;margin-top: 30px;
+}
+.apiAreastyle2{
+	overflow: auto;width: 100%;clear: both;width: 1045px;margin-top: 20px;padding-bottom: 10px;padding-left: 50px;
+}
