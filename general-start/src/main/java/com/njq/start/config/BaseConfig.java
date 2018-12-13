@@ -17,10 +17,12 @@ import com.njq.start.filter.ServletContextInit;
 
 @Configuration
 public class BaseConfig {
-
-	private static final String VIEW_PREFIX = "/WEB-INF/jsp/";// 视图前缀
-	private static final String VIEW_SUFFIX = ".jsp";// 视图后缀
-	private static final String VIEW_CONTENT_TYPE = "text/html;charset=UTF-8";// 视图的内容类型。
+	// 视图前缀
+	private static final String VIEW_PREFIX = "/WEB-INF/jsp/";
+	// 视图后缀
+	private static final String VIEW_SUFFIX = ".jsp";
+	// 视图的内容类型。
+	private static final String VIEW_CONTENT_TYPE = "text/html;charset=UTF-8";
 
 	/**
 	 * 配置 视图解析器
@@ -72,7 +74,7 @@ public class BaseConfig {
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
 	}
-	
+
 	@Bean
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
