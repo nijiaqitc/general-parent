@@ -45,50 +45,6 @@ public class FilterConfig extends WebMvcConfigurationSupport {
     //	-------------------------配置静态资源的访问结束----------------------
 
     //	-------------------------配置返回视图乱码开始----------------------
-    @Override
-    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
-        //解决中文乱码
-        converters.add(responseBodyConverter());
-        //解决 添加解决中文乱码后 上述配置之后，返回json数据直接报错 500：no convertter for return value of type
-        converters.add(messageConverter());
-    }
 
-    /**
-     * 默认的springboot视图返回不会出现乱码
-     * 但由于初始化了WebMvcConfigurationSupport 导致配置被覆盖
-     * 所以需要重新配置返回的编码问题
-     *
-     * @return
-     */
-    @SuppressWarnings("rawtypes")
-    @Bean
-    public HttpMessageConverter responseBodyConverter() {
-        StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
-        return converter;
-    }
-
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(false);
-    }
-
-
-    /**
-     * 配置json的转换器
-     *
-     * @return
-     */
-    @Bean
-    public MappingJackson2HttpMessageConverter messageConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(getObjectMapper());
-        return converter;
-    }
-
-    @Bean
-    public ObjectMapper getObjectMapper() {
-        return new ObjectMapper();
-    }
 //	-------------------------配置返回视图乱码结束----------------------
 }
