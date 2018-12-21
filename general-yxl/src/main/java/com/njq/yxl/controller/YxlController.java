@@ -104,9 +104,9 @@ public class YxlController {
 //    	            RedisCommon.setString("doc"+UserCommon.getUserId(), doc.getTitle(), 1l);
 //    	        }
     	        if(doc.getId()!=null){
-    	            m=yxlDocService.updateDoc(name, typeId, doc, isShow, tips,2l,general,specalType);  
+    	            m=yxlDocService.updateDoc(name, typeId, doc, isShow, tips,2L,general,specalType);
     	        }else{
-    	            m=yxlDocService.saveDoc(name, typeId, doc, isShow, tips,2l,general,specalType);      	            
+    	            m=yxlDocService.saveDoc(name, typeId, doc, isShow, tips,2L,general,specalType);
     	        }
     	        MessageCommon.getSuccessMap(m);
     	        return m;
@@ -135,7 +135,7 @@ public class YxlController {
     public Map<String, Object> updateKnowledge(String name,Long typeId,YxlDoc doc,String isShow,String[] tips,String general,String specalType){
         try {
             if(StringUtil.IsNotEmpty(doc.getTitle())){
-                Map<String, Object> m=yxlDocService.updateDoc(name, typeId, doc, isShow, tips,2l,general,specalType);  
+                Map<String, Object> m=yxlDocService.updateDoc(name, typeId, doc, isShow, tips,2L,general,specalType);
                 MessageCommon.getSuccessMap(m);
                 return m;
             }else{

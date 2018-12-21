@@ -8,6 +8,9 @@ import com.njq.common.base.dao.PageList;
 
 public interface DdlInterface<T> {
 
+
+	public void test();
+
 	/**
 	 * 保存对象
 	 * @param object

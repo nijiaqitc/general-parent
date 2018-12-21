@@ -146,7 +146,7 @@ public class TbkDocService {
 				tip.setName(tipName);
 				tip.setCreateBy(userId);
 				tip.setModiBy(userId);
-				tip.setInTurn(1l);
+				tip.setInTurn(1L);
 				tip.setCreateDate(new Timestamp(System.currentTimeMillis()));
 				tbktipDao.save(tip);
 			}
@@ -213,7 +213,7 @@ public class TbkDocService {
 				tip.setName(tipName);
 				tip.setCreateBy(userId);
 				tip.setModiBy(userId);
-				tip.setInTurn(1l);
+				tip.setInTurn(1L);
 				tip.setCreateDate(new Timestamp(System.currentTimeMillis()));
 				tbktipDao.save(tip);
 			}

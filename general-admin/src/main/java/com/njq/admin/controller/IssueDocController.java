@@ -164,7 +164,7 @@ public class IssueDocController {
 			MessageCommon.getFalseMap(map, "不好意思不能在1分钟内连续发表文章！");
 			return map;
 		} else {
-			RedisCommon.setString("doc" + UserCommon.getUserId(), doc.getTitle(), 1l);
+			RedisCommon.setString("doc" + UserCommon.getUserId(), doc.getTitle(), 1L);
 		}
 		if (errors.hasErrors()) {
 			for (FieldError file : errors.getFieldErrors()) {
@@ -177,10 +177,10 @@ public class IssueDocController {
 			MessageCommon.getFalseMap(map, "暂不支持默认类型，请选择类型！");
 			return map;
 		}
-		if (picType.equals("1")) {
+		if ("1".equals(picType)) {
 			picId = tbkpicService.queryYuanPicForRandom();
 		}
-		if (picType.equals("2") && picId == null) {
+		if ("2".equals(picType) && picId == null) {
 			MessageCommon.getFalseMap(map, "图片不能为空！");
 			return map;
 		}
@@ -189,7 +189,7 @@ public class IssueDocController {
 			return map;
 		}
 		doc.setUserId(UserCommon.getUserId());
-		if (docType.equals("1")) {
+		if ("1".equals(docType)) {
 			doc.setReprint(2);
 		} else {
 			doc.setReprint(1);
@@ -276,7 +276,7 @@ public class IssueDocController {
 			if (status == 200) {
 				String str = postMethod.getResponseBodyAsString();
 				String state = str.split("&")[0];
-				if (state.equals("1")) {
+				if ("1".equals(state)) {
 					return str.split("&")[1];
 				} else {
 					return "error";

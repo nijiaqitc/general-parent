@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -125,16 +126,20 @@ public class BaseLogService {
 		int[] proExcelCellsWidth={100,100,100,100,400,200};
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet("日志信息");
-		Row headerRow0 = sheet.createRow(0);//创建第一行
+		//创建第一行
+		Row headerRow0 = sheet.createRow(0);
 		headerRow0.createCell(0).setCellValue("日志信息");
-		Row headerRow = sheet.createRow(1);//创建第二行
+		//创建第二行
+		Row headerRow = sheet.createRow(1);
 		CellStyle style= wb.createCellStyle();
 		//单元格样式
-		style.setAlignment(CellStyle.ALIGN_CENTER);
+		style.setAlignment(HorizontalAlignment.CENTER);
 		headerRow0.getCell(0).setCellStyle(style);
 		for (int i = 0; i < proExcelTitles.length; i++) {
-			Cell cell = headerRow.createCell(i);//创建单元格
-			cell.setCellValue(proExcelTitles[i]);//设置单元格值
+			//创建单元格
+			Cell cell = headerRow.createCell(i);
+			//设置单元格值
+			cell.setCellValue(proExcelTitles[i]);
 			//本身宽度是按照字符长度设置的，这里按照35.7*像素，基本和最终设置像素相近
 			sheet.setColumnWidth(i, (short) (35.7 * proExcelCellsWidth[i]));
 			cell.setCellStyle(style);

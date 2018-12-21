@@ -116,7 +116,7 @@ public class XsTitleDetailService {
      */
     public List<XsTitleDetail> queryListByParentId(Long parentId) {
 	    ConditionsCommon cc=new ConditionsCommon();
-        cc.addNotEqParam("id", 0l);
+        cc.addNotEqParam("id", 0L);
         cc.addEqParam("parentId", parentId);
         cc.addSetOrderColum("id", "asc");
         List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);

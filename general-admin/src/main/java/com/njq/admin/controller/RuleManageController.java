@@ -58,8 +58,8 @@ public class RuleManageController {
 			@RequestParam(required = false, defaultValue = "-1") int size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 获取角色的分页列表
-		PageList<BaseRule> RuleList = ruleService.queryAllRule(map, page, size);
-		return RuleList;
+		PageList<BaseRule> ruleList = ruleService.queryAllRule(map, page, size);
+		return ruleList;
 	}
 
 	/**

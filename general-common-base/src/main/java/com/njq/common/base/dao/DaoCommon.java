@@ -23,6 +23,10 @@ public class DaoCommon<T> {
 		this.classType = t;
 	}
 
+	public void test() {
+		ddl.test();
+	}
+
 	/**
 	 * 保存对象
 	 * 
@@ -69,13 +73,13 @@ public class DaoCommon<T> {
 		return ddl.queryHqlByParamForMap(hql, paramMap);
 	}
 
-	public List<Map<String, Object>> querySqlByParamForMap(String Sql, Map<String, Object> paramMap) {
-		return ddl.querySqlByParamForMap(Sql, paramMap);
+	public List<Map<String, Object>> querySqlByParamForMap(String sql, Map<String, Object> paramMap) {
+		return ddl.querySqlByParamForMap(sql, paramMap);
 	}
 
-	public List<Map<String, Object>> querySqlByParamForMap(String Sql, Map<String, Object> paramMap,
+	public List<Map<String, Object>> querySqlByParamForMap(String sql, Map<String, Object> paramMap,
 			ConditionsCommon condition) {
-		return ddl.querySqlByParamForMap(Sql, paramMap, condition);
+		return ddl.querySqlByParamForMap(sql, paramMap, condition);
 	}
 
 	public PageList<Map<String, Object>> querySqlForPage(String sql, Map<String, Object> paramMap, int pageNo,

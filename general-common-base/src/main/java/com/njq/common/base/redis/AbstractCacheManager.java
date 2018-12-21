@@ -136,24 +136,6 @@ public abstract class AbstractCacheManager<PK extends Serializable> {
         return false;
     }
 
-    /**
-     * 提供用来避免缓存key冲突的唯一前缀字符串。
-     * 所有cacheManager都使用cacheManager本身的类simpleName作为缓存的key前缀。当两个不同项目的cacheManager正好是相同名称，加上使用了相同的id key之后，会导致不同业务的缓存因为相同的key而产生冲突。
-     * 为了避免此问题，要求各个cacheManager定义一个唯一的前缀字符串。此字符串请从 {@see <a href="https://www.random.org/strings/?num=10&len=10&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new">生成10位随机字符串</a>} 生成
-     * <p>
-     * 请勿在随机字符串中包含- 横杆 特殊符号、空格等
-     * <p>
-     * 对现有的cacheManager，如果业务上允许缓存在项目发布后失效，可以重载此方法来添加前缀，避免冲突。如果业务上不允许缓存失效，请勿重载此方法。
-     * 对于新的cacheManager实现，统一要求添加此前缀
-     * 一旦生成了唯一前缀并且上线，请勿修改此值，以便保持兼容性
-     *
-     * @return 随机的唯一的key前缀
-     */
-    @Deprecated
-    protected String provideUniquePrefix() {
-        return StringUtils.EMPTY;
-    }
-
     protected CacheNamePrefixEnum registerCacheName() {
         return null;
     }
@@ -188,11 +170,6 @@ public abstract class AbstractCacheManager<PK extends Serializable> {
         }
 
         StringBuilder prefix = new StringBuilder();
-        String uniquePrefix = this.provideUniquePrefix();
-        if (StringUtils.isNotBlank(uniquePrefix)) {
-            prefix.append(uniquePrefix);
-            prefix.append("-");
-        }
         prefix.append(getClass().getSimpleName());
 
         if (cacheKeyType == null) {

@@ -48,6 +48,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
     /**
      * 重写getParameter，代表参数从当前类中的map获取  
      */
+    @Override
     public String[] getParameterValues(String name) {
          return params.get(name);  
     }  

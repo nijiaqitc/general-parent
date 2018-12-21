@@ -37,18 +37,18 @@ public class ToolResourceShareService {
 		Map<String, Object> map=new HashMap<String, Object>();
 		String str=" from ToolResourceshare where isChecked=1  ";
 		if(paramMap.get("isDetail").equals(0)){
-			if(!paramMap.get("type1").equals(-1l)){
+			if(!paramMap.get("type1").equals(-1L)){
 				str+=" and codeIdA=:codeIdA";
 				map.put("codeIdA",paramMap.get("type1"));
 			}
 		}else{
-			if(!paramMap.get("type1").equals(-1l)){
+			if(!paramMap.get("type1").equals(-1L)){
 				str+=" and codeIdA=:codeIdA";
 				map.put("codeIdA",paramMap.get("type1"));
-				if(!paramMap.get("type2").equals(-1l)){
+				if(!paramMap.get("type2").equals(-1L)){
 					str+=" and codeIdB=:codeIdB ";
 					map.put("codeIdB",paramMap.get("type2"));
-					if(!paramMap.get("type3").equals(-1l)){
+					if(!paramMap.get("type3").equals(-1L)){
 						str+=" and codeIdC= '"+paramMap.get("type3").toString()+"'";
 //						map.put("codeIdC",paramMap.get("type3").toString());
 					}

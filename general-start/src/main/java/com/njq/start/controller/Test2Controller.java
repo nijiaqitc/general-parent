@@ -4,10 +4,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.njq.zxgj.service.TtService;
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.njq.zxgj.service.TestService;
@@ -18,7 +21,15 @@ public class Test2Controller {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Test2Controller.class);
 	@Resource
 	public TestService testService;
-	
+	public TtService ttService;
+
+	@RequestMapping("tftf")
+	@ResponseBody
+	public String testValue(){
+		System.out.print(ttService);
+		return "";
+	}
+
 	@RequestMapping("tttest")
 	public ModelAndView ttt() {
 		
@@ -67,7 +78,7 @@ public class Test2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return "thytest";
+		return "thymeleaf/thytest";
 	}
 	
 	@RequestMapping("freetest")

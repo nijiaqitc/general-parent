@@ -237,7 +237,7 @@ public class GjHomeController {
             session.setAttribute("sessionId", request.getSession().getId());
             BaseUser user=new BaseUser();
             user.setAccount("admin");
-            user.setId(2l);
+            user.setId(2L);
             session.setAttribute("user",user);
             List<YxlFolder> folderList=yxlNoteService.queryFolderList(1);
             model.addAttribute("fdList", folderList);
@@ -254,7 +254,7 @@ public class GjHomeController {
             session.setAttribute("sessionId", request.getSession().getId());
             BaseUser user=new BaseUser();
             user.setAccount("admin");
-            user.setId(2l);
+            user.setId(2L);
             session.setAttribute("user",user);
             List<YxlFolder> folderList=yxlNoteService.queryFolderList(2);
             model.addAttribute("fdList", folderList);

@@ -15,5 +15,6 @@
    	<!--数据字典缓存，缓存前台使用的分页数、邮箱代理信息-->
     <cache name="code" maxEntriesLocalHeap="100" maxElementsInMemory="100" 
     	eternal="false" overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="600"  />
-    
+
+    <!--<bean id="ttService" class="com.njq.zxgj.service.TtService"></bean>-->
 </ehcache>

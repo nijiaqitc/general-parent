@@ -1,11 +1,10 @@
 package com.njq.start.testcontroller;
 
-import java.util.List;
-
-import org.apache.commons.lang3.EnumUtils;
-
 import com.njq.common.base.constants.EnumHelper;
 import com.njq.common.base.constants.ValueDescription3;
+import org.apache.commons.lang3.EnumUtils;
+
+import java.util.List;
 
 public enum YHSeller implements ValueDescription3 {
     MALL(1L, "次日达商城"),
@@ -32,13 +31,15 @@ public enum YHSeller implements ValueDescription3 {
     }
 
     public static YHSeller getYHSeller(long value) {
-        return (YHSeller)EnumHelper.getEnumFromLongWithoutException(VALUES, value);
+        return (YHSeller) EnumHelper.getEnumFromLongWithoutException(VALUES, value);
     }
 
+    @Override
     public long getValue() {
         return this.value;
     }
 
+    @Override
     public String getDescription() {
         return this.description;
     }

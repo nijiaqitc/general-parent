@@ -21,7 +21,7 @@ public class DocChartsService {
 	@Resource
 	private YxlDocSearchService yxlDocSearchService;
 	@Resource
-	private XsTitleDetailService XsTitleDetailService;
+	private XsTitleDetailService xsTitleDetailService;
 
 	public Map<String, List<String>> queryyxlDocCharts() {
 		Date day = new Date();
@@ -61,7 +61,7 @@ public class DocChartsService {
 			time.add(DateUtil.toDateString7(DateUtil.getNMonthDateSt(day, -i)));
 			tempDates = DateUtil.getNMonthDateSt(day, -i);
 			tempDatee = DateUtil.getNMonthDateSt(day, 1 - i);
-			m = XsTitleDetailService.queryDocAccountMonth(DateUtil.toDateString2(tempDates),
+			m = xsTitleDetailService.queryDocAccountMonth(DateUtil.toDateString2(tempDates),
 					DateUtil.toDateString2(tempDatee), UserCommon.getUserId());
 			nums.add(m.get("num").toString());
 		}

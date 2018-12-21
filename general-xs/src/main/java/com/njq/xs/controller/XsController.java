@@ -29,9 +29,9 @@ public class XsController {
     
     @RequestMapping(value="novelList",method=RequestMethod.GET)
     public String novelList(Model model){
-    	XsTitleDetail docInfo=titleService.queryNameById(1l);
+    	XsTitleDetail docInfo=titleService.queryNameById(1L);
 //    	Map<String, Object> m=titleService.queryMaxNum(docId);
-        List<XsTitleDetail> list=titleService.queryAllTitleListByDocId(1l);
+        List<XsTitleDetail> list=titleService.queryAllTitleListByDocId(1L);
 //        XsDocGeneralInfo info=docGeneralInfoService.queryByTitleId(docId);
         model.addAttribute("list", list);
 //        model.addAttribute("info", info);

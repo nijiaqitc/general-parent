@@ -34,10 +34,9 @@ public class BaseBannerService {
     
     /**
      * 根据条件查询列表
-     * @param paramMap
      * @return
      */
-    public List<BaseBanner> queryList(Map<String, Object> paramMap) {
+    public List<BaseBanner> queryList() {
         ConditionsCommon cc=new ConditionsCommon();
         cc.addEqParam("isUse", ConstantsCommon.Use_Type.USED);
         return bannerDao.queryForListNoPage(cc);

@@ -22,17 +22,17 @@ public class BaseTypeService {
 	 * @param TypeName
 	 * @return
 	 */
-	public Long checkAndSave(String TypeName) {
-		if(StringUtil2.isEmpty(TypeName)) {
+	public Long checkAndSave(String typeName) {
+		if(StringUtil2.isEmpty(typeName)) {
 			return null;
 		}
 		ConditionsCommon condition = new ConditionsCommon();
-		condition.addEqParam("name", TypeName);
+		condition.addEqParam("name", typeName);
 		BaseType type = baseTypeDao.queryTByParamForOne(condition);
 		if (type == null) {
 			type = new BaseType();
 			type.setCreateDate(new Date());
-			type.setName(TypeName);
+			type.setName(typeName);
 			baseTypeDao.save(type);
 		}
 		return type.getId();

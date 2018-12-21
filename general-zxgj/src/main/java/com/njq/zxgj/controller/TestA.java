@@ -1,28 +1,51 @@
 package com.njq.zxgj.controller;
 
+import com.njq.common.base.email.EmailSender;
+import com.njq.common.model.dao.BaseUserJpaRepository;
+import com.njq.common.model.po.BaseBanner;
+import com.njq.common.model.po.BaseUser;
+import com.njq.zxgj.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.njq.zxgj.service.TestService;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class TestA {
 
-	@Autowired
-	private TestService testService;
-	
-	@RequestMapping("tsst")
-	public String testB(){
-//		testService.queryList();
-		System.out.println("BBBBBBBBBBBB"); 
-		return "test";
-	}
+    @Autowired
+    private TestService testService;
 
-	@RequestMapping("testcc")
-	@ResponseBody
-	public String testC(){
-		return "aaaa1111";
-	}
+    @Autowired
+    private EmailSender emailSender;
+
+    @Autowired
+    private BaseUserJpaRepository baseUserJpaRepository;
+    @Autowired
+    private BannerCacheReader bannerCacheReader;
+
+
+    @RequestMapping("tsst")
+    public String testB() {
+        List<BaseBanner> list = bannerCacheReader.get("indexBanner");
+        System.out.println(list);
+//        testService.queryList();
+//        System.out.println("BBBBBBBBBBBB");
+        return "test";
+    }
+
+    @RequestMapping("testcc")
+    @ResponseBody
+    public String testC() {
+        try {
+            List<BaseUser> userList =  baseUserJpaRepository.findAll();
+            System.out.println(userList);
+//            emailSender.sendCheckCode("583522219@qq.com", "123");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "aaaa1111";
+    }
 }

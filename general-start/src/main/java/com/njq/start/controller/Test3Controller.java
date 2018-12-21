@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.njq.yxl.cache.YxlDocListReader;
+import com.njq.yxl.cache.YxlDocListCacheReader;
 
 @RequestMapping("freemarker")
 @Controller
@@ -17,12 +17,12 @@ public class Test3Controller {
     protected RedisTemplate redisTemplate;
 	
 	@Autowired
-	private YxlDocListReader yxlReader;
+	private YxlDocListCacheReader yxlReader;
 	@RequestMapping("fafafa")
 	public String test() {
 		System.out.println(redisTemplate);
 		System.out.println("122");
-		return "";
+		return "ftl/freetest";
 	}
 	
 	@RequestMapping("fse")
