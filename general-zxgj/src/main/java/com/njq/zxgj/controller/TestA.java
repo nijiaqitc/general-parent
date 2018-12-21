@@ -2,7 +2,6 @@ package com.njq.zxgj.controller;
 
 import com.njq.common.base.email.EmailSender;
 import com.njq.common.model.dao.BaseUserJpaRepository;
-import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.BaseUser;
 import com.njq.zxgj.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +22,10 @@ public class TestA {
 
     @Autowired
     private BaseUserJpaRepository baseUserJpaRepository;
-    @Autowired
-    private BannerCacheReader bannerCacheReader;
 
 
     @RequestMapping("tsst")
     public String testB() {
-        List<BaseBanner> list = bannerCacheReader.get("indexBanner");
-        System.out.println(list);
 //        testService.queryList();
 //        System.out.println("BBBBBBBBBBBB");
         return "test";
@@ -40,7 +35,7 @@ public class TestA {
     @ResponseBody
     public String testC() {
         try {
-            List<BaseUser> userList =  baseUserJpaRepository.findAll();
+            List<BaseUser> userList = baseUserJpaRepository.findAll();
             System.out.println(userList);
 //            emailSender.sendCheckCode("583522219@qq.com", "123");
         } catch (Exception e) {
