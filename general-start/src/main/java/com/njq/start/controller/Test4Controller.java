@@ -1,7 +1,6 @@
 package com.njq.start.controller;
 
-import com.njq.admin.common.UserCommon;
-import com.njq.common.util.other.EmailSender;
+import com.njq.common.base.email.EmailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,7 +17,7 @@ public class Test4Controller {
     public EmailSender emailSender;
 
     @RequestMapping("tttt4")
-    public void test4(){
+    public void test4() {
         emailSender.sendCheckCode("583522219@qq.com", "调试");
     }
 }
