@@ -20,9 +20,9 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 /**
  * Created by guozp on 2017/8/28.
  */
-
+@Aspect
 //@Component 事务依然生效
-
+@Configuration
 public class TxAdviceInterceptor {
   private static final int TX_METHOD_TIMEOUT = 50;
   private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.njq.*.service..*.*(..))";
