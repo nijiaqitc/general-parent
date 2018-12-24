@@ -32,7 +32,6 @@ public class EmailSender {
     private Configuration configuration;
     @Value("${spring.mail.username}")
     private String fromAddress;
-    private Template emailTemplate;
 
     /**
      * 群发验证码
