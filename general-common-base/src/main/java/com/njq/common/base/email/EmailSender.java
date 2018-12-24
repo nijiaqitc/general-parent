@@ -26,11 +26,11 @@ import java.util.Map;
 public class EmailSender {
     private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
     private static final String DEFAULT_ENCODING = "utf-8";
-//    @Autowired
+    @Autowired
     private JavaMailSender mailSender;
-//    @Autowired
+    @Autowired
     private Configuration configuration;
-//    @Value("${spring.mail.username}")
+    @Value("${spring.mail.username}")
     private String fromAddress;
     private Template emailTemplate;
 
