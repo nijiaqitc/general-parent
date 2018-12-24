@@ -118,7 +118,7 @@ public class EmailSender {
 
     private String getEamilContent(Map<String, String> param, String templateType) {
         try {
-            Template template = configuration.getTemplate("mailTemplate.ftl", DEFAULT_ENCODING);
+            Template template = configuration.getTemplate("ftl/mailTemplate.ftl", DEFAULT_ENCODING);
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, param);
         } catch (Exception e) {
             e.printStackTrace();
