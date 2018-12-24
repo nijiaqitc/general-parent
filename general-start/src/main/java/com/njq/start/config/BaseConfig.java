@@ -157,7 +157,7 @@ public class BaseConfig {
     /**
      * ehcache 主要的管理器
      */
-    @Bean(name = "appEhCacheCacheManager")
+    @Bean
     public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean){
         return new EhCacheCacheManager (bean.getObject ());
     }
