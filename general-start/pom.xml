@@ -124,7 +124,9 @@
             <properties>
                 <profiles.active>dev</profiles.active>
             </properties>
-
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>sit</id>
@@ -137,9 +139,6 @@
             <properties>
                 <profiles.active>pre</profiles.active>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <id>prod</id>
