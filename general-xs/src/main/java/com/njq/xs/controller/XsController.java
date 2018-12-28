@@ -38,7 +38,7 @@ public class XsController {
         model.addAttribute("docInfo", docInfo);
 //        model.addAttribute("titleIndex", m.get("titleIndex"));
 //        model.addAttribute("orderIndex", m.get("orderIndex"));
-        return "zxgj/novelList";
+        return "xl/novelList";
     }
     
     
@@ -53,7 +53,7 @@ public class XsController {
     		Map<String, Object> m=xsTitleDetailService.queryBeforeAndNextNo(detail.getThcId());
     		model.addAttribute("pn", m);
     		model.addAttribute("doc", detail);
-    		return "zxgj/novelRead";    		
+    		return "xl/novelRead";
     	}else{
     		return "aaaa";	
     	}
