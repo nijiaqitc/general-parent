@@ -13,7 +13,7 @@
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
-    <jsp:include page="top.jsp"></jsp:include>
+    <jsp:include page="../zxgj/top.jsp"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：顶部菜单栏 -->
     <div class="contextAare" align="center" >
@@ -52,7 +52,7 @@
 		</div>
     </div>
     <!--     开始：顶部菜单栏-->
-	<jsp:include page="bottom.jsp"></jsp:include>
+	<jsp:include page="../zxgj/bottom.jsp"></jsp:include>
     <!--     结束：顶部菜单栏 -->
     <script type="text/javascript" src="${resPath }/jquery/jquery.min.js" ></script>
     <script type="text/javascript" src="${resPath }/zxgj/js/common.js" ></script>
