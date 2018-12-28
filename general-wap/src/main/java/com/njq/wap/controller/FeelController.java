@@ -6,7 +6,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseCode;
 import com.njq.common.model.po.ToolFeeling;
 import com.njq.common.util.encrypt.Base64Util;
-import com.njq.wap.service.ToolFeelingService;
+import com.njq.zxgj.service.ToolFeelingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

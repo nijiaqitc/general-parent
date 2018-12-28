@@ -19,10 +19,10 @@ import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkPicService;
 import com.njq.tbk.service.TbkTipService;
 import com.njq.tbk.service.TbkTypeService;
-import com.njq.wap.service.ToolNameService;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 import com.njq.yxl.service.YxlNoteService;
+import com.njq.zxgj.service.ToolNameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -277,7 +277,7 @@ public class WapController {
      * 获取名字（非人名）
      *
      * @param type
-     * @param type2
+     * @param typeName
      * @param model
      * @return
      */
@@ -322,7 +322,7 @@ public class WapController {
      *
      * @param type
      * @param type2
-     * @param model
+     * @param check
      * @return
      */
     @RequestMapping(value = "/getOtherName", method = RequestMethod.POST)
