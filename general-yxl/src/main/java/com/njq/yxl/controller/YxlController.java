@@ -78,13 +78,17 @@ public class YxlController {
         PageList<DocListVO> docList=yxlDocSearchService.queryDocList(map, page, size, tipNames, searchValue);
         return docList;
     }
-	
-	
+
+
     /**
      * 保存文章内容
-     * @param model
-     * @param title
+     * @param name
+     * @param typeId
      * @param doc
+     * @param isShow
+     * @param tips
+     * @param general
+     * @param specalType
      * @return
      */
     @RequestMapping(value="saveKnowledge",method=RequestMethod.POST)

@@ -234,7 +234,7 @@ public class XsTitleDetailService {
 		}
 		if(ids.size()>0){
 			ConditionsCommon cc=new ConditionsCommon();
-			cc.addInParam("parentId", ids.toArray());
+			cc.addInParam("parentId", ids);
 			cc.addSetOrderColum("id", "asc");
 			List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);
 			for(XsTitleDetail d:queryList){

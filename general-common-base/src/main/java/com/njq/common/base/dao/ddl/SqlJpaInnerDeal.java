@@ -117,7 +117,7 @@ public class SqlJpaInnerDeal {
 			for(String colum : paramMap.keySet()){
 				String op=colum.split(",")[1];
 				if("in".equals(op)){
-					query.setParameter("param"+(++i), (Object[])paramMap.get(colum));
+					query.setParameter("param"+(++i), paramMap.get(colum));
 //					query.setParameterList("param"+(++i), (Object[])paramMap.get(colum));
 				}else if("like".equals(op)){
 					query.setParameter("likeParam", "%"+paramMap.get(colum)+"%");
