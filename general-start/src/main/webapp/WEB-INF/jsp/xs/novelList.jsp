@@ -43,7 +43,7 @@
 				</div>
 				<div class="zwqy" align="left">
 					<ul class="ttul" >
-						<li><a href="${path}/zxgj/novelRead/67">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+						<li><a href="${path}/xs/novelRead/67">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
 						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
 						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
 						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>

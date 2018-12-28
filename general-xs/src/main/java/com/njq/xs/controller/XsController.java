@@ -17,7 +17,7 @@ import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsTitleDetailService;
 
 @Controller
-@RequestMapping("xl")
+@RequestMapping("xs")
 public class XsController {
 
 	@Resource
@@ -38,7 +38,7 @@ public class XsController {
         model.addAttribute("docInfo", docInfo);
 //        model.addAttribute("titleIndex", m.get("titleIndex"));
 //        model.addAttribute("orderIndex", m.get("orderIndex"));
-        return "xl/novelList";
+        return "xs/novelList";
     }
     
     
@@ -53,7 +53,7 @@ public class XsController {
     		Map<String, Object> m=xsTitleDetailService.queryBeforeAndNextNo(detail.getThcId());
     		model.addAttribute("pn", m);
     		model.addAttribute("doc", detail);
-    		return "xl/novelRead";
+    		return "xs/novelRead";
     	}else{
     		return "aaaa";	
     	}
