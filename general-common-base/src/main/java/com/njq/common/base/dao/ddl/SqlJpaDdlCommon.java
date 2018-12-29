@@ -1,19 +1,26 @@
 package com.njq.common.base.dao.ddl;
 
-import com.njq.common.base.dao.ConditionsCommon;
-import com.njq.common.base.dao.ConstantsCommon;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.util.date.DateUtil;
-import org.hibernate.SQLQuery;
-import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
-import java.util.Map;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
+
+import com.njq.common.base.dao.ConditionsCommon;
+import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.util.date.DateUtil;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -40,7 +47,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
 
 
 //		T t= sessionFactory.merge(object);
-//		
+//
 //		sessionFactory.remove(object);
     }
 
@@ -64,6 +71,8 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
 
     @Override
     public List<T> queryHqlList(String hql) {
+        Object[] obj =(Object[])getHqlQuery(hql, null).getResultList().get(0);
+        System.out.println(obj[0]);
         return (List<T>) getHqlQuery(hql, null).getResultList();
     }
 
@@ -189,8 +198,10 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
             SqlJpaInnerDeal.bandParam(query, condition.getParamMap());
             pageCheckAndSet(query, condition);
         }
-        return query.getResultList();
+        return conver(query.getResultList(), condition);
     }
+
+
 
     @Override
     public List<Map<String, Object>> queryColumnForListMap(String hql, ConditionsCommon condition) {
@@ -401,5 +412,34 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
             query.setFirstResult((condition.getPageMap().get("page") - 1) * condition.getPageMap().get("size"));
             query.setMaxResults(condition.getPageMap().get("size"));
         }
+    }
+
+    private List<T> conver(List<Object> list,ConditionsCommon condition){
+        List<T> ll = new ArrayList<>();
+        if(CollectionUtils.isEmpty(list)) {
+            return ll;
+        }
+        try {
+            Class<T> classType = (Class<T>) Class.forName(condition.getClassName());
+            for(int i =0;i<list.size();i++) {
+                T bean = classType.newInstance();
+                Object[] objs = (Object[])list.get(i);
+                int j = 0;
+                Iterator<Map.Entry<String,String>> it = condition.getSeleMap().entrySet().iterator();
+                while(it.hasNext()) {
+                    Map.Entry<String, String> entries = it.next();
+                    Field field = classType.getDeclaredField(entries.getKey());
+                    String fieldName = field.getName();
+                    Method method = classType.getDeclaredMethod("set"
+                            + fieldName.substring(0, 1).toUpperCase()
+                            + fieldName.substring(1), field.getType());
+                    method.invoke(bean, objs[j++]);
+                }
+                ll.add(bean);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return ll;
     }
 }
