@@ -41,7 +41,7 @@
 				<c:if test="${pn.pre==null}">
 					<div class="unbtn">上一章</div>
 				</c:if>
-				<div class="pnbtn"><a href="${path }/yxl/novelList">目录</a></div>
+				<div class="pnbtn"><a href="${path }/xs/novelList">目录</a></div>
 				<c:if test="${pn.next!=null}">
 					<div><a href="${path }/zxgj/novelRead/${pn.next}">下一章</a></div>
 				</c:if>

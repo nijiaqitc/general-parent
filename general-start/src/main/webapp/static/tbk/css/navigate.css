@@ -2,7 +2,7 @@
 	margin-left: -28px;
 }
 .shouye a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;
+	background: url('../images/navigateTitle.png') no-repeat;
 	width: 113px;
 	height: 32px;
 	display: inline-block;
@@ -16,7 +16,7 @@
 	margin-left: -6px;
 }
 .picwall a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -90px -38px;
+	background: url('../images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -90px -38px;
 }
  
 .picwall a:hover {
@@ -26,7 +26,7 @@
 	margin-left: 8px;
 }
 .fastSearch a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -210px -38px;
+	background: url('../images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -210px -38px;
 }
 .fastSearch a:hover {
 	background-position-y:-6px;
@@ -35,7 +35,7 @@
 	margin-left: 10px;
 }
 .techup a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -336px -38px;
+	background: url('../images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -336px -38px;
 }
 .techup a:hover {
 	background-position-y:-6px;
@@ -44,7 +44,7 @@
 	margin-left: 10px;
 }
 .webinit a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -458px -38px;
+	background: url('../images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -458px -38px;
 }
 .webinit a:hover {
 	background-position-y:-6px;
@@ -53,7 +53,7 @@
 	margin-left: 10px;
 }
 .aboutmeinit a{
-	background: url('../../tbk/images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -580px -38px;
+	background: url('../images/navigateTitle.png') no-repeat;width: 113px;height: 32px;display: inline-block;background-position: -580px -38px;
 }
 .aboutmeinit a:hover {
 	background-position-y:-6px;
@@ -62,7 +62,7 @@
 	display: none;
 }
 .abothSide{
-	background: url('../../tbk/images/daohangbian.png') repeat-x;height: 110px;width: 100%;
+	background: url('../images/daohangbian.png') repeat-x;height: 110px;width: 100%;
 }
 .atotalDiv{
 	width: 914px;

@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="${resPath }/static/wap/commonwap/common.jsp"></jsp:include>
 
 </body>
 </html>

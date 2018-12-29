@@ -8,14 +8,14 @@
   <title>文章搜索</title> 
   <meta name="keywords" content="文章搜索,搜索结果,检索">
   <meta name="description" content="在检索框搜索文章后显示匹配的结果"> 
-  <jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+  <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/searchDocList.css"  >
 </head> 
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
-	<jsp:include page="../../../wap/commonwap/loading.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/loading.jsp"></jsp:include>
 	<div class="menu-box" style="position: fixed;height: 45px;" >
 		<div style="margin-left: 10px;">当前搜索：<span style="color: red;" id="searchValue" >${searchValue}</span></div>
 		<div>
@@ -60,9 +60,9 @@
 	<!-- 	内容区域结束 -->
 	
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript" src="${resPath }/wap/js/searchDocList.js"></script>
 </body>  
 </html>

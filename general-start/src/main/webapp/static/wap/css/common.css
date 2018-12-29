@@ -60,7 +60,7 @@ a:hover{color:#2f889a}
 	height: 60px;
 	position: relative;
 	margin: 5px auto 0;
-	background-image: url(../../wap/images/tip.gif);
+	background-image: url(../images/tip.gif);
 }
 .bottom-menu li .bottom-menu-title {
 	color: #797979;

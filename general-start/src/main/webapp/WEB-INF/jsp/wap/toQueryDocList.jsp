@@ -8,14 +8,14 @@
   <title>文章动态</title> 
   <meta name="keywords" content="文章,列表,动态文章">
   <meta name="description" content="显示最新发表的文章"> 
-  <jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+  <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/docTrends.css"  >
 </head> 
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
-	<jsp:include page="../../../wap/commonwap/loading.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/loading.jsp"></jsp:include>
 	<!-- 	内容区域开始 -->
 	<input type="hidden" id="seleTypeName" value="${typeName}" />
 	<div class="textContext adocDiv10" >
@@ -35,9 +35,9 @@
 	<!-- 	内容区域结束 -->
 	
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript" src="${resPath }/wap/js/docList.js"></script>
 </body>  
 </html>

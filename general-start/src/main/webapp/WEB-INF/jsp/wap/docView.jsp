@@ -7,14 +7,14 @@
   <title>${docViewText.title}</title>  
   <meta name="keywords" content="${tipString }">
   <meta name="description" content="${docViewText.general }">
-  <jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+  <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/docView.css"  >
 </head> 
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
-	<jsp:include page="../../../wap/commonwap/loading.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/loading.jsp"></jsp:include>
 	<!-- 	内容区域开始 -->
 	<div class="textContext" >
 		<div class="menu-box" align="center">
@@ -45,9 +45,9 @@
 	<!-- 	内容区域结束 -->
 	
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript"  src="${resPath }/jsTool/custom/js/customClearStyle.js"></script>
   	<script type="text/javascript" src=".${resPath }/jsTool/custom/js/customHtmlDecoder.js"></script>
   	<script type="text/javascript">

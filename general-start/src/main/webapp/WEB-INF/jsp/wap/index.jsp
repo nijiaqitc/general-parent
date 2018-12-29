@@ -8,12 +8,12 @@
 <meta name="keywords" content="琦三叔手机端主页，琦三叔网站，琦三叔博客">
 <meta name="description" content="显示琦三叔发表的各种文章，还有琦三叔业余时编写的各种小工具应用">
 <title>琦三叔官网</title>
-<jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+<jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/index.css"  >
 </head>
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
 	
 	<div class="toTop">
@@ -52,8 +52,8 @@
 	<!-- 	类型区域显示结束 -->
 	
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
 	<!--     结束：页面底部  -->
     <script type="text/javascript" src="${resPath }/wap/js/index.js" ></script>

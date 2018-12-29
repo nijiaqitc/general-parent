@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>网站介绍</title>
-<jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+<jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
 <style>
 p{
     word-break: break-all;
@@ -69,9 +69,9 @@ function userOp(op,titleId){
 	<!-- 	正文部分结束 -->
 
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
 	<script type="text/javascript" src="${resPath }/wap/js/readDoc.js"></script>
 </body>
 </html>

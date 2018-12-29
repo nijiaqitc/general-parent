@@ -7,18 +7,18 @@
 <title>提示</title>
 <meta name="keywords" content="内容丢失">
 <meta name="description" content="服务器找不到您要的内容，请见谅">
-<jsp:include page="../../../tbk/commonjsp/commonTop.jsp"></jsp:include>
+<jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 </head>
 <body>
 	<!--     开始：顶部联系方式 -->
 	<div class="menu-box topMenu"  align="center">
-        <jsp:include page="../../../tbk/commonjsp/top.jsp"></jsp:include>
+        <jsp:include page="${resPath }/tbk/commonjsp/top.jsp"></jsp:include>
     </div>
     <!--     结束：顶部联系方式 -->
     <!--     开始：导航条 -->
     <div class="anavi1" ></div>
     <div class="menu-box anavi2" align="center" >
-    	<jsp:include page="../../../tbk/commonjsp/navigate.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/navigate.jsp"></jsp:include>
     </div>
     <!--     结束：导航条 -->
     <div class="menu-box"  align="center" style="margin-top: 80px;height: 270px;" >
@@ -29,9 +29,9 @@
     <!--     开始：页面底部 -->
     <div class="aFootBefore"></div>
     <div align="center"  class="menu-box aFootTotal">
-    	<jsp:include page="../../../tbk/commonjsp/footer.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/footer.jsp"></jsp:include>
     </div>
     <!--     结束：页面底部  -->
-    <jsp:include page="../../../tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
 </body>
 </html>

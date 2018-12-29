@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="keywords" content="网站模板，模型，教程下载">
 <meta name="description" content="分享各类精美的资源，有游戏模型，ps素材，网站模板等等">
-<jsp:include page="../../../tbk/commonjsp/commonTop.jsp"></jsp:include>
+<jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 <title>资源分享</title>
 <link rel="stylesheet" type="text/css" href="${resPath }/tbk/css/resourceShare.css"  >
 <link rel="stylesheet" href="${resPath }/chajian/Jcrop-0.9.12/css/jquery.Jcrop.css">
@@ -15,13 +15,13 @@
 <body>
 	<!--     开始：顶部联系方式 -->
     <div class="menu-box topMenu"  align="center">
-        <jsp:include page="../../../tbk/commonjsp/top.jsp"></jsp:include>
+        <jsp:include page="${resPath }/tbk/commonjsp/top.jsp"></jsp:include>
     </div>
     <!--     结束：顶部联系方式 -->
     <!--     开始：导航条 -->
     <div class="anavi1" ></div>
     <div class="menu-box anavi2" align="center" >
-    	<jsp:include page="../../../tbk/commonjsp/navigate.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/navigate.jsp"></jsp:include>
     </div>
     <!--     结束：导航条 -->
     <!--     开始：最新文章区域 -->
@@ -196,10 +196,10 @@
     <!--     开始：页面底部 -->
     <div class="aFootBefore"></div>
     <div align="center"  class="menu-box aFootTotal">
-    	<jsp:include page="../../../tbk/commonjsp/footer.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/footer.jsp"></jsp:include>
     </div>
     <!--     结束：页面底部  -->
-    <jsp:include page="../../../tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script src="${resPath }/chajian/Jcrop-0.9.12/js/jquery.Jcrop.js"></script>
     <script src="${resPath }/tbk/js/resourceShare.js"></script>
 </body>

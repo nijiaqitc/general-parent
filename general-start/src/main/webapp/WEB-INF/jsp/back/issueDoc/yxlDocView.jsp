@@ -34,13 +34,13 @@
     width: 20px;border-radius: 2px;cursor: pointer;
 }
 .aopenWord1{
-    background: url('../../tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+    background: url('${resPath }/tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
 }
 .aopenWord2{
     background-color: #ffe69f;width: 20px;border: 1px #dcac6c solid;border-radius: 2px;cursor: pointer;
 }
 .aopenWord3{
-    background: url('../../tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+    background: url('${resPath }/tbk/images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
 }
 .aopenWord4{
     width:760px;padding-top: 60px;

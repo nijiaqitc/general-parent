@@ -13,7 +13,7 @@
 <meta name="keywords" content="${tipString }">
 <meta name="description" content="${docViewText.general }">
 <title>文章阅读</title>
-<jsp:include page="../../../tbk/commonjsp/commonTop.jsp"></jsp:include>
+<jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${resPath }/tbk/css/docView.css" >	
 <script type="text/javascript">
 var mobileAgent = new Array("iphone", "ipod", "android", "blackberry", "windows phone", "windows mobile", "webos", "incognito", "webmate", "bada", "nokia", "lg", "ucweb", "skyfire");
@@ -34,13 +34,13 @@ if(${ismob!=true}){
 <body>
     <!--     开始：顶部联系方式 -->
     <div class="menu-box topMenu"  align="center">
-        <jsp:include page="../../../tbk/commonjsp/top.jsp"></jsp:include>
+        <jsp:include page="${resPath }/tbk/commonjsp/top.jsp"></jsp:include>
     </div>
     <!--     结束：顶部联系方式 -->
     <!--     开始：导航条 -->
     <div class="anavi1" ></div>
     <div class="menu-box anavi2" align="center" >
-    	<jsp:include page="../../../tbk/commonjsp/navigate.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/navigate.jsp"></jsp:include>
     </div>
     <!--     结束：导航条 -->
     <!--     开始：最新文章区域 -->
@@ -79,8 +79,8 @@ if(${ismob!=true}){
 			    </div>
 				<div align="left" class="aTotalDiv1">
 					<div align="left" class="aTitle">
-					<c:if test="${docViewText.reprint==1 }"><img class="aopenWord13" alt="原创" src="../../tbk/images/y.png"></c:if>
-					<c:if test="${docViewText.reprint==2 }"><img class="aopenWord13" alt="转载" src="../../tbk/images/z.png"></c:if>
+					<c:if test="${docViewText.reprint==1 }"><img class="aopenWord13" alt="原创" src="${resPath }/tbk/images/y.png"></c:if>
+					<c:if test="${docViewText.reprint==2 }"><img class="aopenWord13" alt="转载" src="${resPath }/tbk/images/z.png"></c:if>
 					${docViewText.title}</div>
 					<div align="left" class="aGeneral">
 						&nbsp;&nbsp;
@@ -162,10 +162,10 @@ if(${ismob!=true}){
     <!--     开始：页面底部 -->
     <div class="aFootBefore"></div>
     <div align="center" class="menu-box aFootTotal" >
-    	<jsp:include page="../../../tbk/commonjsp/footer.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/footer.jsp"></jsp:include>
     </div>
     <!--     结束：页面底部  -->
-    <jsp:include page="../../../tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script src="${resPath }/tbk/js/doc.js" type="text/javascript"></script>
 </body>
 </html>

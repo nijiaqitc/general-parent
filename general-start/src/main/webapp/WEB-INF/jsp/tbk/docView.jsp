@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>文章阅读</title>
-<jsp:include page="../../../tbk/commonjsp/commonTop.jsp"></jsp:include>
+<jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${resPath }/tbk/css/docView.css" >
 
 <style type="text/css">
@@ -52,13 +52,13 @@
 <body>
     <!--     开始：顶部联系方式 -->
     <div class="menu-box topMenu"  align="center">
-        <jsp:include page="../../../tbk/commonjsp/top.jsp"></jsp:include>
+        <jsp:include page="${resPath }/tbk/commonjsp/top.jsp"></jsp:include>
     </div>
     <!--     结束：顶部联系方式 -->
     <!--     开始：导航条 -->
     <div class="anavi1" ></div>
     <div class="menu-box anavi2" align="center" >
-    	<jsp:include page="../../../tbk/commonjsp/navigate.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/navigate.jsp"></jsp:include>
     </div>
     <!--     结束：导航条 -->
     <!--     开始：最新文章区域 -->
@@ -135,10 +135,10 @@
     <!--     开始：页面底部 -->
     <div class="aFootBefore"></div>
     <div align="center" class="menu-box aFootTotal" >
-    	<jsp:include page="../../../tbk/commonjsp/footer.jsp"></jsp:include>
+    	<jsp:include page="${resPath }/tbk/commonjsp/footer.jsp"></jsp:include>
     </div>
     <!--     结束：页面底部  -->
-    <jsp:include page="../../../tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script src="${resPath }/tbk/js/doc.js" type="text/javascript"></script>
 </body>
 </html>

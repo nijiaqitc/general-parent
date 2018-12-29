@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>网站介绍</title>
-<jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+<jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
 <script type="text/javascript">
 	function getName(){
 		$.ajax({
@@ -38,7 +38,7 @@
 </head>
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
 	
 	<!-- 	正文部分开始 -->
@@ -68,8 +68,8 @@
 	<!-- 	正文部分结束 -->
 
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
 </body>
 </html>

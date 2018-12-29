@@ -10,14 +10,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>首页</title>
-<jsp:include page="../../../../tbk/commonjsp/commonTop.jsp"></jsp:include>
+<jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 <link rel="shortcut icon" href="${resPath }/tbk/images/logo.png" />
 <link rel="stylesheet" type="text/css" href="${resPath }/tbk/css/docView.css" >
 </head>
 <body>
     <!--     开始：顶部联系方式 -->
     <div class="menu-box topMenu"  align="center">
-        <jsp:include page="../../../../tbk/commonjsp/top.jsp"></jsp:include>
+        <jsp:include page="${resPath }/tbk/commonjsp/top.jsp"></jsp:include>
     </div>
     <!--     结束：顶部联系方式 -->
     <!--     开始：导航条 -->
@@ -77,7 +77,7 @@
     	<div><span>若有疑问请及时联系站长，QQ:2439794916 微信：qisanshu</span></div>
     </div>
     <!--     结束：页面底部  -->
-    <jsp:include page="../../../../tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script type="text/javascript">
     	window.onresize=function(){
 	    	/* console.info($(window).width()) */

@@ -6,12 +6,12 @@
 <title>网站介绍</title>
 <meta name="keywords" content="网站架构,站长介绍,架构">
 <meta name="description" content="介绍网站所用架构">
-<jsp:include page="../../../wap/commonwap/common.jsp"></jsp:include>
+<jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/aboutMe.css"  >
 </head>
 <body>
 	<!-- 	顶部div开始 -->
-	<jsp:include page="../../../wap/commonwap/top.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
 	<!-- 	顶部div结束 -->
 	
 	<!-- 	正文部分开始 -->
@@ -51,8 +51,8 @@
 	<!-- 	正文部分结束 -->
 
 	<!-- 	底部通用部分开始 -->
-	<jsp:include page="../../../wap/commonwap/commonBottom.jsp"></jsp:include>
-	<jsp:include page="../../../wap/commonwap/bottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
+	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
 </body>
 </html>
