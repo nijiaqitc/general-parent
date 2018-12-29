@@ -8,7 +8,7 @@
   <meta name="keywords" content="${tipString }">
   <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/docView.css"  >
-</head> 
+</head>
 <body>
 	<!-- 	顶部div开始 -->
 	<jsp:include page="${resPath }/wap/commonwap/top.jsp"></jsp:include>
@@ -30,13 +30,13 @@
 		</div>
 	</div>
 	<!-- 	内容区域结束 -->
-	
+
 	<!-- 	底部通用部分开始 -->
 	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
-  	<script type="text/javascript"  src="${resPath }/jsTool/custom/js/customClearStyle.js"></script>
-  	<script type="text/javascript" src="${resPath }/jsTool/custom/js/customHtmlDecoder.js"></script>
+  	<script type="text/javascript"  src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
+  	<script type="text/javascript" src="${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
   	<script type="text/javascript">
 	  	$(function(){
 	  		var text=$("#valueText").html();

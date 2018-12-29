@@ -43,7 +43,7 @@
 	}
 </style>
 <script type="text/javascript" src="${resPath }/tbk/js/jquery.min.js"></script>
-<script type="text/javascript" src="${resPath }/jsTool/custom/js/customHtmlDecoder.js"></script>
+<script type="text/javascript" src="${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
 <script type="text/javascript">
 	function decode(){
 		var chd=new customHtmlDecoder();
