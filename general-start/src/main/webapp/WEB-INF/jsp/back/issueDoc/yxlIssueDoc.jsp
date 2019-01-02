@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>正文</title>
 <link rel="shortcut icon" href="${resPath }/tbk/images/logo.png" />
-<jsp:include page="${basePath}/commonTopLink"></jsp:include>
+<jsp:include page="${path}/commonTopLink"></jsp:include>
 <!-- 自定义分页 -->
 <link href="${resPath }/jsTool/customPage/customPage.css"
 	rel="stylesheet" />
@@ -25,11 +25,11 @@
 </head>
 <body>
 	<!-- 通用顶部 -->
-	<jsp:include page="${basePath}/commonTop"></jsp:include>
+	<jsp:include page="${path}/commonTop"></jsp:include>
 	<!-- 中下部分 -->
 	<div id="centerPlace">
 		<!-- 通用左边菜单 -->
-		<jsp:include page="${basePath}/commonLeft"></jsp:include>
+		<jsp:include page="${path}/commonLeft"></jsp:include>
 		<!-- 正文区域 -->
 		<div id="rightContext">
 			<div style="padding-top: 20px;overflow: auto;">
@@ -83,14 +83,14 @@
 	    <!--     加载用户自定义配置 -->
 	    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 		<!-- 通用底部 -->
-		<jsp:include page="${basePath}/commonBottom"></jsp:include>
+		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
-	<jsp:include page="${basePath}/commonBottomLink"></jsp:include>
+	<jsp:include page="${path}/commonBottomLink"></jsp:include>
 	<script src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script src="${resPath }/common/js/publicJs.js"></script>
     <script type="text/javascript" src="${resPath }/back/js/yxlIssueDoc.js"></script>
 	<!-- start:公共页，存放公共框 -->
-	<jsp:include page="${basePath}/publicJsp"></jsp:include>
+	<jsp:include page="${path}/publicJsp"></jsp:include>
 	<!-- end:公共页，存放公共框 -->
 </body>
 </html>

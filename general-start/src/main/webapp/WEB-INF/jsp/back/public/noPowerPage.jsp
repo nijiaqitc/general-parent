@@ -9,8 +9,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
-	<jsp:include page="${basePath}/head"></jsp:include>
-	<jsp:include page="${basePath}/foot"></jsp:include>
+	<jsp:include page="${path}/head"></jsp:include>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
 		/* var isChrome = navigator.userAgent.toLowerCase().match(/chrome/) != null;
 		if (isChrome) {
@@ -20,12 +20,12 @@
 </head>
 <body>
 	<!-- start: 顶部菜单 -->
-	<jsp:include page="${basePath}/top"></jsp:include>
+	<jsp:include page="${path}/top"></jsp:include>
 	<!-- end: 顶部菜单 -->
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${basePath}/left"></jsp:include> 
+<!-- 			<jsp:include page="${path}/left"></jsp:include> 
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" align="center" >
@@ -33,7 +33,7 @@
 			</div>
 			<!-- end: 正文 -->
 		</div>
-		<jsp:include page="${basePath}/boom"></jsp:include>
+		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
 </body>
 </html>

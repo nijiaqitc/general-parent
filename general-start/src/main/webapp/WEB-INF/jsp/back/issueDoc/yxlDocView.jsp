@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${doc.title }</title>
-<jsp:include page="${basePath}/commonTopLink"></jsp:include>
+<jsp:include page="${path}/commonTopLink"></jsp:include>
 <style type="text/css">
 /*全屏开始*/
 .adocDiv{
@@ -108,7 +108,7 @@
     
     <!--     结束：全屏阅览  -->
     <!-- 通用底部 -->
-    <jsp:include page="${basePath}/commonBottom"></jsp:include>
+    <jsp:include page="${path}/commonBottom"></jsp:include>
     <script src="${resPath }/jquery/jquery.min.js"></script>
     <script type="text/javascript">
     var text=assembleContext($("#clearText").html(),$("#clearCss").html());

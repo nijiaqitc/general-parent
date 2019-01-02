@@ -9,7 +9,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	<jsp:include page="${basePath}/frontHeadJs"></jsp:include> 
+	<jsp:include page="${path}/frontHeadJs"></jsp:include> 
 	<link href="${resPath }/front/css/style.css" rel="stylesheet"> 
 	<style type="text/css">
 	
@@ -40,7 +40,7 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="${basePath}/frontHead"></jsp:include>
+	<jsp:include page="${path}/frontHead"></jsp:include>
 	
 	
 	
@@ -93,7 +93,7 @@
 	</article>
 	
 	
-	<jsp:include page="${basePath}/frontBoom"></jsp:include> 
- 	<jsp:include page="${basePath}/frontBoomJs"></jsp:include> 
+	<jsp:include page="${path}/frontBoom"></jsp:include> 
+ 	<jsp:include page="${path}/frontBoomJs"></jsp:include> 
 </body>
 </html>

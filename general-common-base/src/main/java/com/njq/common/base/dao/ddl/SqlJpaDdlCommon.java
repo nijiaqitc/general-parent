@@ -432,6 +432,9 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
     
     private T converT(Object obj,ConditionsCommon condition,Class<T> classType) {
     	try {
+    		if(CollectionUtils.isEmpty(condition.getSeleMap())){
+    			return (T)obj;
+    		}
     		if(classType == null) {
     			classType = (Class<T>) Class.forName(condition.getClassName());    			
     		}

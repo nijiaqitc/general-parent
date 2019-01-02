@@ -187,6 +187,7 @@ public class YxlController {
         YxlDoc doc = yxlDocService.queryById(docId);
         if (doc != null) {
             List<YxlDocSearch> list = yxlDocSearchService.queryTitleList(doc.getId());
+            System.out.println(list.get(0).getId());
             model.addAttribute("doc", doc);
             model.addAttribute("titleList", list);
             if (list.size() > 0) {

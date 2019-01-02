@@ -81,12 +81,12 @@
 			</div>
 		</div>
 </body>
-<jsp:include page="${basePath}/commonBottomLink"></jsp:include>
+<jsp:include page="${path}/commonBottomLink"></jsp:include>
 <script src="${resPath }/common/js/publicJs.js"></script>
 <!-- start:公共页，存放公共框 -->
-<jsp:include page="${basePath}/publicJsp"></jsp:include>
+<jsp:include page="${path}/publicJsp"></jsp:include>
 <script type="text/javascript">
-var jspath="${resPath}"
+var jspath="${path}"
 </script>
 <!--     加载用户自定义配置 -->
 <script type="text/javascript" src="${resPath }/zxgj/js/recordManager.js"></script>

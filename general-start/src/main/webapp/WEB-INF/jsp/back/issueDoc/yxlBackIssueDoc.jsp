@@ -84,12 +84,12 @@
 	    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 		<!-- 通用底部 -->
 	</div>
-	<jsp:include page="${basePath}/commonBottomLink"></jsp:include>
+	<jsp:include page="${path}/commonBottomLink"></jsp:include>
 	<script src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script src="${resPath }/common/js/publicJs.js"></script>
     <script type="text/javascript" src="${resPath }/back/js/yxlIssueDoc.js"></script>
 	<!-- start:公共页，存放公共框 -->
-	<jsp:include page="${basePath}/publicJsp"></jsp:include>
+	<jsp:include page="${path}/publicJsp"></jsp:include>
 	<!-- end:公共页，存放公共框 -->
 </body>
 </html>

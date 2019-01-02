@@ -54,7 +54,7 @@ label {
 </head>
 <body style="background-color: #f1f1f1;">
     <!--     开始：导航条 -->
-    <jsp:include page="${basePath}/top"></jsp:include>
+    <jsp:include page="${path}/top"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：导航条 -->
     <div class="menu-box"  align="center" style="margin-top: 80px;height: 270px;" >
@@ -73,7 +73,7 @@ label {
         <div align="center" style="font-size: 12px;" >当前系统暂不支持外部注册，只允许内部推荐！</div>
     </div>
     <!--     开始：页面底部 -->
-    <jsp:include page="${basePath}/bottom"></jsp:include>
+    <jsp:include page="${path}/bottom"></jsp:include>
     <!--     结束：页面底部  -->
     <script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>

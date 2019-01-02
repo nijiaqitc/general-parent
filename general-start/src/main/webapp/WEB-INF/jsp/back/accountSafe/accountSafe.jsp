@@ -10,8 +10,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
-	<jsp:include page="${basePath}/head"></jsp:include>
-	<jsp:include page="${basePath}/foot"></jsp:include>
+	<jsp:include page="${path}/head"></jsp:include>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<style type="text/css">
 		tr{
 		    height: 100px;
@@ -40,7 +40,7 @@
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
-	<jsp:include page="${basePath}/publicJsp"></jsp:include>
+	<jsp:include page="${path}/publicJsp"></jsp:include>
 	<!-- end:公共页，存放公共框 -->
 	<!-- start: 顶部菜单 -->
 	<jsp:include page="../public/top.jsp"></jsp:include>
@@ -48,7 +48,7 @@
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${basePath}/left"></jsp:include> 
+<!-- 			<jsp:include page="${path}/left"></jsp:include> 
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" >
@@ -116,7 +116,7 @@
 			<div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
 			<!--end:遮罩层-->
 		</div>
-		<jsp:include page="${basePath}/boom"></jsp:include>
+		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
 	
 	<script type="text/javascript">

@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="${basePath}/commonTopLink"></jsp:include>
+<jsp:include page="${path}/commonTopLink"></jsp:include>
 <script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/ueditor.all.js"> </script>
 <script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/lang/zh-cn/zh-cn.js"></script>
@@ -14,11 +14,11 @@
 </head>
 <body>
 	<!-- 通用顶部 -->
-	<jsp:include page="${basePath}/commonTop"></jsp:include>
+	<jsp:include page="${path}/commonTop"></jsp:include>
 	<!-- 中下部分 -->
 	<div id="centerPlace">
 		<!-- 通用左边菜单 -->	
-		<jsp:include page="${basePath}/commonLeft"></jsp:include>
+		<jsp:include page="${path}/commonLeft"></jsp:include>
 		<!-- 正文区域 -->
 		<div id="rightContext" class="">
 			<div id="mylayer" style="width: 100%;height: 45px;border:1px solid #d4d4d4; ">
@@ -34,10 +34,10 @@
 			</script>
 		</div>
 		<!-- 通用底部 -->	
-		<jsp:include page="${basePath}/commonBottom"></jsp:include>
+		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
 </body>
-<jsp:include page="${basePath}/commonBottomLink"></jsp:include>
+<jsp:include page="${path}/commonBottomLink"></jsp:include>
 <script type="text/javascript">
 		$("#editor").css("display","none");
 </script>

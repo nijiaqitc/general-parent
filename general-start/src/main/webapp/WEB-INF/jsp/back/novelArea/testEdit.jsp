@@ -5,16 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
-<jsp:include page="${basePath}/commonTopLink"></jsp:include>
+<jsp:include page="${path}/commonTopLink"></jsp:include>
 <link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleOne.css"  rel="stylesheet">
 </head>
 <body>
 <!-- 通用顶部 -->
-    <jsp:include page="${basePath}/commonTop"></jsp:include>
+    <jsp:include page="${path}/commonTop"></jsp:include>
     <!-- 中下部分 -->
     <div id="centerPlace">
         <!-- 通用左边菜单 --> 
-        <jsp:include page="${basePath}/commonLeft"></jsp:include>
+        <jsp:include page="${path}/commonLeft"></jsp:include>
         <!-- 正文区域 -->
         <div id="rightContext">
             <div><div>111</div>222</div>
@@ -40,10 +40,10 @@
             <div onclick="javascript:alert(njq.getTitleNum())" style="background-color: #333;color:white;margin-left: 4px;float: left;cursor: pointer;">获取标题序号</div>
         </div>
         <!-- 通用底部 -->   
-        <jsp:include page="${basePath}/commonBottom"></jsp:include>
+        <jsp:include page="${path}/commonBottom"></jsp:include>
     </div>
 </body>
-    <jsp:include page="${basePath}/commonBottomLink"></jsp:include>
+    <jsp:include page="${path}/commonBottomLink"></jsp:include>
     <script type="text/javascript">
         //ie8不支持trim方法
         String.prototype.trim = function () {

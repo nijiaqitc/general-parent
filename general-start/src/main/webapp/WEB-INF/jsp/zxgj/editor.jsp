@@ -79,7 +79,7 @@
     <script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
     <script src="${resPath }/zxgj/js/editor.js" type="text/javascript"></script>
     <script type="text/javascript">
-    var jspath="${resPath }";
+    var jspath="${path }";
     </script>
     <!--     加载用户自定义配置 -->
     <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
