@@ -188,7 +188,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
         Query query = getHqlQuery(hql, null);
         SqlJpaInnerDeal.bandParam(query, condition.getParamMap());
         pageCheckAndSet(query, condition);
-        return query.getResultList();
+        return conver(query.getResultList(),condition);
     }
 
     @Override
