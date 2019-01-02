@@ -99,7 +99,7 @@ public class XsTitleDesignService {
         if(ids.size()<1){
             return null;
         }
-        cc1.addInParam("parentId", ids.toArray());            
+        cc1.addInParam("parentId", ids);            
         cc1.addNotEqParam("id", 0L);
         cc1.addSetOrderColum("indexOne", "asc");
         List<XsTitleDesign> list1=titleDao.queryForListNoPage(cc1);
