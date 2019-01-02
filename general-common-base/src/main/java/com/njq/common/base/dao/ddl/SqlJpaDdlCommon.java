@@ -93,7 +93,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
             query.setMaxResults(condition.getPageMap().get("size"));
         }
         SqlJpaInnerDeal.setParam(query, paramMap);
-        return query.getResultList();
+        return conver(query.getResultList(), condition);
     }
 
     @Override
@@ -144,13 +144,13 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
         if (condition != null) {
             SqlJpaInnerDeal.bandParam(query, condition.getParamMap());
         }
-        return query.getResultList();
+        return conver(query.getResultList(), condition);
     }
 
     @Override
     public T queryTByParamForOne(String hql, ConditionsCommon condition) {
         List<T> list = queryTByParam(hql, condition);
-        return list.size() > 0 ? list.get(0) : null;
+        return list.size() > 0 ? converT(list.get(0), condition, null) : null;
     }
 
     @Override
@@ -167,7 +167,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
             }
         }
         PageList<T> pageList = new PageList<>();
-        pageList.setList(query.getResultList());
+        pageList.setList(conver(query.getResultList(), condition));
         pageList.setTotal(queryForCount(condition));
         return pageList;
     }
@@ -230,7 +230,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
         SqlJpaInnerDeal.setParam(query, paramMap);
         pageCheckAndSet(query, condition);
         PageList<T> pageList = new PageList<>();
-        pageList.setList(query.getResultList());
+        pageList.setList(conver(query.getResultList(), condition));
         pageList.setTotal(queryForCount(condition));
         return pageList;
     }
@@ -419,27 +419,39 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
 		if(CollectionUtils.isEmpty(list)) {
 			return ll;
 		}
+		try {
+			Class<T> classType = (Class<T>) Class.forName(condition.getClassName());
+			for(int i =0;i<list.size();i++) {
+				ll.add(converT(list.get(i),condition,classType));
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    	return ll;
+    }
+    
+    private T converT(Object obj,ConditionsCommon condition,Class<T> classType) {
     	try {
-    		Class<T> classType = (Class<T>) Class.forName(condition.getClassName());
-    		for(int i =0;i<list.size();i++) {
-    			T bean = classType.newInstance();
-    			Object[] objs = (Object[])list.get(i);
-    			int j = 0;
-    			Iterator<Map.Entry<String,String>> it = condition.getSeleMap().entrySet().iterator();
-    			while(it.hasNext()) {
-    				Map.Entry<String, String> entries = it.next();
-    				Field field = classType.getDeclaredField(entries.getKey());
-    				String fieldName = field.getName();
-    				Method method = classType.getDeclaredMethod("set" 
-    						+ fieldName.substring(0, 1).toUpperCase()
-    						+ fieldName.substring(1), field.getType());
-    				method.invoke(bean, objs[j++]);
-    			}
-    			ll.add(bean);
+    		if(classType == null) {
+    			classType = (Class<T>) Class.forName(condition.getClassName());    			
     		}
+	    	T bean = classType.newInstance();
+			Object[] objs = (Object[])obj;
+			int j = 0;
+			Iterator<Map.Entry<String,String>> it = condition.getSeleMap().entrySet().iterator();
+			while(it.hasNext()) {
+				Map.Entry<String, String> entries = it.next();
+				Field field = classType.getDeclaredField(entries.getKey());
+				String fieldName = field.getName();
+				Method method = classType.getDeclaredMethod("set" 
+						+ fieldName.substring(0, 1).toUpperCase()
+						+ fieldName.substring(1), field.getType());
+				method.invoke(bean, objs[j++]);
+			}
+			return bean;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-    	return ll;
+    	return null;
     }
 }
