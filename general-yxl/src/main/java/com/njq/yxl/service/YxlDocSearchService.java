@@ -154,7 +154,7 @@ public class YxlDocSearchService {
      * @return
      */
     public List<Map<String, Object>> queryyxlType(){
-    	String str="select t.id, t.name name,count(0) num from yxl_type t left join yxl_doc_search s on s.type_id=t.id where s.specal_type !='1' group by t.name order by t.id";
+    	String str="select t.id, t.name name,count(0) num from yxl_type t left join yxl_doc_search s on s.type_id=t.id where s.specal_type !='1' group by t.name , t.id order by t.id";
     	List<Map<String, Object>>  mapList=yxlDocSearchDao.querySqlByParamForMap(str, null);
     	return mapList;
     }

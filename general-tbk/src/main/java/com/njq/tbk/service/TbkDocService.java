@@ -399,7 +399,7 @@ public class TbkDocService {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryTypeVO(int page, int size) {
-		String sql=" select t.id,t.name , count(c.typeId) num from tbk_type t left join tbk_type_doc_config c on t.id=c.typeId where t.status=1 and c.status=1 group by t.id order by num desc,t.id   ";
+		String sql=" select t.id,t.name , count(c.typeId) num from tbk_type t left join tbk_type_doc_config c on t.id=c.typeId where t.status=1 and c.status=1 group by t.id ,t.name order by num desc,t.id   ";
 		Map<String, Object> paramMap=new HashMap<String, Object>();
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
