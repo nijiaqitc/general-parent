@@ -31,9 +31,9 @@ public class BaseTitleService {
 	private Map<ChannelType, SaveTitlePerformer> saveMap;
 
 	@Autowired
-	public BaseTitleService(SaveTitlePerformer grapSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
+	public BaseTitleService(SaveTitlePerformer grabSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
 		saveMap = new HashMap<>();
-		saveMap.put(ChannelType.YH_WIKI, grapSaveTitlePerformer);
+		saveMap.put(ChannelType.YH_WIKI, grabSaveTitlePerformer);
 	}
 
 	/**

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("test")
 @Controller
@@ -34,16 +35,17 @@ public class YhWikiController {
     		.login("http://wiki.yonghuivip.com/dologin.action", "post", param);
     	return;
     }
-    
+
     @RequestMapping("getPage")
     public String getPage(Model model) {
 //    	String context = HtmlGrabUtil.build("wiki").getContext("http://wiki.yonghuivip.com/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=2302391&treeId=0&startDepth=0&mobile=false&ancestors=2302391&treePageId=2302391");
-    	String context = yhWikiPageAnalysis.analysisPage("");
+		login();
+    	String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=5572937");
 //    	String context = "";
 //    	context = "<img src=\"http://img.zcool.cn/community/0125fd5770dfa50000018c1b486f15.jpg@1280w_1l_2o_100sh.jpg\" style=\"width: 232px; height: 176px; cursor: pointer;float: right;\" title=\"点击查看源网页\">";
     	;
     	model.addAttribute("body",HtmlDecodeUtil.decodeHtml(context));
-    	return "index";
+    	return "grab/view";
     }
     
     

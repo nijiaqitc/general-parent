@@ -1,3 +1,9 @@
+function decodeStr(st){
+    var cd=new CustomDecoder();
+    cd.str=st;
+    return cd.decode();
+}
+
 /**
  * 对文章进行样式清理
  * 第一步：先去除所有样式
@@ -96,7 +102,7 @@ function CustomDecoder(){
 			//如果是普通标签那么去除标签里面的所有内容
 			this.str=this.str.replace(s, this.getLabelName(s))
 		}else{
-			//如果是图片类标签那么就只去除class和style
+			//如果是图片、表单等标签那么就只去除class和style
 			this.str=this.str.replace(s,this.getStyleOrClass(s))
 		}
 	};

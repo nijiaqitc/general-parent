@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.basis.service.impl.GrapSaveTitlePerformerImpl;
+import com.njq.basis.service.impl.GrabSaveTitlePerformerImpl;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
@@ -42,7 +43,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 	@Resource
 	private DaoCommon<GrabDoc> grabDocDao;
 	@Resource
-	private GrapSaveTitlePerformerImpl grapSaveTitlePerformer;
+	private GrabSaveTitlePerformerImpl grabSaveTitlePerformer;
 	@Resource
 	private LoginCacheManager loginCacheManager;
 	@Resource
@@ -53,14 +54,14 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 	public void loadPageJobTask() {
 		List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
 		list.forEach(n -> {
-			this.saveDoc(n.getUrl(), grapSaveTitlePerformer.getTitleById(n.getTitleId()).getTitle());
+			this.saveDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()).getTitle());
 		});
 	}
 
 	@Override
 	public void loadPage(Long docId) {
 		BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-		this.saveDoc(loading.getUrl(), grapSaveTitlePerformer.getTitleById(loading.getTitleId()).getTitle());
+		this.saveDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()).getTitle());
 	}
 
 	@Override
@@ -168,11 +169,12 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 //				.build("wiki")
 //				.getDoc("http://wiki.yonghuivip.com/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=2302391&treeId=0&startDepth=0&mobile=false&ancestors=2302391&treePageId=2302391");
 //		System.out.println(menuList);
-//		Element enode = HtmlGrabUtil
-//				.build("wiki").getDoc("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=5572937").getElementById("main-content");
-//		
-//		
-//		
+		Element enode = HtmlGrabUtil
+				.build("wiki")
+				.getDoc(url).getElementById("main-content");
+
+		return enode.html();
+
 //		enode.getElementsByTag("a").forEach(n->{
 //			if(!n.attr("href").startsWith("http")) {
 //				n.attr("href","http://wiki.yonghuivip.com"+n.attr("href"));
@@ -185,7 +187,6 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 //		});
 
 //		return enode.html();
-		return "123";
 	}
 
 	/**

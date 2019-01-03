@@ -32,7 +32,7 @@ public class GrabController {
 	@RequestMapping("config")
 	public String grabPage(Model model) {
 		model.addAttribute("channelList", ChannelType.getChannelValueList());
-		return "/grap/grabUrl";
+		return "/grab/grabUrl";
 	}
 
 	@ResponseBody
@@ -50,7 +50,7 @@ public class GrabController {
 
 	@RequestMapping("loadMenuPage")
 	public String loadMenuPage() {
-		return "/grap/loadMenu";
+		return "/grab/loadMenu";
 	}
 	
 	@ResponseBody

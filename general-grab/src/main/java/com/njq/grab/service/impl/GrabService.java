@@ -48,10 +48,10 @@ public class GrabService {
 	public void grabOperation(String title, String url, String docId, String channel, String type, String tips) {
 		BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
 		if (loading == null) {
-			this.saveAndGrap(title, url, docId, channel, type, tips);
+			this.saveAndGrab(title, url, docId, channel, type, tips);
 		} else {
 			if (loading.getLoaded().equals(Use_Type.USED)) {
-				this.updateAndGrap(title, url, loading.getTitleId() + "", channel, type, tips);
+				this.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
 			} else {
 				ChannelType tt = ChannelType.getChannelType(channel);
 				this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
@@ -59,7 +59,7 @@ public class GrabService {
 		}
 	}
 
-	public void saveAndGrap(String title, String url, String docId, String channel, String type, String tips) {
+	public void saveAndGrab(String title, String url, String docId, String channel, String type, String tips) {
 		long time1 = System.currentTimeMillis();
 		loginCacheManager.checkAndLogin(ChannelType.getChannelType(channel));
 		long time2 = System.currentTimeMillis();
@@ -81,7 +81,7 @@ public class GrabService {
 		System.out.println("耗时e" + (System.currentTimeMillis() - time1) / 1000);
 	}
 
-	public void updateAndGrap(String title, String url, String docId, String channel, String type, String tips) {
+	public void updateAndGrab(String title, String url, String docId, String channel, String type, String tips) {
 		// 修改标题
 		LeftMenu menu = new LeftMenu();
 		menu.setValue(url);
