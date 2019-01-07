@@ -9,7 +9,7 @@ public class TestController {
 	public static void main(String[] args) {
 		System.out.println(DateTime.now().getDayOfWeek());
 		System.out.println(Period.weeks(1).toString());
-		
+
 //		String[] s=new String[1];
 //		s[0]="ftl/*";
 //		TestController.simpleMatch(s, "ftl/abc");

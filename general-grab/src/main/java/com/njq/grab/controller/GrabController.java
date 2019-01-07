@@ -29,6 +29,12 @@ public class GrabController {
 	@Resource
 	private BaseTitleService baseTitleService;
 
+
+	@RequestMapping("loadMenu")
+	public void loadMenu(Model model) {
+		grabService.loadMenuJobTask();
+	}
+
 	@RequestMapping("config")
 	public String grabPage(Model model) {
 		model.addAttribute("channelList", ChannelType.getChannelValueList());

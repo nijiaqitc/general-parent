@@ -19,7 +19,8 @@ public class GrabUrlInfoService {
 	private DaoCommon<GrabUrlInfo> grabUrlInfoDao;
 	
 	public List<GrabUrlInfo> getInfoList(){
-		return grabUrlInfoDao.queryColumnForList(null);
+		ConditionsCommon condition = new ConditionsCommon();
+		return grabUrlInfoDao.queryColumnForList(condition);
 	}
 	
 	public GrabUrlInfo getUrlInfoByIndexPage(String indexPage) {

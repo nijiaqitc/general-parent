@@ -39,23 +39,8 @@ public class YhWikiController {
 
     @RequestMapping("getPage")
     public String getPage(Model model) {
-//    	String context = HtmlGrabUtil.build("wiki").getContext("http://wiki.yonghuivip.com/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=2302391&treeId=0&startDepth=0&mobile=false&ancestors=2302391&treePageId=2302391");
 		login();
-    	String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=5573682");
-//    	String context = "";
-//    	context = "<img src=\"http://img.zcool.cn/community/0125fd5770dfa50000018c1b486f15.jpg@1280w_1l_2o_100sh.jpg\" style=\"width: 232px; height: 176px; cursor: pointer;float: right;\" title=\"点击查看源网页\">";
-    	;
-    	System.out.println(this.getClass().getResource("/").getPath());
-    	
-    	String jsFileName = "./static/jsTool/customClearStyle/customClearStyle.js";
-		try {
-			FileReader reader = new FileReader(jsFileName);
-			System.out.println(reader);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+    	String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300252");
     	model.addAttribute("doc",HtmlDecodeUtil.decodeHtml(context));
     	model.addAttribute("doc",context);
     	return "grab/view";
