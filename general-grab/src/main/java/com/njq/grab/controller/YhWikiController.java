@@ -41,7 +41,9 @@ public class YhWikiController {
     public String getPage(Model model) {
 		login();
     	String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300252");
-    	model.addAttribute("doc",HtmlDecodeUtil.decodeHtml(context));
+    	String js="D:\\worksts\\ppcong\\customClearStyle.js";
+    	String fun = "decodeStr";
+    	model.addAttribute("doc",HtmlDecodeUtil.decodeHtml(context,js,fun));
     	model.addAttribute("doc",context);
     	return "grab/view";
     }

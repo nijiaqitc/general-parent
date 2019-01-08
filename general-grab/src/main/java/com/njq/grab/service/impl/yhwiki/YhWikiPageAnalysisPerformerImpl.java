@@ -5,7 +5,6 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.GrabSaveTitlePerformerImpl;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -25,6 +24,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -49,6 +49,11 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Resource
     private GrabUrlInfoService grabUrlInfoService;
     private static GrabUrlInfo urlInfo;
+    @Value("${image.url}")
+    private static String imgUrl;
+    @Value("${image.place}")
+    private static String imagePlace;
+    private String grabUrl = "http://wiki.yonghuivip.com";
 
     @Override
     public void loadPageJobTask() {
@@ -95,7 +100,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             LeftMenu menu = new LeftMenu();
             if (n.id().startsWith("plusminus")) {
                 menu.setType(0);
-                String uu = "http://wiki.yonghuivip.com/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=" + n.id().replace("plusminus", "").split("\\-")[0] + "&treeId=0&startDepth=0&mobile=false&treePageId=2300252&_=1537839754796";
+                String uu = grabUrl + "/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=" + n.id().replace("plusminus", "").split("\\-")[0] + "&treeId=0&startDepth=0&mobile=false&treePageId=2300252&_=1537839754796";
                 menu.setMenuList(load(uu));
             } else {
                 menu.setType(1);
@@ -164,16 +169,16 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Element enode = HtmlGrabUtil
                 .build("wiki")
                 .getDoc(url).getElementById("main-content");
-		enode.getElementsByTag("a").forEach(n->{
-			if(!n.attr("href").startsWith("http")) {
-				n.attr("href","http://wiki.yonghuivip.com"+n.attr("href"));
-			}
-		});
-		enode.getElementsByTag("img").forEach(n->{
-			if(!n.attr("src").startsWith("http")) {
-				n.attr("src",UrlChangeUtil.changeSrcUrl("",n.attr("src"),"wiki"));
-			}
-		});
+        enode.getElementsByTag("a").forEach(n -> {
+            if (!n.attr("href").startsWith("http")) {
+                n.attr("href", grabUrl + n.attr("href").split("\\?")[0]);
+            }
+        });
+        enode.getElementsByTag("img").forEach(n -> {
+            if (!n.attr("src").startsWith("http")) {
+                n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl("", n.attr("src"), ChannelType.YH_WIKI.getValue(), imagePlace));
+            }
+        });
         return enode.html();
     }
 
@@ -190,7 +195,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         try {
             menuList.forEach(n -> {
-                if(n.getDocId() == null){
+                if (n.getDocId() == null) {
                     System.out.println("");
                 }
                 BaseTitle title = baseTitleService.saveTitle(new SaveTitleRequestBuilder().ofParentId(parentId)
