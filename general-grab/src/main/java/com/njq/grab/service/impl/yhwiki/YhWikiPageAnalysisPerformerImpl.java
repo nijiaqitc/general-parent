@@ -50,9 +50,9 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private GrabUrlInfoService grabUrlInfoService;
     private static GrabUrlInfo urlInfo;
     @Value("${image.url}")
-    private static String imgUrl;
+    private String imgUrl;
     @Value("${image.place}")
-    private static String imagePlace;
+    private String imagePlace;
     private String grabUrl = "http://wiki.yonghuivip.com";
 
     @Override
@@ -176,7 +176,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         });
         enode.getElementsByTag("img").forEach(n -> {
             if (!n.attr("src").startsWith("http")) {
-                n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl(imgUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), imagePlace));
+                n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), imagePlace));
             }
         });
         return enode.html();
