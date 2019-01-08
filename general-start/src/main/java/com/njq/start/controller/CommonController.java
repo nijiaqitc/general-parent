@@ -1,4 +1,4 @@
-package com.njq.admin.controller;
+package com.njq.start.controller;
 
 /**
  * 公共类，如果url不属于任何板块，就放此处
