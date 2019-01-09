@@ -44,6 +44,7 @@ public class BaseTitleService {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addEqParam("channel", channel);
         condition.addEqParam("loaded", "0");
+        condition.addPageParam(1, 500);
         List<BaseTitleLoading> loadingList = baseTitleLoadingDao.queryColumnForList(condition);
         return loadingList;
     }

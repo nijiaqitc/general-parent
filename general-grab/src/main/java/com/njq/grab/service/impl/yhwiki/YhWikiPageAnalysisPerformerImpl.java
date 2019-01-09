@@ -1,8 +1,8 @@
 package com.njq.grab.service.impl.yhwiki;
 
 import com.alibaba.fastjson.JSON;
+import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.basis.service.impl.GrabSaveTitlePerformerImpl;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
@@ -12,6 +12,7 @@ import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.GrabUrlYhInfo;
 import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.grab.UrlChangeUtil;
@@ -43,7 +44,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Resource
     private DaoCommon<GrabDoc> grabDocDao;
     @Resource
-    private GrabSaveTitlePerformerImpl grabSaveTitlePerformer;
+    private SaveTitlePerformer grabSaveTitlePerformer;
     @Resource
     private LoginCacheManager loginCacheManager;
     @Resource
@@ -54,19 +55,21 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Value("${image.place}")
     private String imagePlace;
     private String grabUrl = "http://wiki.yonghuivip.com";
+    @Value("${decode.js.place}")
+    private String decodeJsPlace;
 
     @Override
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
         list.forEach(n -> {
-            this.saveDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()).getTitle());
+            this.saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
         });
     }
 
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        this.saveDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()).getTitle());
+        this.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
     }
 
     @Override
@@ -140,9 +143,17 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public Long saveDoc(String url, String title) {
-        loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        String doc = this.analysisPage(url);
+    public Long saveLoadingDoc(String url, BaseTitle baseTitle) {
+        String doc = this.loginAndAnalysisPage(url.startsWith("http") ? url : grabUrl + url);
+        Long docId = this.saveDoc(doc, baseTitle.getTitle());
+        baseTitleService.updateLoadSuccess(ChannelType.YH_WIKI,
+                String.valueOf(docId),
+                baseTitle.getId());
+        return docId;
+    }
+
+    @Override
+    public Long saveDoc(String doc, String title) {
         GrabDoc grabDoc = new GrabDoc();
         grabDoc.setChannel(ChannelType.YH_WIKI.getValue());
         grabDoc.setCreateDate(new Date());
@@ -154,21 +165,30 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long updateDoc(String url, String title, Long id) {
-        loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        String doc = this.analysisPage(url);
         GrabDoc grabDoc = new GrabDoc();
         grabDoc.setId(id);
-        grabDoc.setDoc(doc);
+        grabDoc.setDoc(this.loginAndAnalysisPage(url));
         grabDoc.setTitle(title);
         grabDocDao.updateByPrimaryKeySelective(grabDoc);
         return id;
     }
 
     @Override
+    public String loginAndAnalysisPage(String url) {
+        loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
+        return this.analysisPage(url);
+    }
+
+    @Override
     public String analysisPage(String url) {
-        Element enode = HtmlGrabUtil
-                .build("wiki")
-                .getDoc(url).getElementById("main-content");
+        Document doc = HtmlGrabUtil
+                .build(ChannelType.YH_WIKI.getValue())
+                .getDoc(url);
+        if ("Log In - Confluence".equals(doc.getElementsByTag("title").html())) {
+            loginCacheManager.reLogin(ChannelType.YH_WIKI);
+            doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
+        }
+        Element enode = doc.getElementById("main-content");
         enode.getElementsByTag("a").forEach(n -> {
             if (!n.attr("href").startsWith("http")) {
                 n.attr("href", grabUrl + n.attr("href").split("\\?")[0]);
@@ -179,7 +199,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), imagePlace));
             }
         });
-        return enode.html();
+        return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
     }
 
     /**

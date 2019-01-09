@@ -1,5 +1,6 @@
 package com.njq.grab.service.impl.cnblogs;
 
+import com.njq.common.model.po.BaseTitle;
 import org.springframework.stereotype.Component;
 
 import com.njq.common.util.grab.HtmlGrabUtil;
@@ -33,6 +34,11 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 	}
 
 	@Override
+	public Long saveLoadingDoc(String url, BaseTitle baseTitle) {
+		return null;
+	}
+
+	@Override
 	public Long saveDoc(String url, String title) {
 		// TODO Auto-generated method stub
 		return null;
@@ -53,7 +59,10 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 		return null;
 	}
 
-	
+	@Override
+	public String loginAndAnalysisPage(String url) {
+		return null;
+	}
 
-	
+
 }
