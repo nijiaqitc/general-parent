@@ -1,0 +1,57 @@
+table{
+    border-collapse: collapse;
+}
+th{
+    user-select: none;
+    min-width: 0px;
+    max-width: none;
+    background: #f0f0f0 center right no-repeat;
+    padding-right: 15px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+td{
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+pre{
+    position: relative !important;
+    overflow-y: hidden !important;
+    overflow-x: auto !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    font-family: Source Code Pro,DejaVu Sans Mono,Ubuntu Mono,Anonymous Pro,Droid Sans Mono,Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,PingFang SC,Microsoft YaHei,sans-serif !important;
+    margin: 0 0 24px !important;
+    padding: 8px 16px 6px 56px !important;
+    background-color: #282C33 !important;
+    border: none !important;
+    white-space: pre !important;
+}
+.prettyprint ul{
+    position: absolute;
+    width: 36px;
+    background-color: #282C33;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+    text-align: right;
+}
+.prettyprint ul li{
+    color: #abb2bf!important;
+    border-right: 1px solid #c5c5c5;
+    padding: 0 8px;
+    list-style: none;
+    margin: 0;
+}
+.pre-numbering li span{
+    color: #fff !important;
+}
