@@ -18,11 +18,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.njq.basis</groupId>
-            <artifactId>general-basis</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>com.njq.xs</groupId>
             <artifactId>general-xs</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -41,6 +36,11 @@
             <groupId>com.njq.zxgj</groupId>
             <artifactId>general-zxgj</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+        	<groupId>com.njq.grab</groupId>
+			<artifactId>general-grab</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

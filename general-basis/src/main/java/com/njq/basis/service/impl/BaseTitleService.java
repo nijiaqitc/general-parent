@@ -72,7 +72,21 @@ public class BaseTitleService {
         }
         return tt;
     }
+    
+    /**
+     * 获取标题列表
+     * @param channel
+     * @param docId
+     * @return
+     */
+    public List<BaseTitle> getTitleList(ChannelType channel,Long docId){
+    	return saveMap.get(channel).getTitleList(docId,channel.getValue());
+    }
 
+    public int childrenCount(Long docId,ChannelType channel) {
+    	return saveMap.get(channel).getChildrenCount(docId,channel.getValue());
+    }
+    
     public BaseTitle updateTitle(SaveTitleRequest request) {
         return saveMap.get(request.getChannel()).updateTitle(request);
     }

@@ -2,6 +2,7 @@ package com.njq.basis.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -86,7 +87,28 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
 		return title;
 	}
 
+	@Override
+	public List<BaseTitle> getTitleList(Long docId,String channel) {
+		ConditionsCommon condition = new ConditionsCommon();
+		condition.addEqParam("channel", channel);
+		if(docId != null) {
+			condition.addEqParam("parantId", docId);			
+		}else {
+			condition.addIsNullParam("parantId");
+		}
+		List<BaseTitleGrab> titleList = baseTitleGrabDao.queryTByParam(condition);
+		return titleList.stream().map(n->{
+			BaseTitle returnTitle = new BaseTitle();
+			BeanUtils.copyProperties(n, returnTitle);
+			return returnTitle;
+		}).collect(Collectors.toList());
+	}
 	
-	
+	@Override
+	public int getChildrenCount(Long docId,String channel) {
+		ConditionsCommon condition = new ConditionsCommon();
+		condition.addEqParam("parantId", docId);
+		return baseTitleGrabDao.queryForCount(condition);
+	}
 	
 }

@@ -94,8 +94,7 @@ public class GrabController {
 
     @RequestMapping(value = "/knowledge/{docId}", method = RequestMethod.GET)
     public String docView(Model model, @PathVariable(value = "docId") Long docId) {
-        GrabDoc doc = grabDocDao.queryTById(docId);
-        model.addAttribute("doc", doc);
+        model.addAttribute("doc", grabService.queryById(docId));
         return "grab/knowledgeDoc";
     }
 }

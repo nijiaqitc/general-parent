@@ -70,8 +70,16 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
 
 	@Override
 	public BaseTitle updateTitle(SaveTitleRequest request) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public List<BaseTitle> getTitleList(Long docId,String channel) {
+		return null;
+	}
+	
+	@Override
+	public int getChildrenCount(Long docId,String channel) {
+		return 0;
+	}
 }

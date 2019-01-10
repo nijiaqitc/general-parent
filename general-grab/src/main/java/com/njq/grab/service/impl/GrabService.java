@@ -5,10 +5,12 @@ import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
@@ -36,7 +38,9 @@ public class GrabService {
     private SaveTitlePerformer grabSaveTitlePerformer;
     @Resource
     private ThreadPoolTaskExecutor loadPageTaskExecutor;
-
+    @Resource
+    private DaoCommon<GrabDoc> grabDocDao;
+    
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
         list.parallelStream().forEach(n -> {
@@ -101,5 +105,20 @@ public class GrabService {
                 .ofChannel(tt).build());
         // 修改文章
         performerService.getAnalysisPerformer(tt).updateDoc(url, title, Long.valueOf(docId));
+    }
+    
+    
+    public GrabDoc queryById(Long docId) {
+    	return grabDocDao.queryTById(docId);
+    }
+    
+    
+    public List<BaseTitle> queryTitleList(Long docId,ChannelType channel){
+    	return baseTitleService.getTitleList(channel, docId);
+    }
+    
+    
+    public int queryTitleChildrenCount(Long docId,ChannelType channel) {
+    	return baseTitleService.childrenCount(docId,channel);
     }
 }

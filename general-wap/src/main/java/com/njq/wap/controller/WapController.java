@@ -3,6 +3,20 @@
  */
 package com.njq.wap.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.basis.service.impl.BaseUserService;
 import com.njq.common.model.po.TbkDoc;
@@ -15,6 +29,7 @@ import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
 import com.njq.common.util.other.PropertyUtil;
 import com.njq.common.util.string.StringUtil;
+import com.njq.grab.service.impl.GrabService;
 import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkPicService;
 import com.njq.tbk.service.TbkTipService;
@@ -23,18 +38,6 @@ import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 import com.njq.yxl.service.YxlNoteService;
 import com.njq.zxgj.service.ToolNameService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @RequestMapping("wap")
@@ -61,7 +64,7 @@ public class WapController {
     private YxlDocService yxlDocService;
     @Resource
     private YxlNoteService yxlNoteService;
-
+    
     /**
      * 跳转到首页
      *
@@ -128,6 +131,7 @@ public class WapController {
         return "wap/yxlnote";
     }
 
+    
 
     /**
      * 跳转到动态
@@ -167,6 +171,10 @@ public class WapController {
         return map;
     }
 
+    @RequestMapping(value = "/toGrab", method = RequestMethod.GET)
+    public String toGrab() {
+        return "wap/grab";
+    }
 
     /**
      * 我的

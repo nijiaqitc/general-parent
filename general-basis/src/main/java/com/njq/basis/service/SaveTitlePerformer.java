@@ -1,5 +1,7 @@
 package com.njq.basis.service;
 
+import java.util.List;
+
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 
@@ -32,4 +34,19 @@ public interface SaveTitlePerformer {
 	 * @return
 	 */
 	public BaseTitle getTitleById(Long id);
+	
+	/**
+	 * 获取标题列表
+	 * @param docId
+	 * @return
+	 */
+	public List<BaseTitle> getTitleList(Long docId,String channel);
+	
+	/**
+	 * 获取子菜单数量
+	 * @param docId
+	 * @param channel
+	 * @return
+	 */
+	public int getChildrenCount(Long docId,String channel);
 }
