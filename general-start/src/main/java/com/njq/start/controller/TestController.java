@@ -6,6 +6,9 @@ import org.joda.time.Period;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
@@ -21,30 +24,40 @@ public class TestController {
 //		String[] s=new String[1];
 //		s[0]="ftl/*";
 //		TestController.simpleMatch(s, "ftl/abc");
-		TestController tt = new TestController();
-		createRunnable run =  tt.new createRunnable();
-
-		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-		threadPoolTaskExecutor.setCorePoolSize(15);
-		threadPoolTaskExecutor.setKeepAliveSeconds(200);
-		threadPoolTaskExecutor.setMaxPoolSize(180);
-		threadPoolTaskExecutor.setQueueCapacity(100);
-		threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-		threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
-		threadPoolTaskExecutor.initialize();
-		System.out.println(threadPoolTaskExecutor.getActiveCount());
-		for(int i = 0 ;i<5 ; i++){
-			threadPoolTaskExecutor.submit(run.getRunnable());
-			System.out.println(threadPoolTaskExecutor.getActiveCount());
-
-		}
+//		TestController tt = new TestController();
+//		createRunnable run =  tt.new createRunnable();
+//
+//		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+//		threadPoolTaskExecutor.setCorePoolSize(15);
+//		threadPoolTaskExecutor.setKeepAliveSeconds(200);
+//		threadPoolTaskExecutor.setMaxPoolSize(180);
+//		threadPoolTaskExecutor.setQueueCapacity(100);
+//		threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+//		threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+//		threadPoolTaskExecutor.initialize();
+//		System.out.println(threadPoolTaskExecutor.getActiveCount());
+//		for(int i = 0 ;i<5 ; i++){
+//			threadPoolTaskExecutor.submit(run.getRunnable());
+//			System.out.println(threadPoolTaskExecutor.getActiveCount());
+//
+//		}
 //		threadPoolTaskExecutor.submit(run.getLeaderRunnable());
 //		System.out.println(threadPoolTaskExecutor.getActiveCount());
 
-		threadPoolTaskExecutor.shutdown();
+//		threadPoolTaskExecutor.shutdown();
 
-
-
+		Date timeCur = new Date();
+		SimpleDateFormat fmtYY = new SimpleDateFormat("yyyy");
+		SimpleDateFormat fmtMM = new SimpleDateFormat("MM");
+		SimpleDateFormat fmtDD = new SimpleDateFormat("dd");
+		String strYY = fmtYY.format(timeCur);
+		String strMM = fmtMM.format(timeCur);
+		String strDD = fmtDD.format(timeCur);
+		String url = "/" + "bbbb" + "/" + strYY + strMM + strDD;
+		File dir = new File("D:/worksts/ppcong/target/classes/webapp/static/uploadImage" + url);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 
 
 	}
