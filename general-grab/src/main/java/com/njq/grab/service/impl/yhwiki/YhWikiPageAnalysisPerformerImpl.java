@@ -5,6 +5,8 @@ import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -53,7 +55,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Resource
     private GrabMenuCacheManager grabMenuCacheManager;
     private static GrabUrlInfo urlInfo;
-    private static String grabUrl = "http://wiki.yonghuivip.com";
+    private static String grabUrl;
     @Value("${image.url}")
     private String imgUrl;
     @Value("${image.place}")
@@ -107,6 +109,9 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName());
         if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
+            if(doc == null){
+                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE,ErrorCodeConstant.UN_LOAD_DOC_MSG);
+            }
             Elements e = doc.getElementsByTag("a");
             List<LeftMenu> list = new ArrayList<>();
             e.forEach(n -> {
@@ -197,6 +202,9 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);
+        if(doc == null){
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE,ErrorCodeConstant.UN_LOAD_DOC_MSG);
+        }
         if ("Log In - Confluence".equals(doc.getElementsByTag("title").html())) {
             loginCacheManager.reLogin(ChannelType.YH_WIKI);
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);

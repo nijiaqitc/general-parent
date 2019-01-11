@@ -5,8 +5,9 @@ import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
+import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -14,6 +15,8 @@ import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ import java.util.List;
 
 @Service
 public class GrabService {
+    private static final Logger logger = LoggerFactory.getLogger(GrabService.class);
     @Resource
     private BaseTitleService baseTitleService;
     @Resource
@@ -40,7 +44,7 @@ public class GrabService {
     private ThreadPoolTaskExecutor loadPageTaskExecutor;
     @Resource
     private DaoCommon<GrabDoc> grabDocDao;
-    
+
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
         list.parallelStream().forEach(n -> {
@@ -55,8 +59,12 @@ public class GrabService {
     public void loadMenuJobTask() {
         List<GrabUrlInfo> list = grabUrlInfoService.getInfoList();
         list.forEach(n -> {
-            performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-                    .loadMenu(n.getMenuUrl(), baseTypeService.checkAndSave(n.getTypeName()));
+            try {
+                performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
+                        .loadMenu(n.getMenuUrl(), baseTypeService.checkAndSave(n.getTypeName()));
+            } catch (BaseKnownException e) {
+                logger.info("加载菜单出错", e);
+            }
         });
     }
 
@@ -106,19 +114,19 @@ public class GrabService {
         // 修改文章
         performerService.getAnalysisPerformer(tt).updateDoc(url, title, Long.valueOf(docId));
     }
-    
-    
+
+
     public GrabDoc queryById(Long docId) {
-    	return grabDocDao.queryTById(docId);
+        return grabDocDao.queryTById(docId);
     }
-    
-    
-    public List<BaseTitle> queryTitleList(Long docId,ChannelType channel){
-    	return baseTitleService.getTitleList(channel, docId);
+
+
+    public List<BaseTitle> queryTitleList(Long docId, ChannelType channel) {
+        return baseTitleService.getTitleList(channel, docId);
     }
-    
-    
-    public int queryTitleChildrenCount(Long docId,ChannelType channel) {
-    	return baseTitleService.childrenCount(docId,channel);
+
+
+    public int queryTitleChildrenCount(Long docId, ChannelType channel) {
+        return baseTitleService.childrenCount(docId, channel);
     }
 }
