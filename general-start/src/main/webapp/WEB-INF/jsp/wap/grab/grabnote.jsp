@@ -20,7 +20,7 @@
 			<div>
 				<div class="docView1">${docViewText.title} </div>
 			</div>
-			<div align="center" id="assss" class="docView4">
+			<div align="center" id="assss" class="docView4" style="padding-bottom: 40px;">
 				${docViewText.doc}
 			</div>
 		</div>

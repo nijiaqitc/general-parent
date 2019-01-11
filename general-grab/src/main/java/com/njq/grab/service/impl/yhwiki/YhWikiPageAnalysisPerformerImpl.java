@@ -109,8 +109,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName());
         if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
-            if(doc == null){
-                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE,ErrorCodeConstant.UN_LOAD_DOC_MSG);
+            if (doc == null) {
+                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
             }
             Elements e = doc.getElementsByTag("a");
             List<LeftMenu> list = new ArrayList<>();
@@ -202,8 +202,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);
-        if(doc == null){
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE,ErrorCodeConstant.UN_LOAD_DOC_MSG);
+        if (doc == null) {
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
         }
         if ("Log In - Confluence".equals(doc.getElementsByTag("title").html())) {
             loginCacheManager.reLogin(ChannelType.YH_WIKI);
@@ -211,8 +211,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         Element enode = doc.getElementById("main-content");
         enode.getElementsByTag("a").forEach(n -> {
-            if (!n.attr("href").startsWith("http")) {
-                n.attr("href", grabUrl + n.attr("href").split("\\?")[0]);
+            if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
+                n.attr("href", "javascript:void(0)");
             }
         });
         enode.getElementsByTag("img").forEach(n -> {

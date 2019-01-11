@@ -1,3 +1,12 @@
+h1{
+    margin: 14px 0px;
+}
+h2{
+    margin: 10px 0px;
+}
+h3{
+    margin: 6px 0px;
+}
 table{
     border-collapse: collapse;
 }
