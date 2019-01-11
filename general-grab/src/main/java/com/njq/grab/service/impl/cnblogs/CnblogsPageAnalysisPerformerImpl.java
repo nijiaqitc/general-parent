@@ -10,12 +10,6 @@ import com.njq.grab.service.PageAnalysisPerformer;
 public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 
 	@Override
-	public void loadPageJobTask() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void loadPage(Long docId) {
 		// TODO Auto-generated method stub
 		

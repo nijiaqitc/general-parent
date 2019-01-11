@@ -53,21 +53,13 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Resource
     private GrabMenuCacheManager grabMenuCacheManager;
     private static GrabUrlInfo urlInfo;
+    private static String grabUrl = "http://wiki.yonghuivip.com";
     @Value("${image.url}")
     private String imgUrl;
     @Value("${image.place}")
     private String imagePlace;
-    private String grabUrl = "http://wiki.yonghuivip.com";
     @Value("${decode.js.place}")
     private String decodeJsPlace;
-
-    @Override
-    public void loadPageJobTask() {
-        List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
-        list.forEach(n -> {
-            this.saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
-        });
-    }
 
     @Override
     public void loadPage(Long docId) {
@@ -77,7 +69,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public void login() {
-        urlInfo = grabUrlInfoService.getUrlInfoByChannel(ChannelType.YH_WIKI.getValue());
+        this.loadUrlInfo();
         Map<String, String> param = new HashMap<>();
         param.put("os_username", urlInfo.getUserName());
         param.put("os_password", urlInfo.getPwd());
@@ -93,14 +85,27 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     /**
+     * 加载下载信息
+     *
+     * @return
+     */
+    private GrabUrlInfo loadUrlInfo() {
+        if (urlInfo == null) {
+            urlInfo = grabUrlInfoService.getUrlInfoByChannel(ChannelType.YH_WIKI.getValue());
+            grabUrl = urlInfo.getPageIndex();
+        }
+        return urlInfo;
+    }
+
+    /**
      * 加载菜单，由于要递归所以单独抽一个方法
      *
      * @param url
      * @return
      */
     private List<LeftMenu> load(String url) {
-        List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue());
-        if(menuList == null){
+        List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName());
+        if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
             Elements e = doc.getElementsByTag("a");
             List<LeftMenu> list = new ArrayList<>();
@@ -119,9 +124,9 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 list.add(menu);
                 logger.info(n.html() + "--" + n.attr("href"));
             });
-            grabMenuCacheManager.update(ChannelType.YH_WIKI.getValue(), list);
+            grabMenuCacheManager.update(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName(), list);
             return list;
-        }else{
+        } else {
             return menuList;
         }
     }

@@ -4,11 +4,6 @@ import com.njq.common.model.po.BaseTitle;
 
 public interface PageAnalysisPerformer {
     /**
-     * 定时加载页面
-     */
-    public void loadPageJobTask();
-
-    /**
      * 重新加载文章
      *
      * @param docId

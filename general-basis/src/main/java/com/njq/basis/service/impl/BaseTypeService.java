@@ -19,7 +19,7 @@ public class BaseTypeService {
 	private DaoCommon<BaseTypeNum> baseTypeNumDao;
 	/**
 	 * 校验和保存
-	 * @param TypeName
+	 * @param typeName
 	 * @return
 	 */
 	public Long checkAndSave(String typeName) {
@@ -40,7 +40,6 @@ public class BaseTypeService {
 	
 	/**
 	 * 添加次数
-	 * @param typeName
 	 * @param channel
 	 * @param typeId
 	 */

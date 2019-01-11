@@ -48,7 +48,10 @@ public class GrabUrlInfo implements Serializable {
 
 	@Column(name="user_name")
 	private String userName;
-	
+
+	@Column(name="load_btn")
+	private Boolean loadBtn;
+
 	@Column(name="type_name")
 	private String typeName;
 	public GrabUrlInfo() {
@@ -150,5 +153,11 @@ public class GrabUrlInfo implements Serializable {
 		this.typeName = typeName;
 	}
 
-	
+	public Boolean getLoadBtn() {
+		return loadBtn;
+	}
+
+	public void setLoadBtn(Boolean loadBtn) {
+		this.loadBtn = loadBtn;
+	}
 }

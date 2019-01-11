@@ -20,6 +20,7 @@ public class GrabUrlInfoService {
 	
 	public List<GrabUrlInfo> getInfoList(){
 		ConditionsCommon condition = new ConditionsCommon();
+		condition.addEqParam("loadBtn", true);
 		return grabUrlInfoDao.queryColumnForList(condition);
 	}
 	
