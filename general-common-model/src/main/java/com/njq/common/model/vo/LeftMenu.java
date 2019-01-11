@@ -1,8 +1,10 @@
 package com.njq.common.model.vo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LeftMenu {
+public class LeftMenu implements Serializable {
+	private static final long serialVersionUID = -4155055804535351935L;
 	private int type;
 	private String name;
 	private String value;

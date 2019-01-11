@@ -17,6 +17,7 @@ import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.UrlUtil;
+import com.njq.grab.cache.GrabMenuCacheManager;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoService;
@@ -49,6 +50,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private LoginCacheManager loginCacheManager;
     @Resource
     private GrabUrlInfoService grabUrlInfoService;
+    @Resource
+    private GrabMenuCacheManager grabMenuCacheManager;
     private static GrabUrlInfo urlInfo;
     @Value("${image.url}")
     private String imgUrl;
@@ -96,26 +99,31 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
      * @return
      */
     private List<LeftMenu> load(String url) {
-        Document doc = HtmlGrabUtil.build(urlInfo.getShortName()).getDoc(url);
-        Elements e = doc.getElementsByTag("a");
-        List<LeftMenu> list = new ArrayList<>();
-        e.forEach(n -> {
-            LeftMenu menu = new LeftMenu();
-            if (n.id().startsWith("plusminus")) {
-                menu.setType(0);
-                String uu = grabUrl + "/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=" + n.id().replace("plusminus", "").split("\\-")[0] + "&treeId=0&startDepth=0&mobile=false&treePageId=2300252&_=1537839754796";
-                menu.setMenuList(load(uu));
-            } else {
-                menu.setType(1);
-                menu.setName(n.html());
-                menu.setValue(n.attr("href"));
-                menu.setDocId(UrlUtil.URLRequest(n.attr("href")).get("pageId"));
-            }
-            list.add(menu);
-            logger.info(n.html() + "--" + n.attr("href"));
-        });
-
-        return list;
+        List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue());
+        if(menuList == null){
+            Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
+            Elements e = doc.getElementsByTag("a");
+            List<LeftMenu> list = new ArrayList<>();
+            e.forEach(n -> {
+                LeftMenu menu = new LeftMenu();
+                if (n.id().startsWith("plusminus")) {
+                    menu.setType(0);
+                    String uu = grabUrl + "/plugins/pagetree/naturalchildren.action?decorator=none&excerpt=false&sort=position&reverse=false&disableLinks=false&expandCurrent=true&hasRoot=true&pageId=" + n.id().replace("plusminus", "").split("\\-")[0] + "&treeId=0&startDepth=0&mobile=false&treePageId=2300252&_=1537839754796";
+                    menu.setMenuList(load(uu));
+                } else {
+                    menu.setType(1);
+                    menu.setName(n.html());
+                    menu.setValue(n.attr("href"));
+                    menu.setDocId(UrlUtil.URLRequest(n.attr("href")).get("pageId"));
+                }
+                list.add(menu);
+                logger.info(n.html() + "--" + n.attr("href"));
+            });
+            grabMenuCacheManager.update(ChannelType.YH_WIKI.getValue(), list);
+            return list;
+        }else{
+            return menuList;
+        }
     }
 
     /**
