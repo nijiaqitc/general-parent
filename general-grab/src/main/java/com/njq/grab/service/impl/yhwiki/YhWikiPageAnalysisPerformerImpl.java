@@ -218,7 +218,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
                 if (n.attr("href").startsWith("/download")) {
-                    n.attr("href", docUrl + UrlChangeUtil.changeFileUrl(grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), docPlace));
+                    n.attr("href", UrlChangeUtil.changeFileUrl(grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), docPlace));
                 } else {
                     n.attr("href", "javascript:void(0)");
                 }
