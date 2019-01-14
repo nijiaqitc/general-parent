@@ -7,8 +7,8 @@ import com.njq.common.util.other.PropertyUtil;
 import com.njq.yxl.cache.BannerCacheReader;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
-import com.njq.yxl.service.YxlNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,8 @@ public class GjHomeController {
     private YxlDocService yxlDocService;
     @Autowired
     private BannerCacheReader bannerCacheReader;
-
+    @Value("${file.place}")
+    private String docPlace;
 
     /**
      * 跳转到首页
@@ -192,8 +193,20 @@ public class GjHomeController {
     @SuppressWarnings("resource")
     @RequestMapping(value = "downLoadEditor", method = RequestMethod.GET)
     public ResponseEntity<byte[]> downLoadEditor(HttpServletRequest request) {
+        return downLoad(PropertyUtil.get("downLoadFile"));
+    }
+
+
+    @SuppressWarnings("resource")
+    @RequestMapping(value = "downLoadFile", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> downLoadFile(HttpServletRequest request, String url) {
+        return downLoad(docPlace + url);
+    }
+
+
+    private ResponseEntity<byte[]> downLoad(String url) {
         try {
-            File file = new File(PropertyUtil.get("downLoadFile"));
+            File file = new File(url);
             byte[] body = null;
             InputStream is = new FileInputStream(file);
             body = new byte[is.available()];
@@ -208,4 +221,5 @@ public class GjHomeController {
         }
         return null;
     }
+
 }
