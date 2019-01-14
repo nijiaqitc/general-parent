@@ -34,11 +34,11 @@ public interface PageAnalysisPerformer {
     /**
      * 保存文章
      *
-     * @param url
+     * @param doc
      * @param title
      * @return
      */
-    public Long saveDoc(String url, String title);
+    public Long saveDoc(String doc, String title);
 
     /**
      * 修改文章

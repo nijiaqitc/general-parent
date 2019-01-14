@@ -60,6 +60,10 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private String imgUrl;
     @Value("${image.place}")
     private String imagePlace;
+    @Value("${file.url}")
+    private String docUrl;
+    @Value("${file.place}")
+    private String docPlace;
     @Value("${decode.js.place}")
     private String decodeJsPlace;
 
@@ -199,6 +203,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public String analysisPage(String url) {
+        loadUrlInfo();
         Document doc = HtmlGrabUtil
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);
@@ -212,7 +217,11 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Element enode = doc.getElementById("main-content");
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
-                n.attr("href", "javascript:void(0)");
+                if (n.attr("href").startsWith("/download")) {
+                    n.attr("href", docUrl + UrlChangeUtil.changeFileUrl(grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), docPlace));
+                } else {
+                    n.attr("href", "javascript:void(0)");
+                }
             }
         });
         enode.getElementsByTag("img").forEach(n -> {
