@@ -17,13 +17,31 @@
 	<!-- 	顶部div结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/loading.jsp"></jsp:include>
 	<!-- 	内容区域开始 -->
-	<div class="textContext adocDiv10" style="text-align: center;">
-		<SELECT id="seleContr" onchange = "seleVal(this)"></SELECT>
-		<div id="subArea"></div>
-		
+	<div class="textContext adocDiv10" >
+		<c:forEach items="${grabList }" var="gb" varStatus="index1" >
+			<div style="cursor: pointer;margin-top: 10px;" onclick="showNext(this)">${gb.type } ※</div>
+			<div class="menu-box" style="height: auto;line-height: 30px;padding-left: 10px;display: none;">
+				<c:forEach items="${gb.grabTitleVOList }" var="grab" varStatus="index2" >
+					<div class="adocDiv2" style="clear: both;overflow: auto;">
+						<div style="float: left;">
+						<c:if test="${grab.childrenCount>0 }">
+							<a href="javascript:void(0)" onclick="loadChild('${grab.id}','${grab.channel}',this)">
+								↓ (${grab.childrenCount })
+							</a>
+						</c:if>
+						<c:if test="${grab.childrenCount==0 }">
+							.
+						</c:if>
+						</div>
+						<a href="${path}/wap/grab/${grab.id }">
+							<div class="adocDiv6">${grab.title }</div>
+						</a>
+					</div>
+				</c:forEach>
+			</div>
+		</c:forEach>
 	</div>
 	<!-- 	内容区域结束 -->
-	
 	<!-- 	底部通用部分开始 -->
 	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
@@ -31,85 +49,56 @@
 </body> 
 <script type="text/javascript">
 
-	loadMenu("","yhwiki",function(data){
-		var str = ""; 
-		$.each(data,function(a,b){
-			str +="<OPTION value='"+b.id+"'>"+b.title+"</OPTION>";
-		});
-		$("#seleContr").append(str);
-	});
-	
-	function loadMenu(docId,channel,fun,t){
+	function loadChild(docId,channel,target){
+		if($(target).attr("loaded")=="true"){
+			return;
+		}else{
+			$(target).attr("loaded",true)
+		}
 		$.ajax({
 			url:"${path}/wap/grab/noteList",
 			type:"post",
 			data:{
 				docId:docId,
-				channel:channel				
+				channel:channel	
 			},
 			success:function(data){
-				if(t!=null){
-					$(t).parents(".adocDiv1").after(fun(data));
+				var left = $(target).parents(".adocDiv2").parent()[0].style.marginLeft;
+				if(left == ""){
+					left = 10+"px";
 				}else{
-					fun(data);	
+					left=(Number(left.substring(0,left.length-2))+10)+"px";
 				}
-				console.info(data)
+				var str = "<div style='margin-left: "+left+";'>";
+				$.each(data[0].grabTitleVOList,function(a,b){
+					str += "<div  class='adocDiv2' style='overflow: auto;clear: both;'>"+
+							"<div style='float: left;'>";
+							if(b.childrenCount>0){
+								str+= "<a href='javascript:void(0)' onclick='loadChild(\""+b.id+"\",\""+b.channel+"\",this)'>"+
+									"↓ ("+b.childrenCount+")"+
+								"</a>";
+							}else{
+								str+=".";
+							}
+							str+="</div>"+
+							"<a href='${path}/wap/grab/"+b.id+"'>"+
+								"<div class='adocDiv6'>"+b.title+"</div>"+
+							"</a>"+
+						"</div>";
+				
+				});
+				str+="</div>";
+				$(target).parents(".adocDiv2").after(str);
 			}
 		})
-	
 	}
 
-	function seleVal(target){
-		loadMenu($(target).val(),"yhwiki",function(data){
-			var str = ""; 
-			$.each(data,function(a,b){
-				str += "<div class='menu-box adocDiv1' style='height: 40px;line-height: 30px;'>"+
-								"<div class='adocDiv2'>"+
-								"<div class='adocDiv6'>";
-				if(b.childrenCount>0){
-					str += "<span><a href = 'javascript:void(0)' onclick='loadsubMenu("+b.id+",this)'>↓"+b.childrenCount+"</a></span>";
-				}
-				str += "<span style='margin-left: 6px;'>"+"<a href='${path}/wap/grab/"+b.docId+"'>" ;
-				if(b.title.length>20){
-					str += b.title.substring(0,15)+"...";
-				}else{
-					str += b.title;
-				}
-					str +=  "</a></span></div>"+
-							"</div>"+
-							"</div>";
-			});
-			$("#subArea").html(str)	;	
-		});
-		console.info(target)
+	function showNext(target){
+		if($(target).next().css("display")=="block"){
+			$(target).next().hide();
+		}else{
+			$(target).next().show();
+		}
 	}
-
-	function loadsubMenu(docId,target){
-		loadMenu(docId,"yhwiki",load,target);
-		console.info(target);
-	}
-
-	function load(data){
-		var str = ""; 
-		$.each(data,function(a,b){
-			str += "<div class='menu-box adocDiv1' style='height: 40px;line-height: 30px; margin-left: 30px; width: 90%;'>"+
-							"<div class='adocDiv2'>"+
-							"<div class='adocDiv6'>";
-			if(b.childrenCount>0){
-				str += "<span><a href = 'javascript:void(0)' onclick='loadMenu("+b.id+",\"yhwiki\",load)'>↓"+b.childrenCount+"</a></span>";
-			}
-			str += "<span style='margin-left: 6px;'>"+"<a href='${path}/wap/grab/"+b.docId+"'>" ;
-			if(b.title.length>20){
-				str += b.title.substring(0,15)+"...";
-			}else{
-				str += b.title;
-			}
-				str +=  "</a></span></div>"+
-						"</div>"+
-						"</div>";
-		});
-		return str;
-	}
-
 </script> 
 </html>

@@ -18,6 +18,8 @@ public class GrabTitleVO implements Serializable{
 	
 	private int childrenCount;
 
+	private String channel;
+	
 	public Long getId() {
 		return id;
 	}
@@ -65,5 +67,14 @@ public class GrabTitleVO implements Serializable{
 	public void setChildrenCount(int childrenCount) {
 		this.childrenCount = childrenCount;
 	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	
 	
 }

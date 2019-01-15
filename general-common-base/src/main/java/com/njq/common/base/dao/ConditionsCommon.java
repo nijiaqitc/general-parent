@@ -190,6 +190,9 @@ public class ConditionsCommon {
 		setMap.put(columName, value);
 	}
 	
+	public void addsetObjectParam(String columName , Object value){
+		setMap.put(columName, value);
+	}
 	
 	public void addsetColumParam(String columName , String value){
 		setMap.put(columName+"&", value);

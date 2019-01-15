@@ -138,7 +138,7 @@ public class SqlJpaInnerDeal {
 	
 	
 	/**
-	 * 编写检索条件
+	 * 编写修改条件
 	 * @param stb
 	 * @param paramMap
 	 * @return
@@ -147,15 +147,32 @@ public class SqlJpaInnerDeal {
 	 */
 	public static String buildSet(StringBuffer stb,ConditionsCommon cc){
 		StringBuffer setStb=new StringBuffer();
+		int i = 0;
 		for(String str:cc.getSetMap().keySet()){
 			if(str.contains("&")){
-				setStb.append(", "+str.split("&")[0]+"="+cc.getSetMap().get(str)+" ");
+				setStb.append(", "+str.split("&")[0]+"="+":setValue"+(++i)+" ");
 			}else{
-				setStb.append(", "+str+"='"+cc.getSetMap().get(str)+"' ");
+				setStb.append(", "+str+"="+":setValue"+(++i)+" ");
 			}
 		}
 		return stb.append(setStb.toString().substring(1, setStb.toString().length()-1)).toString();
 	}
 	
+	/**
+	 * 绑定修改条件
+	 * @param stb
+	 * @param paramMap
+	 * @return
+	 * 2015-12-8
+	 * author njq
+	 */
+	public static void bandSet(Query query,Map<String, Object> paramMap){
+		if(paramMap!=null){
+			int i=0;
+			for(String colum : paramMap.keySet()){
+				query.setParameter("setValue"+(++i), paramMap.get(colum));
+			}
+		}
+	}
 	
 }

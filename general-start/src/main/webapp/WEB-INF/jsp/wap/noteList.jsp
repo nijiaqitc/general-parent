@@ -22,9 +22,9 @@
 		<c:forEach items="${noteList }" var="note" varStatus="index" >
 			<a href="${path}/wap/note/${note.docId }">
 				<div class="menu-box adocDiv1" style="height: 40px;line-height: 30px;">
-						<div class="adocDiv2">
-							<div class="adocDiv6">${note.title }</div>
-						</div>
+					<div class="adocDiv2">
+						<div class="adocDiv6">${note.title }</div>
+					</div>
 				</div>
 			</a>
 		</c:forEach>

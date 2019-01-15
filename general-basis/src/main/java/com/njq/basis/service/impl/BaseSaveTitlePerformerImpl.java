@@ -55,9 +55,9 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
 	}
 
 	@Override
-	public void updateTitleOnLoadSuccess(String docId, Long id) {
+	public void updateTitleOnLoadSuccess(Long docId, Long id) {
 		ConditionsCommon condition = new ConditionsCommon();
-		condition.addsetColumParam("docId", docId);
+		condition.addsetObjectParam("docId", docId);
 		condition.addEqParam("id", id);
 		baseTitleDao.update(condition);
 	}

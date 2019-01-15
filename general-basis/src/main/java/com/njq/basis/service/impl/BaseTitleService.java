@@ -99,7 +99,7 @@ public class BaseTitleService {
      * @return
      */
     public List<BaseTitle> getTitleList(ChannelType channel, Long docId) {
-        return saveMap.get(channel).getTitleList(docId, channel == null ? null : channel.getValue());
+        return saveMap.get(ChannelType.YH_WIKI).getTitleList(docId, channel == null ? null : channel.getValue());
     }
 
     public BaseTitle getTitleByDocId(Long docId, ChannelType channel) {
@@ -111,7 +111,7 @@ public class BaseTitleService {
     }
 
     public int childrenCount(Long docId, ChannelType channel) {
-        return saveMap.get(channel).getChildrenCount(docId, channel.getValue());
+        return saveMap.get(ChannelType.YH_WIKI).getChildrenCount(docId, channel.getValue());
     }
 
     public BaseTitle updateTitle(SaveTitleRequest request) {
@@ -141,7 +141,7 @@ public class BaseTitleService {
         }
     }
 
-    public void updateLoadSuccess(ChannelType channel, String docId, Long id) {
+    public void updateLoadSuccess(ChannelType channel, Long docId, Long id) {
         saveMap.get(channel).updateTitleOnLoadSuccess(docId, id);
         ConditionsCommon condition = new ConditionsCommon();
         condition.addsetColumParam("loaded", Use_Type.USED);

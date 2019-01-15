@@ -4,11 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.njq.common.model.vo.grab.GrabTypeInfo;
 import org.springframework.stereotype.Service;
 
 import com.njq.common.base.constants.ChannelType;
-import com.njq.common.model.vo.grab.GrabTitleVO;
+import com.njq.common.model.vo.grab.GrabTypeInfo;
 import com.njq.wap.cache.WapTitleCacheManager;
 
 @Service

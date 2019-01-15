@@ -1,5 +1,21 @@
 package com.njq.grab.service.impl.yhwiki;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
@@ -12,8 +28,8 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.common.model.vo.grab.GrabUrlYhInfo;
 import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.model.vo.grab.GrabUrlYhInfo;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
@@ -23,37 +39,16 @@ import com.njq.grab.cache.GrabMenuCacheManager;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoService;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component("yhWikiPageAnalysis")
 public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private static final Logger logger = LoggerFactory.getLogger(YhWikiPageAnalysisPerformerImpl.class);
-    @Resource
-    private BaseTitleService baseTitleService;
-    @Resource
-    private DaoCommon<GrabDoc> grabDocDao;
-    @Resource
-    private SaveTitlePerformer grabSaveTitlePerformer;
-    @Resource
-    private LoginCacheManager loginCacheManager;
-    @Resource
-    private GrabUrlInfoService grabUrlInfoService;
-    @Resource
-    private GrabMenuCacheManager grabMenuCacheManager;
+    private final BaseTitleService baseTitleService;
+    private final DaoCommon<GrabDoc> grabDocDao;
+    private final SaveTitlePerformer grabSaveTitlePerformer;
+    private final LoginCacheManager loginCacheManager;
+    private final GrabUrlInfoService grabUrlInfoService;
+    private final GrabMenuCacheManager grabMenuCacheManager;
     private static GrabUrlInfo urlInfo;
     private static String grabUrl;
     @Value("${image.url}")
@@ -66,7 +61,21 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private String docPlace;
     @Value("${decode.js.place}")
     private String decodeJsPlace;
-
+    @Autowired
+    public YhWikiPageAnalysisPerformerImpl(BaseTitleService baseTitleService,DaoCommon<GrabDoc> grabDocDao,
+    		SaveTitlePerformer grabSaveTitlePerformer,LoginCacheManager loginCacheManager,
+    		GrabUrlInfoService grabUrlInfoService,GrabMenuCacheManager grabMenuCacheManager) {
+    	this.baseTitleService=baseTitleService;
+    	this.grabDocDao=grabDocDao;
+    	this.grabSaveTitlePerformer=grabSaveTitlePerformer;
+    	this.loginCacheManager=loginCacheManager;
+    	this.grabUrlInfoService=grabUrlInfoService;
+    	this.grabMenuCacheManager=grabMenuCacheManager;
+    	//加载下载信息
+		urlInfo = grabUrlInfoService.getUrlInfoByChannel(ChannelType.YH_WIKI.getValue());
+		grabUrl = urlInfo.getPageIndex();
+    }
+    
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
@@ -75,7 +84,6 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public void login() {
-        this.loadUrlInfo();
         Map<String, String> param = new HashMap<>();
         param.put("os_username", urlInfo.getUserName());
         param.put("os_password", urlInfo.getPwd());
@@ -91,26 +99,13 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     /**
-     * 加载下载信息
-     *
-     * @return
-     */
-    private GrabUrlInfo loadUrlInfo() {
-        if (urlInfo == null) {
-            urlInfo = grabUrlInfoService.getUrlInfoByChannel(ChannelType.YH_WIKI.getValue());
-            grabUrl = urlInfo.getPageIndex();
-        }
-        return urlInfo;
-    }
-
-    /**
      * 加载菜单，由于要递归所以单独抽一个方法
      *
      * @param url
      * @return
      */
     private List<LeftMenu> load(String url) {
-        List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName());
+        List<LeftMenu> menuList = grabMenuCacheManager.get(ChannelType.YH_WIKI.getValue() + urlInfo.getTypeName());
         if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
             if (doc == null) {
@@ -133,7 +128,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 list.add(menu);
                 logger.info(n.html() + "--" + n.attr("href"));
             });
-            grabMenuCacheManager.update(ChannelType.YH_WIKI.getValue() + this.loadUrlInfo().getTypeName(), list);
+            grabMenuCacheManager.update(ChannelType.YH_WIKI.getValue() + urlInfo.getTypeName(), list);
             return list;
         } else {
             return menuList;
@@ -169,7 +164,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         String doc = this.loginAndAnalysisPage(url.startsWith("http") ? url : grabUrl + url);
         Long docId = this.saveDoc(doc, baseTitle.getTitle());
         baseTitleService.updateLoadSuccess(ChannelType.YH_WIKI,
-                String.valueOf(docId),
+        		docId,
                 baseTitle.getId());
         return docId;
     }
@@ -189,7 +184,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     public Long updateDoc(String url, String title, Long id) {
         GrabDoc grabDoc = new GrabDoc();
         grabDoc.setId(id);
-        grabDoc.setDoc(this.loginAndAnalysisPage(url));
+        String doc = this.loginAndAnalysisPage(url.startsWith("http") ? url : grabUrl + url);
+        grabDoc.setDoc(doc);
         grabDoc.setTitle(title);
         grabDocDao.updateByPrimaryKeySelective(grabDoc);
         return id;
@@ -203,7 +199,6 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public String analysisPage(String url) {
-        loadUrlInfo();
         Document doc = HtmlGrabUtil
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);

@@ -162,11 +162,7 @@ public class DaoCommon<T> {
 					if(field.get(object) == null) {
 						continue;
 					}
-					if(field.getType()==String.class) {
-						condition.addsetStringParam(field.getName(), String.valueOf(field.get(object)));
-					}else {
-						condition.addsetColumParam(field.getName(), String.valueOf(field.get(object)));
-					}
+					condition.addsetObjectParam(field.getName(), field.get(object));
 				}
 			}
 			Field field =object.getClass().getDeclaredField("id");

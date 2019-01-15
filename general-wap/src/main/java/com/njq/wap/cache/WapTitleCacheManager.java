@@ -28,17 +28,24 @@ public class WapTitleCacheManager extends GenericValueCacheManager<String, List<
     public BaseTypeService baseTypeService;
 
     public List<GrabTypeInfo> getList(Long docId, ChannelType channel) {
-        List<GrabTypeInfo> ll = super.get(StringUtil2.format(CACHE_GRABTITLE, docId));
+    	String key ;
+    	if(docId == null) {
+    		key = StringUtil2.format(CACHE_GRABTITLE, "all");
+    	}else {
+    		key = StringUtil2.format(CACHE_GRABTITLE, docId+channel.getValue());
+    	}
+        List<GrabTypeInfo> ll = super.get(key);
         if (CollectionUtils.isEmpty(ll)) {
             List<BaseTitle> list = grabService.queryTitleList(docId, channel);
-            Map<Long, List<GrabTitleVO>> map = new HashMap();
+            Map<Long, List<GrabTitleVO>> map = new HashMap<>();
             list.forEach(n -> {
                 if (CollectionUtils.isEmpty(map.get(n.getTypeId()))) {
                     map.put(n.getTypeId(), new ArrayList<>());
                 }
                 GrabTitleVO vo = new GrabTitleVO();
                 BeanUtils.copyProperties(n, vo);
-                vo.setChildrenCount(grabService.queryTitleChildrenCount(n.getId(), channel));
+                vo.setChildrenCount(grabService.queryTitleChildrenCount(n.getId(), ChannelType.getChannelType(n.getChannel())));
+                vo.setChannel(n.getChannel());
                 map.get(n.getTypeId()).add(vo);
             });
             List<GrabTypeInfo> volist = map.entrySet().stream().map(n -> {
@@ -47,7 +54,7 @@ public class WapTitleCacheManager extends GenericValueCacheManager<String, List<
                 info.setGrabTitleVOList(n.getValue());
                 return info;
             }).collect(Collectors.toList());
-            this.update(StringUtil2.format(CACHE_GRABTITLE, docId), volist, cacheExpiry);
+            this.update(key, volist, cacheExpiry);
             return volist;
         } else {
             return ll;

@@ -29,7 +29,7 @@ public interface SaveTitlePerformer {
      * @param id
      * @return
      */
-    public void updateTitleOnLoadSuccess(String docId, Long id);
+    public void updateTitleOnLoadSuccess(Long docId, Long id);
 
     /**
      * 根据id获取标题
