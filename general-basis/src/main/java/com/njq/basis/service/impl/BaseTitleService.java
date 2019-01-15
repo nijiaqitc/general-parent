@@ -56,6 +56,24 @@ public class BaseTitleService {
         return loading;
     }
 
+    public BaseTitleLoading getLoadingByTitleId(Long titleId) {
+        ConditionsCommon condition = new ConditionsCommon();
+        condition.addEqParam("titleId", titleId);
+        BaseTitleLoading loading = baseTitleLoadingDao.queryTByParamForOne(condition);
+        return loading;
+    }
+
+    public BaseTitleLoading getLoadingByUrl(String url) {
+        ConditionsCommon condition = new ConditionsCommon();
+        condition.addEqParam("url", url);
+        BaseTitleLoading loading = baseTitleLoadingDao.queryTByParamForOne(condition);
+        return loading;
+    }
+
+    public BaseTitleLoading getLoadingById(Long id) {
+        return baseTitleLoadingDao.queryTById(id);
+    }
+
     public BaseTitle saveTitle(SaveTitleRequest request) {
         BaseTitle tt;
         tt = verify(request.getMenu().getValue(), request.getChannel());
@@ -72,21 +90,30 @@ public class BaseTitleService {
         }
         return tt;
     }
-    
+
     /**
      * 获取标题列表
+     *
      * @param channel
      * @param docId
      * @return
      */
-    public List<BaseTitle> getTitleList(ChannelType channel,Long docId){
-    	return saveMap.get(channel).getTitleList(docId,channel.getValue());
+    public List<BaseTitle> getTitleList(ChannelType channel, Long docId) {
+        return saveMap.get(channel).getTitleList(docId, channel.getValue());
     }
 
-    public int childrenCount(Long docId,ChannelType channel) {
-    	return saveMap.get(channel).getChildrenCount(docId,channel.getValue());
+    public BaseTitle getTitleByDocId(Long docId, ChannelType channel) {
+        return saveMap.get(channel).getTitleByDocId(docId);
     }
-    
+
+    public BaseTitle getTitleId(Long titleId, ChannelType channel) {
+        return saveMap.get(channel).getTitleById(titleId);
+    }
+
+    public int childrenCount(Long docId, ChannelType channel) {
+        return saveMap.get(channel).getChildrenCount(docId, channel.getValue());
+    }
+
     public BaseTitle updateTitle(SaveTitleRequest request) {
         return saveMap.get(request.getChannel()).updateTitle(request);
     }

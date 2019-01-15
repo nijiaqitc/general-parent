@@ -69,6 +69,11 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
 	}
 
 	@Override
+	public BaseTitle getTitleByDocId(Long docId) {
+		return null;
+	}
+
+	@Override
 	public BaseTitle updateTitle(SaveTitleRequest request) {
 		return null;
 	}

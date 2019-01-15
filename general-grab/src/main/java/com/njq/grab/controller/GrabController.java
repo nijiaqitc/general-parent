@@ -3,6 +3,7 @@ package com.njq.grab.controller;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.grab.service.impl.GrabService;
@@ -97,4 +98,30 @@ public class GrabController {
         model.addAttribute("doc", grabService.queryById(docId));
         return "grab/knowledgeDoc";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "loadDocNow", method = RequestMethod.GET)
+    public String loadDocNow(Model model,
+                             @RequestParam(required = false, defaultValue = "false") boolean type,
+                             Long loadingId) {
+        if (type) {
+            grabService.loadSingleDoc(loadingId);
+        } else {
+            grabService.updateSingleDoc(loadingId);
+        }
+        return "访问成功";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "loadDocUrl", method = RequestMethod.GET)
+    public String loadDocUrl(Model model,
+                             @RequestParam(required = false, defaultValue = "false") boolean type,
+                             String url) {
+        BaseTitleLoading loading = baseTitleService.getLoadingByUrl(url);
+        if (loading != null) {
+            this.loadDocNow(model, type, loading.getId());
+        }
+        return "访问成功";
+    }
+
 }

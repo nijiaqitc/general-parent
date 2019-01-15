@@ -59,4 +59,8 @@ public class BaseTypeService {
 		condition.addsetColumParam("num", String.valueOf(num.getNum()+1));
 		baseTypeNumDao.update(condition);
 	}
+
+	public BaseType getTypeById(Long id){
+		return baseTypeDao.queryTById(id);
+	}
 }

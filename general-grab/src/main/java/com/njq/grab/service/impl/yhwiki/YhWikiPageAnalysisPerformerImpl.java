@@ -12,7 +12,7 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.common.model.vo.GrabUrlYhInfo;
+import com.njq.common.model.vo.grab.GrabUrlYhInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;

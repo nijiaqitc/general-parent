@@ -68,6 +68,32 @@ public class GrabService {
         });
     }
 
+    public void loadSingleDoc(Long docId) {
+        BaseTitleLoading loading = baseTitleService.getLoadingById(docId);
+        if (loading != null) {
+            if (loading.getLoaded() == "1") {
+                return;
+            }
+            loadDoc(loading);
+        }
+    }
+
+    public void loadDoc(BaseTitleLoading titleLoading) {
+        performerService.getAnalysisPerformer(ChannelType.getChannelType(titleLoading.getChannel()))
+                .saveLoadingDoc(titleLoading.getUrl(), grabSaveTitlePerformer.getTitleById(titleLoading.getTitleId()));
+    }
+
+    public void updateSingleDoc(Long docId) {
+        BaseTitleLoading loading = baseTitleService.getLoadingById(docId);
+        BaseTitle title = baseTitleService.getTitleId(loading.getTitleId(), ChannelType.getChannelType(loading.getChannel()));
+        if (title.getDocId() == null) {
+            return;
+        }
+        GrabDoc grabDoc = this.queryById(title.getDocId());
+        performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
+                .updateDoc(loading.getUrl(), grabDoc.getTitle(), grabDoc.getId());
+    }
+
     public void grabOperation(String title, String url, String docId, String channel, String type, String tips) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
         if (loading == null) {
