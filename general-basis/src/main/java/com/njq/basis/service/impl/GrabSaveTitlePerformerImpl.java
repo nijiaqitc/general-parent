@@ -101,7 +101,9 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public List<BaseTitle> getTitleList(Long docId, String channel) {
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("channel", channel);
+        if(channel != null){
+            condition.addEqParam("channel", channel);
+        }
         if (docId != null) {
             condition.addEqParam("parantId", docId);
         } else {

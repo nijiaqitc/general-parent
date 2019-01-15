@@ -99,7 +99,7 @@ public class BaseTitleService {
      * @return
      */
     public List<BaseTitle> getTitleList(ChannelType channel, Long docId) {
-        return saveMap.get(channel).getTitleList(docId, channel.getValue());
+        return saveMap.get(channel).getTitleList(docId, channel == null ? null : channel.getValue());
     }
 
     public BaseTitle getTitleByDocId(Long docId, ChannelType channel) {
