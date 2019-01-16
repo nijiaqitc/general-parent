@@ -171,4 +171,12 @@ public class BaseTitleService {
     	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
     }
     
+    public List<BaseTitle> getSearchTitleList(String[] str){
+    	ConditionsCommon conditionsCommon = new  ConditionsCommon();
+    	if(str != null) {
+    		conditionsCommon.addColumMoreLikeParam("title", str);    		
+    	}
+    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    }
+    
 }

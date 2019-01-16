@@ -77,7 +77,7 @@ public class TbkTypeService {
 			cc.addEqParam("createBy", userId);
 		}
 		if(paramMap.get("value")!=null){
-			cc.addLikeParam(paramMap.get("value").toString(), "account","userName","tel");
+			cc.addMoreColumLikeParam(paramMap.get("value").toString(), "account","userName","tel");
 		}
 		cc.addSetOrderColum("id","desc");
 		PageList<TbkType> list = tbktypeDao.queryForPage(cc);

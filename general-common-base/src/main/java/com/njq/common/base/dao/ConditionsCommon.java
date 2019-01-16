@@ -154,7 +154,7 @@ public class ConditionsCommon {
 	 * 2016-1-6
 	 * author njq
 	 */
-	public void addLikeParam(String value,String...columName ){
+	public void addMoreColumLikeParam(String value,String...columName ){
 		if(columName.length>1){
 			String columString="CONCAT(";
 			for(String name : columName){
@@ -168,6 +168,17 @@ public class ConditionsCommon {
 		}
 	}
 	
+	public void addColumMoreLikeParam(String colum,String...values) {
+		if(values.length>1) {
+			String columString="";
+			for(String value:values) {
+				columString +=value+"(^)";
+			}
+			paramMap.put(colum+","+ConstantsCommon.Sql_Sign.LIKE,columString);
+		}else {
+			paramMap.put(colum+","+ConstantsCommon.Sql_Sign.LIKE,values[0]);
+		}
+	}
 	/**
 	 * 添加检索的字段
 	 * @param columName 检索字段名称

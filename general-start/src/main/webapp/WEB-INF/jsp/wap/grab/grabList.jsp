@@ -35,7 +35,7 @@
 						</div>
 						<a href="<c:if test="${grab.docId==null }">javascript:void(0)</c:if>
 							<c:if test="${grab.docId!=null }">${path}/wap/grab/${grab.docId }</c:if>">
-							<div class="adocDiv6">${grab.title }</div>
+							<div class="adocDiv6" style="max-width: 80%;">${grab.title }</div>
 						</a>
 						<div style="float: right;margin-right: 10px;cursor: pointer;" onclick="starLabel('${grab.id}',this)">
 							<span style="color: red;<c:if test="${grab.starTab!=true }">display:none;</c:if>">★</span>
@@ -93,7 +93,7 @@
 								str+="${path}/wap/grab/"+b.docId;
 							}
 							str+="'>"+
-								"<div class='adocDiv6'>"+b.title+"</div>"+
+								"<div class='adocDiv6' style='max-width: 80%;'>"+b.title+"</div>"+
 							"</a>"+
 							"<div style=\"float: right;margin-right: 10px;cursor: pointer;\" onclick=\"starLabel('"+b.id+"',this)\">";
 							str+="<span style=\"color: red;";							

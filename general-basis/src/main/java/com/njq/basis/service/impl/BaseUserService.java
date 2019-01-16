@@ -53,7 +53,7 @@ public class BaseUserService {
 		cc.addEqParam("status", ConstantsCommon.Del_Status.YES);
 		cc.addNotEqParam("id", 1L);
 		if(paramMap.get("value")!=null){
-			cc.addLikeParam(paramMap.get("value").toString(), "account","userName","tel");
+			cc.addMoreColumLikeParam(paramMap.get("value").toString(), "account","userName","tel");
 		}
 		cc.addSetOrderColum("id","desc");
 		return userDao.queryForPage(cc);

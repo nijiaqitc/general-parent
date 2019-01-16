@@ -78,7 +78,7 @@ public class TbkDocService {
 			cc.addEqParam("createBy", userId);
 		}
 		if(paramMap.get("value")!=null){
-			cc.addLikeParam(paramMap.get("value").toString(), "account","userName","tel");
+			cc.addMoreColumLikeParam(paramMap.get("value").toString(), "account","userName","tel");
 		}
 		cc.addSetOrderColum("id","desc");
 //		APIUtil.requestForCheck(cc);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.model.vo.grab.GrabTypeInfo;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.wap.service.WapGrabService;
 
@@ -62,5 +63,11 @@ public class WapGrabController {
 	public String grabNewLoadList(Model model) {
 		model.addAttribute("grabList",wapGrabService.conver(baseTitleService.getNewLoadTitleList()));
 		return "wap/grab/grabNewLoadList";
+	}
+	
+	@RequestMapping(value="/grab/grabSearchList", method = RequestMethod.GET)
+	public String grabSearchList(Model model,String searchValue) {
+		model.addAttribute("grabList",wapGrabService.conver(baseTitleService.getSearchTitleList(StringUtil.isEmpty(searchValue)?null:searchValue.trim().split(" "))));
+		return "wap/grab/grabStarList";
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import com.njq.common.base.dao.ConditionsCommon;
+import com.njq.common.util.string.StringUtil;
 
 public class SqlJpaInnerDeal {
 
@@ -70,13 +71,15 @@ public class SqlJpaInnerDeal {
 	public static String buildWhere(StringBuffer stb,Map<String, Object> paramMap){
 		stb.append(" where ");
 		StringBuffer conStb=new StringBuffer();
+		StringBuffer lstb=new StringBuffer();
 		int i=0;
 		for(String columName:paramMap.keySet()){
 			String colum=columName.split(",")[0];
 			String op=columName.split(",")[1];
 			if("like".equals(op)){
 				colum=colum.replace("!", ",");
-				conStb.append(" and "+colum+" "+op+" :likeParam " );
+//				conStb.append(" and "+colum+" "+op+" :likeParam " );
+				lstb.append(" or "+colum+" "+op+" :likeParam"+(++i));
 			}else if("is null".equals(op)||"is not null".equals(op)){
 				conStb.append(" and "+colum+" "+op);
 			}else if("between".equals(op)){
@@ -84,6 +87,9 @@ public class SqlJpaInnerDeal {
 			}else{
 				conStb.append(" and "+colum+" "+op+" :param"+(++i));
 			}
+		}
+		if(lstb.length()>0) {
+			conStb.append( " and ( "+lstb.toString().substring(3, lstb.toString().length())+" )");
 		}
 		return stb.append(conStb.toString().substring(4, conStb.toString().length())).toString();
 	}
@@ -120,7 +126,7 @@ public class SqlJpaInnerDeal {
 					query.setParameter("param"+(++i), paramMap.get(colum));
 //					query.setParameterList("param"+(++i), (Object[])paramMap.get(colum));
 				}else if("like".equals(op)){
-					query.setParameter("likeParam", "%"+paramMap.get(colum)+"%");
+					query.setParameter("likeParam"+(++i), "%"+paramMap.get(colum)+"%");
 				}else if("is null".equals(op)||"is not null".equals(op)){
 					continue;
 				}else if("between".equals(op)){

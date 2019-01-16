@@ -62,7 +62,7 @@ public class BaseLogService {
 		}
 		cc.addSetOrderColum("id","desc");
 		if(paramMap.get("searchValue")!=null){
-			cc.addLikeParam(paramMap.get("searchValue").toString(), "userId","type","operTable","operCon");
+			cc.addMoreColumLikeParam(paramMap.get("searchValue").toString(), "userId","type","operTable","operCon");
 		}
 		return logDao.queryForPage(cc);
 	}
@@ -230,7 +230,7 @@ public class BaseLogService {
 			e.printStackTrace();
 		}
 		if(searchValue!=null&&searchValue!=""){
-			cc.addLikeParam(searchValue, "userId","type","operTable","operCon");
+			cc.addMoreColumLikeParam(searchValue, "userId","type","operTable","operCon");
 		}
 		cc.addSetOrderColum("id","desc");
 		List<BaseLog> logList = logDao.queryTByParam(cc);
@@ -285,7 +285,7 @@ public class BaseLogService {
 			e.printStackTrace();
 		}
 		if(searchValue!=null&&searchValue!=""){
-			cc.addLikeParam(searchValue, "userId","type","operTable","operCon");
+			cc.addMoreColumLikeParam(searchValue, "userId","type","operTable","operCon");
 		}
 		cc.addSetOrderColum("id","desc");
 		List<BaseLog> logList = logDao.queryTByParam(cc);

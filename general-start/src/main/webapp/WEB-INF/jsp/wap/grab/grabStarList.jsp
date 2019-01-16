@@ -24,7 +24,7 @@
 					<span style="float: left;">${index2.index }</span>
 					<a href="<c:if test="${grab.docId==null }">javascript:void(0)</c:if>
 						<c:if test="${grab.docId!=null }">${path}/wap/grab/${grab.docId }</c:if>">
-						<div class="adocDiv6">${grab.title }</div>
+						<div class="adocDiv6" style="max-width: 80%;">${grab.title }</div>
 					</a>
 				</div>
 			</c:forEach>
