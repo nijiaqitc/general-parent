@@ -101,7 +101,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public List<BaseTitle> getTitleList(Long docId, String channel) {
         ConditionsCommon condition = new ConditionsCommon();
-        if(channel != null){
+        if (channel != null) {
             condition.addEqParam("channel", channel);
         }
         if (docId != null) {
@@ -124,4 +124,8 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         return baseTitleGrabDao.queryForCount(condition);
     }
 
+    @Override
+    public void updateByParam(ConditionsCommon conditionsCommon) {
+        baseTitleGrabDao.update(conditionsCommon);
+    }
 }

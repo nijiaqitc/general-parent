@@ -56,7 +56,7 @@ public class BaseTypeService {
 			num.setChannel(channel);
 			baseTypeNumDao.save(num);
 		}
-		condition.addsetColumParam("num", String.valueOf(num.getNum()+1));
+		condition.addsetObjectParam("num", num.getNum()+1);
 		baseTypeNumDao.update(condition);
 	}
 

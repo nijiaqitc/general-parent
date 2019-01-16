@@ -203,7 +203,6 @@ public interface DdlInterface<T> {
 	
 	/**
 	 * 操作数据库，返回总共操作的行数
-	 * @param ids
 	 * @param cc
 	 */
 	public int update(ConditionsCommon cc);

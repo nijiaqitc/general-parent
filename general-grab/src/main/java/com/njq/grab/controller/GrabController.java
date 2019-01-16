@@ -33,8 +33,8 @@ public class GrabController {
     private BaseTitleService baseTitleService;
     @Resource
     private DaoCommon<GrabDoc> grabDocDao;
-    
-    
+
+
     @RequestMapping("loadJob")
     public void loadJob(Model model) {
         grabService.loadPageJobTask();
@@ -106,9 +106,9 @@ public class GrabController {
                              @RequestParam(required = false, defaultValue = "false") boolean type,
                              Long loadingId) {
         if (type) {
-        	grabService.updateSingleDoc(loadingId);
+            grabService.updateSingleDoc(loadingId);
         } else {
-        	grabService.loadSingleDoc(loadingId);
+            grabService.loadSingleDoc(loadingId);
         }
         return "访问成功";
     }
@@ -123,6 +123,13 @@ public class GrabController {
             this.loadDocNow(model, type, loading.getId());
         }
         return "访问成功";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "starTitle", method = RequestMethod.POST)
+    public String starTitle(Model model, Long titleId, Boolean isStar) {
+        baseTitleService.updateStarTitle(titleId, isStar);
+        return "标记或取消成功";
     }
 
 }

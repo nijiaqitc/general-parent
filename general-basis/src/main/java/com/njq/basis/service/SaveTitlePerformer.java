@@ -1,5 +1,6 @@
 package com.njq.basis.service;
 
+import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 
@@ -62,4 +63,10 @@ public interface SaveTitlePerformer {
      * @return
      */
     public int getChildrenCount(Long docId, String channel);
+
+    /**
+     * 根据条件修改标题
+     * @param conditionsCommon
+     */
+    public void updateByParam(ConditionsCommon conditionsCommon);
 }

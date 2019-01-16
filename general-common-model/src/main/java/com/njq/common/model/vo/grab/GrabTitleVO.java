@@ -19,7 +19,10 @@ public class GrabTitleVO implements Serializable{
 	private int childrenCount;
 
 	private String channel;
-	
+
+	private Boolean starTab;
+
+	private Long docId;
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +78,20 @@ public class GrabTitleVO implements Serializable{
 	public void setChannel(String channel) {
 		this.channel = channel;
 	}
-	
-	
+
+	public Boolean getStarTab() {
+		return starTab;
+	}
+
+	public void setStarTab(Boolean starTab) {
+		this.starTab = starTab;
+	}
+
+	public Long getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Long docId) {
+		this.docId = docId;
+	}
 }

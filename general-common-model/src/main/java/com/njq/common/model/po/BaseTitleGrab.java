@@ -50,6 +50,9 @@ public class BaseTitleGrab implements Serializable {
 	@Column(name="type_id")
 	private Long typeId;
 
+	@Column(name="star_tab")
+	private Boolean starTab;
+
 	public BaseTitleGrab() {
 	}
 
@@ -149,4 +152,11 @@ public class BaseTitleGrab implements Serializable {
 		this.typeId = typeId;
 	}
 
+	public Boolean getStarTab() {
+		return starTab;
+	}
+
+	public void setStarTab(Boolean starTab) {
+		this.starTab = starTab;
+	}
 }

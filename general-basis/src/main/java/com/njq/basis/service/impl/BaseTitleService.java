@@ -144,9 +144,16 @@ public class BaseTitleService {
     public void updateLoadSuccess(ChannelType channel, Long docId, Long id) {
         saveMap.get(channel).updateTitleOnLoadSuccess(docId, id);
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addsetColumParam("loaded", Use_Type.USED);
+        condition.addsetObjectParam("loaded", Use_Type.USED);
         condition.addEqParam("titleId", id);
         baseTitleLoadingDao.update(condition);
+    }
+
+    public void updateStarTitle(Long docId, Boolean isStar) {
+        ConditionsCommon condition = new ConditionsCommon();
+        condition.addEqParam("starTab", isStar);
+        condition.addEqParam("id", docId);
+        saveMap.get(ChannelType.YH_WIKI).updateByParam(condition);
     }
 
 }

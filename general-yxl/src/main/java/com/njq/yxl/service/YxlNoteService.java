@@ -174,11 +174,11 @@ public class YxlNoteService {
 	 */
 	public int deleteById(Long ids){
 	    ConditionsCommon cc=new ConditionsCommon();
-	    cc.addsetColumParam("status", ConstantsCommon.Del_Status.NO+"");
+	    cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
 	    cc.addEqParam("id", ids);
 	    yxlNoteDao.update(cc);
 	    ConditionsCommon cc1=new ConditionsCommon();
-        cc1.addsetColumParam("status", ConstantsCommon.Del_Status.NO+"");
+        cc1.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
         cc1.addEqParam("docId", ids);
         yxlNoteGeneralDao.update(cc1);
 	    return 0;

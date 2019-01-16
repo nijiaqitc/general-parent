@@ -24,6 +24,7 @@
 				<c:forEach items="${gb.grabTitleVOList }" var="grab" varStatus="index2" >
 					<div class="adocDiv2" style="clear: both;overflow: auto;">
 						<div style="float: left;">
+						<c:if test="${grab.starTab }"><span style="color: red;">★</span></c:if>
 						<c:if test="${grab.childrenCount>0 }">
 							<a href="javascript:void(0)" onclick="loadChild('${grab.id}','${grab.channel}',this)">
 								↓ (${grab.childrenCount })
@@ -33,9 +34,10 @@
 							.
 						</c:if>
 						</div>
-						<a href="${path}/wap/grab/${grab.id }">
+						<a href="${path}/wap/grab/${grab.docId }">
 							<div class="adocDiv6">${grab.title }</div>
 						</a>
+						<div style="float: right" onclick="starLabel('${grab.id}')">标记</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -73,6 +75,9 @@
 				$.each(data[0].grabTitleVOList,function(a,b){
 					str += "<div  class='adocDiv2' style='overflow: auto;clear: both;'>"+
 							"<div style='float: left;'>";
+							if(b.starTab){
+							    str+="<span style=\"color: red;\">★</span>";
+							}
 							if(b.childrenCount>0){
 								str+= "<a href='javascript:void(0)' onclick='loadChild(\""+b.id+"\",\""+b.channel+"\",this)'>"+
 									"↓ ("+b.childrenCount+")"+
@@ -100,5 +105,19 @@
 			$(target).next().show();
 		}
 	}
+
+	function starLabel(titleId) {
+        $.ajax({
+            url:"${path}/wap/grab/noteList",
+            type:"post",
+            data:{
+                titleId:titleId,
+                isStar:1
+            },
+            success:function(data){
+
+            }
+		})
+    }
 </script> 
 </html>

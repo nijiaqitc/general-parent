@@ -236,7 +236,7 @@ public class TbkDocService {
 	public void updateDocById(Long id,
 			Map<String, Object> map) {
 		ConditionsCommon cc=new ConditionsCommon();
-		cc.addsetColumParam("readnums", "readnums+1");
+		cc.addsetObjectParam("readnums", "readnums+1");
 		cc.addEqParam("id", id);
 		tbkdocDao.update(cc);
 	}
