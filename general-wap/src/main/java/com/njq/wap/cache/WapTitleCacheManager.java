@@ -50,7 +50,11 @@ public class WapTitleCacheManager extends GenericValueCacheManager<String, List<
             });
             List<GrabTypeInfo> volist = map.entrySet().stream().map(n -> {
                 GrabTypeInfo info = new GrabTypeInfo();
-                info.setType(baseTypeService.getTypeById(n.getKey()).getName());
+                if(n.getKey() == null){
+                    info.setType("其他");
+                }else{
+                    info.setType(baseTypeService.getTypeById(n.getKey()).getName());
+                }
                 info.setGrabTitleVOList(n.getValue());
                 return info;
             }).collect(Collectors.toList());

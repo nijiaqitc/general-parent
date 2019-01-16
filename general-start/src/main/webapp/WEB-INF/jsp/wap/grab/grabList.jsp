@@ -108,7 +108,7 @@
 
 	function starLabel(titleId) {
         $.ajax({
-            url:"${path}/wap/grab/noteList",
+            url:"${path}/grab/starTitle",
             type:"post",
             data:{
                 titleId:titleId,
