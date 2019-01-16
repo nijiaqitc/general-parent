@@ -24,7 +24,6 @@
 				<c:forEach items="${gb.grabTitleVOList }" var="grab" varStatus="index2" >
 					<div class="adocDiv2" style="clear: both;overflow: auto;">
 						<div style="float: left;">
-						<c:if test="${grab.starTab }"><span style="color: red;">★</span></c:if>
 						<c:if test="${grab.childrenCount>0 }">
 							<a href="javascript:void(0)" onclick="loadChild('${grab.id}','${grab.channel}',this)">
 								↓ (${grab.childrenCount })
@@ -34,10 +33,14 @@
 							.
 						</c:if>
 						</div>
-						<a href="${path}/wap/grab/${grab.docId }">
+						<a href="<c:if test="${grab.docId==null }">javascript:void(0)</c:if>
+							<c:if test="${grab.docId!=null }">${path}/wap/grab/${grab.docId }</c:if>">
 							<div class="adocDiv6">${grab.title }</div>
 						</a>
-						<div style="float: right" onclick="starLabel('${grab.id}')">标记</div>
+						<div style="float: right;margin-right: 10px;cursor: pointer;" onclick="starLabel('${grab.id}',this)">
+							<span style="color: red;<c:if test="${grab.starTab!=true }">display:none;</c:if>">★</span>
+							标记
+						</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -75,9 +78,6 @@
 				$.each(data[0].grabTitleVOList,function(a,b){
 					str += "<div  class='adocDiv2' style='overflow: auto;clear: both;'>"+
 							"<div style='float: left;'>";
-							if(b.starTab){
-							    str+="<span style=\"color: red;\">★</span>";
-							}
 							if(b.childrenCount>0){
 								str+= "<a href='javascript:void(0)' onclick='loadChild(\""+b.id+"\",\""+b.channel+"\",this)'>"+
 									"↓ ("+b.childrenCount+")"+
@@ -86,9 +86,22 @@
 								str+=".";
 							}
 							str+="</div>"+
-							"<a href='${path}/wap/grab/"+b.id+"'>"+
+							"<a href='";
+							if(b.docId==null){
+								str+="javascript:void(0)";
+							}else{
+								str+="${path}/wap/grab/"+b.docId;
+							}
+							str+="'>"+
 								"<div class='adocDiv6'>"+b.title+"</div>"+
 							"</a>"+
+							"<div style=\"float: right;margin-right: 10px;cursor: pointer;\" onclick=\"starLabel('"+b.id+"',this)\">";
+							str+="<span style=\"color: red;";							
+							if(!b.starTab){
+								str+="display:none;"
+							}
+							str+="\">★</span>标记"+
+							"</div>"+
 						"</div>";
 				
 				});
@@ -106,16 +119,24 @@
 		}
 	}
 
-	function starLabel(titleId) {
+	function starLabel(titleId,target) {
+		var show=1;
+		if($(target).find("span").css("display")!="none"){
+			show=0;
+		}
         $.ajax({
             url:"${path}/grab/starTitle",
             type:"post",
             data:{
                 titleId:titleId,
-                isStar:1
+                isStar:show
             },
             success:function(data){
-
+				if(show==1){
+					$(target).find("span").show();
+				}else{
+					$(target).find("span").hide();
+				}
             }
 		})
     }

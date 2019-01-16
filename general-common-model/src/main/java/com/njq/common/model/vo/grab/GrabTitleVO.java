@@ -1,6 +1,7 @@
 package com.njq.common.model.vo.grab;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class GrabTitleVO implements Serializable{
 
@@ -23,6 +24,9 @@ public class GrabTitleVO implements Serializable{
 	private Boolean starTab;
 
 	private Long docId;
+	
+	private Date createDate;
+	
 	public Long getId() {
 		return id;
 	}
@@ -94,4 +98,14 @@ public class GrabTitleVO implements Serializable{
 	public void setDocId(Long docId) {
 		this.docId = docId;
 	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	
 }

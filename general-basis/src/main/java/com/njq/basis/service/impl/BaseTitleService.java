@@ -1,5 +1,15 @@
 package com.njq.basis.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.ConditionsCommon;
@@ -11,14 +21,6 @@ import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class BaseTitleService {
@@ -151,9 +153,22 @@ public class BaseTitleService {
 
     public void updateStarTitle(Long docId, Boolean isStar) {
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("starTab", isStar);
+        condition.addsetObjectParam("starTab", isStar);
         condition.addEqParam("id", docId);
         saveMap.get(ChannelType.YH_WIKI).updateByParam(condition);
     }
 
+    public List<BaseTitle> getStarTitleList(){
+    	ConditionsCommon conditionsCommon = new  ConditionsCommon();
+    	conditionsCommon.addEqParam("starTab", true);
+    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    }
+    
+    public List<BaseTitle> getNewLoadTitleList(){
+    	ConditionsCommon conditionsCommon = new  ConditionsCommon();
+    	conditionsCommon.addSetOrderColum("createDate", "desc");
+    	conditionsCommon.addPageParam(1, 20);
+    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    }
+    
 }

@@ -69,4 +69,11 @@ public interface SaveTitlePerformer {
      * @param conditionsCommon
      */
     public void updateByParam(ConditionsCommon conditionsCommon);
+    
+    /**
+     * 根据条件查询标题
+     * @param conditionsCommon
+     * @return
+     */
+    public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon);
 }

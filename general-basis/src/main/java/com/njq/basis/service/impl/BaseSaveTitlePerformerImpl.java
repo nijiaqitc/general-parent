@@ -1,5 +1,15 @@
 package com.njq.basis.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.ConditionsCommon;
@@ -7,14 +17,6 @@ import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 @Component("baseSaveTitlePerformer")
 public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
@@ -89,5 +91,10 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public void updateByParam(ConditionsCommon conditionsCommon) {
         baseTitleDao.update(conditionsCommon);
+    }
+    
+    @Override
+    public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon){
+    	return null;
     }
 }
