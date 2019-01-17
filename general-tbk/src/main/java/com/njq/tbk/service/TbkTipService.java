@@ -99,7 +99,7 @@ public class TbkTipService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TbkTip> queryTbktipByDocId(Long docId) {
-		String hql="select new com.njq.model.TbkTip(p.id,p.name,p.inTurn,p.status,p.createBy,p.createDate)" +
+		String hql="select new com.njq.common.model.po.TbkTip(p.id,p.name,p.inTurn,p.status,p.createBy,p.createDate)" +
 				" from TbkTip p ,TbkDocTipConfig c where p.id=c.tipId and p.status=1 and c.status=1 and c.docId=:docId ";
 		Map<String, Object> paramMap=new HashMap<String, Object>();
 		paramMap.put("docId", docId);

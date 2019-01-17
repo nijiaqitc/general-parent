@@ -87,7 +87,7 @@ public class TbkPicService {
 	 */
 	@SuppressWarnings("unchecked")
 	public TbkPic queryTbkpicByDocId(Long docId) {
-		String hql="select new com.njq.model.TbkPic(p.id,p.name,p.url,p.inTurn,p.status,p.createBy,p.createDate) " +
+		String hql="select new com.njq.common.model.po.TbkPic(p.id,p.name,p.url,p.inTurn,p.status,p.createBy,p.createDate) " +
 				"from TbkPic p ,TbkDocPicConfig c where p.id=c.picId and p.status=1 and c.status=1 and c.docId=:docId ";
 		Map<String, Object> paramMap=new HashMap<String, Object>();
 		paramMap.put("docId", docId);

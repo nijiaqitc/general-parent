@@ -297,7 +297,7 @@ public class TbkDocService {
 		for(String s:searchValue){
 			str+="%"+s+"%";
 		}
-		String hql="select new com.njq.model.TbkRecommendDocView(id,title,general,readnums,createDate,typeName,url,tips,reprint) from "
+		String hql="select new com.njq.common.model.po.TbkRecommendDocView(id,title,general,readnums,createDate,typeName,url,tips,reprint) from "
 				+ "TbkRecommendDocView where ( general like :general or title like :title or tips like :tips )";
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
@@ -333,7 +333,7 @@ public class TbkDocService {
 		for(String s:searchValue){
 			str+="%"+s+"%";
 		}
-		String hql="select new com.njq.model.TbkRecommendDocView(id,title,general,readnums,createDate,typeName,url,tips,reprint,userName) from "
+		String hql="select new com.njq.common.model.po.TbkRecommendDocView(id,title,general,readnums,createDate,typeName,url,tips,reprint,userName) from "
 				+ "TbkRecommendDocView where ( general like :general or title like :title ) ";
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
