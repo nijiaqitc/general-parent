@@ -102,6 +102,7 @@ public class OperLogController {
 			wb.write(outputStream);
 			outputStream.flush();
 			outputStream.close();
+			wb.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

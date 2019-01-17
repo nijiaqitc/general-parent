@@ -254,6 +254,7 @@ public class GjHomeController {
             headers.add("Content-Disposition", "attchement;filename=" + file.getName());
             HttpStatus statusCode = HttpStatus.OK;
             ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body, headers, statusCode);
+            is.close();
             return entity;
         } catch (Exception e) {
             System.out.println(e.getMessage());
