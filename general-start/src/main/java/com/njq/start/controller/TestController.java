@@ -8,7 +8,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
@@ -46,20 +48,24 @@ public class TestController {
 
 //		threadPoolTaskExecutor.shutdown();
 
-		Date timeCur = new Date();
-		SimpleDateFormat fmtYY = new SimpleDateFormat("yyyy");
-		SimpleDateFormat fmtMM = new SimpleDateFormat("MM");
-		SimpleDateFormat fmtDD = new SimpleDateFormat("dd");
-		String strYY = fmtYY.format(timeCur);
-		String strMM = fmtMM.format(timeCur);
-		String strDD = fmtDD.format(timeCur);
-		String url = "/" + "bbbb" + "/" + strYY + strMM + strDD;
-		File dir = new File("D:/worksts/ppcong/target/classes/webapp/static/uploadImage" + url);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-
+//		Date timeCur = new Date();
+//		SimpleDateFormat fmtYY = new SimpleDateFormat("yyyy");
+//		SimpleDateFormat fmtMM = new SimpleDateFormat("MM");
+//		SimpleDateFormat fmtDD = new SimpleDateFormat("dd");
+//		String strYY = fmtYY.format(timeCur);
+//		String strMM = fmtMM.format(timeCur);
+//		String strDD = fmtDD.format(timeCur);
+//		String url = "/" + "bbbb" + "/" + strYY + strMM + strDD;
+//		File dir = new File("D:/worksts/ppcong/target/classes/webapp/static/uploadImage" + url);
+//		if (!dir.exists()) {
+//			dir.mkdirs();
+//		}
+		List<Integer> list = new ArrayList<>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		list.add(4);
+		System.out.println(list.subList(0,4 ));
 	}
 
 	public class  createRunnable{

@@ -161,6 +161,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long saveLoadingDoc(String url, BaseTitle baseTitle) {
+        logger.info("读取url"+url);
         String doc = this.loginAndAnalysisPage(url.startsWith("http") ? url : grabUrl + url);
         Long docId = this.saveDoc(doc, baseTitle.getTitle());
         baseTitleService.updateLoadSuccess(ChannelType.YH_WIKI,
