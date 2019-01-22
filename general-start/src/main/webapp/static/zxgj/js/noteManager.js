@@ -192,6 +192,7 @@ function saveOrUpdate(){
                 $(".titleActive").click(function(){
                     seleTit(this,data.note.id);
                 })
+                $("#noteTitled").html($("#noteTitle").val());
                 saveDeal();
            }
        }
