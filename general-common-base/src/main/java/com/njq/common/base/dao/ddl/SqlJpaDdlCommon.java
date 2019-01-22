@@ -13,6 +13,8 @@ import javax.persistence.Query;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -25,7 +27,7 @@ import com.njq.common.util.date.DateUtil;
 @SuppressWarnings("unchecked")
 @Repository
 public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
-
+	private static final Logger logger = LoggerFactory.getLogger(SqlJpaDdlCommon.class);
     @Autowired
     @PersistenceContext
     private EntityManager sessionFactory;
@@ -273,7 +275,16 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
 
     @Override
     public void update(T object) {
-        sessionFactory.merge(object);
+    	T t =sessionFactory.merge(object);
+		try {
+			Field f = t.getClass().getDeclaredField("id");
+			f.setAccessible(true);
+			Long id = (Long)f.get(t);
+			Method method = object.getClass().getDeclaredMethod("setId",f.getType());
+			method.invoke(object, id);
+		} catch (Exception e) {
+			logger.info("修改对象反射获取id出错",e);
+		}
     }
 
     @Override
