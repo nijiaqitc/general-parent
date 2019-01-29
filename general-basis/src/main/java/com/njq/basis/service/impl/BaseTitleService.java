@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
@@ -21,6 +22,7 @@ import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.util.string.StringUtil;
 
 @Service
 public class BaseTitleService {
@@ -28,12 +30,13 @@ public class BaseTitleService {
     private DaoCommon<BaseTitleLoading> baseTitleLoadingDao;
     @Resource
     private DaoCommon<BaseTitle> baseTitleDao;
-    private Map<ChannelType, SaveTitlePerformer> saveMap;
+    private Map<TitleType, SaveTitlePerformer> saveMap;
 
     @Autowired
     public BaseTitleService(SaveTitlePerformer grabSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
         saveMap = new HashMap<>();
-        saveMap.put(ChannelType.YH_WIKI, grabSaveTitlePerformer);
+        saveMap.put(TitleType.BASE_TITLE, baseSaveTitlePerformer);
+        saveMap.put(TitleType.GRAB_TITLE, grabSaveTitlePerformer);
     }
 
     /**
@@ -44,7 +47,9 @@ public class BaseTitleService {
      */
     public List<BaseTitleLoading> getLoadedTitle(String channel) {
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("channel", channel);
+        if(StringUtil.IsNotEmpty(channel)) {
+        	condition.addEqParam("channel", channel);        	
+        }
         condition.addEqParam("loaded", "0");
         condition.addPageParam(1, 500);
         List<BaseTitleLoading> loadingList = baseTitleLoadingDao.queryColumnForList(condition);
@@ -80,7 +85,7 @@ public class BaseTitleService {
         BaseTitle tt;
         tt = verify(request.getMenu().getValue(), request.getChannel());
         if (tt == null) {
-            tt = saveMap.get(request.getChannel()).saveTitle(request);
+            tt = saveMap.get(request.getTitleType()).saveTitle(request);
             BaseTitleLoading loading = new BaseTitleLoading();
             loading.setTitleId(tt.getId());
             loading.setUrl(request.getMenu().getValue());
@@ -101,23 +106,23 @@ public class BaseTitleService {
      * @return
      */
     public List<BaseTitle> getTitleList(ChannelType channel, Long docId) {
-        return saveMap.get(ChannelType.YH_WIKI).getTitleList(docId, channel == null ? null : channel.getValue());
+        return saveMap.get(TitleType.GRAB_TITLE).getTitleList(docId, channel == null ? null : channel.getValue());
     }
 
     public BaseTitle getTitleByDocId(Long docId, ChannelType channel) {
-        return saveMap.get(channel).getTitleByDocId(docId);
+        return saveMap.get(TitleType.GRAB_TITLE).getTitleByDocId(docId);
     }
 
     public BaseTitle getTitleId(Long titleId, ChannelType channel) {
-        return saveMap.get(channel).getTitleById(titleId);
+        return saveMap.get(TitleType.GRAB_TITLE).getTitleById(titleId);
     }
 
     public int childrenCount(Long docId, ChannelType channel) {
-        return saveMap.get(ChannelType.YH_WIKI).getChildrenCount(docId, channel.getValue());
+        return saveMap.get(TitleType.GRAB_TITLE).getChildrenCount(docId, channel.getValue());
     }
 
     public BaseTitle updateTitle(SaveTitleRequest request) {
-        return saveMap.get(request.getChannel()).updateTitle(request);
+        return saveMap.get(TitleType.GRAB_TITLE).updateTitle(request);
     }
 
     /**
@@ -136,7 +141,7 @@ public class BaseTitleService {
             if (Use_Type.USED.equals(loading.getLoaded())) {
                 throw new BaseKnownException(ErrorCodeConstant.ALREADY_LOAD_CODE, ErrorCodeConstant.ALREADY_LOAD_MSG);
             } else {
-                return saveMap.get(channel).getTitleById(loading.getTitleId());
+                return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
             }
         } else {
             return null;
@@ -144,7 +149,7 @@ public class BaseTitleService {
     }
 
     public void updateLoadSuccess(ChannelType channel, Long docId, Long id) {
-        saveMap.get(channel).updateTitleOnLoadSuccess(docId, id);
+        saveMap.get(TitleType.GRAB_TITLE).updateTitleOnLoadSuccess(docId, id);
         ConditionsCommon condition = new ConditionsCommon();
         condition.addsetObjectParam("loaded", Use_Type.USED);
         condition.addEqParam("titleId", id);
@@ -155,20 +160,27 @@ public class BaseTitleService {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addsetObjectParam("starTab", isStar);
         condition.addEqParam("id", docId);
-        saveMap.get(ChannelType.YH_WIKI).updateByParam(condition);
+        saveMap.get(TitleType.GRAB_TITLE).updateByParam(condition);
     }
 
+    public void updateTips(String tips,Long id) {
+    	ConditionsCommon condition = new ConditionsCommon();
+        condition.addsetObjectParam("tips", tips);
+        condition.addEqParam("id", id);
+        saveMap.get(TitleType.GRAB_TITLE).updateByParam(condition);
+    }
+    
     public List<BaseTitle> getStarTitleList(){
     	ConditionsCommon conditionsCommon = new  ConditionsCommon();
     	conditionsCommon.addEqParam("starTab", true);
-    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
     
     public List<BaseTitle> getNewLoadTitleList(){
     	ConditionsCommon conditionsCommon = new  ConditionsCommon();
     	conditionsCommon.addSetOrderColum("createDate", "desc");
     	conditionsCommon.addPageParam(1, 20);
-    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
     
     public List<BaseTitle> getSearchTitleList(String[] str){
@@ -176,7 +188,7 @@ public class BaseTitleService {
     	if(str != null) {
     		conditionsCommon.addColumMoreLikeParam("title", str);    		
     	}
-    	return saveMap.get(ChannelType.YH_WIKI).getTitleByParam(conditionsCommon);
+    	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
     
 }

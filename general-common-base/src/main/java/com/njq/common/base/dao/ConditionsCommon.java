@@ -172,7 +172,7 @@ public class ConditionsCommon {
 		if(values.length>1) {
 			String columString="";
 			for(String value:values) {
-				columString +=value+"(^)";
+				columString +=value+"^";
 			}
 			paramMap.put(colum+","+ConstantsCommon.Sql_Sign.LIKE,columString);
 		}else {

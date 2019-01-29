@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
@@ -245,7 +246,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                     System.out.println("");
                 }
                 BaseTitle title = baseTitleService.saveTitle(new SaveTitleRequestBuilder().ofParentId(parentId)
-                        .onMenu(n).ofTypeId(typeId).ofChannel(ChannelType.YH_WIKI).build());
+                        .onMenu(n).ofTypeId(typeId).ofChannel(ChannelType.YH_WIKI).ofTitleType(TitleType.GRAB_TITLE).build());
                 if (!CollectionUtils.isEmpty(n.getMenuList())) {
                     this.saveTitle(title.getId(), n.getMenuList(), typeId);
                 }

@@ -16,6 +16,7 @@ public class PerformerService {
 	public PerformerService(PageAnalysisPerformer yhWikiPageAnalysis, PageAnalysisPerformer cgblogsPageAnalysis) {
 		analyMap = new HashMap<>();
 		analyMap.put(ChannelType.YH_WIKI, yhWikiPageAnalysis);
+		analyMap.put(ChannelType.CNBLOGS, cgblogsPageAnalysis);
 	}
 	
 	public Map<ChannelType, PageAnalysisPerformer> getAnalysisPerformerMap(){

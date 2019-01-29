@@ -60,12 +60,15 @@ public class TestController {
 //		if (!dir.exists()) {
 //			dir.mkdirs();
 //		}
-		List<Integer> list = new ArrayList<>();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		list.add(4);
-		System.out.println(list.subList(0,4 ));
+//		List<Integer> list = new ArrayList<>();
+//		list.add(1);
+//		list.add(2);
+//		list.add(3);
+//		list.add(4);
+//		System.out.println(list.subList(0,4 ));
+		
+		String aaa = "aaa^bbbb";
+		System.out.println(aaa.split("\\^").length);
 	}
 
 	public class  createRunnable{

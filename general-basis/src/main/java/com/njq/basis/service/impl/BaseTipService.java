@@ -45,6 +45,10 @@ public class BaseTipService {
 			return StringUtils.EMPTY;
 		}
 		String tips[] = tipNames.split(",");
+		return checkAndSaveTips(tips);
+	}
+	
+	public String checkAndSaveTips(String... tips) {
 		StringBuilder stb = new StringBuilder();
 		for (int i = 0; i < tips.length; i++) {
 			stb.append(this.checkAndSave(tips[i]) + ",");

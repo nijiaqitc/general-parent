@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.EnumUtils;
 
 public enum ChannelType implements ValueDescription {
+	CNBLOGS("cnblogs", "博客园"),
 	YH_WIKI("yhwiki", "永辉的wiki文档");
 	private String value;
 	private String description;

@@ -78,8 +78,11 @@ public class SqlJpaInnerDeal {
 			String op=columName.split(",")[1];
 			if("like".equals(op)){
 				colum=colum.replace("!", ",");
+				String[] likeValue = paramMap.get(columName).toString().split("\\^");
+				for (int j = 0; j < likeValue.length; j++) {
+					lstb.append(" or "+colum+" "+op+" :likeParam"+(++i));
+				}
 //				conStb.append(" and "+colum+" "+op+" :likeParam " );
-				lstb.append(" or "+colum+" "+op+" :likeParam"+(++i));
 			}else if("is null".equals(op)||"is not null".equals(op)){
 				conStb.append(" and "+colum+" "+op);
 			}else if("between".equals(op)){
@@ -126,7 +129,10 @@ public class SqlJpaInnerDeal {
 					query.setParameter("param"+(++i), paramMap.get(colum));
 //					query.setParameterList("param"+(++i), (Object[])paramMap.get(colum));
 				}else if("like".equals(op)){
-					query.setParameter("likeParam"+(++i), "%"+paramMap.get(colum)+"%");
+					String[] likeValue = paramMap.get(colum).toString().split("\\^");
+					for (int j = 0; j < likeValue.length; j++) {
+						query.setParameter("likeParam"+(++i), "%"+likeValue[j]+"%");
+					}
 				}else if("is null".equals(op)||"is not null".equals(op)){
 					continue;
 				}else if("between".equals(op)){

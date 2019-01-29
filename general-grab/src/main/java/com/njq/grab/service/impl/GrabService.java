@@ -46,14 +46,18 @@ public class GrabService {
     private DaoCommon<GrabDoc> grabDocDao;
 
     public void loadPageJobTask() {
-        List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(ChannelType.YH_WIKI.getValue());
+        List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
         list.parallelStream().forEach(n -> {
             loadPageTaskExecutor.submit(() -> {
-                performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-                        .saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
+            	try {
+            		performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
+            		.saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));										
+				} catch (Exception e) {
+					logger.error("获取失败",e);
+				}
             });
         });
-        loadPageTaskExecutor.getActiveCount();
+        System.out.println(loadPageTaskExecutor.getActiveCount());
     }
 
     public void loadMenuJobTask() {

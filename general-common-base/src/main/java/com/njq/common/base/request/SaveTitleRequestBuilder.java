@@ -3,6 +3,7 @@ package com.njq.common.base.request;
 import java.io.Serializable;
 
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.constants.TitleType;
 import com.njq.common.model.vo.LeftMenu;
 
 public class SaveTitleRequestBuilder implements Serializable {
@@ -12,6 +13,7 @@ public class SaveTitleRequestBuilder implements Serializable {
 	protected Long typeId;
 	protected String tips;
 	protected ChannelType channel;
+	protected TitleType titleType;
 	protected Long id;
 	
 	public SaveTitleRequestBuilder ofParentId(Long parentId) {
@@ -41,6 +43,11 @@ public class SaveTitleRequestBuilder implements Serializable {
 
 	public SaveTitleRequestBuilder ofId(Long id) {
 		this.id = id;
+		return this;
+	}
+	
+	public SaveTitleRequestBuilder ofTitleType(TitleType type) {
+		this.titleType = type;
 		return this;
 	}
 	

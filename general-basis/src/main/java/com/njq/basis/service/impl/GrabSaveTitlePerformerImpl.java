@@ -42,9 +42,12 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         try {
             title.setParantId(request.getParentId());
             title.setTitle(request.getMenu().getName() + suffix);
+            if(title.getTitle().length()>100) {
+            	title.setTitle(title.getTitle().substring(0,100)+"...");
+            }
             title.setApply(0);
             title.setCreateDate(new Date());
-            title.setChannel(ChannelType.YH_WIKI.getValue());
+            title.setChannel(request.getChannel().getValue());
             title.setCreateBy(ConstantsCommon.Oper_User.ADMIN);
             title.setModiBy(ConstantsCommon.Oper_User.ADMIN);
             title.setTypeId(request.getTypeId());

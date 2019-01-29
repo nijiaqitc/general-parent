@@ -129,10 +129,10 @@ function CustomDecoder(){
 	};
 	//生成不含class的字符串（针对img、form等标签）(如果是图片，那么根据其宽度等比生成长宽)
 	this.getStyleOrClass=function(s){
-		if(s.startsWith("<img")){
+		if(s.startsWith("<img ")){
 			return this.dealImgStr(s);
 		}
-		if(s.startsWith("<a")){
+		if(s.startsWith("<a ")){
 			return this.dealAStr(s);
 		}
 		return this.removeCss(s);
