@@ -31,9 +31,11 @@ public class GrabController {
     public GrabUrlInfoService grabUrlInfoService;
     @Resource
     private BaseTitleService baseTitleService;
-    @Resource
-    private DaoCommon<GrabDoc> grabDocDao;
-
+    
+    @RequestMapping("")
+    public String index(Model model) {
+        return "/grab/grabIndex";
+    }
 
     @RequestMapping("loadJob")
     public void loadJob(Model model) {
@@ -54,9 +56,9 @@ public class GrabController {
     @ResponseBody
     @RequestMapping("saveAndGrab")
     public String saveAndGrab(String title, String url, String docId,
-                              String channel, String type, String tips, String reload) {
+                              String channel, String type, String tips, Boolean reload) {
         try {
-            grabService.grabOperation(title, url, docId, channel, type, tips);
+            grabService.grabOperation(title, url, docId, channel, type, tips,reload);
         } catch (Exception e) {
             logger.info("保存活动出错", e);
             return e.getMessage();
@@ -65,7 +67,8 @@ public class GrabController {
     }
 
     @RequestMapping("loadMenuPage")
-    public String loadMenuPage() {
+    public String loadMenuPage(Model model) {
+    	model.addAttribute("infoList", grabUrlInfoService.getInfoList(null));
         return "/grab/loadMenu";
     }
 
@@ -132,4 +135,11 @@ public class GrabController {
         return "标记或取消成功";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
+    public String updateStatus(Long id , Boolean status) {
+    	grabUrlInfoService.updateStatus(id,status);
+    	return "处理成功";
+    }
+    
 }

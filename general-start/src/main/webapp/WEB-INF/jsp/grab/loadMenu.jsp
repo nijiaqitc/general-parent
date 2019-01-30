@@ -6,6 +6,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +24,8 @@
 		<table class="table">
 			<tr>
 				<td>主页地址</td>
-				<td>菜单地址</td>
-				<td>类型</td>
+				<td>菜单地址(分析的菜单url)</td>
+				<td>类型(设置来源，如来自作者wy99)</td>
 				<td>操作</td>
 			</tr>
 			<tr>
@@ -35,6 +36,38 @@
 			</tr>
 		</table>
 	</form>
+	<div>
+		<table style="width: 100%;">
+			<thead>
+				<tr>
+					<td>id</td>
+					<td>主页地址</td>
+					<td>渠道</td>
+					<td>创建时间</td>
+					<td>开闭状态</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<c:forEach items="${infoList }" var="info">
+				<tr>
+					<td>${info.id }</td>
+					<td>${info.pageIndex }</td>
+					<td>${info.channel }</td>
+					<td>${info.createDate }</td>
+					<td>
+						<c:if test="${info.loadBtn==false }">已关闭</c:if>
+						<c:if test="${info.loadBtn }">开启中</c:if>
+					</td>
+					<td>
+						<c:if test="${info.loadBtn==false }"><a href="javascript:void(0)" onclick="enOrDisStatus('${info.id }','1')">开启</a></c:if>
+						<c:if test="${info.loadBtn }"><a style="color:red;" href="javascript:void(0)" onclick="enOrDisStatus('${info.id }','0')">关闭</a></c:if>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	
 	<script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		function queryPage(){
@@ -50,6 +83,21 @@
 			})
 		}
 		
+		
+		function enOrDisStatus(id,status){
+			$.ajax({
+				url:"/grab/updateStatus",
+				type:"POST",
+				data:{
+					id:id,
+					status:status
+				},
+				success:function(data){
+					location.reload(); 
+				}
+			})
+		
+		}
 	</script>
 </body>
 </html>

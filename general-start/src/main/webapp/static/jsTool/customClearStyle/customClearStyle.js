@@ -140,24 +140,38 @@ function CustomDecoder(){
 	this.dealImgStr=function(s){
 		var w1=s.match(/width(=|:)("|)(\w+)?("|;)/g);
 		var h1=s.match(/height(=|:)("|)(\w+)?("|;)/g);
-		var width="";
-		var height="";
 		var h="200";
 		var w="300";
 		var src=s.match(/src=".*?"/)[0];
-		//先判断原图是否已经被设定了宽高，如果已经有宽高则计算设定的宽高
-		if(w1!=undefined&&h1!=undefined){
-			for(var i=0;i<w1.length;i++){
-				width=w1[i].match(/\d+/g);
+		var st="";
+		if(w1!=undefined || h1!=undefined){
+			var width="";
+			var height="";
+			//先判断原图是否已经被设定了宽高，如果已经有宽高则计算设定的宽高
+			if(w1!=undefined){
+				for(var i=0;i<w1.length;i++){
+					width=w1[i].match(/\d+/g);
+				}
 			}
-			for(var i=0;i<h1.length;i++){
-				height=h1[i].match(/\d+/g);
+			if(h1!=undefined){
+				for(var i=0;i<h1.length;i++){
+					height=h1[i].match(/\d+/g);
+				}
+			}
+			if(width!=""){
+				w = width;
+				st+="width:"+w+"px;";
+			}
+			if(height!=""){
+				h = height;
+				st+="height:"+h+"px;";
 			}			
+		}else{
+			st+="width:"+w+"px;";
+			st+="height:"+h+"px;";
 		}
-		if(width!=""&&height!=""){
-			h=Math.round(height/width*w);
-		}
-		return "<img "+s.match(/src=".*?"/)[0]+ ' style="width:'+w+'px;height:'+h+'px;"'+" >";
+		
+		return "<img "+s.match(/src=".*?"/)[0]+ ' style="'+st+'"'+" >";
 	};
 	this.dealAStr=function(s){
 		var href=s.match(/href=".*?"/)[0];

@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.DaoCommon;
@@ -80,7 +81,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        this.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
+        YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
+        impl.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
     }
 
     @Override
@@ -96,7 +98,8 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadMenu(String url, Long typeId) {
         loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        this.saveTitle(null, sort(load(url)), typeId);
+        YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
+        impl.saveTitle(null, sort(load(url)), typeId);
     }
 
     /**

@@ -70,7 +70,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         title.setId(request.getId());
         baseTitleGrabDao.updateByPrimaryKeySelective(title);
         BaseTitle returnTitle = new BaseTitle();
-        BeanUtils.copyProperties(title, returnTitle);
+        BeanUtils.copyProperties(baseTitleGrabDao.queryTById(request.getId()), returnTitle);
         return returnTitle;
     }
 

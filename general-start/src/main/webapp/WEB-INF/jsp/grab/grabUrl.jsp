@@ -19,16 +19,49 @@ td input{
 </style>
 </head>
 <body>
-	<div style="margin-bottom: 20px;margin-top: 10px;">
-		<div>当前适用渠道：${channelList}</div>
+	<div>
+		<div>加载读取已配置的文章</div>
+		<div style="margin-bottom: 20px;margin-top: 10px;">
+			<div>当前适用渠道：${channelList}</div>
+		</div>
+		<div>
+			<form action="/grab/saveAndGrab">
+				<table class="table">
+					<tr>
+						<td>标题</td>
+						<td>地址</td>
+						<td>docId</td>
+						<td>渠道</td>
+						<td>类型</td>
+						<td>标签</td>
+						<td>更新</td>
+						<td>操作</td>
+					</tr>
+					<tr>
+						<td><input type="text" name="title"></td>
+						<td><input type="text" name="url"></td>
+						<td><input type="text" name="docId"></td>
+						<td><input type="text" name="channel"></td>
+						<td><input type="text" name="type"></td>
+						<td><input type="text" name="tips"></td>
+						<td>
+							<input type="radio" name="reload" checked value="0">不更新
+							<input type="radio" name="reload" value="1">更新
+						</td>
+						<td><input type="submit" value="保存"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
 	<div>
+		<div>加载未配置指定标签内的文章</div>
 		<form action="/grab/saveAndGrab">
 			<table class="table">
 				<tr>
 					<td>标题</td>
 					<td>地址</td>
-					<td>docId</td>
+					<td>tag</td>
 					<td>渠道</td>
 					<td>类型</td>
 					<td>标签</td>
@@ -43,7 +76,7 @@ td input{
 					<td><input type="text" name="type"></td>
 					<td><input type="text" name="tips"></td>
 					<td>
-						<input type="radio" name="reload" value="0">不更新
+						<input type="radio" name="reload" checked value="0">不更新
 						<input type="radio" name="reload" value="1">更新
 					</td>
 					<td><input type="submit" value="保存"></td>

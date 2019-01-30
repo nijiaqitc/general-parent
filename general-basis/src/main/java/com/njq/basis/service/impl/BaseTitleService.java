@@ -138,11 +138,12 @@ public class BaseTitleService {
         condition.addEqParam("channel", channel.getValue());
         BaseTitleLoading loading = baseTitleLoadingDao.queryTByParamForOne(condition);
         if (loading != null) {
-            if (Use_Type.USED.equals(loading.getLoaded())) {
-                throw new BaseKnownException(ErrorCodeConstant.ALREADY_LOAD_CODE, ErrorCodeConstant.ALREADY_LOAD_MSG);
-            } else {
-                return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
-            }
+//            if (Use_Type.USED.equals(loading.getLoaded())) {
+//                throw new BaseKnownException(ErrorCodeConstant.ALREADY_LOAD_CODE, ErrorCodeConstant.ALREADY_LOAD_MSG);
+//            } else {
+//                return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
+//            }
+            return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
         } else {
             return null;
         }

@@ -1,9 +1,6 @@
 package com.njq.grab.service.impl.cnblogs;
 
 import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.DaoCommon;
@@ -58,8 +56,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 	@Override
 	public void loadPage(Long docId) {
 		BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-	    this.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
-		
+		CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
+		impl.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
 	}
 
 	
@@ -71,10 +69,13 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 
 	@Override
 	public void loadMenu(String url,Long typeId) {
-		Element element =  HtmlGrabUtil
+		Document doc = HtmlGrabUtil
 				.build(ChannelType.CNBLOGS.getValue())
-				.getDoc(url)
-				.getElementById("sidebar_postcategory");
+				.getDoc(url);
+		Element element = doc.getElementById("sidebar_postcategory");
+		if(element == null) {
+			throw new BaseKnownException("找不到加载的标签");
+		}
 		Elements elements= element.getElementsByTag("a");
 		elements.forEach(n->{
 			Elements ss = HtmlGrabUtil
@@ -93,6 +94,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
                         .ofTypeId(typeId)
                         .ofChannel(ChannelType.CNBLOGS)
                         .ofTitleType(TitleType.GRAB_TITLE)
+                        .ofTips(baseTipService.checkAndSaveTips(n.html().split("\\(")[0]))
                         .build());
 			});
 		});
@@ -100,8 +102,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 	
 	@Override
 	public Long saveLoadingDoc(String url, BaseTitle baseTitle) {
-        String doc = this.saveAndAnalysis(url,baseTitle);
-        Long docId = this.saveDoc(doc, baseTitle.getTitle());
+        String doc = this.analysisPage(url);
+        Long docId =  this.saveDoc(doc, baseTitle.getTitle());
         baseTitleService.updateLoadSuccess(ChannelType.CNBLOGS,
         		docId,
                 baseTitle.getId());
@@ -121,7 +123,6 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 
 	@Override
 	public String analysisPage(String url) {
-		System.out.println("----");
 		Document doc = HtmlGrabUtil
                 .build(ChannelType.CNBLOGS.getValue())
                 .getDoc(url);
@@ -133,22 +134,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
         enode.getElementsByTag("img").forEach(n -> {
             n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl("", n.attr("src"), ChannelType.CNBLOGS.getValue(), imagePlace));
         });
-        Pattern r =  Pattern.compile("(currentBlogId.*?;)");
-        Matcher m = r.matcher(doc.getElementsByTag("head").html());
-        m.find();
-        System.out.println(m.groupCount());
-        System.out.println(m.group());
-		return enode.html();
-        
-        
-//        Element eee = doc.getElementById("green_channel");
-//        System.out.println(eee.html());
-        
-        
-//        System.out.println(HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr"));
-//        return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
-//        return enode.html();
-//        return "";
+        return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
 	}
 
 	@Override
@@ -167,25 +153,4 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 		return this.analysisPage(url);
 	}
 
-	public String saveAndAnalysis(String url, BaseTitle baseTitle) {
-		Document doc = HtmlGrabUtil
-                .build(ChannelType.CNBLOGS.getValue())
-                .getDoc(url);
-        if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
-        }
-       
-        Element enode = doc.getElementById("cnblogs_post_body");
-        enode.getElementsByTag("img").forEach(n -> {
-            n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl("", n.attr("src"), ChannelType.CNBLOGS.getValue(), imagePlace));
-        });
-        Elements tagList = doc.getElementById("EntryTag").getElementsByTag("a");
-        StringBuffer sbf=new StringBuffer();
-        tagList.forEach(n->{
-        	sbf.append(",").append(n.html());
-        });
-        //标签在文档中才能提取所以只能在解析时进行标签保存
-        baseTitleService.updateTips(baseTipService.checkAndSaveTips(sbf.toString().substring(1)), baseTitle.getId());
-        return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
-	}
 }

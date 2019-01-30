@@ -4,7 +4,9 @@ import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
@@ -61,7 +63,7 @@ public class GrabService {
     }
 
     public void loadMenuJobTask() {
-        List<GrabUrlInfo> list = grabUrlInfoService.getInfoList();
+        List<GrabUrlInfo> list = grabUrlInfoService.getInfoList(true);
         list.forEach(n -> {
             try {
                 performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
@@ -98,17 +100,20 @@ public class GrabService {
                 .updateDoc(loading.getUrl(), grabDoc.getTitle(), grabDoc.getId());
     }
 
-    public void grabOperation(String title, String url, String docId, String channel, String type, String tips) {
+    public void grabOperation(String title, String url, String docId, String channel, String type, String tips,Boolean reload) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
+        GrabService service = SpringContextUtil.getBean(GrabService.class);
         if (loading == null) {
-            this.saveAndGrab(title, url, docId, channel, type, tips);
+        	service.saveAndGrab(title, url, docId, channel, type, tips);
         } else {
-            if (loading.getLoaded().equals(Use_Type.USED)) {
-                this.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
-            } else {
-                ChannelType tt = ChannelType.getChannelType(channel);
-                this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
-            }
+        	if(reload) {
+        		if (loading.getLoaded().equals(Use_Type.USED)) {
+        			service.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
+        		} else {
+        			ChannelType tt = ChannelType.getChannelType(channel);
+        			this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
+        		}        		
+        	}
         }
     }
 
@@ -123,8 +128,13 @@ public class GrabService {
         menu.setName(title);
         ChannelType tt = ChannelType.getChannelType(channel);
         BaseTitle baseTitle = baseTitleService
-                .saveTitle(new SaveTitleRequestBuilder().onMenu(menu).ofTypeId(baseTypeService.checkAndSave(type))
-                        .ofTips(baseTipService.checkAndSaveTips(tips)).ofChannel(tt).build());
+                .saveTitle(new SaveTitleRequestBuilder()
+                		.onMenu(menu)
+                		.ofTypeId(baseTypeService.checkAndSave(type))
+                        .ofTips(baseTipService.checkAndSaveTips(tips))
+                        .ofChannel(tt)
+                        .ofTitleType(TitleType.GRAB_TITLE)
+                        .build());
         System.out.println("耗时b" + (System.currentTimeMillis() - time1) / 1000);
         baseTypeService.addNum(channel, baseTitle.getTypeId());
         System.out.println("耗时c" + (System.currentTimeMillis() - time1) / 1000);
@@ -138,11 +148,12 @@ public class GrabService {
         menu.setDocId(docId);
         menu.setName(title);
         ChannelType tt = ChannelType.getChannelType(channel);
-        baseTitleService.updateTitle(new SaveTitleRequestBuilder().onMenu(menu).ofId(Long.valueOf(docId))
+        BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder().onMenu(menu).ofId(Long.valueOf(docId))
                 .ofTypeId(baseTypeService.checkAndSave(type)).ofTips(baseTipService.checkAndSaveTips(tips))
                 .ofChannel(tt).build());
+        
         // 修改文章
-        performerService.getAnalysisPerformer(tt).updateDoc(url, title, Long.valueOf(docId));
+        performerService.getAnalysisPerformer(tt).updateDoc(url, title, baseTitle.getDocId());
     }
 
 

@@ -38,12 +38,12 @@ public class YhWikiController {
     @RequestMapping("getPage")
     public String getPage(Model model) {
         login();
-        String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2310481");
-        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
-        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
-        String fun = "decodeStr";
-        model.addAttribute("doc", HtmlDecodeUtil.decodeHtml(context, js, fun));
-        model.addAttribute("doc", context);
+//        String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2310481");
+//        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
+//        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
+//        String fun = "decodeStr";
+//        model.addAttribute("doc", HtmlDecodeUtil.decodeHtml(context, js, fun));
+        model.addAttribute("doc", yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300872"));
         return "grab/view";
     }
 

@@ -18,9 +18,11 @@ public class GrabUrlInfoService {
 	@Autowired
 	private DaoCommon<GrabUrlInfo> grabUrlInfoDao;
 	
-	public List<GrabUrlInfo> getInfoList(){
+	public List<GrabUrlInfo> getInfoList(Boolean loadBtn){
 		ConditionsCommon condition = new ConditionsCommon();
-		condition.addEqParam("loadBtn", true);
+		if(loadBtn != null) {
+			condition.addEqParam("loadBtn", loadBtn);			
+		}
 		return grabUrlInfoDao.queryColumnForList(condition);
 	}
 	
@@ -65,7 +67,18 @@ public class GrabUrlInfoService {
 		urlInfo.setUserName(info.getUserName());
 		urlInfo.setDataJson(info.getDataJson());
 		urlInfo.setTypeName(typeName);
+		urlInfo.setLoadBtn(true);
 		grabUrlInfoDao.save(urlInfo);
 		return urlInfo.getId();
+	}
+	
+	public void updateStatus(Long id,Boolean bool) {
+		if(bool == null) {
+			return;
+		}
+		ConditionsCommon condition = new ConditionsCommon();
+		condition.addsetObjectParam("loadBtn", bool);
+		condition.addEqParam("id", id);
+		grabUrlInfoDao.update(condition);
 	}
 }
