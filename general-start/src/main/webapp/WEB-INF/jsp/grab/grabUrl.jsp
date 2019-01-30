@@ -56,29 +56,30 @@ td input{
 	</div>
 	<div>
 		<div>加载未配置指定标签内的文章</div>
-		<form action="/grab/saveAndGrab">
+		<form action="/grab/grabCustomDoc">
 			<table class="table">
 				<tr>
 					<td>标题</td>
 					<td>地址</td>
-					<td>tag</td>
+					<td style="width: 140px;">提取类型</td>
+					<td>获取标签</td>
 					<td>渠道</td>
 					<td>类型</td>
 					<td>标签</td>
-					<td>更新</td>
 					<td>操作</td>
 				</tr>
 				<tr>
 					<td><input type="text" name="title"></td>
 					<td><input type="text" name="url"></td>
-					<td><input type="text" name="docId"></td>
+					<td>
+						<input type="radio"  name = "getType" value="1">id 
+						<input type="radio" name = "getType" value="2">标签
+						<input type="radio" name = "getType" value="3">class
+					</td>
+					<td><input type="text" name="name"></td>
 					<td><input type="text" name="channel"></td>
 					<td><input type="text" name="type"></td>
 					<td><input type="text" name="tips"></td>
-					<td>
-						<input type="radio" name="reload" checked value="0">不更新
-						<input type="radio" name="reload" value="1">更新
-					</td>
 					<td><input type="submit" value="保存"></td>
 				</tr>
 			</table>

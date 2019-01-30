@@ -1,13 +1,7 @@
 package com.njq.grab.controller;
 
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabDoc;
-import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.grab.service.impl.GrabService;
-import com.njq.grab.service.impl.GrabUrlInfoService;
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.grab.service.impl.GrabService;
+import com.njq.grab.service.impl.GrabUrlInfoService;
 
 @RequestMapping("grab")
 @Controller
@@ -60,12 +59,25 @@ public class GrabController {
         try {
             grabService.grabOperation(title, url, docId, channel, type, tips,reload);
         } catch (Exception e) {
-            logger.info("保存活动出错", e);
+            logger.info("保存出错", e);
             return e.getMessage();
         }
         return "操作成功！";
     }
 
+    @ResponseBody
+    @RequestMapping("grabCustomDoc")
+    public String grabCustomDoc(String title, String url, String docId,
+                              String channel, String type, String tips, int getType,String name) {
+        try {
+        	grabService.saveGrabCustomDoc(title, url, docId, channel, type, tips, name, getType);
+        } catch (Exception e) {
+            logger.info("保存出错", e);
+            return e.getMessage();
+        }
+        return "操作成功！";
+    }
+    
     @RequestMapping("loadMenuPage")
     public String loadMenuPage(Model model) {
     	model.addAttribute("infoList", grabUrlInfoService.getInfoList(null));

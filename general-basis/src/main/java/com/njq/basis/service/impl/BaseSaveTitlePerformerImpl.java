@@ -29,7 +29,7 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addEqParam("title", request.getMenu().getName());
         condition.addEqParam("typeId", request.getTypeId());
-        condition.addEqParam("channel", request.getChannel().getValue());
+        condition.addEqParam("channel", request.getChannel());
         List<BaseTitle> titleList = baseTitleDao.queryColumnForList(condition);
         String suffix = "";
         if (!CollectionUtils.isEmpty(titleList)) {

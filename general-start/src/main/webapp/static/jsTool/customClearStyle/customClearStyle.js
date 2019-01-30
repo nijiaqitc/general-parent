@@ -12,6 +12,8 @@ function decodeStr(st){
  */
 function CustomDecoder(){
 	this.str="";
+	//显示平台，如果在app显示 图片大小需要特殊处理
+	this.showPlatform="";
 	//先提取出所有开头标签
 	this.firstClear1=/<[^\/].*?>/g;
 	//再判断提出来的标签是否包含了样式
@@ -169,6 +171,9 @@ function CustomDecoder(){
 		}else{
 			st+="width:"+w+"px;";
 			st+="height:"+h+"px;";
+		}
+		if(this.showPlatform==""){
+			st +="max-width:300px;max-height:200px;"
 		}
 		
 		return "<img "+s.match(/src=".*?"/)[0]+ ' style="'+st+'"'+" >";

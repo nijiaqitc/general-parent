@@ -92,7 +92,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer{
 				baseTitleService.saveTitle(new SaveTitleRequestBuilder()
                         .onMenu(menu)
                         .ofTypeId(typeId)
-                        .ofChannel(ChannelType.CNBLOGS)
+                        .ofChannel(ChannelType.CNBLOGS.getValue())
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .ofTips(baseTipService.checkAndSaveTips(n.html().split("\\(")[0]))
                         .build());

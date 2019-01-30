@@ -249,7 +249,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                     System.out.println("");
                 }
                 BaseTitle title = baseTitleService.saveTitle(new SaveTitleRequestBuilder().ofParentId(parentId)
-                        .onMenu(n).ofTypeId(typeId).ofChannel(ChannelType.YH_WIKI).ofTitleType(TitleType.GRAB_TITLE).build());
+                        .onMenu(n).ofTypeId(typeId).ofChannel(ChannelType.YH_WIKI.getValue()).ofTitleType(TitleType.GRAB_TITLE).build());
                 if (!CollectionUtils.isEmpty(n.getMenuList())) {
                     this.saveTitle(title.getId(), n.getMenuList(), typeId);
                 }

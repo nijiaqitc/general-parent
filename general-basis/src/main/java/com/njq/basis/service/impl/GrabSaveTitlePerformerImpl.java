@@ -31,7 +31,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addEqParam("title", request.getMenu().getName());
         condition.addEqParam("typeId", request.getTypeId());
-        condition.addEqParam("channel", request.getChannel().getValue());
+        condition.addEqParam("channel", request.getChannel());
         List<BaseTitleGrab> titleList = baseTitleGrabDao.queryColumnForList(condition);
         String suffix = "";
 //		if (!CollectionUtils.isEmpty(titleList)) {
@@ -47,7 +47,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             }
             title.setApply(0);
             title.setCreateDate(new Date());
-            title.setChannel(request.getChannel().getValue());
+            title.setChannel(request.getChannel());
             title.setCreateBy(ConstantsCommon.Oper_User.ADMIN);
             title.setModiBy(ConstantsCommon.Oper_User.ADMIN);
             title.setTypeId(request.getTypeId());

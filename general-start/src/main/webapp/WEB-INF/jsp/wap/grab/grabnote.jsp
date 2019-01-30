@@ -8,6 +8,55 @@
   <meta name="keywords" content="${tipString }">
   <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/docView.css"  >
+  <style type="text/css">
+    	table{
+    		border-collapse: collapse;
+    	}
+    	th{
+    		user-select: none;
+		    min-width: 0px;
+		    max-width: none;
+		    background: #f0f0f0 center right no-repeat;
+		    padding-right: 15px;
+		    cursor: pointer;
+		    border: 1px solid #ddd;
+		    padding: 7px 10px;
+		    vertical-align: top;
+		    text-align: left;
+		    font-size: 0.8rem;
+    	}
+    	
+    	td{
+    		border: 1px solid #ddd;
+		    padding: 7px 10px;
+		    vertical-align: top;
+		    text-align: left;
+		    font-size: 0.8rem;
+    	}
+    	
+    	td span {
+    		font-size: 0.8rem;
+    	}
+    	
+    	td p {
+    		font-size: 0.8rem;
+    	}
+    	
+    	pre{
+    		position: relative !important;
+    		overflow-y: hidden !important;
+    		overflow-x: auto !important;
+    		font-size: 16px !important;
+		    line-height: 22px !important;
+		    font-family: Source Code Pro,DejaVu Sans Mono,Ubuntu Mono,Anonymous Pro,Droid Sans Mono,Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,PingFang SC,Microsoft YaHei,sans-serif !important;
+		    margin: 0 0 24px !important;
+		    padding: 8px 16px 6px 56px !important;
+		    background-color: #282C33 !important;
+		    border: none !important;
+		    white-space: pre !important;
+    	}
+    	
+    </style>
 </head>
 <body>
 	<!-- 	顶部div开始 -->

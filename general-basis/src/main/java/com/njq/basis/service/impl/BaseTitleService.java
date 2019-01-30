@@ -90,7 +90,7 @@ public class BaseTitleService {
             loading.setTitleId(tt.getId());
             loading.setUrl(request.getMenu().getValue());
             loading.setCreateDate(new Date());
-            loading.setChannel(request.getChannel().getValue());
+            loading.setChannel(request.getChannel());
             loading.setLoaded(ConstantsCommon.Use_Type.UN_USE);
             loading.setDocIdSource(request.getMenu().getDocId());
             baseTitleLoadingDao.save(loading);
@@ -132,10 +132,10 @@ public class BaseTitleService {
      * @param channel
      * @return
      */
-    private BaseTitle verify(String url, ChannelType channel) {
+    private BaseTitle verify(String url, String channel) {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addEqParam("url", url);
-        condition.addEqParam("channel", channel.getValue());
+        condition.addEqParam("channel", channel);
         BaseTitleLoading loading = baseTitleLoadingDao.queryTByParamForOne(condition);
         if (loading != null) {
 //            if (Use_Type.USED.equals(loading.getLoaded())) {
