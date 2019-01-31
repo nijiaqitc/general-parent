@@ -171,7 +171,7 @@ public class GrabService {
     }
 
 
-    public int queryTitleChildrenCount(Long docId, ChannelType channel) {
+    public int queryTitleChildrenCount(Long docId, String channel) {
         return baseTitleService.childrenCount(docId, channel);
     }
     

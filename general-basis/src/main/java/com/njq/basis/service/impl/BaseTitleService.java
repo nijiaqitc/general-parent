@@ -17,8 +17,6 @@ import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -117,8 +115,8 @@ public class BaseTitleService {
         return saveMap.get(TitleType.GRAB_TITLE).getTitleById(titleId);
     }
 
-    public int childrenCount(Long docId, ChannelType channel) {
-        return saveMap.get(TitleType.GRAB_TITLE).getChildrenCount(docId, channel.getValue());
+    public int childrenCount(Long docId, String channel) {
+        return saveMap.get(TitleType.GRAB_TITLE).getChildrenCount(docId, channel);
     }
 
     public BaseTitle updateTitle(SaveTitleRequest request) {
