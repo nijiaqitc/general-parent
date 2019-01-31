@@ -50,7 +50,7 @@ public class GrabService {
     @Resource
     private DaoCommon<GrabDoc> grabDocDao;
     @Resource
-    private CustomAnalysisPerformer CustomAnalysisPerformer;
+    private CustomAnalysisPerformer customAnalysisPerformer;
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
         list.parallelStream().forEach(n -> {
@@ -194,6 +194,6 @@ public class GrabService {
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
         baseTypeService.addNum(channel, baseTitle.getTypeId());
-        CustomAnalysisPerformer.saveLoadingDoc(url, name, getType, baseTitle);
+        customAnalysisPerformer.saveLoadingDoc(url, name, getType, baseTitle);
     }
 }
