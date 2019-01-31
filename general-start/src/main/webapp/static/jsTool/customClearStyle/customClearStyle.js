@@ -22,7 +22,7 @@ function CustomDecoder(){
 	//以<开始匹配后面的连续字符直到第一个>结尾接着以</开始 和第一个括号内相同的字符>结尾
 	this.secondClear=/<(\w*)>(<\/\1*>)/g;
 	//判断标签所属类型
-	this.typeZz=[/<img?/,/<form?/,/<table?/,/<th?/,/<tr?/,/<td?/,/<a?/];
+	this.typeZz=[/<img.?/,/<form.?/,/<table.?/,/<th.?/,/<tr.?/,/<td.?/,/<a.?/];
 	//匹配标签中的前一部分如：(<p )
 	this.zz1=/.*? /;
 	//去除上面匹配出来的字符串中的"<"、" "
@@ -67,7 +67,9 @@ function CustomDecoder(){
 		var sz=this.str.match(this.secondClear);
 		if(sz!=undefined){
 			for(var i=0;i<sz.length;i++){
-				this.str=this.str.replace(sz[i],"");
+				if(!(/<th.?/.test(sz[i])||/<td.?/.test(sz[i]))){
+					this.str=this.str.replace(sz[i],"");					
+				}
 			}
 		}
 	};
@@ -172,7 +174,7 @@ function CustomDecoder(){
 			st+="width:"+w+"px;";
 			st+="height:"+h+"px;";
 		}
-		if(this.showPlatform==""){
+		if(this.showPlatform != ""){
 			st +="max-width:300px;max-height:200px;"
 		}
 		

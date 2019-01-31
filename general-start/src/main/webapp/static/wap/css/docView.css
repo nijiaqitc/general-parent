@@ -19,6 +19,9 @@ img{
  	width: 300px;
    	height: 200px;
 }
+.textContext{
+	word-break: break-word;
+}
 .docView1{
 	font-size: 1.2rem;padding-top: 20px;margin-top: 10px;
 }
@@ -53,15 +56,6 @@ img{
 .docView9{
 	font-size: 0.7rem
 }
-.docView1{
-	
-}
-.docView1{
-	
-}
-.docView1{
-	
-}
 pre{
     overflow: auto;
     box-sizing: border-box;
@@ -78,4 +72,8 @@ pre{
     max-height: 35em;
     position: relative;
     background-color: #efefef;
+}
+
+pre span{
+	font-size: .8rem;
 }

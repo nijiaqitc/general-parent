@@ -42,20 +42,6 @@
     		font-size: 0.8rem;
     	}
     	
-    	pre{
-    		position: relative !important;
-    		overflow-y: hidden !important;
-    		overflow-x: auto !important;
-    		font-size: 16px !important;
-		    line-height: 22px !important;
-		    font-family: Source Code Pro,DejaVu Sans Mono,Ubuntu Mono,Anonymous Pro,Droid Sans Mono,Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,PingFang SC,Microsoft YaHei,sans-serif !important;
-		    margin: 0 0 24px !important;
-		    padding: 8px 16px 6px 56px !important;
-		    background-color: #282C33 !important;
-		    border: none !important;
-		    white-space: pre !important;
-    	}
-    	
     </style>
 </head>
 <body>
@@ -69,7 +55,7 @@
 			<div>
 				<div class="docView1">${docViewText.title} </div>
 			</div>
-			<div align="center" id="assss" class="docView4" style="padding-bottom: 40px;">
+			<div align="center" id="contextValue" class="docView4" style="padding-bottom: 40px;">
 				${docViewText.doc}
 			</div>
 		</div>
@@ -81,6 +67,13 @@
 	<!-- 	底部通用部分结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript"  src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
-  	<script type="text/javascript" src="${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
+  	<script type="text/javascript">
+	    $(function(){
+	    	var cd=new CustomDecoder();
+	    	cd.showPlatform="wap";
+			cd.str=$("#contextValue").html();
+	    	$("#contextValue").html(cd.decode());
+	    })
+	</script>
 </body>  
 </html>
