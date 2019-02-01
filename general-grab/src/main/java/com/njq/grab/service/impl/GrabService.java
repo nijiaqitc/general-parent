@@ -140,8 +140,6 @@ public class GrabService {
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
         System.out.println("耗时b" + (System.currentTimeMillis() - time1) / 1000);
-        baseTypeService.addNum(channel, baseTitle.getTypeId());
-        System.out.println("耗时c" + (System.currentTimeMillis() - time1) / 1000);
         performerService.getAnalysisPerformer(tt).saveLoadingDoc(url, baseTitle);
     }
 
@@ -193,7 +191,6 @@ public class GrabService {
                         .ofChannel(channel)
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
-        baseTypeService.addNum(channel, baseTitle.getTypeId());
         customAnalysisPerformer.saveLoadingDoc(url, name, getType, baseTitle);
     }
 
@@ -204,7 +201,9 @@ public class GrabService {
         if (StringUtils.isEmpty(title.getTips())) {
             baseTitleService.updateTips(tipId, title.getId());
         } else {
-            baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
+        	if(!title.getTips().contains(tipId)) {
+        		baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
+        	}
         }
     }
 }

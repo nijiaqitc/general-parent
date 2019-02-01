@@ -32,7 +32,7 @@ td input{
 						<td>地址</td>
 						<td>docId</td>
 						<td>渠道</td>
-						<td>类型</td>
+						<td>类型(必填)</td>
 						<td>标签</td>
 						<td>更新</td>
 						<td>操作</td>
@@ -55,7 +55,7 @@ td input{
 		</div>
 	</div>
 	<div>
-		<div>加载未配置指定标签内的文章</div>
+		<div>加载未配置指定标签内的文章(渠道指 文章来源  类型指归档为哪个类，如https://www.cnblogs.com/sllina/p/5694808.html 渠道:cnblogs 类型：sllina)</div>
 		<form action="/grab/grabCustomDoc">
 			<table class="table">
 				<tr>
@@ -64,7 +64,7 @@ td input{
 					<td style="width: 140px;">提取类型</td>
 					<td>获取标签</td>
 					<td>渠道</td>
-					<td>类型</td>
+					<td>类型(必填)</td>
 					<td>标签</td>
 					<td>操作</td>
 				</tr>

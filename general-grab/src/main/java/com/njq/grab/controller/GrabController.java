@@ -1,11 +1,9 @@
 package com.njq.grab.controller;
 
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.grab.service.impl.GrabService;
-import com.njq.grab.service.impl.GrabUrlInfoService;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
+import com.alibaba.druid.util.StringUtils;
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.grab.service.impl.GrabService;
+import com.njq.grab.service.impl.GrabUrlInfoService;
 
 @RequestMapping("grab")
 @Controller
@@ -56,6 +61,9 @@ public class GrabController {
     @RequestMapping("saveAndGrab")
     public String saveAndGrab(String title, String url, String docId,
                               String channel, String type, String tips, Boolean reload) {
+    	if(StringUtils.isEmpty(type)) {
+    		return "操作失败，类型必填";
+    	}
         try {
             grabService.grabOperation(title, url, docId, channel, type, tips, reload);
         } catch (Exception e) {
@@ -69,6 +77,9 @@ public class GrabController {
     @RequestMapping("grabCustomDoc")
     public String grabCustomDoc(String title, String url, String docId,
                                 String channel, String type, String tips, int getType, String name) {
+    	if(StringUtils.isEmpty(type)) {
+    		return "操作失败，类型必填";
+    	}
         try {
             grabService.saveGrabCustomDoc(title, url, docId, channel, type, tips, name, getType);
         } catch (Exception e) {
@@ -160,8 +171,16 @@ public class GrabController {
      * @param docId
      * @param tipName
      */
+    @ResponseBody
     @RequestMapping(value = "addTip", method = RequestMethod.POST)
-    public void addTip(Model model, Long docId, String tipName) {
+    public Map<String, Object> addTip(Model model, Long docId, String tipName) {
+    	if(docId == null) {
+    		return  MessageCommon.getFalseMap("参数有误");
+    	}
+    	if(tipName == null) {
+    		return  MessageCommon.getFalseMap("参数有误");
+    	}
         grabService.updateTips(tipName, docId);
+        return MessageCommon.getSuccessMap();
     }
 }

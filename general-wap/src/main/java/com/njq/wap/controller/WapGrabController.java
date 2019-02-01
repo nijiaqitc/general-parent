@@ -1,5 +1,18 @@
 package com.njq.wap.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.constants.ChannelType;
@@ -9,16 +22,6 @@ import com.njq.common.model.vo.grab.GrabTypeInfo;
 import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.wap.service.WapGrabService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @RequestMapping("wap")
 @Controller
@@ -52,9 +55,12 @@ public class WapGrabController {
     @RequestMapping(value = "/grab/{noteId}", method = RequestMethod.GET)
     public String grab(Model model, @PathVariable(value = "noteId") Long noteId) {
         GrabDoc doc = grabService.queryById(noteId);
+        if(doc == null) {
+        	return "wap/grab/abc";
+        }
         BaseTitle title = baseTitleService.getTitleByDocId(doc.getId());
         model.addAttribute("docViewText", doc);
-        if (StringUtil.IsNotEmpty(title.getTips())) {
+        if (!StringUtils.isEmpty(title.getTips())) {
             model.addAttribute("tipList", baseTipService.getTipListByIds(title.getTips()));
         }
         return "wap/grab/grabnote";

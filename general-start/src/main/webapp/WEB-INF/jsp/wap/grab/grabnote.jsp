@@ -53,10 +53,19 @@
 	<div class="textContext" >
 		<div class="menu-box" align="center">
 			<div>
-				<div class="docView1">${docViewText.title} </div>
-				<c:forEach items="${tipList}" var="tip">
-					<span style="margin-left: 10px;">${tip}</span>
-				</c:forEach>
+				<div class="docView1" style="max-width: 90%;">${docViewText.title} </div>
+				<div style="border-bottom: 1px solid #222;width: 200px;font-size: 8px;">
+					标签：
+					<c:forEach items="${tipList}" var="tip">
+						<span style="margin-left: 10px;font-size: 8px;">${tip.tipName}</span>
+					</c:forEach>
+					<span onclick="showAddTip()" style="float: right;">+</span>
+				</div>
+				<div id="addTipArea" style="display: none;">
+					<input type="hidden" id="subId" value="${docViewText.id}">
+					<input type="text" id="subTipName" name = "tipName">
+					<input type="button" value="提交" onclick="saveTip()">
+				</div>
 			</div>
 			<div align="center" id="contextValue" class="docView4" style="padding-bottom: 40px;">
 				${docViewText.doc}
@@ -77,6 +86,25 @@
 			cd.str=$("#contextValue").html();
 	    	$("#contextValue").html(cd.decode());
 	    })
+	    
+	    function showAddTip(){
+	    	$("#addTipArea").show();
+	    }
+	    
+	    function saveTip(){
+			$.ajax({
+				url:"${path}/grab/addTip",
+				data:{
+					docId:$("#subId").val(),
+					tipName:$("#subTipName").val()
+				},
+				type:"post",
+				success:function(data){
+					$("#addTipArea").hide();
+				}
+			})		
+		}
+	    
 	</script>
 </body>  
 </html>
