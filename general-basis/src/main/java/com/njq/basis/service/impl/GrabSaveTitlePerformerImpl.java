@@ -24,7 +24,8 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     private DaoCommon<BaseTitleGrab> baseTitleGrabDao;
     @Resource
     private BaseTypeService baseTypeService;
-
+    @Resource
+    private BaseTipService baseTipService;
     @Override
     public BaseTitle saveTitle(SaveTitleRequest request) {
         ConditionsCommon condition = new ConditionsCommon();
@@ -53,6 +54,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             title.setTips(request.getTips());
             baseTitleGrabDao.save(title);
             baseTypeService.addNum(request.getChannel(), request.getTypeId());
+            baseTipService.addNum(request.getTips());
         } catch (Exception e) {
             logger.info("加载下载菜单出错", e);
         }

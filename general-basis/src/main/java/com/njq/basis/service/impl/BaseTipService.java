@@ -34,10 +34,8 @@ public class BaseTipService {
             tip = new BaseTip();
             tip.setCreateDate(new Date());
             tip.setTipName(tipName);
-            tip.setNum(1);
+            tip.setNum(0);
             baseTipDao.save(tip);
-        } else {
-            baseTipJpaRepository.updateForAddNum(tip.getId());
         }
         return tip.getId();
     }
@@ -72,5 +70,16 @@ public class BaseTipService {
             list.add(baseTipDao.queryTById(Long.valueOf(tipId)));
         }
         return list;
+    }
+
+
+    public void addNum(String tipIds) {
+        if (StringUtils.isBlank(tipIds)) {
+            return;
+        }
+        String tips[] = tipIds.split(",");
+        for (int i = 0; i < tips.length; i++) {
+            baseTipJpaRepository.updateForAddNum(Long.valueOf(tips[i]));
+        }
     }
 }
