@@ -69,12 +69,14 @@ public class GrabService {
     public void loadMenuJobTask() {
         List<GrabUrlInfo> list = grabUrlInfoService.getInfoList(true);
         list.forEach(n -> {
-            try {
-                performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-                        .loadMenu(n.getMenuUrl(), baseTypeService.checkAndSave(n.getTypeName()));
-            } catch (BaseKnownException e) {
-                logger.info("加载菜单出错", e);
-            }
+            loadPageTaskExecutor.submit(() -> {
+                try {
+                    performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
+                            .loadMenu(n.getMenuUrl(), baseTypeService.checkAndSave(n.getTypeName()));
+                } catch (BaseKnownException e) {
+                    logger.info("加载菜单出错", e);
+                }
+            });
         });
     }
 
