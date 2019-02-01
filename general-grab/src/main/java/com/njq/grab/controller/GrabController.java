@@ -35,6 +35,16 @@ public class GrabController {
     @Resource
     private BaseTitleService baseTitleService;
 
+    /**
+     * 1、加唯一主键在 title_loading
+     * 2、解决js处理出错问题
+     * 3、保存文章之前 先修改title_loading的状态为1，并判断是否修改成功，未成功跑出异常
+     * 4、java执行js抛出异常，别捕捉异常，要回滚事物
+     * 5、url直接以/开头的图片下载要处理下
+     * 6、读取doc应该放在事物外面，若放在事物内部会导致事物超时
+     * @param model
+     * @return
+     */
 
     @RequestMapping("")
     public String index(Model model) {
