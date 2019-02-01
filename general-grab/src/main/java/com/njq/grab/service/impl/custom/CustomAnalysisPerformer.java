@@ -13,6 +13,8 @@ import com.njq.common.util.grab.UrlChangeUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import java.util.Date;
 
 @Component
 public class CustomAnalysisPerformer {
+    private static final Logger logger = LoggerFactory.getLogger(CustomAnalysisPerformer.class);
     @Value("${image.url}")
     private String imgUrl;
     @Value("${image.place}")
@@ -38,7 +41,7 @@ public class CustomAnalysisPerformer {
 
     public Long saveLoadingDoc(String url, String name, int type, BaseTitle baseTitle) {
         String doc = this.analysisPage(url, name, type);
-        Long docId = this.saveDoc(doc, baseTitle.getTitle(),baseTitle);
+        Long docId = this.saveDoc(doc, baseTitle.getTitle(), baseTitle);
         baseTitleService.updateLoadSuccess(ChannelType.CUSTOM,
                 docId,
                 baseTitle.getId());
@@ -49,6 +52,7 @@ public class CustomAnalysisPerformer {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CUSTOM.getValue())
                 .getDoc(url);
+        logger.info("cusotm:" + name + " :----: " + url);
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
         }
@@ -88,7 +92,7 @@ public class CustomAnalysisPerformer {
         return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
     }
 
-    public Long saveDoc(String doc, String title,BaseTitle baseTitle) {
+    public Long saveDoc(String doc, String title, BaseTitle baseTitle) {
         GrabDoc grabDoc = new GrabDoc();
         grabDoc.setChannel(baseTitle.getChannel());
         grabDoc.setCreateDate(new Date());

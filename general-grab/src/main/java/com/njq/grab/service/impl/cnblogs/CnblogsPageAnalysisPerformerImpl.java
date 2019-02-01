@@ -21,6 +21,8 @@ import com.njq.grab.service.PageAnalysisPerformer;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,7 @@ import java.util.Date;
 
 @Component("cgblogsPageAnalysis")
 public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
+    private static final Logger logger = LoggerFactory.getLogger(CnblogsPageAnalysisPerformerImpl.class);
     private final BaseTitleService baseTitleService;
     private final DaoCommon<GrabDoc> grabDocDao;
     private final SaveTitlePerformer grabSaveTitlePerformer;
@@ -75,11 +78,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (element == null) {
             throw new BaseKnownException("找不到加载的标签");
         }
-        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-        impl.saveTitle(element, typeId);
-    }
-
-    public void saveTitle(Element element, Long typeId) {
+//        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
+//        impl.saveTitle(element, typeId);
         Elements elements = element.getElementsByTag("a");
         elements.forEach(n -> {
             Elements ss = HtmlGrabUtil
@@ -93,15 +93,21 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 menu.setValue(href);
                 String[] urlspl = href.split("/");
                 menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
-                baseTitleService.saveTitle(new SaveTitleRequestBuilder()
-                        .onMenu(menu)
-                        .ofTypeId(typeId)
-                        .ofChannel(ChannelType.CNBLOGS.getValue())
-                        .ofTitleType(TitleType.GRAB_TITLE)
-                        .ofTips(baseTipService.checkAndSaveTips(n.html().split("\\(")[0]))
-                        .build());
+                CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
+                impl.saveTitle(menu, typeId, n.html().split("\\(")[0]);
             });
         });
+    }
+
+    public void saveTitle(LeftMenu menu, Long typeId, String tip) {
+        logger.info("cnblogs"+menu.getName()+" :----: "+menu.getValue());
+        baseTitleService.saveTitle(new SaveTitleRequestBuilder()
+                .onMenu(menu)
+                .ofTypeId(typeId)
+                .ofChannel(ChannelType.CNBLOGS.getValue())
+                .ofTitleType(TitleType.GRAB_TITLE)
+                .ofTips(baseTipService.checkAndSaveTips(tip))
+                .build());
     }
 
     @Override
