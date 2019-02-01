@@ -107,7 +107,7 @@ public class BaseTitleService {
         return saveMap.get(TitleType.GRAB_TITLE).getTitleList(docId, channel == null ? null : channel.getValue());
     }
 
-    public BaseTitle getTitleByDocId(Long docId, ChannelType channel) {
+    public BaseTitle getTitleByDocId(Long docId) {
         return saveMap.get(TitleType.GRAB_TITLE).getTitleByDocId(docId);
     }
 
@@ -168,7 +168,7 @@ public class BaseTitleService {
         condition.addEqParam("id", id);
         saveMap.get(TitleType.GRAB_TITLE).updateByParam(condition);
     }
-    
+
     public List<BaseTitle> getStarTitleList(){
     	ConditionsCommon conditionsCommon = new  ConditionsCommon();
     	conditionsCommon.addEqParam("starTab", true);

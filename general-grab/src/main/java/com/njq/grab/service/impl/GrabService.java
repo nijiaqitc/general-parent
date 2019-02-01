@@ -1,14 +1,5 @@
 package com.njq.grab.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
@@ -27,6 +18,14 @@ import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class GrabService {
@@ -51,16 +50,17 @@ public class GrabService {
     private DaoCommon<GrabDoc> grabDocDao;
     @Resource
     private CustomAnalysisPerformer customAnalysisPerformer;
+
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
         list.parallelStream().forEach(n -> {
             loadPageTaskExecutor.submit(() -> {
-            	try {
-            		performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-            		.saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));										
-				} catch (Exception e) {
-					logger.error("获取失败",e);
-				}
+                try {
+                    performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
+                            .saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
+                } catch (Exception e) {
+                    logger.error("获取失败", e);
+                }
             });
         });
         System.out.println(loadPageTaskExecutor.getActiveCount());
@@ -104,20 +104,20 @@ public class GrabService {
                 .updateDoc(loading.getUrl(), grabDoc.getTitle(), grabDoc.getId());
     }
 
-    public void grabOperation(String title, String url, String docId, String channel, String type, String tips,Boolean reload) {
+    public void grabOperation(String title, String url, String docId, String channel, String type, String tips, Boolean reload) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
         GrabService service = SpringContextUtil.getBean(GrabService.class);
         if (loading == null) {
-        	service.saveAndGrab(title, url, docId, channel, type, tips);
+            service.saveAndGrab(title, url, docId, channel, type, tips);
         } else {
-        	if(reload) {
-        		if (loading.getLoaded().equals(Use_Type.USED)) {
-        			service.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
-        		} else {
-        			ChannelType tt = ChannelType.getChannelType(channel);
-        			this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
-        		}        		
-        	}
+            if (reload) {
+                if (loading.getLoaded().equals(Use_Type.USED)) {
+                    service.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
+                } else {
+                    ChannelType tt = ChannelType.getChannelType(channel);
+                    this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
+                }
+            }
         }
     }
 
@@ -133,8 +133,8 @@ public class GrabService {
         ChannelType tt = ChannelType.getChannelType(channel);
         BaseTitle baseTitle = baseTitleService
                 .saveTitle(new SaveTitleRequestBuilder()
-                		.onMenu(menu)
-                		.ofTypeId(baseTypeService.checkAndSave(type))
+                        .onMenu(menu)
+                        .ofTypeId(baseTypeService.checkAndSave(type))
                         .ofTips(baseTipService.checkAndSaveTips(tips))
                         .ofChannel(tt.getValue())
                         .ofTitleType(TitleType.GRAB_TITLE)
@@ -155,7 +155,7 @@ public class GrabService {
         BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder().onMenu(menu).ofId(Long.valueOf(docId))
                 .ofTypeId(baseTypeService.checkAndSave(type)).ofTips(baseTipService.checkAndSaveTips(tips))
                 .ofChannel(tt.getValue()).build());
-        
+
         // 修改文章
         performerService.getAnalysisPerformer(tt).updateDoc(url, title, baseTitle.getDocId());
     }
@@ -174,26 +174,37 @@ public class GrabService {
     public int queryTitleChildrenCount(Long docId, String channel) {
         return baseTitleService.childrenCount(docId, channel);
     }
-    
-    public void saveGrabCustomDoc(String title, String url, String docId, 
-    		String channel, String type, String tips,String name,int getType) {
-    	BaseTitleLoading loading = baseTitleService.getLoadingByUrl(url);
-    	if(loading != null) {
-    		throw new BaseKnownException("文章已经入库，无需再次入库");
-    	}
+
+    public void saveGrabCustomDoc(String title, String url, String docId,
+                                  String channel, String type, String tips, String name, int getType) {
+        BaseTitleLoading loading = baseTitleService.getLoadingByUrl(url);
+        if (loading != null) {
+            throw new BaseKnownException("文章已经入库，无需再次入库");
+        }
         LeftMenu menu = new LeftMenu();
         menu.setValue(url);
         menu.setDocId(docId);
         menu.setName(title);
         BaseTitle baseTitle = baseTitleService
                 .saveTitle(new SaveTitleRequestBuilder()
-                		.onMenu(menu)
-                		.ofTypeId(baseTypeService.checkAndSave(type))
+                        .onMenu(menu)
+                        .ofTypeId(baseTypeService.checkAndSave(type))
                         .ofTips(baseTipService.checkAndSaveTips(tips))
                         .ofChannel(channel)
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
         baseTypeService.addNum(channel, baseTitle.getTypeId());
         customAnalysisPerformer.saveLoadingDoc(url, name, getType, baseTitle);
+    }
+
+
+    public void updateTips(String tipName, Long docId) {
+        String tipId = baseTipService.checkAndSaveTips(tipName);
+        BaseTitle title = baseTitleService.getTitleByDocId(docId);
+        if (StringUtils.isEmpty(title.getTips())) {
+            baseTitleService.updateTips(tipId, title.getId());
+        } else {
+            baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
+        }
     }
 }

@@ -54,6 +54,9 @@
 		<div class="menu-box" align="center">
 			<div>
 				<div class="docView1">${docViewText.title} </div>
+				<c:forEach items="${tipList}" var="tip">
+					<span style="margin-left: 10px;">${tip}</span>
+				</c:forEach>
 			</div>
 			<div align="center" id="contextValue" class="docView4" style="padding-bottom: 40px;">
 				${docViewText.doc}

@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.njq.common.model.dao.BaseTypeNumJpaRepository;
+import com.njq.common.model.dao.BaseUserJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -123,7 +125,11 @@ public class Test4Controller {
     	};
     	return callable;
     }
-    
 
-    
+	@Resource
+	private BaseTypeNumJpaRepository baseTypeNumJpaRepository;
+    @RequestMapping("jpatest")
+    public void jpatest(){
+		baseTypeNumJpaRepository.updateForAddNum("yunwuxian", 108L);
+	}
 }

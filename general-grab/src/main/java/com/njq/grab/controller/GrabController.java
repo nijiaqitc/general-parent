@@ -1,7 +1,11 @@
 package com.njq.grab.controller;
 
-import javax.annotation.Resource;
-
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.grab.service.impl.GrabService;
+import com.njq.grab.service.impl.GrabUrlInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.grab.service.impl.GrabService;
-import com.njq.grab.service.impl.GrabUrlInfoService;
+import javax.annotation.Resource;
 
 @RequestMapping("grab")
 @Controller
@@ -30,7 +29,8 @@ public class GrabController {
     public GrabUrlInfoService grabUrlInfoService;
     @Resource
     private BaseTitleService baseTitleService;
-    
+
+
     @RequestMapping("")
     public String index(Model model) {
         return "/grab/grabIndex";
@@ -57,7 +57,7 @@ public class GrabController {
     public String saveAndGrab(String title, String url, String docId,
                               String channel, String type, String tips, Boolean reload) {
         try {
-            grabService.grabOperation(title, url, docId, channel, type, tips,reload);
+            grabService.grabOperation(title, url, docId, channel, type, tips, reload);
         } catch (Exception e) {
             logger.info("保存出错", e);
             return e.getMessage();
@@ -68,19 +68,19 @@ public class GrabController {
     @ResponseBody
     @RequestMapping("grabCustomDoc")
     public String grabCustomDoc(String title, String url, String docId,
-                              String channel, String type, String tips, int getType,String name) {
+                                String channel, String type, String tips, int getType, String name) {
         try {
-        	grabService.saveGrabCustomDoc(title, url, docId, channel, type, tips, name, getType);
+            grabService.saveGrabCustomDoc(title, url, docId, channel, type, tips, name, getType);
         } catch (Exception e) {
             logger.info("保存出错", e);
             return e.getMessage();
         }
         return "操作成功！";
     }
-    
+
     @RequestMapping("loadMenuPage")
     public String loadMenuPage(Model model) {
-    	model.addAttribute("infoList", grabUrlInfoService.getInfoList(null));
+        model.addAttribute("infoList", grabUrlInfoService.getInfoList(null));
         return "/grab/loadMenu";
     }
 
@@ -149,9 +149,19 @@ public class GrabController {
 
     @ResponseBody
     @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
-    public String updateStatus(Long id , Boolean status) {
-    	grabUrlInfoService.updateStatus(id,status);
-    	return "处理成功";
+    public String updateStatus(Long id, Boolean status) {
+        grabUrlInfoService.updateStatus(id, status);
+        return "处理成功";
     }
-    
+
+    /**
+     * 在原文章上添加标签
+     * @param model
+     * @param docId
+     * @param tipName
+     */
+    @RequestMapping(value = "addTip", method = RequestMethod.POST)
+    public void addTip(Model model, Long docId, String tipName) {
+        grabService.updateTips(tipName, docId);
+    }
 }

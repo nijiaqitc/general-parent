@@ -1,30 +1,29 @@
 package com.njq.basis.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
-
 import com.njq.basis.service.SaveTitlePerformer;
-import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("grabSaveTitlePerformer")
 public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     private static final Logger logger = LoggerFactory.getLogger(GrabSaveTitlePerformerImpl.class);
     @Resource
     private DaoCommon<BaseTitleGrab> baseTitleGrabDao;
+    @Resource
+    private BaseTypeService baseTypeService;
 
     @Override
     public BaseTitle saveTitle(SaveTitleRequest request) {
@@ -42,8 +41,8 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         try {
             title.setParantId(request.getParentId());
             title.setTitle(request.getMenu().getName() + suffix);
-            if(title.getTitle().length()>100) {
-            	title.setTitle(title.getTitle().substring(0,100)+"...");
+            if (title.getTitle().length() > 100) {
+                title.setTitle(title.getTitle().substring(0, 100) + "...");
             }
             title.setApply(0);
             title.setCreateDate(new Date());
@@ -53,6 +52,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             title.setTypeId(request.getTypeId());
             title.setTips(request.getTips());
             baseTitleGrabDao.save(title);
+            baseTypeService.addNum(request.getChannel(), request.getTypeId());
         } catch (Exception e) {
             logger.info("加载下载菜单出错", e);
         }
@@ -133,11 +133,11 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     public void updateByParam(ConditionsCommon conditionsCommon) {
         baseTitleGrabDao.update(conditionsCommon);
     }
-    
+
     @Override
-    public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon){
-    	List<BaseTitleGrab> titleList = baseTitleGrabDao.queryForListNoPage(conditionsCommon);
-    	return titleList.stream().map(n -> {
+    public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon) {
+        List<BaseTitleGrab> titleList = baseTitleGrabDao.queryForListNoPage(conditionsCommon);
+        return titleList.stream().map(n -> {
             BaseTitle returnTitle = new BaseTitle();
             BeanUtils.copyProperties(n, returnTitle);
             return returnTitle;
