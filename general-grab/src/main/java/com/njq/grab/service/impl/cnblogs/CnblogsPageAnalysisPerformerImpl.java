@@ -139,6 +139,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             enode = doc.getElementsByTag("body").first();
         }
         enode.getElementsByTag("img").forEach(n -> {
+        	logger.info("读取图片:"+n.attr("src"));
             n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace()));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
