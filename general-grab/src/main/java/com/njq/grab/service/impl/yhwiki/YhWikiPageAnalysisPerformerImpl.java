@@ -203,6 +203,9 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
         }
         Element enode = doc.getElementById("main-content");
+        if (enode == null) {
+            enode = doc.getElementsByTag("body").first();
+        }
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
                 if (n.attr("href").startsWith("/download")) {

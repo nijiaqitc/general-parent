@@ -135,6 +135,9 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
         }
         Element enode = doc.getElementById("cnblogs_post_body");
+        if (enode == null) {
+            enode = doc.getElementsByTag("body").first();
+        }
         enode.getElementsByTag("img").forEach(n -> {
             n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace()));
         });

@@ -72,7 +72,7 @@ public class CustomAnalysisPerformer {
                 break;
         }
         if (enode == null) {
-            throw new BaseKnownException("无法获取节点元素" + name);
+            enode = doc.getElementsByTag("body").first();
         }
         String uriStr = url.split("\\/")[2];
         if (url.startsWith("https")) {
