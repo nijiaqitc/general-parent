@@ -21,9 +21,11 @@ public class GrabUrlInfoFactory {
     public static GrabUrlInfo getUrlInfo(ChannelType channel) {
         if (map.get(channel) == null) {
             GrabUrlInfo info = null;
-            synchronized (info) {
-                info = SpringContextUtil.getBean(GrabUrlInfoService.class).getUrlInfoByChannel(channel.getValue());
-                map.put(channel, info);
+            synchronized (map) {
+            	if (map.get(channel) == null) {
+            		info = SpringContextUtil.getBean(GrabUrlInfoService.class).getUrlInfoByChannel(channel.getValue());
+            		map.put(channel, info);            		
+            	}
             }
         }
         return map.get(channel);
@@ -32,8 +34,10 @@ public class GrabUrlInfoFactory {
 
     public static String getImgUrl() {
         if (imgUrl == null) {
-            synchronized (imgUrl) {
-                imgUrl = SpringContextUtil.getValue("image.url");
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (imgUrl == null) {
+            		imgUrl = SpringContextUtil.getValue("image.url");            		
+            	}
             }
         }
         return imgUrl;
@@ -41,8 +45,10 @@ public class GrabUrlInfoFactory {
 
     public static String getImagePlace() {
         if (imagePlace == null) {
-            synchronized (imagePlace) {
-                imagePlace = SpringContextUtil.getValue("image.place");
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (imagePlace == null) {
+            		imagePlace = SpringContextUtil.getValue("image.place");            		
+            	}
             }
         }
         return imagePlace;
@@ -50,8 +56,10 @@ public class GrabUrlInfoFactory {
 
     public static String getDocUrl() {
         if (docUrl == null) {
-            synchronized (docUrl) {
-                docUrl = SpringContextUtil.getValue("file.url");
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (docUrl == null) {
+            		docUrl = SpringContextUtil.getValue("file.url");            		
+            	}
             }
         }
         return docUrl;
@@ -59,8 +67,10 @@ public class GrabUrlInfoFactory {
 
     public static String getDocPlace() {
         if (docPlace == null) {
-            synchronized (docPlace) {
-                docPlace = SpringContextUtil.getValue("file.place");
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (docPlace == null) {
+            		docPlace = SpringContextUtil.getValue("file.place");            		
+            	}
             }
         }
         return docPlace;
@@ -68,8 +78,10 @@ public class GrabUrlInfoFactory {
 
     public static String getDecodeJsPlace() {
         if (decodeJsPlace == null) {
-            synchronized (decodeJsPlace) {
-                decodeJsPlace = SpringContextUtil.getValue("decode.js.place");
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (decodeJsPlace == null) {
+            		decodeJsPlace = SpringContextUtil.getValue("decode.js.place");            		
+            	}
             }
         }
         return decodeJsPlace;
