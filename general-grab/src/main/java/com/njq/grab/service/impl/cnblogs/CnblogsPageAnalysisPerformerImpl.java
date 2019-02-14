@@ -18,13 +18,13 @@ import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -36,16 +36,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final DaoCommon<GrabDoc> grabDocDao;
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final BaseTipService baseTipService;
-    @Value("${image.url}")
-    private String imgUrl;
-    @Value("${image.place}")
-    private String imagePlace;
-    @Value("${file.url}")
-    private String docUrl;
-    @Value("${file.place}")
-    private String docPlace;
-    @Value("${decode.js.place}")
-    private String decodeJsPlace;
+
 
     @Autowired
     public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
@@ -59,8 +50,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-        impl.saveLoadingDoc(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
+        this.grabAndSave(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
     }
 
 
@@ -78,8 +68,6 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (element == null) {
             throw new BaseKnownException("找不到加载的标签");
         }
-//        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-//        impl.saveTitle(element, typeId);
         Elements elements = element.getElementsByTag("a");
         elements.forEach(n -> {
             Elements ss = HtmlGrabUtil
@@ -100,7 +88,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     public void saveTitle(LeftMenu menu, Long typeId, String tip) {
-        logger.info("cnblogs"+menu.getName()+" :----: "+menu.getValue());
+        logger.info("cnblogs" + menu.getName() + " :----: " + menu.getValue());
         baseTitleService.saveTitle(new SaveTitleRequestBuilder()
                 .onMenu(menu)
                 .ofTypeId(typeId)
@@ -111,11 +99,16 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public Long saveLoadingDoc(String url, BaseTitle baseTitle) {
+    public Long grabAndSave(String url, BaseTitle baseTitle) {
         String doc = this.analysisPage(url);
+        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
+        return impl.saveLoadingDoc(doc, baseTitle);
+    }
+
+    @Override
+    public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
         Long docId = this.saveDoc(doc, baseTitle.getTitle());
-        baseTitleService.updateLoadSuccess(ChannelType.CNBLOGS,
-                docId,
+        baseTitleService.updateLoadSuccess(docId,
                 baseTitle.getId());
         return docId;
     }
@@ -133,25 +126,25 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public String analysisPage(String url) {
+        String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CNBLOGS).getPageIndex();
+        url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CNBLOGS.getValue())
                 .getDoc(url);
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
         }
-
         Element enode = doc.getElementById("cnblogs_post_body");
         enode.getElementsByTag("img").forEach(n -> {
-            n.attr("src", imgUrl + UrlChangeUtil.changeSrcUrl("", n.attr("src"), ChannelType.CNBLOGS.getValue(), imagePlace));
+            n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace()));
         });
-        return HtmlDecodeUtil.decodeHtml(enode.html(), decodeJsPlace, "decodeStr");
+        return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
     @Override
-    public Long updateDoc(String url, String title, Long id) {
+    public Long updateDoc(String doc, String title, Long id) {
         GrabDoc grabDoc = new GrabDoc();
         grabDoc.setId(id);
-        String doc = this.loginAndAnalysisPage(url);
         grabDoc.setDoc(doc);
         grabDoc.setTitle(title);
         grabDocDao.updateByPrimaryKeySelective(grabDoc);

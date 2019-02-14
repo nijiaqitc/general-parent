@@ -36,12 +36,12 @@ public class GrabController {
     private BaseTitleService baseTitleService;
 
     /**
-     * 1、加唯一主键在 title_loading
+     * 1、加唯一主键在 title_loading    ok
      * 2、解决js处理出错问题
-     * 3、保存文章之前 先修改title_loading的状态为1，并判断是否修改成功，未成功跑出异常
-     * 4、java执行js抛出异常，别捕捉异常，要回滚事物
-     * 5、url直接以/开头的图片下载要处理下
-     * 6、读取doc应该放在事物外面，若放在事物内部会导致事物超时
+     * 3、保存文章之前 先修改title_loading的状态为1，并判断是否修改成功，未成功跑出异常 ok
+     * 4、java执行js抛出异常，别捕捉异常，要回滚事物 ok
+     * 5、url直接以/开头的图片下载要处理下 ok
+     * 6、读取doc应该放在事物外面，若放在事物内部会导致事物超时  ok
      * @param model
      * @return
      */
@@ -91,7 +91,7 @@ public class GrabController {
     		return "操作失败，类型必填";
     	}
         try {
-            grabService.saveGrabCustomDoc(title, url, docId, channel, type, tips, name, getType);
+            grabService.grabCustomDoc(title, url, docId, channel, type, tips, name, getType);
         } catch (Exception e) {
             logger.info("保存出错", e);
             return e.getMessage();
@@ -116,6 +116,13 @@ public class GrabController {
         }
     }
 
+    /**
+     * 添加已有的类型下的其他地址
+     * @param pageIndex
+     * @param menuUrl
+     * @param typeName
+     * @return
+     */
     @ResponseBody
     @RequestMapping("saveNewMenu")
     public String saveNewMenu(@RequestParam(value = "pageIndex", required = true) String pageIndex,
@@ -136,19 +143,33 @@ public class GrabController {
         return "grab/knowledgeDoc";
     }
 
+    /**
+     * 根据type 和 loadingId 加载文章
+     * @param model
+     * @param type
+     * @param loadingId
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "loadDocNow", method = RequestMethod.GET)
     public String loadDocNow(Model model,
                              @RequestParam(required = false, defaultValue = "false") boolean type,
                              Long loadingId) {
         if (type) {
-            grabService.updateSingleDoc(loadingId);
+            return grabService.modiSingleDoc(loadingId);
         } else {
             grabService.loadSingleDoc(loadingId);
         }
         return "访问成功";
     }
 
+    /**
+     * 根据 type和url 加载文章
+     * @param model
+     * @param type
+     * @param url
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "loadDocUrl", method = RequestMethod.GET)
     public String loadDocUrl(Model model,

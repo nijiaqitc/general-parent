@@ -4,6 +4,7 @@ import com.njq.common.base.constants.ChannelType;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
@@ -54,9 +55,12 @@ public class YhWikiController {
     @ResponseBody
     @RequestMapping("testcustom")
     public String custt(Model model){
-        String doc1 = customAnalysisPerformer.analysisPage("http://www.yunwuxian.net/SEO/3019.html", "content", 1);
-        String doc2 = customAnalysisPerformer.analysisPage("https://www.cnblogs.com/ceshi2016/p/7244608.html", "cnblogs_post_body", 1);
-        return doc1;
+//        String doc1 = customAnalysisPerformer.analysisPage("http://www.yunwuxian.net/SEO/3019.html", "content", 1);
+//        String doc2 = customAnalysisPerformer.analysisPage("https://www.cnblogs.com/ceshi2016/p/7244608.html", "cnblogs_post_body", 1);
+//        GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI);
+        System.out.println(GrabUrlInfoFactory.getImgUrl());
+//        return doc1;
+        return "";
     }
 
 }

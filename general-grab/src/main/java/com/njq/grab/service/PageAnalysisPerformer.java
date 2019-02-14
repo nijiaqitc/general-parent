@@ -8,19 +8,27 @@ public interface PageAnalysisPerformer {
      *
      * @param docId
      */
-    public void loadPage(Long docId);
+    void loadPage(Long docId);
 
     /**
      * 模拟登陆
      */
-    public void login();
+    void login();
 
     /**
      * 加载菜单
      *
      * @param url
      */
-    public void loadMenu(String url, Long typeId);
+    void loadMenu(String url, Long typeId);
+
+    /**
+     * 获取然后保存
+     * @param url
+     * @param baseTitle
+     * @return
+     */
+    Long grabAndSave(String url, BaseTitle baseTitle);
 
     /**
      * 保存下载的文章
@@ -29,7 +37,7 @@ public interface PageAnalysisPerformer {
      * @param baseTitle
      * @return
      */
-    public Long saveLoadingDoc(String url, BaseTitle baseTitle);
+    Long saveLoadingDoc(String url, BaseTitle baseTitle);
 
     /**
      * 保存文章
@@ -38,17 +46,17 @@ public interface PageAnalysisPerformer {
      * @param title
      * @return
      */
-    public Long saveDoc(String doc, String title);
+    Long saveDoc(String doc, String title);
 
     /**
      * 修改文章
      *
-     * @param url
+     * @param doc
      * @param title
      * @param id
      * @return
      */
-    public Long updateDoc(String url, String title, Long id);
+    Long updateDoc(String doc, String title, Long id);
 
     /**
      * 登录然后解析页面
@@ -56,13 +64,13 @@ public interface PageAnalysisPerformer {
      * @param url
      * @return
      */
-    public String loginAndAnalysisPage(String url);
+    String loginAndAnalysisPage(String url);
 
     /**
      * 页面解析
      *
      * @param url
      */
-    public String analysisPage(String url);
+    String analysisPage(String url);
 
 }

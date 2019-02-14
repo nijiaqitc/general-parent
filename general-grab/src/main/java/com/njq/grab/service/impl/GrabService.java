@@ -57,7 +57,7 @@ public class GrabService {
             loadPageTaskExecutor.submit(() -> {
                 try {
                     performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-                            .saveLoadingDoc(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
+                            .grabAndSave(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
                 } catch (Exception e) {
                     logger.error("获取失败", e);
                 }
@@ -92,18 +92,24 @@ public class GrabService {
 
     public void loadDoc(BaseTitleLoading titleLoading) {
         performerService.getAnalysisPerformer(ChannelType.getChannelType(titleLoading.getChannel()))
-                .saveLoadingDoc(titleLoading.getUrl(), grabSaveTitlePerformer.getTitleById(titleLoading.getTitleId()));
+                .grabAndSave(titleLoading.getUrl(), grabSaveTitlePerformer.getTitleById(titleLoading.getTitleId()));
     }
 
-    public void updateSingleDoc(Long docId) {
+    public String modiSingleDoc(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingById(docId);
-        BaseTitle title = baseTitleService.getTitleId(loading.getTitleId(), ChannelType.getChannelType(loading.getChannel()));
+        if (loading == null) {
+            return "处理失败，尚未入库，无法更新！";
+        }
+        BaseTitle title = baseTitleService.getTitleId(loading.getTitleId());
         if (title.getDocId() == null) {
-            return;
+            return "处理失败，尚未入库，无法更新！";
         }
         GrabDoc grabDoc = this.queryById(title.getDocId());
+        String doc = performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
+                .loginAndAnalysisPage(loading.getUrl());
         performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
-                .updateDoc(loading.getUrl(), grabDoc.getTitle(), grabDoc.getId());
+                .updateDoc(doc, grabDoc.getTitle(), grabDoc.getId());
+        return "处理成功！";
     }
 
     public void grabOperation(String title, String url, String docId, String channel, String type, String tips, Boolean reload) {
@@ -142,7 +148,7 @@ public class GrabService {
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
         System.out.println("耗时b" + (System.currentTimeMillis() - time1) / 1000);
-        performerService.getAnalysisPerformer(tt).saveLoadingDoc(url, baseTitle);
+        performerService.getAnalysisPerformer(tt).grabAndSave(url, baseTitle);
     }
 
     public void updateAndGrab(String title, String url, String docId, String channel, String type, String tips) {
@@ -155,7 +161,6 @@ public class GrabService {
         BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder().onMenu(menu).ofId(Long.valueOf(docId))
                 .ofTypeId(baseTypeService.checkAndSave(type)).ofTips(baseTipService.checkAndSaveTips(tips))
                 .ofChannel(tt.getValue()).build());
-
         // 修改文章
         performerService.getAnalysisPerformer(tt).updateDoc(url, title, baseTitle.getDocId());
     }
@@ -175,25 +180,29 @@ public class GrabService {
         return baseTitleService.childrenCount(docId, channel);
     }
 
-    public void saveGrabCustomDoc(String title, String url, String docId,
-                                  String channel, String type, String tips, String name, int getType) {
+    public void grabCustomDoc(String title, String url, String docId, String channel, String type, String tips, String name, int getType) {
         BaseTitleLoading loading = baseTitleService.getLoadingByUrl(url);
-        if (loading != null) {
+        if (loading != null && Use_Type.USED.equals(loading.getLoaded())) {
             throw new BaseKnownException("文章已经入库，无需再次入库");
         }
-        LeftMenu menu = new LeftMenu();
-        menu.setValue(url);
-        menu.setDocId(docId);
-        menu.setName(title);
-        BaseTitle baseTitle = baseTitleService
-                .saveTitle(new SaveTitleRequestBuilder()
-                        .onMenu(menu)
-                        .ofTypeId(baseTypeService.checkAndSave(type))
-                        .ofTips(baseTipService.checkAndSaveTips(tips))
-                        .ofChannel(channel)
-                        .ofTitleType(TitleType.GRAB_TITLE)
-                        .build());
-        customAnalysisPerformer.saveLoadingDoc(url, name, getType, baseTitle);
+        BaseTitle baseTitle;
+        if (Use_Type.UN_USE.equals(loading.getLoaded())) {
+            baseTitle = baseTitleService.getTitleId(loading.getTitleId());
+        } else {
+            LeftMenu menu = new LeftMenu();
+            menu.setValue(url);
+            menu.setDocId(docId);
+            menu.setName(title);
+            baseTitle = baseTitleService
+                    .saveTitle(new SaveTitleRequestBuilder()
+                            .onMenu(menu)
+                            .ofTypeId(baseTypeService.checkAndSave(type))
+                            .ofTips(baseTipService.checkAndSaveTips(tips))
+                            .ofChannel(channel)
+                            .ofTitleType(TitleType.GRAB_TITLE)
+                            .build());
+        }
+        customAnalysisPerformer.grabAndSave(url, name, getType, baseTitle);
     }
 
 
@@ -203,9 +212,9 @@ public class GrabService {
         if (StringUtils.isEmpty(title.getTips())) {
             baseTitleService.updateTips(tipId, title.getId());
         } else {
-        	if(!title.getTips().contains(tipId)) {
-        		baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
-        	}
+            if (!title.getTips().contains(tipId)) {
+                baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
+            }
         }
     }
 }
