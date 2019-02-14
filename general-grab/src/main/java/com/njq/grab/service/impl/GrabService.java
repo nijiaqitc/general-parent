@@ -114,13 +114,12 @@ public class GrabService {
 
     public void grabOperation(String title, String url, String docId, String channel, String type, String tips, Boolean reload) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
-        GrabService service = SpringContextUtil.getBean(GrabService.class);
         if (loading == null) {
-            service.saveAndGrab(title, url, docId, channel, type, tips);
+            this.saveAndGrab(title, url, docId, channel, type, tips);
         } else {
             if (reload) {
                 if (loading.getLoaded().equals(Use_Type.USED)) {
-                    service.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
+                    this.updateAndGrab(title, url, loading.getTitleId() + "", channel, type, tips);
                 } else {
                     ChannelType tt = ChannelType.getChannelType(channel);
                     this.performerService.getAnalysisPerformer(tt).loadPage(Long.parseLong(docId));
