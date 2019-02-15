@@ -80,13 +80,16 @@ function CustomDecoder() {
             for (var i = 0; i < tablestr.length; i++) {
                 var prestr = tablestr[i].match(/<pre/g);
                 if (prestr != null) {
+                    var tstr = tablestr[i];
+                    this.str = this.str.replace(tablestr[i],"<customTable />");
                     for (var j = 0; j < prestr.length; j++) {
-                        this.str = this.str.replace(prestr[j], "<span");
+                        this.tstr = this.tstr.replace(prestr[j], "<span");
                     }
                     prestr = tablestr[i].match(/<\/pre/g);
                     for (var j = 0; j < prestr.length; j++) {
-                        this.str = this.str.replace(prestr[j], "</span");
+                        this.tstr = this.tstr.replace(prestr[j], "</span");
                     }
+                    this.str = this.str.replace("<customTable />",tstr);
                 }
             }
         }
