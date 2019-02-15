@@ -6,6 +6,7 @@
 		<class>com.njq.common.model.po.BaseCode</class>
 		<class>com.njq.common.model.po.BaseLog</class>
 		<class>com.njq.common.model.po.BaseMessage</class>
+		<class>com.njq.common.model.po.BaseFile</class>
 		<class>com.njq.common.model.po.BaseRule</class>
 		<class>com.njq.common.model.po.BaseRuleChannelConfig</class>
 		<class>com.njq.common.model.po.BaseUser</class>

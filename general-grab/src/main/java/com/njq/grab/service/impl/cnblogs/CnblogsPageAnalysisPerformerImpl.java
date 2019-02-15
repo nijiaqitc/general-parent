@@ -1,6 +1,7 @@
 package com.njq.grab.service.impl.cnblogs;
 
 import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
@@ -36,15 +37,17 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final DaoCommon<GrabDoc> grabDocDao;
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final BaseTipService baseTipService;
-
+    private final BaseFileService baseFileService;
 
     @Autowired
     public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
-                                            SaveTitlePerformer grabSaveTitlePerformer, BaseTipService baseTipService) {
+                                            SaveTitlePerformer grabSaveTitlePerformer, BaseTipService baseTipService,
+                                            BaseFileService baseFileService) {
         this.baseTitleService = baseTitleService;
         this.grabDocDao = grabDocDao;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.baseTipService = baseTipService;
+        this.baseFileService = baseFileService;
     }
 
     @Override
@@ -140,6 +143,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         enode.getElementsByTag("img").forEach(n -> {
         	logger.info("读取图片:"+n.attr("src"));
+            baseFileService.dealImgSrc(, , , , , , , );
             n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace()));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
