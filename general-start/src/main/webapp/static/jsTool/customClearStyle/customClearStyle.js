@@ -172,9 +172,6 @@ function CustomDecoder() {
                 h = height;
                 st += "height:" + h + "px;";
             }
-        } else {
-            st += "width:" + w + "px;";
-            st += "height:" + h + "px;";
         }
         if (this.showPlatform != "") {
             st += "max-width:300px;max-height:200px;"
