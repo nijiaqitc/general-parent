@@ -35,7 +35,10 @@ public class BaseFile implements Serializable {
 
     @Column(name = "file_place")
     private String filePlace;
-
+    
+    @Column(name = "old_src")
+    private String oldSrc;
+    
     @Column(name = "real_place")
     private String realPlace;
 
@@ -58,7 +61,7 @@ public class BaseFile implements Serializable {
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate) {
+    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate) {
         this.name = name;
         this.oldName = oldName;
         this.filePlace = filePlace;
@@ -67,6 +70,7 @@ public class BaseFile implements Serializable {
         this.typeId = typeId;
         this.createDate = createDate;
         this.modiDate = modiDate;
+        this.oldSrc = oldSrc;
     }
 
     public Long getId() {
@@ -140,4 +144,21 @@ public class BaseFile implements Serializable {
     public void setModiDate(Timestamp modiDate) {
         this.modiDate = modiDate;
     }
+
+	public String getFilePlace() {
+		return filePlace;
+	}
+
+	public void setFilePlace(String filePlace) {
+		this.filePlace = filePlace;
+	}
+
+	public String getOldSrc() {
+		return oldSrc;
+	}
+
+	public void setOldSrc(String oldSrc) {
+		this.oldSrc = oldSrc;
+	}
+    
 }

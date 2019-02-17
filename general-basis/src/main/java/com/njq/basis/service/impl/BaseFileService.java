@@ -1,6 +1,8 @@
 package com.njq.basis.service.impl;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +44,7 @@ public class BaseFileService {
             String fileNewName = getNewName(fileOldName);
             String place = getFilePlace(shortName, savePlace, fileNewName);
             BaseFileService.changeSrcUrl(prefix, src, shortName, savePlace + place);
-            BaseFile file = saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, typeId);
+            BaseFile file = saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, typeId,src);
             return file.getfilePlace();
         } else {
             return list.get(0).getfilePlace();
@@ -51,7 +53,7 @@ public class BaseFileService {
 
     
     
-    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, Long typeId) {
+    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, Long typeId,String oldSrc) {
         BaseFile file = new BaseFile();
         file.setChannel(channel);
         file.setCreateDate(new Date());
@@ -60,6 +62,7 @@ public class BaseFileService {
         file.setfilePlace(filePlace);
         file.setRealPlace(realPlace);
         file.setTypeId(typeId);
+        file.setOldSrc(oldSrc);
         fileDao.save(file);
         return file;
     }
@@ -114,7 +117,12 @@ public class BaseFileService {
     
     public String dealFileUrl(Long typeId,String channel,String prefix, String src, String shortName, String savePlace, String imgPlace) {
     	ConditionsCommon conditionsCommon = new ConditionsCommon();
-        String fileOldName = getOldName(src);
+    	String fileOldName = "";
+        try {
+        	fileOldName = URLDecoder.decode(getOldName(src), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        	logger.error("编码转换出错", e);
+        }
         conditionsCommon.addEqParam("oldName", fileOldName);
         if(typeId != null ) {
         	conditionsCommon.addEqParam("typeId", typeId);        	
@@ -124,7 +132,7 @@ public class BaseFileService {
         if (CollectionUtils.isEmpty(list)) {
              String place = getFilePlace(shortName, savePlace, fileOldName);
              changeFileUrl(prefix, src, shortName, savePlace + place);
-             BaseFile file = saveInfo(channel, fileOldName, fileOldName, imgPlace +"/downLoadFile"+ place, savePlace + place, typeId);
+             BaseFile file = saveInfo(channel, fileOldName, fileOldName, imgPlace +"/downLoadFile"+ place, savePlace + place, typeId,src);
              return file.getfilePlace();
         }else {
         	return list.get(0).getfilePlace();
