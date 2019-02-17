@@ -21,7 +21,7 @@ public class Test3Controller {
 	@RequestMapping("fafafa")
 	public String test() {
 		System.out.println(redisTemplate);
-		System.out.println("122");
+		System.out.println("122"); 
 		return "ftl/freetest";
 	}
 	
