@@ -13,6 +13,7 @@ public class BaseKnownException extends RuntimeException{
 		this.errorMsg = errorMsg;
 	}
 	public BaseKnownException(String errorMsg) {
+		super(errorMsg);
 		this.errorCode = "39999";
 		this.errorMsg = errorMsg;
 	}

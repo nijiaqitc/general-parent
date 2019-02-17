@@ -1,22 +1,23 @@
 package com.njq.basis.service.impl;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.IdGen;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author: nijiaqi
@@ -28,25 +29,29 @@ public class BaseFileService {
     @Resource
     private DaoCommon<BaseFile> fileDao;
 
-    public String dealImgSrc(String fileName, String type, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
+    public String dealImgSrc(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
-        conditionsCommon.addEqParam("oldName", fileName);
-        conditionsCommon.addEqParam("type", type);
+        String fileOldName = getOldName(src);
+        conditionsCommon.addEqParam("oldName", fileOldName);
+        if(typeId != null) {
+        	conditionsCommon.addEqParam("typeId", typeId);        	
+        }
         conditionsCommon.addEqParam("channel", channel);
         List<BaseFile> list = fileDao.queryTByParam(conditionsCommon);
         if (CollectionUtils.isEmpty(list)) {
-            String fileOldName = getOldName(src);
             String fileNewName = getNewName(fileOldName);
             String place = getFilePlace(shortName, savePlace, fileNewName);
             BaseFileService.changeSrcUrl(prefix, src, shortName, savePlace + place);
-            saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, type);
-            return list.get(0).getfilePlace();
+            BaseFile file = saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, typeId);
+            return file.getfilePlace();
         } else {
             return list.get(0).getfilePlace();
         }
     }
 
-    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, String type) {
+    
+    
+    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, Long typeId) {
         BaseFile file = new BaseFile();
         file.setChannel(channel);
         file.setCreateDate(new Date());
@@ -54,7 +59,7 @@ public class BaseFileService {
         file.setOldName(oldName);
         file.setfilePlace(filePlace);
         file.setRealPlace(realPlace);
-        file.setType(type);
+        file.setTypeId(typeId);
         fileDao.save(file);
         return file;
     }
@@ -106,20 +111,34 @@ public class BaseFileService {
         return url;
     }
 
-    public static String changeFileUrl(String prefix, String src, String shortName, String savePlace) {
+    
+    public String dealFileUrl(Long typeId,String channel,String prefix, String src, String shortName, String savePlace, String imgPlace) {
+    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+        String fileOldName = getOldName(src);
+        conditionsCommon.addEqParam("oldName", fileOldName);
+        if(typeId != null ) {
+        	conditionsCommon.addEqParam("typeId", typeId);        	
+        }
+        conditionsCommon.addEqParam("channel", channel);
+        List<BaseFile> list = fileDao.queryTByParam(conditionsCommon);
+        if (CollectionUtils.isEmpty(list)) {
+             String place = getFilePlace(shortName, savePlace, fileOldName);
+             changeFileUrl(prefix, src, shortName, savePlace + place);
+             BaseFile file = saveInfo(channel, fileOldName, fileOldName, imgPlace +"/downLoadFile"+ place, savePlace + place, typeId);
+             return file.getfilePlace();
+        }else {
+        	return list.get(0).getfilePlace();
+        }
+    }
+    
+    public static void changeFileUrl(String prefix, String src, String shortName, String savePlace) {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            String[] img = src.split("\\?")[0].split("\\/");
-            String url = getSrc(shortName, savePlace);
             try {
-                String saveRealPlace = savePlace + url + "/" + img[img.length - 1];
-                UrlChangeUtil.downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
-                return url + "/downLoadFile?file=" + img[img.length - 1];
+                UrlChangeUtil.downLoad(prefix + src, savePlace, shortName);
             } catch (Exception e) {
                 logger.error("下载出错", e);
-                return src;
             }
         }
-        return null;
     }
 
 }

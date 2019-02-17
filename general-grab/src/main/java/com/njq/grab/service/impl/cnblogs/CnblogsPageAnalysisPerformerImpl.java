@@ -1,5 +1,15 @@
 package com.njq.grab.service.impl.cnblogs;
 
+import java.util.Date;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -17,18 +27,8 @@ import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component("cgblogsPageAnalysis")
 public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
@@ -103,7 +103,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long grabAndSave(String url, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url);
+        String doc = this.analysisPage(url,baseTitle.getTypeId());
         CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
         return impl.saveLoadingDoc(doc, baseTitle);
     }
@@ -128,7 +128,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String analysisPage(String url) {
+    public String analysisPage(String url,Long typeId) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CNBLOGS).getPageIndex();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
@@ -143,8 +143,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         enode.getElementsByTag("img").forEach(n -> {
         	logger.info("读取图片:"+n.attr("src"));
-            baseFileService.dealImgSrc(, , , , , , , );
-            n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace()));
+            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CNBLOGS.getValue(), grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
@@ -160,8 +159,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url) {
-        return this.analysisPage(url);
+    public String loginAndAnalysisPage(String url,Long typeId) {
+        return this.analysisPage(url,typeId);
     }
 
 }

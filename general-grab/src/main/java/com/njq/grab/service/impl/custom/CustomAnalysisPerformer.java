@@ -1,5 +1,16 @@
 package com.njq.grab.service.impl.custom;
 
+import java.util.Date;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
@@ -10,17 +21,7 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class CustomAnalysisPerformer {
@@ -29,9 +30,10 @@ public class CustomAnalysisPerformer {
     private BaseTitleService baseTitleService;
     @Autowired
     private DaoCommon<GrabDoc> grabDocDao;
-
+    @Autowired
+    private BaseFileService baseFileService;
     public Long grabAndSave(String url, String name, int type, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url, name, type);
+        String doc = this.analysisPage(url, name, type,baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
         return impl.saveLoadingDoc(doc, name, type, baseTitle);
     }
@@ -43,7 +45,7 @@ public class CustomAnalysisPerformer {
         return docId;
     }
 
-    public String analysisPage(String url, String name, int type) {
+    public String analysisPage(String url, String name, int type,Long typeId) {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CUSTOM.getValue())
                 .getDoc(url);
@@ -82,7 +84,7 @@ public class CustomAnalysisPerformer {
         }
         String uri = uriStr;
         enode.getElementsByTag("img").forEach(n -> {
-            n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(uri, n.attr("src"), ChannelType.CUSTOM.getValue(), GrabUrlInfoFactory.getImagePlace()));
+            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM.getValue(), uri, n.attr("src"), ChannelType.CUSTOM.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }

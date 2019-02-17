@@ -1,7 +1,23 @@
 package com.njq.grab.service.impl.yhwiki;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
@@ -19,26 +35,11 @@ import com.njq.common.model.vo.grab.GrabUrlYhInfo;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
-import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.UrlUtil;
 import com.njq.grab.cache.GrabMenuCacheManager;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component("yhWikiPageAnalysis")
 public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
@@ -48,16 +49,18 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final LoginCacheManager loginCacheManager;
     private final GrabMenuCacheManager grabMenuCacheManager;
-
+    private final BaseFileService baseFileService;
     @Autowired
     public YhWikiPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
                                            SaveTitlePerformer grabSaveTitlePerformer, LoginCacheManager loginCacheManager,
-                                           GrabMenuCacheManager grabMenuCacheManager) {
+                                           GrabMenuCacheManager grabMenuCacheManager,
+                                           BaseFileService baseFileService) {
         this.baseTitleService = baseTitleService;
         this.grabDocDao = grabDocDao;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.loginCacheManager = loginCacheManager;
         this.grabMenuCacheManager = grabMenuCacheManager;
+        this.baseFileService = baseFileService;
     }
 
     @Override
@@ -148,7 +151,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public Long grabAndSave(String url, BaseTitle baseTitle) {
         logger.info("读取url" + url);
-        String doc = this.loginAndAnalysisPage(url);
+        String doc = this.loginAndAnalysisPage(url,baseTitle.getTypeId());
         YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
         return impl.saveLoadingDoc(doc, baseTitle);
     }
@@ -183,13 +186,13 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url) {
+    public String loginAndAnalysisPage(String url,Long typeId) {
         loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        return this.analysisPage(url);
+        return this.analysisPage(url,typeId);
     }
 
     @Override
-    public String analysisPage(String url) {
+    public String analysisPage(String url,Long typeId) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI).getPageIndex();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
@@ -209,7 +212,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
                 if (n.attr("href").startsWith("/download")) {
-                    n.attr("href", UrlChangeUtil.changeFileUrl(grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getDocPlace()));
+                    n.attr("href", baseFileService.dealFileUrl(typeId,ChannelType.YH_WIKI.getValue(),grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getDocPlace(),GrabUrlInfoFactory.getImgUrl()));
                 } else {
                     n.attr("href", "javascript:void(0)");
                 }
@@ -217,7 +220,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         });
         enode.getElementsByTag("img").forEach(n -> {
             if (!n.attr("src").startsWith("http")) {
-                n.attr("src", GrabUrlInfoFactory.getImgUrl() + UrlChangeUtil.changeSrcUrl(grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getImagePlace()));
+                n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
             }
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");

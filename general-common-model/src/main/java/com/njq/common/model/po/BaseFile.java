@@ -42,8 +42,8 @@ public class BaseFile implements Serializable {
     @Column(name = "channel")
     private String channel;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "type_id")
+    private Long typeId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
@@ -58,13 +58,13 @@ public class BaseFile implements Serializable {
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String realPlace, String channel, String type, Date createDate, Timestamp modiDate) {
+    public BaseFile(String name, String oldName, String filePlace, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate) {
         this.name = name;
         this.oldName = oldName;
         this.filePlace = filePlace;
         this.realPlace = realPlace;
         this.channel = channel;
-        this.type = type;
+        this.typeId = typeId;
         this.createDate = createDate;
         this.modiDate = modiDate;
     }
@@ -117,12 +117,12 @@ public class BaseFile implements Serializable {
         this.channel = channel;
     }
 
-    public String getType() {
-        return type;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
     public Date getCreateDate() {

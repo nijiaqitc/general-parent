@@ -46,7 +46,7 @@ public class YhWikiController {
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
 //        model.addAttribute("doc", HtmlDecodeUtil.decodeHtml(context, js, fun));
-        model.addAttribute("doc", yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300872"));
+        model.addAttribute("doc", yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300872",null));
         return "grab/view";
     }
 

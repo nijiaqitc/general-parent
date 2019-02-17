@@ -182,7 +182,11 @@ function CustomDecoder() {
         }else{
             src = "src=''";
         }
-        return "<img " + src + ' style="' + st + '"' + " >";
+        if(st == ""){
+        	return "<img " + src + " >";
+        }else{
+        	return "<img " + src + ' style="' + st + '"' + " >";
+        }
     };
     this.dealAStr = function (s) {
         var href = s.match(/href=".*?"/);

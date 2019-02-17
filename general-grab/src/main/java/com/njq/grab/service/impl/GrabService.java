@@ -1,10 +1,19 @@
 package com.njq.grab.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
-import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
@@ -18,14 +27,6 @@ import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class GrabService {
@@ -106,7 +107,7 @@ public class GrabService {
         }
         GrabDoc grabDoc = this.queryById(title.getDocId());
         String doc = performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
-                .loginAndAnalysisPage(loading.getUrl());
+                .loginAndAnalysisPage(loading.getUrl(),title.getTypeId());
         performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
                 .updateDoc(doc, grabDoc.getTitle(), grabDoc.getId());
         return "处理成功！";
@@ -185,7 +186,7 @@ public class GrabService {
             throw new BaseKnownException("文章已经入库，无需再次入库");
         }
         BaseTitle baseTitle;
-        if (Use_Type.UN_USE.equals(loading.getLoaded())) {
+        if (loading != null && Use_Type.UN_USE.equals(loading.getLoaded())) {
             baseTitle = baseTitleService.getTitleId(loading.getTitleId());
         } else {
             LeftMenu menu = new LeftMenu();
