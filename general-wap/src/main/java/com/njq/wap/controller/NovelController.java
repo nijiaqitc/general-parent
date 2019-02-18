@@ -3,6 +3,7 @@ package com.njq.wap.controller;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.IpUtil;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocUserOp;
 import com.njq.common.model.po.XsTitleDesign;
@@ -119,7 +120,7 @@ public class NovelController {
      */
     @RequestMapping(value = "/showDocTitleList", method = RequestMethod.GET)
     public String showDocTitleList(Model model, String token) {
-        if (!"zjsd".equals(token)) {
+        if (!TokenCheck.checkToken(token)) {
             return "wap/titlethc";
         }
         List<TitlethcVO> list = titleService.queryDocList(0L);

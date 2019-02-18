@@ -3,6 +3,7 @@
  */
 package com.njq.tbk.controller;
 
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.TbkRecommendDocView;
 import com.njq.common.model.po.TbkType;
 import com.njq.tbk.service.TbkDocService;
@@ -136,7 +137,7 @@ public class HomeController {
      */
     @RequestMapping(value = "fastNote", method = RequestMethod.GET)
     public String fastNoteInit(Model model, String token) {
-        if (!"qiqi".equals(token)) {
+        if (!TokenCheck.checkToken(token)) {
             return "";
         }
         List<TbkType> typeList = tbktypeService.queryTbktypeByCreatedBy(2l);
