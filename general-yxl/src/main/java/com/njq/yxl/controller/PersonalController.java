@@ -147,13 +147,14 @@ public class PersonalController {
 
     @RequestMapping(value = "pwdPage", method = RequestMethod.GET)
     public String pwdPage(){
+    	CookieUtil.removeCookieByName("loginFlag");
         return "zxgj/pwdPage";
     }
 
     @ResponseBody
     @RequestMapping(value = "setPwd", method = RequestMethod.POST)
     public String setPwd(@RequestParam String token){
-        if(!token.equals("1111")){
+        if(!"f23e7c5ca69e363d8bc49f595a24192a".equals(token)){
             return "请设置正确的密码！";
         }
         CookieUtil.addCookie("loginFlag", "true");

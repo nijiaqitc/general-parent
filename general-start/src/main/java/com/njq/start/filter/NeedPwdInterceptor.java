@@ -18,6 +18,12 @@ public class NeedPwdInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         HandlerMethod handlerMethod = HandlerHelper.getHandlerMethod(handler);
+        /**
+         *  针对静态资源的处理器ResourceHttpRequestHandler等需要过滤
+         */
+        if(handlerMethod == null) {
+        	return true;
+        }
         NeedPwd annotation = handlerMethod.getMethod().getAnnotation(NeedPwd.class);
         if (annotation == null) {
             return true;
@@ -25,7 +31,7 @@ public class NeedPwdInterceptor implements HandlerInterceptor {
         if (this.checkHadPwd(request, response)) {
             return true;
         } else {
-            request.getRequestDispatcher("/noPowerPage").forward(request, response);
+            request.getRequestDispatcher("/pwdPage").forward(request, response);
             return false;
         }
     }

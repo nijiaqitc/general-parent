@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png"/>
 </head>
 <body>
-    <form action="setPwd" method="post">
+    <form action="/setPwd" method="post">
         <input type="text" name = "token" >
         <input type="submit" name="提交">
     </form>
