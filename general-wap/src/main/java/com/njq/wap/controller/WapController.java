@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.njq.common.base.interceptor.NeedPwd;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,7 +117,7 @@ public class WapController {
         return "wap/message";
     }
 
-
+    @NeedPwd
     @RequestMapping(value = "/note/noteList", method = RequestMethod.GET)
     public String noteList(Model model) {
         List<YxlNoteGeneral> list = yxlNoteService.queryTitleList();
@@ -124,6 +125,7 @@ public class WapController {
         return "wap/noteList";
     }
 
+    @NeedPwd
     @RequestMapping(value = "/note/{noteId}", method = RequestMethod.GET)
     public String note(Model model, @PathVariable(value = "noteId") Long noteId) {
         YxlNote doc = yxlNoteService.queryById(noteId);

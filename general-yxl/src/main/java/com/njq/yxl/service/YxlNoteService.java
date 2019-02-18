@@ -102,16 +102,17 @@ public class YxlNoteService {
 	
 	/**
 	 * 根据id查询对象
-	 * @param docId
+	 * @param id
 	 * @return
 	 */
 	public YxlNote queryById(Long id){
 	    return yxlNoteDao.queryTById(id);
     }
-	
+
 	/**
 	 * 根据条件查询总数
-	 * @param paramMap
+	 * @param column
+	 * @param value
 	 * @return
 	 */
 	public int queryCount(String column,String value){

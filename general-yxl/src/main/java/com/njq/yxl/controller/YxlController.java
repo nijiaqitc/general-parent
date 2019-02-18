@@ -41,10 +41,10 @@ public class YxlController {
     /**
      * 查询文章列表（分页）
      */
+    @ResponseBody
     @RequestMapping(value = "getDocList", method = RequestMethod.POST)
-    public @ResponseBody
-    PageList<YxlDocSearch> getDocList(Model model, @RequestParam(required = false, defaultValue = "-1") int page,
-                                      @RequestParam(required = false, defaultValue = "-1") int size) {
+    public PageList<YxlDocSearch> getDocList(Model model, @RequestParam(required = false, defaultValue = "-1") int page,
+                                             @RequestParam(required = false, defaultValue = "-1") int size) {
         Map<String, Object> map = new HashMap<String, Object>();
         PageList<YxlDocSearch> docList = yxlDocSearchService.queryPageList(map, page, size);
         return docList;
@@ -54,9 +54,9 @@ public class YxlController {
     /**
      * 根据id删除文章
      */
+    @ResponseBody
     @RequestMapping(value = "delDoc", method = RequestMethod.POST)
-    public @ResponseBody
-    Map<String, Object> delDoc(@RequestParam Long[] ids, Model model) {
+    public Map<String, Object> delDoc(@RequestParam Long[] ids, Model model) {
         Map<String, Object> map = new HashMap<String, Object>();
         yxlDocService.deleteByIds(ids);
         MessageCommon.getSuccessMap();
@@ -71,10 +71,10 @@ public class YxlController {
      * @param size
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "queryDocList", method = RequestMethod.POST)
-    public @ResponseBody
-    PageList<DocListVO> queryDocList(Model model, @RequestParam(required = false, defaultValue = "-1") int page,
-                                     @RequestParam(required = false, defaultValue = "-1") int size, String[] tipNames, String searchValue) {
+    public PageList<DocListVO> queryDocList(Model model, @RequestParam(required = false, defaultValue = "-1") int page,
+                                            @RequestParam(required = false, defaultValue = "-1") int size, String[] tipNames, String searchValue) {
         Map<String, Object> map = new HashMap<String, Object>();
         PageList<DocListVO> docList = yxlDocSearchService.queryDocList(map, page, size, tipNames, searchValue);
         return docList;
@@ -204,9 +204,9 @@ public class YxlController {
      * @param docId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "doc", method = RequestMethod.GET)
-    public @ResponseBody
-    YxlDoc docText(Model model, Long docId) {
+    public YxlDoc docText(Model model, Long docId) {
         YxlDoc doc = yxlDocService.queryById(docId);
         if (doc == null) {
             return new YxlDoc();

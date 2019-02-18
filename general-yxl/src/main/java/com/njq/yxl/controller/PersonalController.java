@@ -1,11 +1,14 @@
 package com.njq.yxl.controller;
 
+import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlDocSearch;
 import com.njq.common.model.po.YxlFolder;
 import com.njq.common.model.po.YxlTip;
 import com.njq.common.model.po.YxlType;
+import com.njq.common.util.encrypt.Md5Util;
+import com.njq.common.util.other.CookieUtil;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 import com.njq.yxl.service.YxlNoteService;
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +43,7 @@ public class PersonalController {
      * @param model
      * @return
      */
+    @NeedPwd
     @RequestMapping(value = "yxlIssueDoc", method = RequestMethod.GET)
     public String yxlIssueDoc(Model model,
                               @RequestParam(required = true) String token) {
@@ -57,6 +62,7 @@ public class PersonalController {
      * @param docId
      * @return
      */
+    @NeedPwd
     @RequestMapping(value = "updateYxlDocPage", method = RequestMethod.GET)
     public String updateYxlDocPage(Model model, Long docId,
                                    @RequestParam(required = true) String token) {
@@ -97,6 +103,7 @@ public class PersonalController {
      * @param model
      * @return
      */
+    @NeedPwd
     @RequestMapping(value = "noteManager", method = RequestMethod.GET)
     public String noteManager(String token, HttpServletRequest request, Model model) {
         if ("njqnote".equals(token)) {
@@ -114,6 +121,7 @@ public class PersonalController {
         }
     }
 
+    @NeedPwd
     @RequestMapping(value = "recordManager", method = RequestMethod.GET)
     public String recordManager(String token, HttpServletRequest request, Model model) {
         if ("njqrecord".equals(token)) {
@@ -130,4 +138,28 @@ public class PersonalController {
             return "xxbbss";
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "mdValue", method = RequestMethod.GET)
+    public String mdValue(@RequestParam String value){
+        return Md5Util.getMD5Password(value);
+    }
+
+    @RequestMapping(value = "pwdPage", method = RequestMethod.GET)
+    public String pwdPage(){
+        return "zxgj/pwdPage";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "setPwd", method = RequestMethod.POST)
+    public String setPwd(@RequestParam String token){
+        if(!token.equals("1111")){
+            return "请设置正确的密码！";
+        }
+        CookieUtil.addCookie("loginFlag", "true");
+        return "处理成功！";
+    }
+
+
+
 }

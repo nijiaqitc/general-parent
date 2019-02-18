@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.njq.common.base.interceptor.NeedPwd;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,7 @@ public class NoteManageController {
 	 * @param model
 	 * @return
 	 */
+	@NeedPwd
 	@RequestMapping(value = "noteManage", method = RequestMethod.GET)
 	public String jumpToPage(Model model) {
 		List<YxlNoteGeneral> gList = yxlNoteService.queryTitleList();
@@ -60,6 +62,7 @@ public class NoteManageController {
 	 * @param id
 	 * @return
 	 */
+	@NeedPwd
 	@RequestMapping(value = "queryGenList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<YxlNoteGeneral> queryGenList(Long id) {
@@ -128,10 +131,12 @@ public class NoteManageController {
 
 	/**
 	 * 阅读文章
-	 * 
-	 * @param note
+	 * @param docId
+	 * @param folderId
+	 * @param req
 	 * @return
 	 */
+	@NeedPwd
 	@RequestMapping(value = "readNote", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> readNote(Long docId, Long folderId, HttpServletRequest req) {
