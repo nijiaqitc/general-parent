@@ -249,8 +249,8 @@ public class ConstantsCommon {
 
 
     public static class Common_Value {
-        public static final String C_ZERO = "0";
-        public static final String C_ONE = "1";
-        public static final String C_TWO = "2";
+        public static final int C_ZERO = 0;
+        public static final int C_ONE = 1;
+        public static final int C_TWO = 2;
     }
 }

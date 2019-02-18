@@ -153,7 +153,7 @@ public class BaseTitleService {
         condition.addEqParam("titleId", id);
         condition.addEqParam("loaded", Use_Type.UN_USE);
         int modiNum = baseTitleLoadingDao.update(condition);
-        if (ConstantsCommon.Common_Value.C_ZERO.equals(modiNum)) {
+        if (ConstantsCommon.Common_Value.C_ZERO == modiNum) {
             throw new BaseKnownException(ErrorCodeConstant.ALREADY_LOAD_CODE, ErrorCodeConstant.ALREADY_LOAD_MSG);
         }
         saveMap.get(TitleType.GRAB_TITLE).updateTitleOnLoadSuccess(docId, id);
