@@ -132,7 +132,7 @@ public class BaseFileService {
         if (CollectionUtils.isEmpty(list)) {
              String place = getFilePlace(shortName, savePlace, fileOldName);
              changeFileUrl(prefix, src, shortName, savePlace + place);
-             BaseFile file = saveInfo(channel, fileOldName, fileOldName, imgPlace +"/downLoadFile"+ place, savePlace + place, typeId,src);
+             BaseFile file = saveInfo(channel, fileOldName, fileOldName, "/downLoadFile"+ place, savePlace + place, typeId,src);
              return file.getfilePlace();
         }else {
         	return list.get(0).getfilePlace();
