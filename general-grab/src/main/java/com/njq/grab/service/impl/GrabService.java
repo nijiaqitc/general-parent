@@ -114,7 +114,7 @@ public class GrabService {
     }
 
     public void grabOperation(String title, String url, String docId, String channel, String type, String tips, Boolean reload) {
-        BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId);
+        BaseTitleLoading loading = baseTitleService.getLoadingByUrl(url);
         if (loading == null) {
             this.saveAndGrab(title, url, docId, channel, type, tips);
         } else {
