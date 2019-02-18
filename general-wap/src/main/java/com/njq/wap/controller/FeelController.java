@@ -3,6 +3,7 @@ package com.njq.wap.controller;
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.BaseCode;
 import com.njq.common.model.po.ToolFeeling;
 import com.njq.common.util.encrypt.Base64Util;
@@ -56,7 +57,7 @@ public class FeelController {
     public PageList<ToolFeeling> queryList(@RequestParam(required = false, defaultValue = "1") int page,
                                            @RequestParam(required = false, defaultValue = "10") int size,
                                            @RequestParam(required = false, defaultValue = "2") String textType, String token) {
-        if ("qss".equals(token)) {
+        if (TokenCheck.checkToken(token)) {
             Map<String, Object> paramMap = new HashMap<String, Object>();
             paramMap.put("textType", textType);
             paramMap.put("userId", 2L);

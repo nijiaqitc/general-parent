@@ -1,6 +1,7 @@
 package com.njq.yxl.controller;
 
 import com.njq.common.base.interceptor.NeedPwd;
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlDocSearch;
@@ -47,7 +48,7 @@ public class PersonalController {
     @RequestMapping(value = "yxlIssueDoc", method = RequestMethod.GET)
     public String yxlIssueDoc(Model model,
                               @RequestParam(required = true) String token) {
-        if (!"njq".equals(token)) {
+        if (!TokenCheck.checkToken(token)) {
             return "aaa";
         }
         List<YxlType> list = yxlDocService.queryTypeTitleList();
@@ -66,7 +67,7 @@ public class PersonalController {
     @RequestMapping(value = "updateYxlDocPage", method = RequestMethod.GET)
     public String updateYxlDocPage(Model model, Long docId,
                                    @RequestParam(required = true) String token) {
-        if (!"njq".equals(token)) {
+        if (!TokenCheck.checkToken(token)) {
             return "aaa";
         }
         List<YxlType> list = yxlDocService.queryTypeTitleList();
@@ -106,7 +107,7 @@ public class PersonalController {
     @NeedPwd
     @RequestMapping(value = "noteManager", method = RequestMethod.GET)
     public String noteManager(String token, HttpServletRequest request, Model model) {
-        if ("njqnote".equals(token)) {
+        if (TokenCheck.checkToken(token)) {
             HttpSession session = request.getSession();
             session.setAttribute("sessionId", request.getSession().getId());
             BaseUser user = new BaseUser();
@@ -124,7 +125,7 @@ public class PersonalController {
     @NeedPwd
     @RequestMapping(value = "recordManager", method = RequestMethod.GET)
     public String recordManager(String token, HttpServletRequest request, Model model) {
-        if ("njqrecord".equals(token)) {
+        if (TokenCheck.checkToken(token)) {
             HttpSession session = request.getSession();
             session.setAttribute("sessionId", request.getSession().getId());
             BaseUser user = new BaseUser();
@@ -154,7 +155,7 @@ public class PersonalController {
     @ResponseBody
     @RequestMapping(value = "setPwd", method = RequestMethod.POST)
     public String setPwd(@RequestParam String token){
-        if(!"f23e7c5ca69e363d8bc49f595a24192a".equals(token)){
+        if(!TokenCheck.checkToken(token)){
             return "请设置正确的密码！";
         }
         CookieUtil.addCookie("loginFlag", "true");

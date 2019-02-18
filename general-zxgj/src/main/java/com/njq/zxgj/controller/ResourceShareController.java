@@ -7,6 +7,7 @@ import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.IpUtil;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.base.redis.RedisCommon;
 import com.njq.common.model.po.BaseCode;
 import com.njq.common.model.po.ToolResourceshare;
@@ -151,7 +152,7 @@ public class ResourceShareController {
     @RequestMapping(value = "resetDownLoadTimes", method = RequestMethod.GET)
     @ResponseBody
     public void resetDownLoadTimes(HttpServletRequest request, @RequestParam(required = true) String token) {
-        if ("qiqi".equals(token)) {
+        if (TokenCheck.checkToken(token)) {
             String ip = IpUtil.getIpAddr(request);
             RedisCommon.setHashString(ip, "downLoadTimes", "0");
             Object cc = RedisCommon.getString(ip, "downLoadTimes");
@@ -249,7 +250,7 @@ public class ResourceShareController {
      */
     @RequestMapping(value = "tranPic", method = RequestMethod.GET)
     public void tranPic(String token) {
-        if ("qiqi".equals(token)) {
+        if (TokenCheck.checkToken(token)) {
             String path = "c:/mywork/image/uploadImage/shareResources/";
             self(new File(path));
         }
