@@ -205,8 +205,8 @@ public class GjHomeController {
 
 
     @SuppressWarnings("downLoadFile")
-    @RequestMapping(value = "downLoadFile/{shortname}/{dfolder}/{file}", method = RequestMethod.GET)
-    public void downLoadFile(@PathVariable(value = "file") String file,@PathVariable(value = "shortname") String shortname,
+    @RequestMapping(value = "{shortname}/{dfolder}/downLoadFile", method = RequestMethod.GET)
+    public void downLoadFile(String file,@PathVariable(value = "shortname") String shortname,
                              @PathVariable(value = "dfolder") String dfolder,
                              HttpServletRequest request, HttpServletResponse response) {
 //    	http://localhost:8087/yhwiki/20190114/downLoadFile?file=京东到家对接性能测试方案.docx
