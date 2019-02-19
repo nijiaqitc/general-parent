@@ -51,7 +51,7 @@ public class CustomAnalysisPerformer {
                 .getDoc(url);
         logger.info("cusotm:" + name + " :----: " + url);
         if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
         }
         Element enode = null;
         switch (type) {

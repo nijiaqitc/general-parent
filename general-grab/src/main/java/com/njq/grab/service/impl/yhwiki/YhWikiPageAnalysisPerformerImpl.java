@@ -97,7 +97,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
             if (doc == null) {
-                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
+                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
             }
             Elements e = doc.getElementsByTag("a");
             List<LeftMenu> list = new ArrayList<>();
@@ -198,7 +198,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);
         if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
         }
         if ("Log In - Confluence".equals(doc.getElementsByTag("title").html())) {
             loginCacheManager.reLogin(ChannelType.YH_WIKI);

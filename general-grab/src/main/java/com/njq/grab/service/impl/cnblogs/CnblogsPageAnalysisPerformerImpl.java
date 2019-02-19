@@ -135,7 +135,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .build(ChannelType.CNBLOGS.getValue())
                 .getDoc(url);
         if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
         }
         Element enode = doc.getElementById("cnblogs_post_body");
         if (enode == null) {
