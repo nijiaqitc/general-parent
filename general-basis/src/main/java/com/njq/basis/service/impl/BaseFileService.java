@@ -66,7 +66,7 @@ public class BaseFileService {
         file.setfilePlace(filePlace);
         file.setRealPlace(realPlace);
         file.setTypeId(typeId);
-        file.setOldSrc(oldSrc);
+        file.setOldSrc(oldSrc.length() > 250 ? oldSrc.substring(0, 250) + "......" : oldSrc);
         fileDao.save(file);
         return file;
     }
