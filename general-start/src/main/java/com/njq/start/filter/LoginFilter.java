@@ -39,7 +39,7 @@ public class LoginFilter implements Filter {
         String servletPath = servletRequest.getServletPath();
         HttpSession session = servletRequest.getSession();
         session.setAttribute("basePath", servletRequest.getRequestURI());
-        logger.info("访问ip:"+IpUtil.getIpAddr((HttpServletRequest)request)+((HttpServletRequest) request).getServletPath());
+        logger.info("访问ip:"+IpUtil.getIpAddr((HttpServletRequest)request)+" -- "+((HttpServletRequest) request).getServletPath());
 
 		/*
 		Object sessionId = session.getAttribute("sessionId");
