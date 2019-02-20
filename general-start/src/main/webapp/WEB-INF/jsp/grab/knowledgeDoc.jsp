@@ -16,8 +16,7 @@
 	<div id="docContext" class="docContext" align="center">
 		    <div class="contextArea" >
 		        <div align="center" class="textSt">${doc.title }</div>
-		        <div id="textContext"></div>
-		        <div>${doc.doc }</div>
+		        <div id="textContext">${doc.doc }</div>
 		    </div>
 	    </div>
 </div>

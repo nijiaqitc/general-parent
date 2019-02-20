@@ -36,6 +36,9 @@ a:hover{
 .centerDiv .docContext{
    overflow: auto;float: left;width: 100%;margin-bottom: 30px;
 }
+.centerDiv .docContext img{
+    max-width: 1000px;
+}
 .centerDiv .contextArea{
     width: 1000px;min-height: 600px;background-color: #fff;text-align: left;margin-bottom: 40px;margin-top: 20px;
 }
