@@ -2,6 +2,7 @@ package com.njq.basis.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -221,7 +222,7 @@ public class BaseChannelService  {
 		for(Long id:channelId){
 			BaseUserChannelConfig config=new BaseUserChannelConfig();
 			config.setCreateBy(userId);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			config.setModiBy(userId);
 			config.setChannelId(id);
 			config.setUserId(userId);
@@ -253,7 +254,7 @@ public class BaseChannelService  {
 		for(Long id:channelId){
 			BaseRuleChannelConfig config=new BaseRuleChannelConfig();
 			config.setCreateBy(userId);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			config.setDelDate(null);
 			config.setModiBy(userId);
 			config.setChannelId(id);

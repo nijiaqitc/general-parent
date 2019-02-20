@@ -4,6 +4,7 @@ package com.njq.admin.controller;
  * 角色管理接口
  */
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,7 @@ public class RuleManageController {
 		rule.setChannelId(UserCommon.getUserId());
 		rule.setCreateBy(UserCommon.getUserId());
 		rule.setModiBy(UserCommon.getUserId());
-		rule.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		rule.setCreateDate(new Date());
 		// 对栏目进行保存
 		ruleService.saveRule(rule, UserCommon.getUserId(), map);
 		return map;

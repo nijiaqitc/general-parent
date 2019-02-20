@@ -218,7 +218,7 @@ public class ToolController {
 			pic.setName(picName);
 			pic.setCreateBy(UserCommon.getUserId());
 			pic.setModiBy(UserCommon.getUserId());
-			pic.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			pic.setCreateDate(new Date());
 			tbkpicService.saveTbkpic(pic, map);
 			map.put("state", 1);
 			map.put("id", pic.getId());

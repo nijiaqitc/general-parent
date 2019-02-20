@@ -1,6 +1,7 @@
 package com.njq.basis.service.impl;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -121,7 +122,7 @@ public class BaseCodeService {
 		}else{
 			BaseCode c=new BaseCode();
 			c.setCreateBy(userId);
-			c.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			c.setCreateDate(new Date());
 			c.setValue("");
 			c.setColumDesc("父级");
 			c.setInTurn(0);

@@ -4,6 +4,7 @@ package com.njq.admin.controller;
  * 类型管理接口
  */
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,7 +123,7 @@ public class TypeManageController {
 		}
 		type.setCreateBy(UserCommon.getUserId());
 		type.setModiBy(UserCommon.getUserId());
-		type.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		type.setCreateDate(new Date());
 		type.setInTurn(ConstantsCommon.Org_Id.IN_TURN);
 		// 对类型进行保存
 		tbkTypeService.saveTbktype(type, UserCommon.getUserId(), map);
@@ -161,7 +162,7 @@ public class TypeManageController {
 		type.setName(typeName);
 		type.setInTurn(ConstantsCommon.Org_Id.IN_TURN);
 		type.setCreateBy(UserCommon.getUserId());
-		type.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		type.setCreateDate(new Date());
 		type.setModiBy(UserCommon.getUserId());
 		// 对类型进行保存
 		tbkTypeService.saveTbktype(type, UserCommon.getUserId(), map);

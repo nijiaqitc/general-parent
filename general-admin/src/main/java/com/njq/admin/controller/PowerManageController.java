@@ -4,6 +4,7 @@ package com.njq.admin.controller;
  * 权限管理接口
  */
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class PowerManageController {
 		}
 		channel.setCreateBy(UserCommon.getUserId());
 		channel.setModiBy(UserCommon.getUserId());
-		channel.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		channel.setCreateDate(new Date());
 		channel.setStatus(ConstantsCommon.Del_Status.YES);
 		channel.setApply(ConstantsCommon.Del_Status.NO);
 		// 对栏目进行保存

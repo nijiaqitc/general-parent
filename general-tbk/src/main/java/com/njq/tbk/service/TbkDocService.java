@@ -1,6 +1,7 @@
 package com.njq.tbk.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class TbkDocService {
 		docpic.setPicId(picId);
 		docpic.setCreateBy(userId);
 		docpic.setModiBy(userId);
-		docpic.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		docpic.setCreateDate(new Date());
 		//保存文章图片关联内容
 		tbkdocpicconfigDao.save(docpic);
 		TbkTypeDocConfig typedoc=new TbkTypeDocConfig();
@@ -134,7 +135,7 @@ public class TbkDocService {
 		typedoc.setTypeId(typeId);
 		typedoc.setCreateBy(userId);
 		typedoc.setModiBy(userId);
-		typedoc.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		typedoc.setCreateDate(new Date());
 		tbktypedocconfigDao.save(typedoc);
 		for(String tipName:tips){
 			if(tipName==null||"".equals(tipName)){
@@ -147,7 +148,7 @@ public class TbkDocService {
 				tip.setCreateBy(userId);
 				tip.setModiBy(userId);
 				tip.setInTurn(1L);
-				tip.setCreateDate(new Timestamp(System.currentTimeMillis()));
+				tip.setCreateDate(new Date());
 				tbktipDao.save(tip);
 			}
 			TbkDocTipConfig config=new TbkDocTipConfig();
@@ -155,7 +156,7 @@ public class TbkDocService {
 			config.setDocId(doc.getId());
 			config.setCreateBy(userId);
 			config.setModiBy(userId);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			tbkdoctipconfigDao.save(config);
 		}
 		//日志记录
@@ -214,7 +215,7 @@ public class TbkDocService {
 				tip.setCreateBy(userId);
 				tip.setModiBy(userId);
 				tip.setInTurn(1L);
-				tip.setCreateDate(new Timestamp(System.currentTimeMillis()));
+				tip.setCreateDate(new Date());
 				tbktipDao.save(tip);
 			}
 			TbkDocTipConfig config=new TbkDocTipConfig();
@@ -222,7 +223,7 @@ public class TbkDocService {
 			config.setDocId(doc.getId());
 			config.setCreateBy(userId);
 			config.setModiBy(userId);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			tbkdoctipconfigDao.save(config);
 		}
 		MessageCommon.getSuccessMap(map);

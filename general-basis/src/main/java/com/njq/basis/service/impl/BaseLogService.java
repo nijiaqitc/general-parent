@@ -2,6 +2,7 @@ package com.njq.basis.service.impl;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class BaseLogService {
 		log.setOperCon(operCon);
 		log.setOperTable(operTable);
 		log.setCreateBy(userId);
-		log.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		log.setCreateDate(new Date());
 		log.setModiBy(userId);
 		logDao.save(log);
 	}

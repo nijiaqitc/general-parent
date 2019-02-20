@@ -213,7 +213,7 @@ public class DocController {
         doc.setUserId(2L);
         doc.setCreateBy(2L);
         doc.setModiBy(2L);
-        doc.setCreateDate(new Timestamp(System.currentTimeMillis()));
+        doc.setCreateDate(new Date());
         if ("2".equals(docType)) {
             doc.setReprint(2);
             tbkdocService.saveDoc(doc, typeId, tbkpicService.queryZhuanPicForRandom(), tips.replace(" ", "").split("&"), 2l, map);

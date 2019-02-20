@@ -4,6 +4,7 @@ package com.njq.admin.controller;
  * 用户管理接口
  */
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +125,7 @@ public class UserManageController {
 		user.setPwd(Md5Util.getMD5Password(user.getPwd()));
 		user.setCreateBy(UserCommon.getUserId());
 		user.setModiBy(UserCommon.getUserId());
-		user.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		user.setCreateDate(new Date());
 		user.setStatus(ConstantsCommon.Del_Status.YES);
 		// 对用户进行保存
 		userService.saveUser(user, UserCommon.getUserId(), map);

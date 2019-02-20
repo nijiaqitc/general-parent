@@ -1,6 +1,7 @@
 package com.njq.basis.service.impl;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -149,7 +150,7 @@ public class BaseRuleService {
 		for(Long id:ruleId){
 			BaseUserRuleConfig config=new BaseUserRuleConfig();
 			config.setCreateBy(userId);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			config.setModiBy(userId);
 			config.setRuleId(id);
 			config.setUserId(userId);
@@ -191,7 +192,7 @@ public class BaseRuleService {
 		if(list.size()>0){
 			BaseUserRuleConfig config=new BaseUserRuleConfig();
 			config.setCreateBy(ConstantsCommon.Oper_User.NO_USER);
-			config.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			config.setCreateDate(new Date());
 			config.setStatus(ConstantsCommon.Del_Status.YES);
 			config.setModiBy(ConstantsCommon.Oper_User.NO_USER);
 			config.setRuleId(list.get(0).getId());

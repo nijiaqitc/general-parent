@@ -30,6 +30,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class LoginController {
             return map;
         }
         user.setCreateBy(ConstantsCommon.Oper_User.NO_USER);
-        user.setCreateDate(new Timestamp(System.currentTimeMillis()));
+        user.setCreateDate(new Date());
         user.setModiBy(ConstantsCommon.Oper_User.NO_USER);
         userService.saveUser(user, null, map);
         return map;

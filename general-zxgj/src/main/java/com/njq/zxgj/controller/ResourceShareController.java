@@ -236,7 +236,7 @@ public class ResourceShareController {
         rc.setIsLosted("1");
         rc.setPwd(sharePwd);
         rc.setIsStoped("0");
-        rc.setCreateDate(new Timestamp(System.currentTimeMillis()));
+        rc.setCreateDate(new Date());
         rc.setModiBy(2L);
         rc.setModiDate(new Timestamp(System.currentTimeMillis()));
         rc.setCreateBy(2L);

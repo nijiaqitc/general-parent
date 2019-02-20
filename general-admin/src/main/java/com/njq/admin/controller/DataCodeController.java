@@ -4,6 +4,7 @@ package com.njq.admin.controller;
  * 数据字典接口
  */
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -125,7 +126,7 @@ public class DataCodeController {
 		}
 		code.setCreateBy(UserCommon.getUserId());
 		code.setModiBy(UserCommon.getUserId());
-		code.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		code.setCreateDate(new Date());
 		// 对栏目进行保存
 		codeService.saveCode(code, UserCommon.getUserId(), map);
 		return map;

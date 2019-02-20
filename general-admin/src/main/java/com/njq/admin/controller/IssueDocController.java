@@ -197,7 +197,7 @@ public class IssueDocController {
 		}
 		doc.setCreateBy(UserCommon.getUserId());
 		doc.setModiBy(UserCommon.getUserId());
-		doc.setCreateDate(new Timestamp(System.currentTimeMillis()));
+		doc.setCreateDate(new Date());
 		tbkdocService.saveDoc(doc, typeId, picId, tips, UserCommon.getUserId(), map);
 		return map;
 	}
@@ -247,7 +247,7 @@ public class IssueDocController {
 			pic.setName(picName);
 			pic.setCreateBy(UserCommon.getUserId());
 			pic.setModiBy(UserCommon.getUserId());
-			pic.setCreateDate(new Timestamp(System.currentTimeMillis()));
+			pic.setCreateDate(new Date());
 			tbkpicService.saveTbkpic(pic, map);
 			map.put("state", 1);
 			map.put("id", pic.getId());
