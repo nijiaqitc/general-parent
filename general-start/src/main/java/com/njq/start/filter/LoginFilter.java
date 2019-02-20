@@ -3,7 +3,10 @@
  */
 package com.njq.start.filter;
 
-import java.io.IOException;
+import com.njq.common.base.other.IpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,28 +18,29 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Component;
+import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/",filterName = "filterName")
-public class LoginFilter implements Filter{
+@WebFilter(urlPatterns = "/", filterName = "filterName")
+public class LoginFilter implements Filter {
+    private static final Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
 
-	@SuppressWarnings("unused")
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest servletRequest = (HttpServletRequest) request;
-		HttpServletResponse servletResponse = (HttpServletResponse) response;
-		String contextPath = servletRequest.getContextPath();
-		String servletPath = servletRequest.getServletPath();
-		HttpSession session = servletRequest.getSession();
-		session.setAttribute("basePath", servletRequest.getRequestURI());
+    @SuppressWarnings("unused")
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest servletRequest = (HttpServletRequest) request;
+        HttpServletResponse servletResponse = (HttpServletResponse) response;
+        String contextPath = servletRequest.getContextPath();
+        String servletPath = servletRequest.getServletPath();
+        HttpSession session = servletRequest.getSession();
+        session.setAttribute("basePath", servletRequest.getRequestURI());
+        logger.info("访问ip:"+IpUtil.getIpAddr((HttpServletRequest)request)+((HttpServletRequest) request).getServletPath());
+
 		/*
 		Object sessionId = session.getAttribute("sessionId");
 		String url = servletPath.split("/")[1];
@@ -74,8 +78,8 @@ public class LoginFilter implements Filter{
 			servletResponse.sendRedirect("/login.jsp");
 			return;
 		}*/
-		ParameterRequestWrapper requestWrapper = new ParameterRequestWrapper((HttpServletRequest)request);  
-        chain.doFilter(requestWrapper, response); 
+        ParameterRequestWrapper requestWrapper = new ParameterRequestWrapper((HttpServletRequest) request);
+        chain.doFilter(requestWrapper, response);
 //		servletResponse.sendRedirect("/index.jsp");
 //		chain.doFilter(servletRequest, servletResponse);
 //		return ;
@@ -84,13 +88,12 @@ public class LoginFilter implements Filter{
 		User user = null;
 		HttpSession session = servletRequest.getSession();*/
 //		chain.doFilter(request, response);
-	}
-	
-	
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+    }
+
+
+    @Override
+    public void destroy() {
+        // TODO Auto-generated method stub
+    }
 
 }
