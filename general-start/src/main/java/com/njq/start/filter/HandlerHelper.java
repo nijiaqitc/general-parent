@@ -16,6 +16,6 @@ public class HandlerHelper {
     }
 
     public static HandlerMethod getPossibleHandlerMethod(Object httpHandler) {
-        return httpHandler instanceof HandlerMethod ? (HandlerMethod)httpHandler : null;
+        return httpHandler instanceof HandlerMethod ? (HandlerMethod) httpHandler : null;
     }
 }
