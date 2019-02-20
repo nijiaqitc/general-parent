@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.njq.common.util.string.IdGen;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
@@ -95,7 +96,7 @@ public class OperLogController {
 		Workbook wb = logService.downLoadLog(start, end, searchValue);
 		try {
 			resp.reset();
-			String fileName = "log-" + System.currentTimeMillis() + ".xlsx";
+			String fileName = "log-" + IdGen.get().toString() + ".xlsx";
 			resp.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 			resp.setContentType("application/octet-stream;charset=UTF-8");
 			OutputStream outputStream = resp.getOutputStream();

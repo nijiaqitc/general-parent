@@ -210,9 +210,9 @@ public class DocController {
             map.put("state", "0");
             return map;
         }
-        doc.setUserId(2l);
-        doc.setCreateBy(2l);
-        doc.setModiBy(2l);
+        doc.setUserId(2L);
+        doc.setCreateBy(2L);
+        doc.setModiBy(2L);
         doc.setCreateDate(new Timestamp(System.currentTimeMillis()));
         if ("2".equals(docType)) {
             doc.setReprint(2);

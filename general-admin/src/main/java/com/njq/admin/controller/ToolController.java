@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.njq.common.util.string.IdGen;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -205,7 +206,7 @@ public class ToolController {
 	public Map<String, Object> releaseDoc(@RequestParam String base64Data, HttpServletRequest req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String picName = System.currentTimeMillis() + "";
+			String picName = IdGen.get().toString();
 			if (base64Data.split("base64,").length < 2) {
 				MessageCommon.getFalseMap(map);
 				return map;

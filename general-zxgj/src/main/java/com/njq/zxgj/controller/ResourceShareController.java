@@ -18,6 +18,7 @@ import com.njq.common.util.image.ImageUtil;
 import com.njq.common.util.other.CookieExpire;
 import com.njq.common.util.other.CookieUtil;
 import com.njq.common.util.other.PropertyUtil;
+import com.njq.common.util.string.IdGen;
 import com.njq.zxgj.service.ToolResourceShareService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -197,7 +198,7 @@ public class ResourceShareController {
             return map;
         }
         String realPath = PropertyUtil.get("image.place") + "/shareResources/total/" + shareTypeOne + "/" + shareTypeTwo + "/" + shareTypeThree;
-        String picName = DateUtil.toDateString6(new Date()) + System.currentTimeMillis();
+        String picName = IdGen.get().toString();
         String picPlaceA = Base64Util.GenerateImage(selepicOne.split("base64,")[1], picName + "-1", realPath, map);
         String picPlaceB = Base64Util.GenerateImage(selepicTwo.split("base64,")[1], picName + "-2", realPath, map);
         String picPlaceC = Base64Util.GenerateImage(selepicThree.split("base64,")[1], picName + "-3", realPath, map);

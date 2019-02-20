@@ -32,7 +32,7 @@ public class BaseFileService {
 
     public String dealImgSrc(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
         if (src.startsWith("data:image/png;base64")) {
-            String picName = System.currentTimeMillis() + "";
+            String picName = IdGen.get().toString();
             String picPlace = Base64Util.GenerateImage(src.split("base64,")[1], picName, savePlace);
             BaseFile file = saveInfo(channel, picName, picName, imgPlace + picPlace, savePlace + picPlace, typeId, "base64");
             return file.getfilePlace();

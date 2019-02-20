@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.njq.common.util.string.IdGen;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -234,7 +235,7 @@ public class IssueDocController {
 	public Map<String, Object> releaseDoc(@RequestParam String base64Data, HttpServletRequest req) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String picName = System.currentTimeMillis() + "";
+			String picName = IdGen.get().toString() + "";
 			if (base64Data.split("base64,").length < 2) {
 				MessageCommon.getFalseMap(map);
 				return map;
