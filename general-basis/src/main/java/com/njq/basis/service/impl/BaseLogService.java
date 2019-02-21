@@ -1,6 +1,5 @@
 package com.njq.basis.service.impl;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;

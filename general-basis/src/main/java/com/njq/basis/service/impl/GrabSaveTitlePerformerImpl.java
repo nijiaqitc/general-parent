@@ -32,7 +32,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         condition.addEqParam("title", request.getMenu().getName());
         condition.addEqParam("typeId", request.getTypeId());
         condition.addEqParam("channel", request.getChannel());
-        List<BaseTitleGrab> titleList = baseTitleGrabDao.queryColumnForList(condition);
+//        List<BaseTitleGrab> titleList = baseTitleGrabDao.queryColumnForList(condition);
         String suffix = "";
 //		if (!CollectionUtils.isEmpty(titleList)) {
 //			// 给名称加后缀，避免出现重名的标题

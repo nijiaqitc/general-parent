@@ -27,6 +27,7 @@ import java.util.List;
  * @author: nijiaqi
  * @date: 2019/2/15
  */
+@SuppressWarnings("restriction")
 @Service
 public class BaseFileService {
     private static final Logger logger = LoggerFactory.getLogger(BaseFileService.class);
