@@ -58,13 +58,16 @@ public class BaseFile implements Serializable {
     @Column(name = "load_flag")
     private Boolean loadFlag;
 
+    @Column(name = "desc")
+    private String desc;
+
     /**
      * default constructor
      */
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate, Boolean loadFlag) {
+    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate, Boolean loadFlag, String desc) {
         this.name = name;
         this.oldName = oldName;
         this.filePlace = filePlace;
@@ -75,6 +78,7 @@ public class BaseFile implements Serializable {
         this.createDate = createDate;
         this.modiDate = modiDate;
         this.loadFlag = loadFlag;
+        this.desc = desc;
     }
 
     public Long getId() {
@@ -171,5 +175,13 @@ public class BaseFile implements Serializable {
 
     public void setLoadFlag(Boolean loadFlag) {
         this.loadFlag = loadFlag;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }
