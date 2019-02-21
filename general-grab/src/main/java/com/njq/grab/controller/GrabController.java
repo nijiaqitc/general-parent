@@ -205,4 +205,12 @@ public class GrabController {
         grabService.updateTips(tipName, docId);
         return MessageCommon.getSuccessMap();
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "reloadFile", method = RequestMethod.GET)
+    public String reloadFile(){
+        grabService.reloadFile();
+        return "执行成功";
+    }
 }

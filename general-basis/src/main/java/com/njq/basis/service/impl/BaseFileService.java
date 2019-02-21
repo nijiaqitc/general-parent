@@ -1,5 +1,6 @@
 package com.njq.basis.service.impl;
 
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.po.BaseFile;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -34,7 +36,11 @@ public class BaseFileService {
         if (src.startsWith("data:image/png;base64")) {
             String picName = IdGen.get().toString();
             String picPlace = Base64Util.GenerateImage(src.split("base64,")[1], picName, savePlace);
-            BaseFile file = saveInfo(channel, picName, picName, imgPlace + picPlace, savePlace + picPlace, typeId, "base64");
+            Boolean loadFlag = false;
+            if (!StringUtils.isEmpty(picPlace)) {
+                loadFlag = true;
+            }
+            BaseFile file = saveInfo(channel, picName, picName, imgPlace + picPlace, savePlace + picPlace, typeId, "base64", loadFlag);
             return file.getfilePlace();
         }
         ConditionsCommon conditionsCommon = new ConditionsCommon();
@@ -48,8 +54,11 @@ public class BaseFileService {
         if (CollectionUtils.isEmpty(list)) {
             String fileNewName = getNewName(fileOldName);
             String place = getFilePlace(shortName, savePlace, fileNewName);
-            BaseFileService.changeSrcUrl(prefix, src, shortName, savePlace + place);
-            BaseFile file = saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, typeId, src);
+            if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+                src = prefix + src;
+            }
+            Boolean loadFlag = BaseFileService.changeSrcUrl(src, shortName, savePlace + place);
+            BaseFile file = saveInfo(channel, fileNewName, fileOldName, imgPlace + place, savePlace + place, typeId, src, loadFlag);
             return file.getfilePlace();
         } else {
             return list.get(0).getfilePlace();
@@ -57,7 +66,7 @@ public class BaseFileService {
     }
 
 
-    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, Long typeId, String oldSrc) {
+    public BaseFile saveInfo(String channel, String name, String oldName, String filePlace, String realPlace, Long typeId, String oldSrc, Boolean loadFlag) {
         BaseFile file = new BaseFile();
         file.setChannel(channel);
         file.setCreateDate(new Date());
@@ -66,6 +75,7 @@ public class BaseFileService {
         file.setfilePlace(filePlace);
         file.setRealPlace(realPlace);
         file.setTypeId(typeId);
+        file.setLoadFlag(loadFlag);
         file.setOldSrc(oldSrc.length() > 240 ? oldSrc.substring(0, 240) + "......" : oldSrc);
         fileDao.save(file);
         return file;
@@ -89,17 +99,6 @@ public class BaseFileService {
 
     public static String getFilePlace(String shortName, String savePlace, String fileName) {
         return getSrc(shortName, savePlace) + "/" + fileName;
-    }
-
-    public static void changeSrcUrl(String prefix, String src, String shortName, String savePlace) {
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = prefix + src;
-        }
-        try {
-            UrlChangeUtil.downLoad(src, savePlace, shortName);
-        } catch (Exception e) {
-            logger.error("下载出错", e);
-        }
     }
 
     private static String getSrc(String shortName, String savePlace) {
@@ -135,22 +134,45 @@ public class BaseFileService {
         List<BaseFile> list = fileDao.queryTByParam(conditionsCommon);
         if (CollectionUtils.isEmpty(list)) {
             String place = getFilePlace(shortName, savePlace, fileOldName);
-            changeFileUrl(prefix, src, shortName, savePlace + place);
-            BaseFile file = saveInfo(channel, fileOldName, fileOldName, getSrc(shortName, savePlace) + "/downLoadFile?file=" + fileOldName, savePlace + place, typeId, src);
+            if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+                src = prefix + src;
+            }
+            Boolean loadFlag = changeSrcUrl(src, shortName, savePlace + place);
+            BaseFile file = saveInfo(channel, fileOldName, fileOldName, getSrc(shortName, savePlace) + "/downLoadFile?file=" + fileOldName, savePlace + place, typeId, src, loadFlag);
             return file.getfilePlace();
         } else {
             return list.get(0).getfilePlace();
         }
     }
 
-    public static void changeFileUrl(String prefix, String src, String shortName, String savePlace) {
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            try {
-                UrlChangeUtil.downLoad(prefix + src, savePlace, shortName);
-            } catch (Exception e) {
-                logger.error("下载出错", e);
-            }
+    public static boolean changeSrcUrl(String src, String shortName, String savePlace) {
+        try {
+            UrlChangeUtil.downLoad(src, savePlace, shortName);
+            return true;
+        } catch (Exception e) {
+            logger.error("下载出错", e);
+            return false;
         }
     }
 
+
+    public void reloadFile() {
+        ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addEqParam("loadFlag", false);
+        List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
+        fileList.forEach(n -> {
+            boolean flag = changeSrcUrl(n.getOldSrc(), n.getChannel(), n.getRealPlace());
+            if (flag) {
+                BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
+                impl.updateFileLoadFlag(n);
+            }
+        });
+    }
+
+    public void updateFileLoadFlag(BaseFile baseFile) {
+        BaseFile f = new BaseFile();
+        f.setId(baseFile.getId());
+        f.setLoadFlag(true);
+        fileDao.updateByPrimaryKeySelective(f);
+    }
 }

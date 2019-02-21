@@ -23,5 +23,6 @@
 	<div><a target="_blank" href="/grab/knowledge/11">文章预览</a></div>
 	<div><a target="_blank" href="/grab/loadJob">执行下载页面job任务</a></div>
 	<div><a target="_blank" href="/grab/loadMenu">执行下载菜单任务</a></div>
+	<div><a target="_blank" href="/grab/reloadFile">重新下载失败的文件</a></div>
 </body>
 </html>

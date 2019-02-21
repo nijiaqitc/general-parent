@@ -1,16 +1,7 @@
 package com.njq.grab.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
 import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
@@ -27,6 +18,14 @@ import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class GrabService {
@@ -51,6 +50,8 @@ public class GrabService {
     private DaoCommon<GrabDoc> grabDocDao;
     @Resource
     private CustomAnalysisPerformer customAnalysisPerformer;
+    @Resource
+    private BaseFileService baseFileService;
 
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
@@ -107,7 +108,7 @@ public class GrabService {
         }
         GrabDoc grabDoc = this.queryById(title.getDocId());
         String doc = performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
-                .loginAndAnalysisPage(loading.getUrl(),title.getTypeId());
+                .loginAndAnalysisPage(loading.getUrl(), title.getTypeId());
         performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
                 .updateDoc(doc, grabDoc.getTitle(), grabDoc.getId());
         return "处理成功！";
@@ -216,5 +217,11 @@ public class GrabService {
                 baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
             }
         }
+    }
+
+    public void reloadFile() {
+        loadPageTaskExecutor.submit(() -> {
+            baseFileService.reloadFile();
+        });
     }
 }

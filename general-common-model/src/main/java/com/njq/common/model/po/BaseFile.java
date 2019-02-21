@@ -35,10 +35,10 @@ public class BaseFile implements Serializable {
 
     @Column(name = "file_place")
     private String filePlace;
-    
+
     @Column(name = "old_src")
     private String oldSrc;
-    
+
     @Column(name = "real_place")
     private String realPlace;
 
@@ -55,22 +55,26 @@ public class BaseFile implements Serializable {
     @Column(name = "modi_date")
     private Timestamp modiDate;
 
+    @Column(name = "load_flag")
+    private Boolean loadFlag;
+
     /**
      * default constructor
      */
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate) {
+    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate, Boolean loadFlag) {
         this.name = name;
         this.oldName = oldName;
         this.filePlace = filePlace;
+        this.oldSrc = oldSrc;
         this.realPlace = realPlace;
         this.channel = channel;
         this.typeId = typeId;
         this.createDate = createDate;
         this.modiDate = modiDate;
-        this.oldSrc = oldSrc;
+        this.loadFlag = loadFlag;
     }
 
     public Long getId() {
@@ -145,20 +149,27 @@ public class BaseFile implements Serializable {
         this.modiDate = modiDate;
     }
 
-	public String getFilePlace() {
-		return filePlace;
-	}
+    public String getFilePlace() {
+        return filePlace;
+    }
 
-	public void setFilePlace(String filePlace) {
-		this.filePlace = filePlace;
-	}
+    public void setFilePlace(String filePlace) {
+        this.filePlace = filePlace;
+    }
 
-	public String getOldSrc() {
-		return oldSrc;
-	}
+    public String getOldSrc() {
+        return oldSrc;
+    }
 
-	public void setOldSrc(String oldSrc) {
-		this.oldSrc = oldSrc;
-	}
-    
+    public void setOldSrc(String oldSrc) {
+        this.oldSrc = oldSrc;
+    }
+
+    public Boolean getLoadFlag() {
+        return loadFlag;
+    }
+
+    public void setLoadFlag(Boolean loadFlag) {
+        this.loadFlag = loadFlag;
+    }
 }
