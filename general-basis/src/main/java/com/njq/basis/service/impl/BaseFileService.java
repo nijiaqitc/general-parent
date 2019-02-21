@@ -8,7 +8,7 @@ import com.njq.common.util.encrypt.Base64Util;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.IdGen;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,9 +40,9 @@ public class BaseFileService {
             String picPlace = Base64Util.GenerateImage(src.split("base64,")[1], picName, savePlace);
             Pair<Boolean, String> resultPair = null;
             if (!StringUtils.isEmpty(picPlace)) {
-                resultPair = new Pair<>(true, "");
+                resultPair = Pair.of(true, "");
             } else {
-                resultPair = new Pair<>(false, "base64位图片生成失败！");
+                resultPair = Pair.of(false, "base64位图片生成失败！");
             }
             BaseFile file = saveInfo(channel, picName, picName, imgPlace + picPlace, savePlace + picPlace, typeId, "base64", resultPair);
             return file.getfilePlace();
@@ -153,10 +153,10 @@ public class BaseFileService {
     public static Pair<Boolean, String> changeSrcUrl(String src, String shortName, String savePlace) {
         try {
             UrlChangeUtil.downLoad(src, savePlace, shortName);
-            return new Pair<>(true, "");
+            return Pair.of(true, "");
         } catch (Exception e) {
             logger.error("下载出错", e);
-            return new Pair<>(false, e.getMessage());
+            return Pair.of(false, e.getMessage());
         }
     }
 
@@ -168,16 +168,16 @@ public class BaseFileService {
         fileList.forEach(n -> {
             Pair<Boolean, String> resultPair = changeSrcUrl(n.getOldSrc(), n.getChannel(), n.getRealPlace());
             BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
-            impl.updateFileLoadFlag(n,resultPair);
+            impl.updateFileLoadFlag(n, resultPair);
         });
     }
 
-    public void updateFileLoadFlag(BaseFile baseFile,Pair<Boolean, String> resultPair) {
+    public void updateFileLoadFlag(BaseFile baseFile, Pair<Boolean, String> resultPair) {
         BaseFile f = new BaseFile();
         f.setId(baseFile.getId());
         f.setLoadFlag(resultPair.getKey());
-        if(!resultPair.getKey()) {
-        	f.setColumDesc(resultPair.getValue());        	
+        if (!resultPair.getKey()) {
+            f.setColumDesc(resultPair.getValue());
         }
         fileDao.updateByPrimaryKeySelective(f);
     }
