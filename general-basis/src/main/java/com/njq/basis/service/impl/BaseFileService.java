@@ -80,7 +80,7 @@ public class BaseFileService {
         file.setRealPlace(realPlace);
         file.setTypeId(typeId);
         file.setLoadFlag(resultPair.getKey());
-        file.setDesc(resultPair.getValue());
+        file.setColumDesc(resultPair.getValue());
         file.setOldSrc(oldSrc.length() > 240 ? oldSrc.substring(0, 240) + "......" : oldSrc);
         fileDao.save(file);
         return file;
@@ -167,17 +167,18 @@ public class BaseFileService {
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
             Pair<Boolean, String> resultPair = changeSrcUrl(n.getOldSrc(), n.getChannel(), n.getRealPlace());
-            if (resultPair.getKey()) {
-                BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
-                impl.updateFileLoadFlag(n);
-            }
+            BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
+            impl.updateFileLoadFlag(n,resultPair);
         });
     }
 
-    public void updateFileLoadFlag(BaseFile baseFile) {
+    public void updateFileLoadFlag(BaseFile baseFile,Pair<Boolean, String> resultPair) {
         BaseFile f = new BaseFile();
         f.setId(baseFile.getId());
-        f.setLoadFlag(true);
+        f.setLoadFlag(resultPair.getKey());
+        if(!resultPair.getKey()) {
+        	f.setColumDesc(resultPair.getValue());        	
+        }
         fileDao.updateByPrimaryKeySelective(f);
     }
 }
