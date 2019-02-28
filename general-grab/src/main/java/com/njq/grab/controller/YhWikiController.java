@@ -52,14 +52,18 @@ public class YhWikiController {
 
     @Autowired
     private CustomAnalysisPerformer customAnalysisPerformer;
+    @Autowired
+    private PageAnalysisPerformer csdnPageAnalysisPerformer;
+
     @ResponseBody
     @RequestMapping("testcustom")
     public String custt(Model model){
 //        String doc1 = customAnalysisPerformer.analysisPage("http://www.yunwuxian.net/SEO/3019.html", "content", 1);
 //        String doc2 = customAnalysisPerformer.analysisPage("https://www.cnblogs.com/ceshi2016/p/7244608.html", "cnblogs_post_body", 1);
 //        GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI);
-        System.out.println(GrabUrlInfoFactory.getImgUrl());
+//        System.out.println(GrabUrlInfoFactory.getImgUrl());
 //        return doc1;
+        csdnPageAnalysisPerformer.loadMenu("https://blog.csdn.net/weianluo/article/category/6948630", 11L);
         return "";
     }
 
