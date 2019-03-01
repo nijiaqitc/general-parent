@@ -66,7 +66,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public BaseTitle updateTitle(SaveTitleRequest request) {
         BaseTitleGrab title = new BaseTitleGrab();
-        title.setTitle(request.getMenu().getName());
+        title.setTitle(request.getMenu() == null? null:request.getMenu().getName());
         title.setTypeId(request.getTypeId());
         title.setTips(request.getTips());
         title.setId(request.getId());

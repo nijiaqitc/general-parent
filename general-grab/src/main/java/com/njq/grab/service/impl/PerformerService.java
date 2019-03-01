@@ -13,10 +13,11 @@ import com.njq.grab.service.PageAnalysisPerformer;
 public class PerformerService {
 	private Map<ChannelType, PageAnalysisPerformer> analyMap;
 	@Autowired
-	public PerformerService(PageAnalysisPerformer yhWikiPageAnalysis, PageAnalysisPerformer cgblogsPageAnalysis) {
+	public PerformerService(PageAnalysisPerformer yhWikiPageAnalysis, PageAnalysisPerformer cgblogsPageAnalysis, PageAnalysisPerformer csdnPageAnalysisPerformer) {
 		analyMap = new HashMap<>();
 		analyMap.put(ChannelType.YH_WIKI, yhWikiPageAnalysis);
 		analyMap.put(ChannelType.CNBLOGS, cgblogsPageAnalysis);
+		analyMap.put(ChannelType.CSDN, csdnPageAnalysisPerformer);
 	}
 	
 	public Map<ChannelType, PageAnalysisPerformer> getAnalysisPerformerMap(){

@@ -61,17 +61,17 @@ public interface PageAnalysisPerformer {
     /**
      * 登录然后解析页面
      * @param url
-     * @param typeId
+     * @param baseTitle
      * @return
      */
-    String loginAndAnalysisPage(String url,Long typeId);
+    String loginAndAnalysisPage(String url,BaseTitle baseTitle);
 
     /**
      * 页面解析
      * @param url
-     * @param typeId 类型id 可以不传 主要用于区分同一个不能有相同的文件名称
+     * @param baseTitle 主要用于取typeId 类型id 可以不传 主要用于区分同一个不能有相同的文件名称
      * @return
      */
-    String analysisPage(String url,Long typeId);
+    String analysisPage(String url,BaseTitle baseTitle);
 
 }

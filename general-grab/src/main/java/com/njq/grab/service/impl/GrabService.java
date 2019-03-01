@@ -108,7 +108,7 @@ public class GrabService {
         }
         GrabDoc grabDoc = this.queryById(title.getDocId());
         String doc = performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
-                .loginAndAnalysisPage(loading.getUrl(), title.getTypeId());
+                .loginAndAnalysisPage(loading.getUrl(), title);
         performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
                 .updateDoc(doc, grabDoc.getTitle(), grabDoc.getId());
         return "处理成功！";

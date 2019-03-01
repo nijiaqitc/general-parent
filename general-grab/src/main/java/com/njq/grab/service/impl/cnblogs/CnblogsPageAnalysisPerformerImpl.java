@@ -103,7 +103,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long grabAndSave(String url, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url,baseTitle.getTypeId());
+        String doc = this.analysisPage(url,baseTitle);
         CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
         return impl.saveLoadingDoc(doc, baseTitle);
     }
@@ -128,7 +128,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String analysisPage(String url,Long typeId) {
+    public String analysisPage(String url,BaseTitle baseTitle) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CNBLOGS).getPageIndex();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
@@ -143,7 +143,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         enode.getElementsByTag("img").forEach(n -> {
         	logger.info("读取图片:"+n.attr("src"));
-            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CNBLOGS.getValue(), grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
+            n.attr("src", baseFileService.dealImgSrc(baseTitle.getTypeId(), ChannelType.CNBLOGS.getValue(), grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
@@ -159,8 +159,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url,Long typeId) {
-        return this.analysisPage(url,typeId);
+    public String loginAndAnalysisPage(String url,BaseTitle baseTitle) {
+        return this.analysisPage(url,baseTitle);
     }
 
 }

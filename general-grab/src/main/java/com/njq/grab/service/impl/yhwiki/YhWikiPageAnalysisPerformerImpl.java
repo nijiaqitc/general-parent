@@ -150,7 +150,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public Long grabAndSave(String url, BaseTitle baseTitle) {
         logger.info("读取url" + url);
-        String doc = this.loginAndAnalysisPage(url, baseTitle.getTypeId());
+        String doc = this.loginAndAnalysisPage(url, baseTitle);
         YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
         return impl.saveLoadingDoc(doc, baseTitle);
     }
@@ -185,13 +185,13 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url, Long typeId) {
+    public String loginAndAnalysisPage(String url, BaseTitle baseTitle) {
         loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        return this.analysisPage(url, typeId);
+        return this.analysisPage(url, baseTitle);
     }
 
     @Override
-    public String analysisPage(String url, Long typeId) {
+    public String analysisPage(String url, BaseTitle baseTitle) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI).getPageIndex();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
@@ -211,7 +211,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
                 if (n.attr("href").startsWith("/download")) {
-                    n.attr("href", baseFileService.dealFileUrl(typeId, ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getDocPlace(), GrabUrlInfoFactory.getImgUrl()));
+                    n.attr("href", baseFileService.dealFileUrl(baseTitle.getTypeId(), ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getDocPlace(), GrabUrlInfoFactory.getImgUrl()));
                 } else {
                     n.attr("href", "javascript:void(0)");
                 }
@@ -219,7 +219,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         });
         enode.getElementsByTag("img").forEach(n -> {
             if (!n.attr("src").startsWith("http")) {
-                n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
+                n.attr("src", baseFileService.dealImgSrc(baseTitle.getTypeId(), ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
             }
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");

@@ -1,6 +1,7 @@
 package com.njq.grab.controller;
 
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.model.po.BaseTitle;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
@@ -38,6 +39,9 @@ public class YhWikiController {
         return;
     }
 
+    @Autowired
+    private PageAnalysisPerformer csdnPageAnalysisPerformer;
+
     @RequestMapping("getPage")
     public String getPage(Model model) {
         login();
@@ -46,14 +50,14 @@ public class YhWikiController {
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
 //        model.addAttribute("doc", HtmlDecodeUtil.decodeHtml(context, js, fun));
-        model.addAttribute("doc", yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2300872",null));
+        BaseTitle base = new BaseTitle();
+        base.setId(14193L);
+        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage("https://blog.csdn.net/weianluo/article/details/82944936", base));
         return "grab/view";
     }
 
     @Autowired
     private CustomAnalysisPerformer customAnalysisPerformer;
-    @Autowired
-    private PageAnalysisPerformer csdnPageAnalysisPerformer;
 
     @ResponseBody
     @RequestMapping("testcustom")
