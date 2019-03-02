@@ -8,10 +8,13 @@ import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
+import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
+import com.njq.common.model.po.BaseTipConfig;
 import com.njq.common.model.po.BaseTitle;
+import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
@@ -25,6 +28,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,6 +55,8 @@ public class GrabService {
     private DaoCommon<GrabDoc> grabDocDao;
     @Resource
     private CustomAnalysisPerformer customAnalysisPerformer;
+    @Resource
+    private DaoCommon<BaseTitleGrab> baseTitleGrabDao;
     @Resource
     private BaseFileService baseFileService;
 
@@ -223,5 +230,31 @@ public class GrabService {
         loadPageTaskExecutor.submit(() -> {
             baseFileService.reloadFile();
         });
+    }
+    
+    public void repairTip() {
+    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addIsNotNullParam("tips");
+        List<BaseTitleGrab> list = baseTitleGrabDao.queryColumnForList(conditionsCommon);
+        for (BaseTitleGrab titleGrab : list) {
+            String[] tips = titleGrab.getTips().split(",");
+            if (tips != null && tips.length > 0) {
+                for (String tip : tips) {
+                	if("".equals(tip)) {
+                		continue;
+                	}
+                    BaseTipConfig config = new BaseTipConfig();
+                    config.setCreateDate(new Date());
+                    config.setTipId(Long.parseLong(tip));
+                    config.setSourceType(TitleType.GRAB_TITLE.getValue());
+                    config.setTitleId(titleGrab.getId());
+                    try {
+                    	baseTipService.saveToRepairTip(config);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+                }
+            }
+        }
     }
 }

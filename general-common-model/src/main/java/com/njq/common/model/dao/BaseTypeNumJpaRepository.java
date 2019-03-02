@@ -1,6 +1,10 @@
 package com.njq.common.model.dao;
 
 import com.njq.common.model.po.BaseTypeNum;
+import com.njq.common.model.vo.LabelNameVO;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,4 +23,8 @@ public interface BaseTypeNumJpaRepository extends JpaRepository<BaseTypeNum, Lon
     @Modifying
     @Query(value = "update BaseTypeNum set num = num+1 where channel =:channel  and typeId = :typeId ")
     int updateForAddNum(@Param("channel") String channel, @Param("typeId") Long typeId);
+    
+    
+    @Query(value = "select t.name name, IFNULL(n.num,0) num from base_type t left join base_type_num n on t.id = n.type_id ")
+    List<LabelNameVO> queryAllType();
 }

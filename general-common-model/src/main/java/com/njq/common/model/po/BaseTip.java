@@ -30,9 +30,6 @@ public class BaseTip implements Serializable {
 	@Column(name="tip_name")
 	private String tipName;
 
-	@Column(name="num")
-	private Integer num;
-
 	public BaseTip() {
 	}
 
@@ -68,11 +65,4 @@ public class BaseTip implements Serializable {
 		this.tipName = tipName;
 	}
 
-	public Integer getNum() {
-		return num;
-	}
-
-	public void setNum(Integer num) {
-		this.num = num;
-	}
 }

@@ -1,20 +1,22 @@
 package com.njq.basis.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.dao.BaseTipJpaRepository;
 import com.njq.common.model.po.BaseTip;
 import com.njq.common.model.po.BaseTipConfig;
-import com.njq.common.model.po.BaseTitleGrab;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.njq.common.model.vo.LabelNameVO;
 
 @Service
 public class BaseTipService {
@@ -22,8 +24,6 @@ public class BaseTipService {
     private DaoCommon<BaseTip> baseTipDao;
     @Resource
     private BaseTipJpaRepository baseTipJpaRepository;
-    @Resource
-    private DaoCommon<BaseTitleGrab> baseTitleGrabDao;
     @Resource
     private DaoCommon<BaseTipConfig> baseTipConfigDao;
 
@@ -41,7 +41,6 @@ public class BaseTipService {
             tip = new BaseTip();
             tip.setCreateDate(new Date());
             tip.setTipName(tipName);
-            tip.setNum(0);
             baseTipDao.save(tip);
         }
         return tip.getId();
@@ -86,7 +85,6 @@ public class BaseTipService {
         }
         String tips[] = tipIds.split(",");
         for (int i = 0; i < tips.length; i++) {
-//            baseTipJpaRepository.updateForAddNum(Long.valueOf(tips[i]));
             BaseTipConfig config = new BaseTipConfig();
             config.setCreateDate(new Date());
             config.setTipId(Long.valueOf(tips[i]));
@@ -97,22 +95,12 @@ public class BaseTipService {
     }
 
 
-    public void saveToRepairTip() {
-        ConditionsCommon conditionsCommon = new ConditionsCommon();
-        conditionsCommon.addIsNotNullParam("tips");
-        List<BaseTitleGrab> list = baseTitleGrabDao.queryColumnForList(conditionsCommon);
-        for (BaseTitleGrab titleGrab : list) {
-            String[] tips = titleGrab.getTips().split(",");
-            if (tips != null & tips.length > 0) {
-                for (String tip : tips) {
-                    BaseTipConfig config = new BaseTipConfig();
-                    config.setCreateDate(new Date());
-                    config.setTipId(Long.valueOf(tip));
-                    config.setSourceType(TitleType.GRAB_TITLE.getValue());
-                    config.setTitleId(titleGrab.getTypeId());
-                    baseTipConfigDao.save(config);
-                }
-            }
-        }
+    public void saveToRepairTip(BaseTipConfig config) {
+    	baseTipConfigDao.save(config);
+    }
+    
+    
+    public List<LabelNameVO> getAllTips(){
+    	return baseTipJpaRepository.queryAllTip();
     }
 }

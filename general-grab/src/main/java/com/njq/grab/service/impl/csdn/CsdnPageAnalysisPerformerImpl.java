@@ -189,7 +189,11 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
     
-    
+    /**
+     * 保存标签，这个标签是在文章里面专门提取的
+     * @param doc
+     * @param baseTitle
+     */
     private void triggerSave(Document doc,BaseTitle baseTitle) {
     	Elements elements = doc.getElementsByClass("tags-box");
     	Set<String> tagSet = new HashSet<String>();
@@ -205,11 +209,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     	}
     	if(!CollectionUtils.isEmpty(tagSet)) {
     		String[] array =new String[tagSet.size()];
-    		tagSet.toArray(array);
-    		baseTitleService.updateTitle(new SaveTitleRequestBuilder()
-    				.ofTips(baseTipService.checkAndSaveTips(tagSet.toArray(array)))
-    				.ofId(baseTitle.getId())
-    				.build());
+    		baseTipService.addNum(baseTipService.checkAndSaveTips(tagSet.toArray(array)), baseTitle.getId(), TitleType.GRAB_TITLE);
     	}
     }
     

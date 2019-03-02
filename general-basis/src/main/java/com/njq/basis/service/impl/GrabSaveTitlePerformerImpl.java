@@ -53,7 +53,6 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             title.setCreateBy(ConstantsCommon.Oper_User.ADMIN);
             title.setModiBy(ConstantsCommon.Oper_User.ADMIN);
             title.setTypeId(request.getTypeId());
-            title.setTips(request.getTips());
             baseTitleGrabDao.save(title);
             baseTypeService.addNum(request.getChannel(), request.getTypeId());
             baseTipService.addNum(request.getTips(),title.getId(),TitleType.GRAB_TITLE);
@@ -71,7 +70,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         BaseTitleGrab title = new BaseTitleGrab();
         title.setTitle(request.getMenu() == null? null:request.getMenu().getName());
         title.setTypeId(request.getTypeId());
-        title.setTips(request.getTips());
+//        title.setTips(request.getTips());
         title.setId(request.getId());
         baseTitleGrabDao.updateByPrimaryKeySelective(title);
         BaseTitle returnTitle = new BaseTitle();

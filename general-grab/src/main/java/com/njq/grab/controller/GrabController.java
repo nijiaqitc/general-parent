@@ -1,13 +1,10 @@
 package com.njq.grab.controller;
 
-import com.alibaba.druid.util.StringUtils;
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabUrlInfo;
-import com.njq.grab.service.impl.GrabService;
-import com.njq.grab.service.impl.GrabUrlInfoService;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.Map;
+import com.alibaba.druid.util.StringUtils;
+import com.njq.basis.service.impl.BaseTipService;
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.basis.service.impl.BaseTypeService;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.common.model.vo.LabelNameVO;
+import com.njq.grab.service.impl.GrabService;
+import com.njq.grab.service.impl.GrabUrlInfoService;
 
 @RequestMapping("grab")
 @Controller
@@ -32,8 +38,17 @@ public class GrabController {
     public GrabUrlInfoService grabUrlInfoService;
     @Resource
     private BaseTitleService baseTitleService;
-
+    @Resource
+    private BaseTipService baseTipService;
+    @Resource
+    private BaseTypeService baseTypeService;
+    
     @RequestMapping("")
+    public String pandect(Model model) {
+        return "/grab/grabPandect";
+    }
+    
+    @RequestMapping("index")
     public String index(Model model) {
         return "/grab/grabIndex";
     }
@@ -213,4 +228,20 @@ public class GrabController {
         grabService.reloadFile();
         return "执行成功";
     }
+    
+    
+    @ResponseBody
+    @RequestMapping(value = "getTipList", method = RequestMethod.POST)
+    public List<LabelNameVO> getTipList(Model model){
+    	return baseTipService.getAllTips();
+    }
+    
+    
+    @ResponseBody
+    @RequestMapping(value = "getTypeList", method = RequestMethod.POST)
+    public List<LabelNameVO> getTypeList(Model model){
+    	return baseTypeService.getAllTypes();
+    }
+    
+    
 }

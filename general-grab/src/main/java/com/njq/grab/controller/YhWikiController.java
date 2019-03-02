@@ -6,6 +6,7 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 import org.apache.http.client.CookieStore;
@@ -61,6 +62,8 @@ public class YhWikiController {
     private CustomAnalysisPerformer customAnalysisPerformer;
     @Autowired
     private BaseTipService baseTipService;
+    @Autowired
+    private GrabService grabService;
     @ResponseBody
     @RequestMapping("testcustom")
     public String custt(Model model){
@@ -70,7 +73,7 @@ public class YhWikiController {
 //        System.out.println(GrabUrlInfoFactory.getImgUrl());
 //        return doc1;
 //        csdnPageAnalysisPerformer.loadMenu("https://blog.csdn.net/weianluo/article/category/6948630", 11L);
-        baseTipService.saveToRepairTip();
+    	grabService.repairTip();
         return "";
     }
 

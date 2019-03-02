@@ -5,12 +5,14 @@ import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.dao.BaseTypeNumJpaRepository;
 import com.njq.common.model.po.BaseType;
 import com.njq.common.model.po.BaseTypeNum;
+import com.njq.common.model.vo.LabelNameVO;
 import com.njq.common.util.string.StringUtil2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BaseTypeService {
@@ -68,5 +70,9 @@ public class BaseTypeService {
 
     public BaseType getTypeById(Long id) {
         return baseTypeDao.queryTById(id);
+    }
+    
+    public List<LabelNameVO> getAllTypes(){
+    	return baseTypeNumJpaRepository.queryAllType();
     }
 }
