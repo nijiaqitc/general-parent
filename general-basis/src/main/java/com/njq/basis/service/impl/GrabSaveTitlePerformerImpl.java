@@ -1,9 +1,11 @@
 package com.njq.basis.service.impl;
 
 import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
@@ -54,9 +56,10 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             title.setTips(request.getTips());
             baseTitleGrabDao.save(title);
             baseTypeService.addNum(request.getChannel(), request.getTypeId());
-            baseTipService.addNum(request.getTips());
+            baseTipService.addNum(request.getTips(),title.getId(),TitleType.GRAB_TITLE);
         } catch (Exception e) {
             logger.info("加载下载菜单出错", e);
+            throw new BaseKnownException("加载下载菜单出错");
         }
         BaseTitle returnTitle = new BaseTitle();
         BeanUtils.copyProperties(title, returnTitle);

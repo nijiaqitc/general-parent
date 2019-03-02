@@ -1,5 +1,6 @@
 package com.njq.grab.controller;
 
+import com.njq.basis.service.impl.BaseTipService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.util.grab.HtmlDecodeUtil;
@@ -58,7 +59,8 @@ public class YhWikiController {
 
     @Autowired
     private CustomAnalysisPerformer customAnalysisPerformer;
-
+    @Autowired
+    private BaseTipService baseTipService;
     @ResponseBody
     @RequestMapping("testcustom")
     public String custt(Model model){
@@ -67,8 +69,11 @@ public class YhWikiController {
 //        GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI);
 //        System.out.println(GrabUrlInfoFactory.getImgUrl());
 //        return doc1;
-        csdnPageAnalysisPerformer.loadMenu("https://blog.csdn.net/weianluo/article/category/6948630", 11L);
+//        csdnPageAnalysisPerformer.loadMenu("https://blog.csdn.net/weianluo/article/category/6948630", 11L);
+        baseTipService.saveToRepairTip();
         return "";
     }
+
+
 
 }

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.EnumUtils;
 
 public enum TitleType implements ValueDescription{
 	BASE_TITLE("base", "基础标题"),
+	YXL_TITLE("yxl","一系列"),
 	GRAB_TITLE("grab", "抓捕标题");
 	private String value;
 	private String description;

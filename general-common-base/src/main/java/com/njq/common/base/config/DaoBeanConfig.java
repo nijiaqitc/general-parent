@@ -4,13 +4,14 @@ import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.BaseChannel;
 import com.njq.common.model.po.BaseCode;
+import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.po.BaseLog;
 import com.njq.common.model.po.BaseMenu;
 import com.njq.common.model.po.BaseMessage;
-import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.po.BaseRule;
 import com.njq.common.model.po.BaseRuleChannelConfig;
 import com.njq.common.model.po.BaseTip;
+import com.njq.common.model.po.BaseTipConfig;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -129,6 +130,11 @@ public class DaoBeanConfig {
     @Bean
     public DaoCommon<BaseTitleGrab> baseTitleGrabDao() {
         return new DaoCommon<BaseTitleGrab>(BaseTitleGrab.class);
+    }
+
+    @Bean
+    public DaoCommon<BaseTipConfig> baseTipConfigDao() {
+        return new DaoCommon<BaseTipConfig>(BaseTipConfig.class);
     }
 
     @Bean

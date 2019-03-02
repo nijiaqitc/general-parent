@@ -52,5 +52,6 @@
 		<class>com.njq.common.model.po.BaseTitleGrab</class>
 		<class>com.njq.common.model.po.BaseTitleLoading</class>
 		<class>com.njq.common.model.po.GrabUrlInfo</class>
+		<class>com.njq.common.model.po.BaseTipConfig</class>
 	</persistence-unit>
 </persistence>
