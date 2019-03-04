@@ -113,7 +113,7 @@
 					  		<div class="control-group">
 								<label class="control-label" for="selectError30">父级：</label>
 								<div class="controls">
-								  	<select id="selectError30" name="parantId" style="width: 194px;" >
+								  	<select id="selectError30" name="parentId" style="width: 194px;" >
 										<option>Option 1 </option>
 								  	</select>
 								</div>
@@ -267,7 +267,7 @@
 					ajaxAfter();
 					var str="";
 					$.each(data.list,function(n,d){
-						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.channelName+"</td><td>"+d.parantId+"</td><td>"+d.url+"</td><td>";
+						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.channelName+"</td><td>"+d.parentId+"</td><td>"+d.url+"</td><td>";
 						if(d.apply==1){
 							str+="是</td><td><i class='"+d.icon+"'></i></td><td>"+d.inTurn+"</td><td class='center'>"+d.columDesc+"</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 						}else{
@@ -297,7 +297,7 @@
 			$("#myModal").show();
 			$("#backBlackGround").show();
 			$.ajax({
-				url:"${path}/powerManage/getParantsList",
+				url:"${path}/powerManage/getParentsList",
 				type:"post",
 				success:function(data){
 					var str="<option value='0' >---选择父级---</option>";
@@ -320,7 +320,7 @@
 			$("#myModal").show();
 			$("#backBlackGround").show();
 			$.ajax({
-				url:"${path}/powerManage/getParantsList",
+				url:"${path}/powerManage/getParentsList",
 				type:"post",
 				success:function(data){
 					var str="<option value='0' >---选择父级---</option>";

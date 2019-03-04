@@ -50,8 +50,8 @@ public class BaseMenu implements Serializable {
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
-	@Column(name="parant_id")
-	private Long parantId;
+	@Column(name="parent_id")
+	private Long parentId;
 
 	private int status;
 
@@ -148,12 +148,12 @@ public class BaseMenu implements Serializable {
 		this.modiDate = modiDate;
 	}
 
-	public Long getParantId() {
-		return this.parantId;
+	public Long getParentId() {
+		return parentId;
 	}
 
-	public void setParantId(Long parantId) {
-		this.parantId = parantId;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 	public int getStatus() {

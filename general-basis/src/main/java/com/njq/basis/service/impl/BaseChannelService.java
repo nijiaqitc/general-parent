@@ -58,10 +58,10 @@ public class BaseChannelService  {
 	 * 查询父级
 	 * @return
 	 */
-	public List<BaseChannel> queryParantsChannel() {
+	public List<BaseChannel> queryParentsChannel() {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("status", ConstantsCommon.Del_Status.YES);
-		cc.addEqParam("parantId", ConstantsCommon.Org_Id.FIRST_ORG_ID);
+		cc.addEqParam("parentId", ConstantsCommon.Org_Id.FIRST_ORG_ID);
 		return channelDao.queryTByParam(cc);
 	}
 
@@ -97,7 +97,7 @@ public class BaseChannelService  {
 	public void updateChannelById(BaseChannel channel,Long userId, Map<String, Object> map) {
 		BaseChannel ch = channelDao.queryTById(channel.getId());
 		ch.setChannelName(channel.getChannelName());
-		ch.setParantId(channel.getParantId());
+		ch.setParentId(channel.getParentId());
 		ch.setIcon(channel.getIcon());
 		ch.setInTurn(channel.getInTurn());
 		ch.setUrl(channel.getUrl());
@@ -151,7 +151,7 @@ public class BaseChannelService  {
 			Map<String, Object> paramMap) {
 		paramMap.put("userId", userId);
 		//将查询出的对象转换为vo类，展示在页面中
-		String hql=" select new com.njq.common.model.vo.ChannelVO(r.id,r.channelName,r.parantId,r.url,r.icon,r.inTurn ) from  BaseUserChannelConfig c , BaseChannel r  where r.apply=1 and c.status=1 and r.status=1 and c.channelId=r.id  and c.userId=:userId order by r.parantId asc , r.inTurn asc";
+		String hql=" select new com.njq.common.model.vo.ChannelVO(r.id,r.channelName,r.parentId,r.url,r.icon,r.inTurn ) from  BaseUserChannelConfig c , BaseChannel r  where r.apply=1 and c.status=1 and r.status=1 and c.channelId=r.id  and c.userId=:userId order by r.parentId asc , r.inTurn asc";
 		List<ChannelVO> channelList = (List<ChannelVO>)channelDao.queryHqlByParam(hql, paramMap);
 		return channelList;
 	}
@@ -182,7 +182,7 @@ public class BaseChannelService  {
 			Map<String, Object> paramMap) {
 		paramMap.put("ruleId", ruleId);
 		//将查询出的对象转换为vo类，展示在页面中
-		String hql=" select new com.njq.common.model.vo.ChannelVO(r.id,r.channelName,r.parantId,r.url,r.icon,r.inTurn ) from  BaseRuleChannelConfig c , BaseChannel r  where c.status=1 and r.status=1 and r.apply=1 and c.channelId=r.id  and c.ruleId=:ruleId order by r.id asc";
+		String hql=" select new com.njq.common.model.vo.ChannelVO(r.id,r.channelName,r.parentId,r.url,r.icon,r.inTurn ) from  BaseRuleChannelConfig c , BaseChannel r  where c.status=1 and r.status=1 and r.apply=1 and c.channelId=r.id  and c.ruleId=:ruleId order by r.id asc";
 		List<ChannelVO> channelList = (List<ChannelVO>)channelDao.queryHqlByParam(hql, paramMap);
 		return channelList;
 	}
@@ -282,7 +282,7 @@ public class BaseChannelService  {
 		 * 如果当前用户是管理员，那么直接所拥有所有权限
 		 */
 		if(userId==1L){
-			String hql="select new com.njq.common.model.vo.ChannelVO(ch.id,ch.channelName,ch.parantId,ch.url,ch.icon,ch.inTurn ) from BaseChannel ch where ch.apply=1 and ch.status=1";
+			String hql="select new com.njq.common.model.vo.ChannelVO(ch.id,ch.channelName,ch.parentId,ch.url,ch.icon,ch.inTurn ) from BaseChannel ch where ch.apply=1 and ch.status=1";
 			channelList3 =(List<ChannelVO>)channelDao.queryHqlByParam(hql, null);
 		}else{
 			//查询用户所拥有的权限
@@ -312,7 +312,7 @@ public class BaseChannelService  {
 		for(ChannelVO vo:channelList3){
 		    powerMap.put(vo.getId(), true);
 		}
-		parantSort(mm, channelList3);
+		parentSort(mm, channelList3);
 		Map<String, Object> m3=mm.get(ConstantsCommon.Org_Id.FIRST_ORG_ID);
 		//将权限放入map中
 		m3.put("power",m2);
@@ -358,14 +358,14 @@ public class BaseChannelService  {
 	 * 2015-12-16
 	 * author njq
 	 */
-	private void parantSort(Map<Long, Map<String, Object>> mm ,List<ChannelVO> channelList){
+	private void parentSort(Map<Long, Map<String, Object>> mm ,List<ChannelVO> channelList){
 		LinkedList<ChannelVO> list=new LinkedList<ChannelVO>();
 		LinkedList<ChannelVO> list1=new LinkedList<ChannelVO>();
 		/**
 		 * 先提取出一级菜单
 		 */
 		for(int i=0;i<channelList.size();i++){
-			if(channelList.get(i).getParantId()==0){
+			if(channelList.get(i).getParentId()==0){
 				list.add(channelList.get(i));
 			}else{
 				list1.add(channelList.get(i));
@@ -455,8 +455,8 @@ public class BaseChannelService  {
 			treeMap.put("icon", vo.getIcon());
 			treeMap.put("children", new LinkedList<Map<String, Object>>());
 			mm.put(vo.getId(), treeMap);
-			if(mm.get(vo.getParantId())!=null){
-				((List<Map<String, Object>>)mm.get(vo.getParantId()).get("children")).add(treeMap);
+			if(mm.get(vo.getParentId())!=null){
+				((List<Map<String, Object>>)mm.get(vo.getParentId()).get("children")).add(treeMap);
 			}
 		}
 	}
@@ -471,7 +471,7 @@ public class BaseChannelService  {
 	private List<ChannelVO> queryRuleChannelConfig(Long userId,Map<String, Object> paramMap){
 		paramMap.put("userId", userId);
 		//将查询出的对象转换为vo类，展示在页面中
-		String hql=" select new com.njq.common.model.vo.ChannelVO(ch.id,ch.channelName,ch.parantId,ch.url,ch.icon,ch.inTurn ) from BaseChannel ch where ch.apply=1 and ch.id in ( SELECT ru.channelId from BaseRuleChannelConfig ru where ru.ruleId in ( select c.ruleId from BaseRule r , BaseUserRuleConfig c where r.id=c.ruleId and r.status=1 and c.status=1 and c.userId=:userId ) and ru.status=1)  order by ch.parantId asc , ch.inTurn asc";
+		String hql=" select new com.njq.common.model.vo.ChannelVO(ch.id,ch.channelName,ch.parentId,ch.url,ch.icon,ch.inTurn ) from BaseChannel ch where ch.apply=1 and ch.id in ( SELECT ru.channelId from BaseRuleChannelConfig ru where ru.ruleId in ( select c.ruleId from BaseRule r , BaseUserRuleConfig c where r.id=c.ruleId and r.status=1 and c.status=1 and c.userId=:userId ) and ru.status=1)  order by ch.parentId asc , ch.inTurn asc";
 		List<ChannelVO> channelList = (List<ChannelVO>)channelDao.queryHqlByParam(hql, paramMap);
 		return channelList;
 	}

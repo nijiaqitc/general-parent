@@ -52,8 +52,8 @@ public class BaseChannel implements Serializable {
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
-	@Column(name="parant_id")
-	private Long parantId;
+	@Column(name="parent_id")
+	private Long parentId;
 
 	@Column(name="status")
 	private Integer status;
@@ -66,16 +66,16 @@ public class BaseChannel implements Serializable {
     }
 
     /** minimal constructor */
-    public BaseChannel(Long parantId, String channelName, Timestamp modiDate) {
-        this.parantId = parantId;
+    public BaseChannel(Long parentId, String channelName, Timestamp modiDate) {
+        this.parentId = parentId;
         this.channelName = channelName;
         this.modiDate = modiDate;
     }
 
     /** full constructor */
-    public BaseChannel(Long parantId, String channelName, String url, String icon, Integer apply, Integer inTurn, String columDesc, Integer status,
+    public BaseChannel(Long parentId, String channelName, String url, String icon, Integer apply, Integer inTurn, String columDesc, Integer status,
             Long createBy, Timestamp createDate, Long modiBy, Timestamp modiDate, Date delDate) {
-        this.parantId = parantId;
+        this.parentId = parentId;
         this.channelName = channelName;
         this.url = url;
         this.icon = icon;
@@ -100,15 +100,15 @@ public class BaseChannel implements Serializable {
         this.id = id;
     }
 
-    public Long getParantId() {
-        return this.parantId;
-    }
+    public Long getParentId() {
+		return parentId;
+	}
 
-    public void setParantId(Long parantId) {
-        this.parantId = parantId;
-    }
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
 
-    public String getChannelName() {
+	public String getChannelName() {
         return this.channelName;
     }
 

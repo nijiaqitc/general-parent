@@ -34,8 +34,10 @@
 		
 		.label-list {
 		    margin-right: -24px;
-		    margin-top: -10px;
+		    margin-top: 10px;
 		    padding-bottom: 50px;
+		    overflow: auto;
+		    clear: both;
 		}
 
 		.label-list a {
@@ -49,7 +51,6 @@
 		    width: 132.5px;
 		    height: 50px;
 		    line-height: 48px;
-		    margin: 12px 20px 0 0;
 		    background: #F9F9F9;
 		}
 		.label-list a {
@@ -59,6 +60,7 @@
 		    -o-transition: all .2s;
 		    transition: all .2s;
 		    cursor: pointer;
+		    overflow: auto;
 		}
 		.label-list a:hover {
 		    border-color: #ff5200;
@@ -106,10 +108,35 @@
 			border-right: 1px solid #EEEFF2;
 		    border-left: 1px solid #EEEFF2;
 		    text-decoration: none;		
+		    font-size: 14px;
 		}
 		.totalMenu a:hover{
 			background: #F9F9F9;
 		}
+		.labelArea{
+			width: 800px;border-bottom: 1px solid #EEEFF2;overflow: auto;padding-top: 40px;
+		}
+		.labelArea .active{
+			background-color: #EEEFF2;
+		}
+		.labelInArea{
+			width: 520px;overflow: auto;
+		}
+		.outd{
+		    position: relative;
+		    width: 116px;
+		    overflow: auto;
+		    float: left;
+    		margin: 12px 12px 0 0;
+		}
+		.rightLabel{
+			position: relative;
+		    margin-top: -50px;
+		    margin-right: 4px;
+		    float: right;
+		    font-size: 12px;
+		}
+		
     </style>
 </head>
 <body>
@@ -124,60 +151,112 @@
    	</div>
    	
    	<div align="center"> 
-   		<div style="width: 800px;border-bottom: 1px solid #EEEFF2;overflow: auto;padding-top: 40px;">
+   		<div class="labelArea">
    			<div style="width: 396px;" class="totalMenu">
-	   			<a href="javascript:void(0)" onclick="loadTypeData()">类型</a>
-	   			<a href="javascript:void(0)" onclick="loadTipData()">标签</a>
+	   			<a href="javascript:void(0)" onclick="loadTypeData(this)">类型</a>
+	   			<a href="javascript:void(0)" onclick="loadTipData(this)">标签</a>
 	   			<a href="javascript:void(0)" >星标</a>
    			</div>
    		</div>
    	</div>
    	
-	<div id="tipLabel" class = "label-list" align="center" style="margin-top: 20px;">
-		<div style="width: 520px;">
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
-			<a href="#">dddd (10)</a>
+	<!-- <div class="classify-more" style="margin-top: -30px;">
+        <p>
+        	<span>
+        		<a rel="nofollow" href="javascript:void(0)" target="_blank" style="padding: 20px;" class="click-statistics">查看更多</a>
+        	</span>
+        </p>
+    </div> -->
+	
+	<div id="tipLabel" class = "label-list" align="center" >
+		<div class="labelInArea">
+			<div class="outd">
+				<a href="#">dddd</a>
+				<span class="rightLabel">11</span>
+			</div>
+			
 		</div>
 	</div>
 	
-	<div class="classify-more" style="margin-top: -30px;">
+	
+	<!-- <div class="classify-more" style="margin-top: -30px;">
         <p>
         	<span>
-        		<a rel="nofollow" href="/zhuanti.html" target="_blank" style="padding: 20px;" class="click-statistics" special-name="查看更多">查看更多</a>
+        		<a rel="nofollow" href="javascript:void(0)" target="_blank" style="padding: 20px;" class="click-statistics">查看更多</a>
         	</span>
         </p>
-    </div>
+    </div> -->
+
+	<div id="typeLabel" class = "label-list" align="center" >
+		<div class="labelInArea">
+			<div>
+				<a href="#">dddd (10)</a>
+				<span class="rightLabel">11</span>
+			</div>
+		</div>
+	</div>
+
+    <script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-    	function loadTipData(){
+    	function loadTipData(target){
+	    	if(checkBtn(target)){
+    			return;
+    		}
+    		$("#tipLabel").show();
+    		$("#typeLabel").hide();
 	    	$.ajax({
 	    		url:"${path}/grab/getTipList",
 	    		type:"post",
 	    		success:function(data){
-	    			console.info(data);
+	    			$("#tipLabel").children(":first").html("");
+	    			if(data != null){
+			    		data.forEach(d =>{  
+			    			var name = d.name.length>6? d.name.substring(0,6)+"..":d.name; 
+			    			$("#tipLabel").children(":first").append("<div class='outd'>" + 
+			    				"<a href='#' title ="+d.name+">" + name + "</a>" + 
+			    				"<span class='rightLabel'>"+d.num+"</span></div> ");
+						});
+	    			}
 	    		}
 	    	})
     	}
     	
-    	function loadTypeData(){
+    	function loadTypeData(target){
+    		if(checkBtn(target)){
+    			return;
+    		}
+    		$("#tipLabel").hide();
+    		$("#typeLabel").show();
 	    	$.ajax({
 	    		url:"${path}/grab/getTypeList",
 	    		type:"post",
 	    		success:function(data){
-	    			console.info(data);
+	    			$("#typeLabel").children(":first").html("");
+					if(data != null){
+			    		data.forEach(d =>{ 
+			    			var name = d.name.length>6? d.name.substring(0,6)+"..":d.name;  
+			    			$("#typeLabel").children(":first").append("<div class='outd'>" + 
+			    				"<a href='#' title ="+d.name+">" + name + "</a>" +
+			    				"<span class='rightLabel'>"+d.num+"</span></div>");
+						});
+	    			}
 	    		}
 	    	})
     	}
     	
+    	function checkBtn(target){
+    		var tlist = $(target).parent().find(".active");
+    		if(tlist.size() > 0){
+    			if(tlist.size()==1 && tlist[0] == target){
+					return true;
+    			}else{
+    				for(var i = 0 ;i<tlist.size();i++){
+			   			$(tlist[i]).removeClass("active");
+    				}
+    			}
+    		}
+    		$(target).addClass("active");
+    	}
     </script>
 </body>
 </html>

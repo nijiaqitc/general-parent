@@ -38,7 +38,7 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
         }
         BaseTitle title = new BaseTitle();
         try {
-            title.setParantId(request.getParentId());
+            title.setParentId(request.getParentId());
             title.setTitle(request.getMenu().getName() + suffix);
             title.setApply(0);
             title.setCreateDate(new Date());

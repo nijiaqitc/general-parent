@@ -42,7 +42,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
 //		}
         BaseTitleGrab title = new BaseTitleGrab();
         try {
-            title.setParantId(request.getParentId());
+            title.setParentId(request.getParentId());
             title.setTitle(request.getMenu().getName() + suffix);
             if (title.getTitle().length() > 100) {
                 title.setTitle(title.getTitle().substring(0, 100) + "...");

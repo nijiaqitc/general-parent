@@ -24,6 +24,6 @@ public interface BaseTipJpaRepository extends JpaRepository<BaseTip, Long> {
     int updateForAddNum(@Param("id") Long id);
     
     
-    @Query(value = "select t.tip_name name , count(tip_name) num from base_tip t left join base_tip_config c  on t.id = c.tip_id where c.title_id is not null GROUP BY tip_name")
+    @Query(value = "select new com.njq.common.model.vo.LabelNameVO(t.tipName as name , count(t.tipName) as totalNum ) from BaseTip t left join BaseTipConfig c  on t.id = c.tipId where c.titleId is not null GROUP BY t.tipName")
     List<LabelNameVO> queryAllTip();
 }

@@ -9,7 +9,7 @@ public class GrabTitleVO implements Serializable{
 	
 	private Long id;
 	
-	private Long parantId;	
+	private Long parentId;	
 	
 	private String tips;
 
@@ -35,12 +35,12 @@ public class GrabTitleVO implements Serializable{
 		this.id = id;
 	}
 
-	public Long getParantId() {
-		return parantId;
+	public Long getParentId() {
+		return parentId;
 	}
 
-	public void setParantId(Long parantId) {
-		this.parantId = parantId;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getTips() {

@@ -10,7 +10,7 @@ public class ChannelVO implements java.io.Serializable{
 	
 	private String channelName;
 	
-	private Long parantId;
+	private Long parentId;
 	
 	private String url;
 	
@@ -26,15 +26,15 @@ public class ChannelVO implements java.io.Serializable{
 		this.channelName=channelName;
 	}
 	
-	public ChannelVO(Long id , String channelName,Long parantId){
+	public ChannelVO(Long id , String channelName,Long parentId){
 		this.id=id;
 		this.channelName=channelName;
-		this.parantId=parantId;
+		this.parentId=parentId;
 	}
-	public ChannelVO(Long id , String channelName,Long parantId,String url , String icon , int inTurn){
+	public ChannelVO(Long id , String channelName,Long parentId,String url , String icon , int inTurn){
 		this.id=id;
 		this.channelName=channelName;
-		this.parantId=parantId;
+		this.parentId=parentId;
 		this.url=url;
 		this.icon=icon;
 		this.inTurn=inTurn;
@@ -55,14 +55,12 @@ public class ChannelVO implements java.io.Serializable{
 		this.channelName = channelName;
 	}
 
-	public Long getParantId() {
-		return parantId;
+	public Long getParentId() {
+		return parentId;
 	}
-
-	public void setParantId(Long parantId) {
-		this.parantId = parantId;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
-
 	public String getUrl() {
 		return url;
 	}

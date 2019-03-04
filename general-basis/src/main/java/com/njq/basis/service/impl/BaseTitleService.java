@@ -194,4 +194,10 @@ public class BaseTitleService {
         return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
 
+    public List<BaseTitle>  getTitleByType(Long typeId,Long parentId){
+    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+    	conditionsCommon.addEqParam("typeId", typeId);
+    	conditionsCommon.addEqParam("parentId", parentId);
+    	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+    }
 }

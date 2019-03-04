@@ -23,7 +23,7 @@ public class TitleInfo implements Serializable{
 
 	private Long docId;
 
-	private Long parantId;
+	private Long parentId;
 
 	private String tips;
 

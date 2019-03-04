@@ -1,9 +1,5 @@
 package com.njq.admin.controller;
 
-/**
- * 权限管理接口
- */
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,9 +65,9 @@ public class PowerManageController {
 	 * 
 	 * @return 2015-12-15 author njq
 	 */
-	@RequestMapping(value = "getParantsList", method = RequestMethod.POST)
+	@RequestMapping(value = "getParentsList", method = RequestMethod.POST)
 	public @ResponseBody List<BaseChannel> getParantsList() {
-		return channelService.queryParantsChannel();
+		return channelService.queryParentsChannel();
 	}
 
 	/**
