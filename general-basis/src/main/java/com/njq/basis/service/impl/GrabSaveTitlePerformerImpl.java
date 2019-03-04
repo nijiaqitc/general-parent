@@ -114,9 +114,9 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             condition.addEqParam("channel", channel);
         }
         if (docId != null) {
-            condition.addEqParam("parantId", docId);
+            condition.addEqParam("parentId", docId);
         } else {
-            condition.addIsNullParam("parantId");
+            condition.addIsNullParam("parentId");
         }
         List<BaseTitleGrab> titleList = baseTitleGrabDao.queryTByParam(condition);
         return titleList.stream().map(n -> {
@@ -129,7 +129,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public int getChildrenCount(Long docId, String channel) {
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("parantId", docId);
+        condition.addEqParam("parentId", docId);
         return baseTitleGrabDao.queryForCount(condition);
     }
 

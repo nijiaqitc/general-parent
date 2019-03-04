@@ -66,7 +66,7 @@ public class PowerManageController {
 	 * @return 2015-12-15 author njq
 	 */
 	@RequestMapping(value = "getParentsList", method = RequestMethod.POST)
-	public @ResponseBody List<BaseChannel> getParantsList() {
+	public @ResponseBody List<BaseChannel> getParentsList() {
 		return channelService.queryParentsChannel();
 	}
 
