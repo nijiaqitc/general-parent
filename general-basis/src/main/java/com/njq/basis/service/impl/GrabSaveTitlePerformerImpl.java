@@ -82,6 +82,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     public void updateTitleOnLoadSuccess(Long docId, Long id) {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addsetObjectParam("docId", docId);
+        condition.addsetObjectParam("apply", 1);
         condition.addEqParam("id", id);
         baseTitleGrabDao.update(condition);
     }

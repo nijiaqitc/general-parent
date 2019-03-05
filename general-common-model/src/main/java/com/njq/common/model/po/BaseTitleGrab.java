@@ -53,7 +53,20 @@ public class BaseTitleGrab implements Serializable {
 	@Column(name="star_tab")
 	private Boolean starTab;
 
+	@Column(name="is_parent")
+	private Boolean isParent;
+	
 	public BaseTitleGrab() {
+	}
+	
+	public BaseTitleGrab(Long id, Long docId, String title, Long typeId, Boolean starTab,Date createDate, Boolean isParent) {
+		this.id = id;
+		this.docId = docId;
+		this.title = title;
+		this.typeId = typeId;
+		this.starTab = starTab;
+		this.createDate = createDate;
+		this.isParent = isParent;
 	}
 
 	public Long getId() {
@@ -159,4 +172,13 @@ public class BaseTitleGrab implements Serializable {
 	public void setStarTab(Boolean starTab) {
 		this.starTab = starTab;
 	}
+
+	public Boolean getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(Boolean isParent) {
+		this.isParent = isParent;
+	}
+	
 }

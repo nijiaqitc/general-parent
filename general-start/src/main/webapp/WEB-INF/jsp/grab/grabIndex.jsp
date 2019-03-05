@@ -144,8 +144,10 @@
 	<div align="center" class="asearchDiv">
     	<div align="center"  class="asearchDiv1">
     		<div class="asearchDiv2" >
-    			<span><input type="text" class="asearchText" id="searchValue" maxlength="60" value="" ></span>
-    			<span><input type="button" onclick="" value="搜索一下" class="asearchbutton" id="searchButton" ></span>
+    			<form action="searchForList" method="get" target="_blank">
+	    			<span><input type="text" class="asearchText" id="searchValue" name="searchValue" maxlength="60" value="" ></span>
+	    			<span><input type="submit" onclick="" value="搜索一下" class="asearchbutton" id="searchButton" ></span>
+    			</form>
     		</div>
     	</div>
    	</div>
@@ -155,7 +157,7 @@
    			<div style="width: 396px;" class="totalMenu">
 	   			<a href="javascript:void(0)" onclick="loadTypeData(this)">类型</a>
 	   			<a href="javascript:void(0)" onclick="loadTipData(this)">标签</a>
-	   			<a href="javascript:void(0)" >星标</a>
+	   			<a href="searchForList?star=1" target="_blank">星标</a>
    			</div>
    		</div>
    	</div>
@@ -170,10 +172,10 @@
 	
 	<div id="tipLabel" class = "label-list" align="center" >
 		<div class="labelInArea">
-			<div class="outd">
-				<a href="#">dddd</a>
-				<span class="rightLabel">11</span>
-			</div>
+<!-- 			<div class="outd"> -->
+<!-- 				<a href="#">dddd</a> -->
+<!-- 				<span class="rightLabel">11</span> -->
+<!-- 			</div> -->
 			
 		</div>
 	</div>
@@ -189,10 +191,10 @@
 
 	<div id="typeLabel" class = "label-list" align="center" >
 		<div class="labelInArea">
-			<div>
-				<a href="#">dddd (10)</a>
-				<span class="rightLabel">11</span>
-			</div>
+<!-- 			<div> -->
+<!-- 				<a href="#">dddd (10)</a> -->
+<!-- 				<span class="rightLabel">11</span> -->
+<!-- 			</div> -->
 		</div>
 	</div>
 
@@ -213,7 +215,7 @@
 			    		data.forEach(d =>{  
 			    			var name = d.name.length>6? d.name.substring(0,6)+"..":d.name; 
 			    			$("#tipLabel").children(":first").append("<div class='outd'>" + 
-			    				"<a href='#' title ="+d.name+">" + name + "</a>" + 
+			    				"<a href='showTitleListByTip?tipId="+d.id+"' target='_blank' title = '"+d.name+"' >" + name + "</a>" + 
 			    				"<span class='rightLabel'>"+d.num+"</span></div> ");
 						});
 	    			}
@@ -236,7 +238,7 @@
 			    		data.forEach(d =>{ 
 			    			var name = d.name.length>6? d.name.substring(0,6)+"..":d.name;  
 			    			$("#typeLabel").children(":first").append("<div class='outd'>" + 
-			    				"<a href='#' title ="+d.name+">" + name + "</a>" +
+			    				"<a href='showTitleListByType?typeId="+d.id+"'  target='_blank' title ='"+d.name+"'>" + name + "</a>" +
 			    				"<span class='rightLabel'>"+d.num+"</span></div>");
 						});
 	    			}

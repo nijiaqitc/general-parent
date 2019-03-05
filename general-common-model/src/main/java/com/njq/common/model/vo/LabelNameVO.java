@@ -7,16 +7,19 @@ public class LabelNameVO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Long id;
 	private String name;
 	private Integer num;
 	private Long totalNum;
 	
-	public LabelNameVO(String name, Integer num) {
+	public LabelNameVO(Long id,String name, Integer num) {
+		this.id = id;
 		this.name = name;
 		this.num = num;
 	}
 	
-	public LabelNameVO(String name, Long totalNum) {
+	public LabelNameVO(Long id,String name, Long totalNum) {
+		this.id = id;
 		this.name = name;
 		this.totalNum = totalNum;
 	}
@@ -46,10 +49,15 @@ public class LabelNameVO implements Serializable{
 		this.totalNum = totalNum;
 	}
 
-	@Override
-	public String toString() {
-		return "LabelNameVO [name=" + name + ", num=" + num + ", totalNum=" + totalNum + "]";
+	public Long getId() {
+		return id;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	
 	
 	
 	

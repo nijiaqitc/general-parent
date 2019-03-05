@@ -1,14 +1,17 @@
 package com.njq.basis.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
@@ -68,6 +71,9 @@ public class BaseTipService {
         return stb.substring(0, stb.length() - 1);
     }
 
+    public BaseTip getById(Long id) {
+    	return baseTipDao.queryTById(id);
+    }
 
     public List<BaseTip> getTipListByIds(String ids) {
         String[] tipIds = ids.split(",");
@@ -103,4 +109,23 @@ public class BaseTipService {
     public List<LabelNameVO> getAllTips(){
     	return baseTipJpaRepository.queryAllTip();
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<String> getTipsByTitleId(Long titleId) {
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addEqParam("titleId", titleId);
+    	List<BaseTipConfig> configList = baseTipConfigDao.queryColumnForList(condition);
+    	if(CollectionUtils.isEmpty(configList)) {
+    		return Collections.EMPTY_LIST;
+    	}
+    	return configList.stream().map(n->{
+    		BaseTip tip = baseTipDao.queryTById(n.getTipId());
+    		if(tip!=null) {
+    			return tip.getTipName();
+    		}else {
+    			return null;
+    		}
+    	}).collect(Collectors.toList());
+    }
+    
 }

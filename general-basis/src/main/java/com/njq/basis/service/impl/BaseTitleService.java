@@ -1,5 +1,17 @@
 package com.njq.basis.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
@@ -10,17 +22,11 @@ import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequest;
+import com.njq.common.model.dao.BaseTitleGrabJpaRepository;
 import com.njq.common.model.po.BaseTitle;
+import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.util.string.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class BaseTitleService {
@@ -29,7 +35,9 @@ public class BaseTitleService {
     @Resource
     private DaoCommon<BaseTitle> baseTitleDao;
     private Map<TitleType, SaveTitlePerformer> saveMap;
-
+    @Resource
+    private BaseTitleGrabJpaRepository baseTitleGrabJpaRepository;
+    
     @Autowired
     public BaseTitleService(SaveTitlePerformer grabSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
         saveMap = new HashMap<>();
@@ -176,6 +184,7 @@ public class BaseTitleService {
     public List<BaseTitle> getStarTitleList() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("starTab", true);
+        conditionsCommon.addSetOrderColum("createDate", "desc");
         return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
 
@@ -191,13 +200,29 @@ public class BaseTitleService {
         if (str != null) {
             conditionsCommon.addColumMoreLikeParam("title", str);
         }
+        conditionsCommon.addSetOrderColum("createDate", "desc");
         return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
 
     public List<BaseTitle>  getTitleByType(Long typeId,Long parentId){
     	ConditionsCommon conditionsCommon = new ConditionsCommon();
     	conditionsCommon.addEqParam("typeId", typeId);
-    	conditionsCommon.addEqParam("parentId", parentId);
+    	if(parentId != null) {
+    		conditionsCommon.addEqParam("parentId", parentId);    		
+    	}else {
+    		conditionsCommon.addIsNullParam("parentId");
+    	}
+    	conditionsCommon.addSetOrderColum("starTab", "desc");
+    	conditionsCommon.addSetOrderColum("createDate", "desc");
     	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+    }
+    
+    public List<BaseTitle>  getTitleByTip(Long tipId){
+    	List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipId(tipId);
+    	return titleList.stream().map(n -> {
+            BaseTitle returnTitle = new BaseTitle();
+            BeanUtils.copyProperties(n, returnTitle);
+            return returnTitle;
+        }).collect(Collectors.toList());
     }
 }

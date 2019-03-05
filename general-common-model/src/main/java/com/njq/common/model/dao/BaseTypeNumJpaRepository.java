@@ -25,6 +25,6 @@ public interface BaseTypeNumJpaRepository extends JpaRepository<BaseTypeNum, Lon
     int updateForAddNum(@Param("channel") String channel, @Param("typeId") Long typeId);
     
     
-    @Query(value = "select new com.njq.common.model.vo.LabelNameVO(t.name as name, n.num as num) from BaseType t left join BaseTypeNum n on t.id = n.typeId where n.num is not null")
+    @Query(value = "select new com.njq.common.model.vo.LabelNameVO(t.id as id ,t.name as name, n.num as num) from BaseType t left join BaseTypeNum n on t.id = n.typeId where n.num is not null")
     List<LabelNameVO> queryAllType();
 }

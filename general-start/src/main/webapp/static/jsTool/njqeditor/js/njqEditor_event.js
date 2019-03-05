@@ -1812,7 +1812,7 @@
 				}
 				a.title=inputs[2].value;
 				if(inputs[3].checked){
-					a.target="_bank";					
+					a.target="_blank";					
 				}else{
 					a.target="_self";
 				}

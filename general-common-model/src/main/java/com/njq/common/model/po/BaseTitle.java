@@ -53,6 +53,9 @@ public class BaseTitle implements Serializable {
 	@Column(name="star_tab")
 	private Boolean starTab;
 
+	@Column(name="is_parent")
+	private Boolean isParent;
+	
 	public BaseTitle() {
 	}
 
@@ -159,4 +162,14 @@ public class BaseTitle implements Serializable {
 	public void setStarTab(Boolean starTab) {
 		this.starTab = starTab;
 	}
+
+	public Boolean getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(Boolean isParent) {
+		this.isParent = isParent;
+	}
+	
+	
 }

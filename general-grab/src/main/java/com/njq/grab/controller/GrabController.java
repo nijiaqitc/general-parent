@@ -1,5 +1,6 @@
 package com.njq.grab.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,11 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LabelNameVO;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
 
@@ -141,8 +144,14 @@ public class GrabController {
     }
 
     @RequestMapping(value = "/knowledge/{docId}", method = RequestMethod.GET)
-    public String docView(Model model, @PathVariable(value = "docId") Long docId) {
+    public String docView(Model model, @PathVariable(value = "docId") Long docId,Boolean allInfo) {
+    	BaseTitle title = baseTitleService.getTitleByDocId(docId);
+    	if(allInfo!=null&&allInfo) {
+    		BaseTitleLoading loading =  baseTitleService.getLoadingByTitleId(title.getId());
+    		model.addAttribute("loaded", loading);
+    	}
         model.addAttribute("doc", grabService.queryById(docId));
+        model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
         return "grab/knowledgeDoc";
     }
 
@@ -243,8 +252,51 @@ public class GrabController {
     	return baseTypeService.getAllTypes();
     }
     
+    @RequestMapping(value="showTitleListByType" , method= RequestMethod.GET)
+    public String showTitleListByType(Long typeId,Model model) {
+    	model.addAttribute("typeInfo", baseTypeService.getTypeById(typeId));
+    	model.addAttribute("typeId", typeId);
+    	return "grab/menuListByType";
+    }
     
+    @SuppressWarnings("unchecked")
+	@ResponseBody
+    @RequestMapping(value="getTitleListByType" , method= RequestMethod.POST)
+    public List<BaseTitle> getTitleListByType(Long typeId,Long parentId) {
+    	if(typeId == null) {
+    		return Collections.EMPTY_LIST;
+    	}
+    	return baseTitleService.getTitleByType(typeId,parentId);
+    }
     
+    @RequestMapping(value="showTitleListByTip" , method= RequestMethod.GET)
+    public String showTitleListByTip(Long tipId,Model model) {
+    	model.addAttribute("tipInfo", baseTipService.getById(tipId));
+    	model.addAttribute("tipId", tipId);
+    	return "grab/menuListByTip";
+    }
+    
+    @RequestMapping(value="searchForList" , method= RequestMethod.GET)
+    public String searchForList(String searchValue,Boolean star , Model model) {
+    	if(star!=null&&star) {
+    		model.addAttribute("titleList",baseTitleService.getStarTitleList());
+    		model.addAttribute("searchTitle", "星标");
+    	}else {
+    		model.addAttribute("titleList", baseTitleService.getSearchTitleList(StringUtil.isEmpty(searchValue) ? null : searchValue.trim().split(" ")));
+    		model.addAttribute("searchTitle", searchValue);    		
+    	}
+    	return "grab/searchList";
+    }
+    
+    @SuppressWarnings("unchecked")
+	@ResponseBody
+    @RequestMapping(value="getTitleListByTip" , method= RequestMethod.POST)
+    public List<BaseTitle> getTitleListByTip(Long tipId) {
+    	if(tipId == null) {
+    		return Collections.EMPTY_LIST;
+    	}
+    	return baseTitleService.getTitleByTip(tipId);
+    }
     
     
 }
