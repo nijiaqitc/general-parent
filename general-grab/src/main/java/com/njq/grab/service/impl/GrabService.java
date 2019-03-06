@@ -217,13 +217,7 @@ public class GrabService {
     public void updateTips(String tipName, Long docId) {
         String tipId = baseTipService.checkAndSaveTips(tipName);
         BaseTitle title = baseTitleService.getTitleByDocId(docId);
-        if (StringUtils.isEmpty(title.getTips())) {
-            baseTitleService.updateTips(tipId, title.getId());
-        } else {
-            if (!title.getTips().contains(tipId)) {
-                baseTitleService.updateTips(title.getTips() + "," + tipId, title.getId());
-            }
-        }
+        baseTipService.addNum(tipId, title.getId(), TitleType.GRAB_TITLE);
     }
 
     public void reloadFile() {

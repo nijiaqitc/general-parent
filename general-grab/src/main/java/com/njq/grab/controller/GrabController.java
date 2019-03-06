@@ -152,6 +152,7 @@ public class GrabController {
     	}
         model.addAttribute("doc", grabService.queryById(docId));
         model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
+        model.addAttribute("topList", baseTipService.getTopTips());
         return "grab/knowledgeDoc";
     }
 

@@ -1,24 +1,26 @@
 package com.njq.wap.controller;
 
-import com.njq.basis.service.impl.BaseCodeService;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;
-import com.njq.common.model.po.BaseCode;
-import com.njq.common.model.po.ToolFeeling;
-import com.njq.common.util.encrypt.Base64Util;
-import com.njq.zxgj.service.ToolFeelingService;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.basis.service.impl.BaseCodeService;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.base.interceptor.NeedPwd;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseCode;
+import com.njq.common.model.po.ToolFeeling;
+import com.njq.common.util.encrypt.Base64Util;
+import com.njq.zxgj.service.ToolFeelingService;
 
 
 @RequestMapping("feel")
@@ -52,27 +54,24 @@ public class FeelController {
      * @param token    标志，只有知道此标志的才进行查询数据库
      * @return
      */
+    @NeedPwd
     @RequestMapping("feel")
     @ResponseBody
     public PageList<ToolFeeling> queryList(@RequestParam(required = false, defaultValue = "1") int page,
                                            @RequestParam(required = false, defaultValue = "10") int size,
-                                           @RequestParam(required = false, defaultValue = "2") String textType, String token) {
-        if (TokenCheck.checkToken(token)) {
-            Map<String, Object> paramMap = new HashMap<String, Object>();
-            paramMap.put("textType", textType);
-            paramMap.put("userId", 2L);
-            PageList<ToolFeeling> pageList = feelService.queryFeelings(paramMap, page, size);
-            List<ToolFeeling> list = pageList.getList();
-            for (ToolFeeling feel : list) {
-                if ("1".equals(feel.getIsLock())) {
-                    feel.setPlace(Base64Util.getFromBase64(feel.getPlace()));
-                    feel.setText(Base64Util.getFromBase64(feel.getText()));
-                }
-            }
-            return pageList;
-        } else {
-            return new PageList<ToolFeeling>();
-        }
+                                           @RequestParam(required = false, defaultValue = "2") String textType) {
+    	Map<String, Object> paramMap = new HashMap<String, Object>();
+    	paramMap.put("textType", textType);
+    	paramMap.put("userId", 2L);
+    	PageList<ToolFeeling> pageList = feelService.queryFeelings(paramMap, page, size);
+    	List<ToolFeeling> list = pageList.getList();
+    	for (ToolFeeling feel : list) {
+    		if ("1".equals(feel.getIsLock())) {
+    			feel.setPlace(Base64Util.getFromBase64(feel.getPlace()));
+    			feel.setText(Base64Util.getFromBase64(feel.getText()));
+    		}
+    	}
+    	return pageList;
     }
 
     /**

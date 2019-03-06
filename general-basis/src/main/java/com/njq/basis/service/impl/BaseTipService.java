@@ -66,7 +66,7 @@ public class BaseTipService {
     public String checkAndSaveTips(String... tips) {
         StringBuilder stb = new StringBuilder();
         for (int i = 0; i < tips.length; i++) {
-            stb.append(this.checkAndSave(tips[i]) + ",");
+            stb.append(this.checkAndSave(tips[i].trim()) + ",");
         }
         return stb.substring(0, stb.length() - 1);
     }
@@ -91,12 +91,18 @@ public class BaseTipService {
         }
         String tips[] = tipIds.split(",");
         for (int i = 0; i < tips.length; i++) {
-            BaseTipConfig config = new BaseTipConfig();
-            config.setCreateDate(new Date());
-            config.setTipId(Long.valueOf(tips[i]));
-            config.setSourceType(type.getValue());
-            config.setTitleId(titleId);
-            baseTipConfigDao.save(config);
+        	ConditionsCommon con=new ConditionsCommon();
+        	con.addEqParam("tipId", Long.valueOf(tips[i]));
+        	con.addEqParam("titleId", titleId);
+        	List<BaseTipConfig> ll = baseTipConfigDao.queryColumnForList(con);
+        	if(CollectionUtils.isEmpty(ll)) {
+        		BaseTipConfig config = new BaseTipConfig();
+        		config.setCreateDate(new Date());
+        		config.setTipId(Long.valueOf(tips[i]));
+        		config.setSourceType(type.getValue());
+        		config.setTitleId(titleId);
+        		baseTipConfigDao.save(config);
+        	}
         }
     }
 
@@ -128,4 +134,8 @@ public class BaseTipService {
     	}).collect(Collectors.toList());
     }
     
+    public List<String> getTopTips(){
+    	List<String> tipList = baseTipJpaRepository.queryTopTip();
+    	return tipList;
+    }
 }

@@ -1,14 +1,8 @@
 package com.njq.grab.controller;
 
-import com.njq.basis.service.impl.BaseTipService;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.model.po.BaseTitle;
-import com.njq.common.util.grab.HtmlDecodeUtil;
-import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.grab.service.PageAnalysisPerformer;
-import com.njq.grab.service.impl.GrabService;
-import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.njq.basis.service.impl.BaseTipService;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.model.po.BaseTitle;
+import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabService;
+import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 
 @RequestMapping("test")
 @Controller
@@ -58,6 +57,14 @@ public class YhWikiController {
         return "grab/view";
     }
 
+    @RequestMapping("gpage")
+    public String gpage(Model model,Long docId) {
+    	model.addAttribute("doc", grabService.queryById(docId).getDoc());
+    	return "grab/view";
+    }
+    
+    
+    
     @Autowired
     private CustomAnalysisPerformer customAnalysisPerformer;
     @Autowired

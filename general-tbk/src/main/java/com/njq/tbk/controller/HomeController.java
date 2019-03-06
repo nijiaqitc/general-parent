@@ -3,21 +3,23 @@
  */
 package com.njq.tbk.controller;
 
-import com.njq.common.base.other.TokenCheck;
-import com.njq.common.model.po.TbkRecommendDocView;
-import com.njq.common.model.po.TbkType;
-import com.njq.tbk.service.TbkDocService;
-import com.njq.tbk.service.TbkTypeService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.common.base.interceptor.NeedPwd;
+import com.njq.common.model.po.TbkRecommendDocView;
+import com.njq.common.model.po.TbkType;
+import com.njq.tbk.service.TbkDocService;
+import com.njq.tbk.service.TbkTypeService;
 
 
 @Controller
@@ -135,11 +137,9 @@ public class HomeController {
      * @param model
      * @return
      */
+    @NeedPwd
     @RequestMapping(value = "fastNote", method = RequestMethod.GET)
-    public String fastNoteInit(Model model, String token) {
-        if (!TokenCheck.checkToken(token)) {
-            return "";
-        }
+    public String fastNoteInit(Model model) {
         List<TbkType> typeList = tbktypeService.queryTbktypeByCreatedBy(2l);
         model.addAttribute("typeList", typeList);
         return "tbk/fastNote";

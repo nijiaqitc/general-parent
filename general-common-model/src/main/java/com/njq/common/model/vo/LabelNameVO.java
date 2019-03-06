@@ -24,6 +24,14 @@ public class LabelNameVO implements Serializable{
 		this.totalNum = totalNum;
 	}
 
+	
+	
+	public LabelNameVO(Long id, Long totalNum) {
+		super();
+		this.id = id;
+		this.totalNum = totalNum;
+	}
+
 	public String getName() {
 		return name;
 	}

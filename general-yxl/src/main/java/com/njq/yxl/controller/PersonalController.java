@@ -46,11 +46,7 @@ public class PersonalController {
      */
     @NeedPwd
     @RequestMapping(value = "yxlIssueDoc", method = RequestMethod.GET)
-    public String yxlIssueDoc(Model model,
-                              @RequestParam(required = true) String token) {
-        if (!TokenCheck.checkToken(token)) {
-            return "aaa";
-        }
+    public String yxlIssueDoc(Model model) {
         List<YxlType> list = yxlDocService.queryTypeTitleList();
         model.addAttribute("list", list);
         return "back/issueDoc/yxlBackIssueDoc";
@@ -65,11 +61,7 @@ public class PersonalController {
      */
     @NeedPwd
     @RequestMapping(value = "updateYxlDocPage", method = RequestMethod.GET)
-    public String updateYxlDocPage(Model model, Long docId,
-                                   @RequestParam(required = true) String token) {
-        if (!TokenCheck.checkToken(token)) {
-            return "aaa";
-        }
+    public String updateYxlDocPage(Model model, Long docId) {
         List<YxlType> list = yxlDocService.queryTypeTitleList();
         model.addAttribute("list", list);
         if (docId == null) {
@@ -106,38 +98,30 @@ public class PersonalController {
      */
     @NeedPwd
     @RequestMapping(value = "noteManager", method = RequestMethod.GET)
-    public String noteManager(String token, HttpServletRequest request, Model model) {
-        if (TokenCheck.checkToken(token)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("sessionId", request.getSession().getId());
-            BaseUser user = new BaseUser();
-            user.setAccount("admin");
-            user.setId(2L);
-            session.setAttribute("user", user);
-            List<YxlFolder> folderList = yxlNoteService.queryFolderList(1);
-            model.addAttribute("fdList", folderList);
-            return "zxgj/noteManager";
-        } else {
-            return "xxbbss";
-        }
+    public String noteManager(HttpServletRequest request, Model model) {
+    	HttpSession session = request.getSession();
+    	session.setAttribute("sessionId", request.getSession().getId());
+    	BaseUser user = new BaseUser();
+    	user.setAccount("admin");
+    	user.setId(2L);
+    	session.setAttribute("user", user);
+    	List<YxlFolder> folderList = yxlNoteService.queryFolderList(1);
+    	model.addAttribute("fdList", folderList);
+    	return "zxgj/noteManager";
     }
 
     @NeedPwd
     @RequestMapping(value = "recordManager", method = RequestMethod.GET)
-    public String recordManager(String token, HttpServletRequest request, Model model) {
-        if (TokenCheck.checkToken(token)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("sessionId", request.getSession().getId());
-            BaseUser user = new BaseUser();
-            user.setAccount("admin");
-            user.setId(2L);
-            session.setAttribute("user", user);
-            List<YxlFolder> folderList = yxlNoteService.queryFolderList(2);
-            model.addAttribute("fdList", folderList);
-            return "zxgj/recordManager";
-        } else {
-            return "xxbbss";
-        }
+    public String recordManager(HttpServletRequest request, Model model) {
+    	HttpSession session = request.getSession();
+    	session.setAttribute("sessionId", request.getSession().getId());
+    	BaseUser user = new BaseUser();
+    	user.setAccount("admin");
+    	user.setId(2L);
+    	session.setAttribute("user", user);
+    	List<YxlFolder> folderList = yxlNoteService.queryFolderList(2);
+    	model.addAttribute("fdList", folderList);
+    	return "zxgj/recordManager";
     }
 
     @ResponseBody

@@ -34,12 +34,12 @@ public class BaseTypeService {
             return null;
         }
         ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("name", typeName);
+        condition.addEqParam("name", typeName.trim());
         BaseType type = baseTypeDao.queryTByParamForOne(condition);
         if (type == null) {
             type = new BaseType();
             type.setCreateDate(new Date());
-            type.setName(typeName);
+            type.setName(typeName.trim());
             baseTypeDao.save(type);
         }
         return type.getId();

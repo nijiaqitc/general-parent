@@ -1,9 +1,26 @@
 package com.njq.wap.controller;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.base.other.IpUtil;
 import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocUserOp;
 import com.njq.common.model.po.XsTitleDesign;
@@ -14,21 +31,6 @@ import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsDocDiscussService;
 import com.njq.xs.service.XsDocUserOpService;
 import com.njq.xs.service.XsTitleDesignService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @RequestMapping("novel")
@@ -118,11 +120,9 @@ public class NovelController {
     /**
      * 查询文章标题列表
      */
+    @NeedPwd
     @RequestMapping(value = "/showDocTitleList", method = RequestMethod.GET)
-    public String showDocTitleList(Model model, String token) {
-        if (!TokenCheck.checkToken(token)) {
-            return "wap/titlethc";
-        }
+    public String showDocTitleList(Model model) {
         List<TitlethcVO> list = titleService.queryDocList(0L);
         model.addAttribute("list", list);
         return "wap/docTitleList";

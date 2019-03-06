@@ -3,23 +3,16 @@ package com.njq.zxgj.controller;
  * 资源分享页面
  */
 
-import com.njq.basis.service.impl.BaseCodeService;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.base.other.IpUtil;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;
-import com.njq.common.base.redis.RedisCommon;
-import com.njq.common.model.po.BaseCode;
-import com.njq.common.model.po.ToolResourceshare;
-import com.njq.common.model.vo.ResourceshareVO;
-import com.njq.common.util.date.DateUtil;
-import com.njq.common.util.encrypt.Base64Util;
-import com.njq.common.util.image.ImageUtil;
-import com.njq.common.util.other.CookieExpire;
-import com.njq.common.util.other.CookieUtil;
-import com.njq.common.util.other.PropertyUtil;
-import com.njq.common.util.string.IdGen;
-import com.njq.zxgj.service.ToolResourceShareService;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +20,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.basis.service.impl.BaseCodeService;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.base.interceptor.NeedPwd;
+import com.njq.common.base.other.IpUtil;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.redis.RedisCommon;
+import com.njq.common.model.po.BaseCode;
+import com.njq.common.model.po.ToolResourceshare;
+import com.njq.common.model.vo.ResourceshareVO;
+import com.njq.common.util.encrypt.Base64Util;
+import com.njq.common.util.image.ImageUtil;
+import com.njq.common.util.other.CookieExpire;
+import com.njq.common.util.other.CookieUtil;
+import com.njq.common.util.other.PropertyUtil;
+import com.njq.common.util.string.IdGen;
+import com.njq.zxgj.service.ToolResourceShareService;
 
 
 @RequestMapping("rcShare")
@@ -150,16 +151,15 @@ public class ResourceShareController {
      * @param request
      * @param token
      */
+    @NeedPwd
     @RequestMapping(value = "resetDownLoadTimes", method = RequestMethod.GET)
     @ResponseBody
-    public void resetDownLoadTimes(HttpServletRequest request, @RequestParam(required = true) String token) {
-        if (TokenCheck.checkToken(token)) {
-            String ip = IpUtil.getIpAddr(request);
-            RedisCommon.setHashString(ip, "downLoadTimes", "0");
-            Object cc = RedisCommon.getString(ip, "downLoadTimes");
-            int times = Integer.parseInt(cc.toString());
-            System.out.println("重置下载次数为：" + times);
-        }
+    public void resetDownLoadTimes(HttpServletRequest request) {
+    	String ip = IpUtil.getIpAddr(request);
+    	RedisCommon.setHashString(ip, "downLoadTimes", "0");
+    	Object cc = RedisCommon.getString(ip, "downLoadTimes");
+    	int times = Integer.parseInt(cc.toString());
+    	System.out.println("重置下载次数为：" + times);
     }
 
     /**
@@ -249,12 +249,11 @@ public class ResourceShareController {
     /**
      * 图片转换
      */
+    @NeedPwd
     @RequestMapping(value = "tranPic", method = RequestMethod.GET)
-    public void tranPic(String token) {
-        if (TokenCheck.checkToken(token)) {
-            String path = "c:/mywork/image/uploadImage/shareResources/";
-            self(new File(path));
-        }
+    public void tranPic() {
+        String path = "c:/mywork/image/uploadImage/shareResources/";
+        self(new File(path));
     }
 
     private void self(File f) {

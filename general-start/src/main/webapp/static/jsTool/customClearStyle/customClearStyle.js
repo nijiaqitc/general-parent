@@ -20,7 +20,7 @@ function CustomDecoder() {
     //this.firstClear2=/<[^\/]\w+ .+?>/g; 直接修改下面的正则不修改此处的正则
     //因为第一步清除了样式，所以不会再存在标签里面存在空格的情况，所以直接用下面的匹配即可
     //以<开始匹配后面的连续字符直到第一个>结尾接着以</开始 和第一个括号内相同的字符>结尾
-    this.secondClear = /<(\w*)>(<\/\1*>)/g;
+    this.secondClear = /<(\w*)>(|\s)*(<\/\1*>)/g;
     //判断标签所属类型
     this.typeZz = [/<img.?/, /<form.?/, /<table.?/, /<th.?/, /<tr.?/, /<td.?/, /<a.?/];
     //匹配标签中的前一部分如：(<p )
@@ -29,6 +29,8 @@ function CustomDecoder() {
     this.zz2 = /[^< ]+/;
     //匹配标签中的style或class
     this.zz3 = /(style|class)=".*?"/g;
+    //排除的标签
+    this.excludeLabel=[/<(svg)(.*?)>(.|\n)*?<\/\1>/g];
     this.customStr = "";
     this.validate = function () {
         if (this.str == undefined) {
@@ -65,7 +67,11 @@ function CustomDecoder() {
     this.clearEmptyLabel = function () {
         this.str = this.str.replace(/\&nbsp;/g, "");
         var sz = this.str.match(this.secondClear);
-        if (sz != undefined) {
+        this.clear(sz);
+        this.clear(this.str.match(/\<!--.*?--\>/g));
+    };
+    this.clear = function (sz) {
+    	if (sz != undefined) {
             for (var i = 0; i < sz.length; i++) {
                 if (!(/<th.?/.test(sz[i]) || /<td.?/.test(sz[i]))) {
                     this.str = this.str.replace(sz[i], "");

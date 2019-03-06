@@ -174,13 +174,6 @@ public class BaseTitleService {
         saveMap.get(TitleType.GRAB_TITLE).updateByParam(condition);
     }
 
-    public void updateTips(String tips, Long id) {
-        ConditionsCommon condition = new ConditionsCommon();
-        condition.addsetObjectParam("tips", tips);
-        condition.addEqParam("id", id);
-        saveMap.get(TitleType.GRAB_TITLE).updateByParam(condition);
-    }
-
     public List<BaseTitle> getStarTitleList() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("starTab", true);
@@ -201,9 +194,34 @@ public class BaseTitleService {
             conditionsCommon.addColumMoreLikeParam("title", str);
         }
         conditionsCommon.addSetOrderColum("createDate", "desc");
-        return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+        List<BaseTitle> llist = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+        llist.forEach(n->{
+        	for (int i = 0; i < str.length; i++) {
+        		n.setTitle(searchText(str[i], n.getTitle()));
+			}
+        });
+        return llist;
     }
 
+    
+    private String searchText(String searchValue,String text) {
+		String lowerValue = text.toLowerCase();
+		int index = -1;
+		StringBuilder sb = new StringBuilder();
+		int start = 0;
+		while ((index = lowerValue.indexOf(searchValue)) >= 0) {
+			sb.append(text.substring(start, start + index));
+			sb.append("<em>");
+			sb.append(text.substring(start + index,start + index + searchValue.length()));
+			sb.append("</em>");
+			start += index + searchValue.length();
+			lowerValue = lowerValue.substring(index + searchValue.length() , lowerValue.length() );
+		}
+		sb.append(text.substring(start,text.length() ));
+		return sb.toString();
+    }
+    
+    
     public List<BaseTitle>  getTitleByType(Long typeId,Long parentId){
     	ConditionsCommon conditionsCommon = new ConditionsCommon();
     	conditionsCommon.addEqParam("typeId", typeId);
