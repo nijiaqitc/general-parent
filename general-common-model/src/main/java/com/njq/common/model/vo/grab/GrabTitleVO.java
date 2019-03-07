@@ -27,6 +27,8 @@ public class GrabTitleVO implements Serializable{
 	
 	private Date createDate;
 	
+	private Boolean isParent;
+	
 	public Long getId() {
 		return id;
 	}
@@ -105,6 +107,14 @@ public class GrabTitleVO implements Serializable{
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public Boolean getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(Boolean isParent) {
+		this.isParent = isParent;
 	}
 	
 	

@@ -44,7 +44,7 @@ public class WapTitleCacheManager extends GenericValueCacheManager<String, List<
                 }
                 GrabTitleVO vo = new GrabTitleVO();
                 BeanUtils.copyProperties(n, vo);
-                vo.setChildrenCount(grabService.queryTitleChildrenCount(n.getId(), n.getChannel()));
+                vo.setIsParent(n.getIsParent());
                 vo.setChannel(n.getChannel());
                 map.get(n.getTypeId()).add(vo);
             });

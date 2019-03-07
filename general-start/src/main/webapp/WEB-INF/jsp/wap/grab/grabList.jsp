@@ -24,12 +24,12 @@
 				<c:forEach items="${gb.grabTitleVOList }" var="grab" varStatus="index2" >
 					<div class="adocDiv2" style="clear: both;overflow: auto;">
 						<div style="float: left;">
-						<c:if test="${grab.childrenCount>0 }">
+						<c:if test="${grab.isParent!=null&&grab.isParent }">
 							<a href="javascript:void(0)" onclick="loadChild('${grab.id}','${grab.channel}',this)">
-								↓ (${grab.childrenCount })
+								↓ 
 							</a>
 						</c:if>
-						<c:if test="${grab.childrenCount==0 }">
+						<c:if test="${grab.isParent!=null&&!grab.isParent }">
 							.
 						</c:if>
 						</div>
@@ -78,9 +78,9 @@
 				$.each(data[0].grabTitleVOList,function(a,b){
 					str += "<div  class='adocDiv2' style='overflow: auto;clear: both;'>"+
 							"<div style='float: left;'>";
-							if(b.childrenCount>0){
+							if(b.isParent){
 								str+= "<a href='javascript:void(0)' onclick='loadChild(\""+b.id+"\",\""+b.channel+"\",this)'>"+
-									"↓ ("+b.childrenCount+")"+
+									"↓"+
 								"</a>";
 							}else{
 								str+=".";
