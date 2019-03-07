@@ -3,6 +3,7 @@ package com.njq.basis.service.impl;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.util.encrypt.Base64Util;
 import com.njq.common.util.grab.SendConstants;
@@ -33,7 +34,9 @@ public class BaseFileService {
     private static final Logger logger = LoggerFactory.getLogger(BaseFileService.class);
     @Resource
     private DaoCommon<BaseFile> fileDao;
-
+    @Resource
+    private JedisLockFactory jedisLockFactory;
+    
     public String dealImgSrc(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
         if (src.startsWith("data:image/png;base64")) {
             String picName = IdGen.get().toString();
