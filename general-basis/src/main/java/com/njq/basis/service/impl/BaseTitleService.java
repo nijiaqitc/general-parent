@@ -19,6 +19,7 @@ import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequest;
@@ -203,6 +204,12 @@ public class BaseTitleService {
         return llist;
     }
 
+    public PageList<BaseTitle> searchPage(Integer page,Integer pageSize) {
+    	ConditionsCommon cc=new ConditionsCommon();
+    	cc.addPageParam(page, pageSize);
+    	cc.addSetOrderColum("id", "desc");
+    	return saveMap.get(TitleType.GRAB_TITLE).queryPageList(cc);
+    }
     
     private String searchText(String searchValue,String text) {
 		String lowerValue = text.toLowerCase();

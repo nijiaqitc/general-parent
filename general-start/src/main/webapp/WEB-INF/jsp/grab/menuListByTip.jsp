@@ -130,6 +130,8 @@
 		$(function(){
 			if($("body").height()<500){
 				$(".bottomInfoDiv").addClass("stbot");
+			}else{
+				$(".bottomInfoDiv").removeClass("stbot");
 			}
 		})
 	</script>

@@ -1,10 +1,11 @@
 package com.njq.basis.service;
 
+import java.util.List;
+
 import com.njq.common.base.dao.ConditionsCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
-
-import java.util.List;
 
 public interface SaveTitlePerformer {
     /**
@@ -76,4 +77,11 @@ public interface SaveTitlePerformer {
      * @return
      */
     public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon);
+    
+    /**
+     * 查询分页数据
+     * @param conditionsCommon
+     * @return
+     */
+    public PageList<BaseTitle> queryPageList(ConditionsCommon conditionsCommon);
 }

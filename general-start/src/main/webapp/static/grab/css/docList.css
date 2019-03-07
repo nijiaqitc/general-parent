@@ -1,0 +1,38 @@
+.lmd{
+	margin-left: 8px;
+}
+.contextArea div{
+	clear: both;
+}
+.contextArea div:hover{
+	background-color: #a8d2d2;
+   	color: white;
+}
+.starcl{
+	color: red;
+    margin-top: 5px;
+    position: relative;
+    float: right;
+}
+.starspan{
+	float: right;
+    margin-right: 4px;
+    font-size: 12px;
+}
+.rightArea{
+	width: 30px;
+    display: block;
+    height: 25px;
+    float: right;
+}
+.leftlabel{
+	display: block;
+    width: 10px;
+    float: left;
+    padding-top: 5px;
+}
+.stbot{
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}

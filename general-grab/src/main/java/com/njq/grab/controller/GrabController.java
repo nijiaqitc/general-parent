@@ -22,6 +22,7 @@ import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -287,6 +288,17 @@ public class GrabController {
     		model.addAttribute("searchTitle", searchValue);    		
     	}
     	return "grab/searchList";
+    }
+    
+    @RequestMapping(value="docListPage" , method= RequestMethod.GET)
+    public String docListPage(Integer page , Model model) {
+    	return "grab/docList";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="pageList" , method= RequestMethod.POST)
+    public PageList<BaseTitle> pageList(@RequestParam(required=false,defaultValue="1") Integer page , Model model) {
+    	return baseTitleService.searchPage(page, 20);
     }
     
     @SuppressWarnings("unchecked")

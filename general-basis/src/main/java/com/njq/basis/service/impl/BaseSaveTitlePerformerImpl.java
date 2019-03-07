@@ -15,6 +15,7 @@ import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 
@@ -97,4 +98,9 @@ public class BaseSaveTitlePerformerImpl implements SaveTitlePerformer {
     public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon){
     	return null;
     }
+
+	@Override
+	public PageList<BaseTitle> queryPageList(ConditionsCommon conditionsCommon) {
+		return null;
+	}
 }

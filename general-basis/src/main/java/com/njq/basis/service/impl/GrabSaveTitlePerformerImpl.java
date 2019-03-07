@@ -1,23 +1,27 @@
 package com.njq.basis.service.impl;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component("grabSaveTitlePerformer")
 public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
@@ -60,9 +64,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             logger.info("加载下载菜单出错", e);
             throw new BaseKnownException("加载下载菜单出错");
         }
-        BaseTitle returnTitle = new BaseTitle();
-        BeanUtils.copyProperties(title, returnTitle);
-        return returnTitle;
+        return convertTitle(title);
     }
 
     @Override
@@ -73,9 +75,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
 //        title.setTips(request.getTips());
         title.setId(request.getId());
         baseTitleGrabDao.updateByPrimaryKeySelective(title);
-        BaseTitle returnTitle = new BaseTitle();
-        BeanUtils.copyProperties(baseTitleGrabDao.queryTById(request.getId()), returnTitle);
-        return returnTitle;
+        return convertTitle(baseTitleGrabDao.queryTById(request.getId()));
     }
 
     @Override
@@ -90,9 +90,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     @Override
     public BaseTitle getTitleById(Long id) {
         BaseTitleGrab titleGrab = baseTitleGrabDao.queryTById(id);
-        BaseTitle title = new BaseTitle();
-        BeanUtils.copyProperties(titleGrab, title);
-        return title;
+        return convertTitle(titleGrab);
     }
 
     @Override
@@ -101,9 +99,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         conditionsCommon.addEqParam("docId", docId);
         BaseTitleGrab titleGrab = baseTitleGrabDao.queryTByParamForOne(conditionsCommon);
         if (titleGrab != null) {
-            BaseTitle title = new BaseTitle();
-            BeanUtils.copyProperties(titleGrab, title);
-            return title;
+            return convertTitle(titleGrab);
         }
         return null;
     }
@@ -121,9 +117,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
         }
         List<BaseTitleGrab> titleList = baseTitleGrabDao.queryTByParam(condition);
         return titleList.stream().map(n -> {
-            BaseTitle returnTitle = new BaseTitle();
-            BeanUtils.copyProperties(n, returnTitle);
-            return returnTitle;
+            return convertTitle(n);
         }).collect(Collectors.toList());
     }
 
@@ -143,9 +137,30 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
     public List<BaseTitle> getTitleByParam(ConditionsCommon conditionsCommon) {
         List<BaseTitleGrab> titleList = baseTitleGrabDao.queryForListNoPage(conditionsCommon);
         return titleList.stream().map(n -> {
-            BaseTitle returnTitle = new BaseTitle();
-            BeanUtils.copyProperties(n, returnTitle);
-            return returnTitle;
+        	return convertTitle(n);
         }).collect(Collectors.toList());
+    }
+
+	@Override
+	public PageList<BaseTitle> queryPageList(ConditionsCommon conditionsCommon) {
+		PageList<BaseTitleGrab> grabPage = baseTitleGrabDao.queryForPage(conditionsCommon); 
+		PageList<BaseTitle> pageList = new PageList<BaseTitle>();
+		pageList.setTotal(grabPage.getTotal());
+		if(!CollectionUtils.isEmpty(grabPage.getList())) {
+			List<BaseTitle> titleList = grabPage.getList().stream().map(n->{
+				return convertTitle(n);
+			}).collect(Collectors.toList());
+			pageList.setList(titleList);
+		}
+		return pageList;
+	}
+    
+    private BaseTitle convertTitle(BaseTitleGrab grabTitle) {
+    	if(grabTitle == null) {
+    		return null;
+    	}
+    	BaseTitle returnTitle = new BaseTitle();
+        BeanUtils.copyProperties(grabTitle, returnTitle);
+        return returnTitle;
     }
 }
