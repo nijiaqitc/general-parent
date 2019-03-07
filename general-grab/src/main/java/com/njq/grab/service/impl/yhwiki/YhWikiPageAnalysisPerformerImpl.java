@@ -200,8 +200,10 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
         }
-        if ("Log In - Confluence".equals(doc.getElementsByTag("title").html())) {
-            loginCacheManager.reLogin(ChannelType.YH_WIKI);
+        
+        Element et = doc.getElementById("login-container");
+        if(et != null) {
+        	loginCacheManager.reLogin(ChannelType.YH_WIKI);
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
         }
         Element enode = doc.getElementById("main-content");
