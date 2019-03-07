@@ -73,6 +73,7 @@
 				type:"post",
 				success:function(data){
 					if(data.length>0){
+						$(target).attr("rload","true");
 						var str = "";
 						for(var i = 0 ; i<data.length;i++){
 							str += "<div><a href='javascript:void(0)' class='leftlabel' ";
@@ -120,8 +121,11 @@
 	
 		function loadChildMenu(pid,target){
 			if(target.firstElementChild.classList.contains("icon-caret-right")){
+				target.firstElementChild.classList.remove("icon-caret-right");
 				target.firstElementChild.classList.add("icon-caret-down");
-				getMenu(pid,target);
+				if(!$(target).attr("rload")){
+					getMenu(pid,target);
+				}
 			}
 		}
 		

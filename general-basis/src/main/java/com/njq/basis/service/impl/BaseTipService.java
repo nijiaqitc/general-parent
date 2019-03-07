@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -119,7 +120,17 @@ public class BaseTipService {
     
     
     public List<LabelNameVO> getAllTips(){
-    	return baseTipJpaRepository.queryAllTip();
+    	List<Object[]> listobj=baseTipJpaRepository.queryAllTip();
+    	if(!CollectionUtils.isEmpty(listobj)) {
+    		return listobj.stream().map(n->{
+    			LabelNameVO vo = new LabelNameVO();
+    			vo.setId(Long.parseLong(String.valueOf(n[0])));
+    			vo.setName(String.valueOf(n[1]));
+    			vo.setNum(Integer.parseInt(String.valueOf(n[2])));
+    			return vo;
+    		}).collect(Collectors.toList());
+    	}
+    	return Collections.EMPTY_LIST;
     }
     
     @SuppressWarnings("unchecked")

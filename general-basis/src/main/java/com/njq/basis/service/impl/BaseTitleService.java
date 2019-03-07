@@ -243,7 +243,7 @@ public class BaseTitleService {
     		conditionsCommon.addIsNullParam("parentId");
     	}
     	conditionsCommon.addSetOrderColum("starTab", "desc");
-    	conditionsCommon.addSetOrderColum("createDate", "desc");
+    	conditionsCommon.addSetOrderColum("id", "asc");
     	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
     

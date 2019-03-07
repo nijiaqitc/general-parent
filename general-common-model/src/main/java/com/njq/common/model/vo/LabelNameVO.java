@@ -12,6 +12,10 @@ public class LabelNameVO implements Serializable{
 	private Integer num;
 	private Long totalNum;
 	
+	public LabelNameVO() {
+		
+	}
+	
 	public LabelNameVO(Long id,String name, Integer num) {
 		this.id = id;
 		this.name = name;
