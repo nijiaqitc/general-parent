@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 	<link rel="stylesheet" href="${resPath }/zxgj/css/knowledgeDoc.css">
 	<link rel="stylesheet" href="${resPath }/zxgj/css/grab.css">
+	<link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"  />
 	<style type="text/css">
 		.stbot{
 		    bottom: 0;
@@ -24,7 +25,7 @@
 		    width: 600px;
 		}
 		.tipcs span{
-			margin-left: 14px;
+			padding: 0px 14px;
 		}
 		
 		.toptip{
@@ -92,6 +93,7 @@
 		.bottomlrmenu a:hover{
 			background-color: #59b5a4;
     		color: white;
+    		padding: 2px 2px;
 		}
 		.lrdiv{
 			width: 50%;
@@ -103,7 +105,15 @@
 		.contextArea a:hover{
 			background-color: #2f889a;
 		    color: white;
-		    padding: 2px 2px;
+		}
+		.starcs{
+			padding: 2px 4px;
+		    cursor: pointer;
+		    float: right;
+		    border: 1px solid #eee;
+		}
+		.starcs:hover{
+			background-color: #ddd;
 		}
 	</style>
 </head>
@@ -111,12 +121,21 @@
 	<div class="centerDiv">
 		<div id="docContext" class="docContext" align="center">
 			<div class="contextArea" >
-				<div align="center" class="textSt">${doc.title }</div>
-				<c:if test="${tipList!=null&&tipList.size()>0 }">
+				<div align="center" class="textSt">
+					${doc.title }
+					<c:if test="${titleInfo.starTab != null && titleInfo.starTab}">
+						<span style="color: red;">
+							<i class='icon-star starcl'></i>
+						</span>
+					</c:if>
+				</div>
+				<c:if test="${tipList != null && tipList.size() > 0 }">
 				    <div align="center">
 					 	<div class="tipcs">
 					      标签：<c:forEach items="${tipList }" var="t">
-					      	<span>${t }</span> 
+					      	<a href="/grab/showTitleListByTip?tipName=${t }">
+					      		<span>${t }</span> 
+					      	</a>
 					      </c:forEach>
 					 	</div>    
 				    </div>
@@ -143,6 +162,9 @@
 		    <input type="hidden" id="docId" value="">
 			<div align="center" style="padding: 16px 0;">
 				<input type="text" id="tipName" name="tipName"><input type="button" name="保存" onclick="saveTip()"  value="保存"  class="labelsavebtn">
+				<span onclick="starLabel('${titleInfo.id}')" class="starcs"
+					<c:if test="${titleInfo.starTab != null && titleInfo.starTab}"> style="background-color: red;"</c:if>
+				>星标</span>
 			</div>
 			<c:if test="${tipList!=null&&tipList.size()>0 }">
 				<div class="classify-more" style="margin-left: -50px;">
@@ -217,9 +239,31 @@
 			type:"post",
 			success:function(data){
 				if(data.state == "1"){
+					location.reload();
+				}else{
 					alert(data.message);
-					showhideDialog();
 				}
+			}
+		})
+	}
+	
+	
+	function starLabel(titleId){
+		var starVaule;
+		if(${titleInfo.starTab!=null&&titleInfo.starTab}){
+			starVaule=0;
+		}else{
+			starVaule=1;
+		}
+		$.ajax({
+			url:"${path}/grab/starTitle",
+			data:{
+				titleId:titleId,
+				isStar:starVaule
+			},
+			type:"post",
+			success:function(data){
+				location.reload();
 			}
 		})
 	}

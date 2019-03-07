@@ -51,11 +51,9 @@
 </head>
 <body>
 	<div class="centerDiv">
-		<div style="text-align: center;font-size: 20px;font-weight: 600;margin-top: 20px;">${tipInfo.tipName }</div>
+		<div style="text-align: center;font-size: 20px;font-weight: 600;margin-top: 20px;">标签：${tipInfo.tipName }</div>
 		<div id="docContext" class="docContext" style="margin-bottom: 20px;margin-top: 10px;" align="center">
-		    <div class="contextArea" style="width: 1000px;text-align: left;padding: 10px 10px;">
-		    	
-		    </div>
+		    <div class="contextArea" style="width: 1000px;text-align: left;padding: 10px 10px;"></div>
 	    </div>
 	</div>
 	<!--     开始：底部菜单栏-->
@@ -67,7 +65,8 @@
 			$.ajax({
 				url:"${path}/grab/getTitleListByTip",
 				data:{
-					tipId:${tipId}
+					tipId:"${tipId}",
+					tipName:"${tipName}"
 				},
 				type:"post",
 				success:function(data){
@@ -92,6 +91,7 @@
 					}else{
 						$(target).parent().append(str);
 					}
+					setbottom();
 				}
 			});
 		}
@@ -128,12 +128,16 @@
 		}
 		
 		$(function(){
+			setbottom();
+		})
+		
+		function setbottom(){
 			if($("body").height()<500){
 				$(".bottomInfoDiv").addClass("stbot");
 			}else{
 				$(".bottomInfoDiv").removeClass("stbot");
 			}
-		})
+		}
 	</script>
 </body>
 </html>

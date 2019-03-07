@@ -253,6 +253,15 @@ public class BaseTitleService {
         }).collect(Collectors.toList());
     }
     
+    public List<BaseTitle> getTitleByTipName(String tipName){
+    	List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipName(tipName);
+    	return titleList.stream().map(n -> {
+            BaseTitle returnTitle = new BaseTitle();
+            BeanUtils.copyProperties(n, returnTitle);
+            return returnTitle;
+        }).collect(Collectors.toList());
+    }
+    
     
     
     public Pair<BaseTitle,BaseTitle> getlrTitle(Long titleId){

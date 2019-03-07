@@ -51,11 +51,9 @@
 </head>
 <body>
 	<div class="centerDiv">
-		<div style="text-align: center;font-size: 20px;font-weight: 600;margin-top: 20px;">${typeInfo.name}</div>
+		<div style="text-align: center;font-size: 20px;font-weight: 600;margin-top: 20px;">类型：${typeInfo.name}</div>
 		<div id="docContext" class="docContext" align="center">
-		    <div class="contextArea" style="width: 1000px;text-align: left;padding: 10px 10px;">
-		    	
-		    </div>
+		    <div class="contextArea" style="width: 1000px;text-align: left;padding: 10px 10px;"></div>
 	    </div>
 	</div>
 	<!--     开始：底部菜单栏-->
@@ -115,6 +113,7 @@
 						}
 						$(target).parent().after(dd.innerHTML);
 					}
+					setbottom();
 				}
 			});
 		}
@@ -154,10 +153,15 @@
 		}
 		
 		$(function(){
+			setbottom();
+		})
+		function setbottom(){
 			if($("body").height()<500){
 				$(".bottomInfoDiv").addClass("stbot");
+			}else{
+				$(".bottomInfoDiv").removeClass("stbot");
 			}
-		})
+		}
 	</script>
 </body>
 </html>

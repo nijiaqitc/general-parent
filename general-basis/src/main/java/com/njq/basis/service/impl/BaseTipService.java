@@ -74,7 +74,13 @@ public class BaseTipService {
     public BaseTip getById(Long id) {
     	return baseTipDao.queryTById(id);
     }
-
+    
+    public BaseTip getByName(String tipName) {
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addEqParam("tip_name", tipName);
+    	return baseTipDao.queryTByParamForOne(condition);
+    }
+    
     public List<BaseTip> getTipListByIds(String ids) {
         String[] tipIds = ids.split(",");
         List<BaseTip> list = new ArrayList<>();

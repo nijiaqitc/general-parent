@@ -155,7 +155,7 @@ public class GrabController {
     		model.addAttribute("loaded", loading);
     	}
     	Pair<BaseTitle,BaseTitle> pairTitle = baseTitleService.getlrTitle(title.getId());
-    	
+    	model.addAttribute("titleInfo", title);
     	model.addAttribute("leftTitle", pairTitle.getLeft());
     	model.addAttribute("rightTitle", pairTitle.getRight());
         model.addAttribute("doc", grabService.queryById(docId));
@@ -232,8 +232,8 @@ public class GrabController {
         if (docId == null) {
             return MessageCommon.getFalseMap("参数有误");
         }
-        if (tipName == null) {
-            return MessageCommon.getFalseMap("参数有误");
+        if (StringUtils.isEmpty(tipName)) {
+            return MessageCommon.getFalseMap("标签不能为空！");
         }
         grabService.updateTips(tipName, docId);
         return MessageCommon.getSuccessMap();
@@ -279,9 +279,15 @@ public class GrabController {
     }
     
     @RequestMapping(value="showTitleListByTip" , method= RequestMethod.GET)
-    public String showTitleListByTip(Long tipId,Model model) {
-    	model.addAttribute("tipInfo", baseTipService.getById(tipId));
+    public String showTitleListByTip(Long tipId,String tipName,Model model) {
+    	if(tipId != null) {
+    		model.addAttribute("tipInfo", baseTipService.getById(tipId));    		
+    	}
+    	if(!StringUtils.isEmpty(tipName)) {
+    		model.addAttribute("tipInfo", baseTipService.getByName(tipName));
+    	}
     	model.addAttribute("tipId", tipId);
+    	model.addAttribute("tipName", tipName);
     	return "grab/menuListByTip";
     }
     
@@ -311,11 +317,17 @@ public class GrabController {
     @SuppressWarnings("unchecked")
 	@ResponseBody
     @RequestMapping(value="getTitleListByTip" , method= RequestMethod.POST)
-    public List<BaseTitle> getTitleListByTip(Long tipId) {
-    	if(tipId == null) {
+    public List<BaseTitle> getTitleListByTip(Long tipId,String tipName) {
+    	if(tipId == null&&StringUtils.isEmpty(tipName)) {
     		return Collections.EMPTY_LIST;
     	}
-    	return baseTitleService.getTitleByTip(tipId);
+    	if(tipId != null) {
+    		return baseTitleService.getTitleByTip(tipId);    		
+    	}
+    	if(!StringUtils.isEmpty(tipName)) {
+    		return baseTitleService.getTitleByTipName(tipName);
+    	}
+    	return Collections.EMPTY_LIST;
     }
     
     
