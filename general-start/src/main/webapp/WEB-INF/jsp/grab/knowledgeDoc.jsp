@@ -85,6 +85,26 @@
 		    text-align: center;
 		    margin-right: 20px;
 		}
+		.bottomlrmenu{
+		
+		}
+		
+		.bottomlrmenu a:hover{
+			background-color: #59b5a4;
+    		color: white;
+		}
+		.lrdiv{
+			width: 50%;
+    		float: left;
+		}
+		.lrdivspan{
+			margin-left: 14px;
+		}
+		.contextArea a:hover{
+			background-color: #2f889a;
+		    color: white;
+		    padding: 2px 2px;
+		}
 	</style>
 </head>
 <body>
@@ -105,6 +125,14 @@
 			    	<div style="text-align: center;">提取来源：<a href="${loaded.url }">${loaded.url }</a></div>
 				</c:if>
 			   <div id="textContext" style="margin-top: 20px;">${doc.doc }</div>
+			</div>
+			<div class="bottomlrmenu">
+				<c:if test="${leftTitle !=null }">
+					<div class="lrdiv" align="center"><a href="${leftTitle.docId }">上一篇 <span class="lrdivspan">${leftTitle.title }</span></a></div>
+				</c:if>
+				<c:if test="${rightTitle !=null }">
+					<div class="lrdiv" align="center"><a href="${rightTitle.docId }">下一篇  <span class="lrdivspan">${rightTitle.title }</span></a></div>
+				</c:if>
 			</div>
 		</div>
 	</div>

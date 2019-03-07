@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
@@ -249,5 +251,19 @@ public class BaseTitleService {
             BeanUtils.copyProperties(n, returnTitle);
             return returnTitle;
         }).collect(Collectors.toList());
+    }
+    
+    
+    
+    public Pair<BaseTitle,BaseTitle> getlrTitle(Long titleId){
+    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+    	conditionsCommon.addLtParam("id", titleId);
+    	conditionsCommon.addPageParam(1, 1);
+    	List<BaseTitle> leftList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+    	conditionsCommon = new ConditionsCommon();
+    	conditionsCommon.addGtParam("id", titleId);
+    	conditionsCommon.addPageParam(1, 1);
+    	List<BaseTitle> rightList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+    	return Pair.of(CollectionUtils.isEmpty(leftList)? null : leftList.get(0), CollectionUtils.isEmpty(rightList) ? null : rightList.get(0));
     }
 }

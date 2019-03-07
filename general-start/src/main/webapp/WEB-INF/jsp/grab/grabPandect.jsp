@@ -20,6 +20,11 @@
 	<div><a target="_blank" href="/grab/loadMenu">执行下载菜单任务</a></div>
 	<div><a target="_blank" href="/grab/reloadFile">重新下载失败的文件</a></div>
 	
-	<div><a target="_blank" href="/grab/reloadFile">重新下载失败的文件</a></div>
+	<div><a target="_blank" href="/yxlIssueDoc">yxl文章发表</a></div>
+	<div><a target="_blank" href="/updateYxlDocPage">yxl文章修改</a></div>
+	<div><a target="_blank" href="/noteManager">笔记管理</a></div>
+	<div><a target="_blank" href="/recordManager">记录管理</a></div>
+	<div><a target="_blank" href="/pwdPage">权限登录</a></div>
+	<div><a target="_blank" href="/mdValue">获取md值</a></div>
 </body>
 </html>

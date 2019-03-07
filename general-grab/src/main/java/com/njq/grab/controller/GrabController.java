@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
@@ -47,6 +49,7 @@ public class GrabController {
     @Resource
     private BaseTypeService baseTypeService;
     
+    @NeedPwd
     @RequestMapping("")
     public String pandect(Model model) {
         return "/grab/grabPandect";
@@ -151,6 +154,10 @@ public class GrabController {
     		BaseTitleLoading loading =  baseTitleService.getLoadingByTitleId(title.getId());
     		model.addAttribute("loaded", loading);
     	}
+    	Pair<BaseTitle,BaseTitle> pairTitle = baseTitleService.getlrTitle(title.getId());
+    	
+    	model.addAttribute("leftTitle", pairTitle.getLeft());
+    	model.addAttribute("rightTitle", pairTitle.getRight());
         model.addAttribute("doc", grabService.queryById(docId));
         model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
         model.addAttribute("topList", baseTipService.getTopTips());
