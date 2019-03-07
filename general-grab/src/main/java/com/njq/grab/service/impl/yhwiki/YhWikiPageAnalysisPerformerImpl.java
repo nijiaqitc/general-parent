@@ -207,8 +207,12 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
         }
         Element enode = doc.getElementById("main-content");
+        /**
+         * 重新登录还是登录不进去则停止读取，
+         * 下次再读取
+         */
         if (enode == null) {
-            enode = doc.getElementsByTag("body").first();
+        	throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
         }
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
