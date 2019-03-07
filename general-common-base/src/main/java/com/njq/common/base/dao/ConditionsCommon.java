@@ -6,6 +6,8 @@ package com.njq.common.base.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.druid.util.StringUtils;
+
 public class ConditionsCommon {
 	
 	//where条件
@@ -172,6 +174,9 @@ public class ConditionsCommon {
 		if(values.length>1) {
 			String columString="";
 			for(String value:values) {
+				if(StringUtils.isEmpty(value)) {
+					continue;
+				}
 				columString +=value+"^";
 			}
 			paramMap.put(colum+","+ConstantsCommon.Sql_Sign.LIKE,columString);

@@ -176,7 +176,7 @@
 			    </div>
 			    <div align="center" style="font-size: 12px;">
 				 	<c:forEach items="${tipList }" var="t">
-				      	<span>${t }</span> 
+				      	<span style="margin-left: 20px;">${t }</span> 
 					</c:forEach>
 			    </div>
 			</c:if>

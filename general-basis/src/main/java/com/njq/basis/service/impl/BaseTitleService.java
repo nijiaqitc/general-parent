@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
@@ -200,7 +201,9 @@ public class BaseTitleService {
         List<BaseTitle> llist = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
         llist.forEach(n->{
         	for (int i = 0; i < str.length; i++) {
-        		n.setTitle(searchText(str[i], n.getTitle()));
+        		if(!StringUtils.isEmpty(str[i])) {
+        			n.setTitle(searchText(str[i], n.getTitle()));        			
+        		}
 			}
         });
         return llist;
