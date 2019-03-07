@@ -85,7 +85,7 @@ public class LogVO implements java.io.Serializable{
 //		}else{
 //			return userName;
 //		}
-		return null;
+		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;

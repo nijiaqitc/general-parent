@@ -1,8 +1,5 @@
 package com.njq.common.model.dao;
 
-import com.njq.common.model.po.BaseTip;
-import com.njq.common.model.vo.LabelNameVO;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.njq.common.model.po.BaseTip;
 
 /**
  * @author: nijiaqi
