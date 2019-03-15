@@ -40,5 +40,6 @@
 	<script type="text/javascript" src="${resPath }/jquery/jquery.min.js" ></script>
 	<script type="text/javascript" src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script type="text/javascript" src="${resPath }/grab/js/docList.js"></script>
+	<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 </body>
 </html>

@@ -56,5 +56,6 @@
     <script type="text/javascript" src="${resPath }/zxgj/js/common.js" ></script>
     <script type="text/javascript" src="${resPath }/jsTool/customPage/customPage.js"></script>
     <script type="text/javascript" src="${resPath }/zxgj/js/docList.js" ></script>
+    <script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 </body>
 </html>

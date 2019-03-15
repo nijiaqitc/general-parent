@@ -64,5 +64,6 @@
 	<!-- 	底部通用部分结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript" src="${resPath }/wap/js/searchDocList.js"></script>
+	<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 </body>  
 </html>

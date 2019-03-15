@@ -77,15 +77,10 @@
 </div>
 <!--     开始：底部菜单栏-->
 <jsp:include page="../zxgj/bottom.jsp"></jsp:include>
-<script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${resPath }/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 <script type="text/javascript">
-    $(function () {
-        if ((document.documentElement.clientHeight - $("body").height()) > 80) {
-            $(".bottomInfoDiv").addClass("stbot");
-        } else {
-            $(".bottomInfoDiv").removeClass("stbot");
-        }
-    })
+
 </script>
 </body>
 </html>

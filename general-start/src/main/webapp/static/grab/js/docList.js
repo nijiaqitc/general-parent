@@ -1,11 +1,9 @@
 $(function () {
-    setbottom();
     njqpage.makePage({
         excId: pageDiv,
         click: searchDoc,
         size: 20
     });
-
 })
 
 
@@ -70,12 +68,4 @@ Date.prototype.format = function (fmt) {
 function formatTime(long) {
     var date = new Date(long);
     return date.format("yyyy-MM-dd hh:mm");
-}
-
-function setbottom() {
-    if ((document.documentElement.clientHeight - $("body").height()) > 80) {
-        $(".bottomInfoDiv").addClass("stbot");
-    } else {
-        $(".bottomInfoDiv").removeClass("stbot");
-    }
 }

@@ -232,15 +232,8 @@
 <script type="text/javascript" src="${resPath }/zxgj/js/prettify.js"></script>
 <script type="text/javascript" src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
 <script type="text/javascript" src="${resPath }/zxgj/js/grab.js"></script>
+<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 <script type="text/javascript">
-    $(function () {
-        if ((document.documentElement.clientHeight - $("body").height()) > 80) {
-            $(".bottomInfoDiv").addClass("stbot");
-        } else {
-            $(".bottomInfoDiv").removeClass("stbot");
-        }
-    })
-
     function showhideDialog() {
         if ($("#csdialog").css("top") == "-360px") {
             $("#csdialog").animate({top: '0px'}, "fast");

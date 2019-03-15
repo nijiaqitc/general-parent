@@ -66,5 +66,6 @@
     <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script type="text/javascript" src="${resPath }/back/js/customPage.js"></script>
 	<script type="text/javascript" src="${resPath }/tbk/js/docList.js" ></script>
+	<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 </body>
 </html>

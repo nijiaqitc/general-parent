@@ -65,7 +65,8 @@
 </div>
 <!--     开始：底部菜单栏-->
 <jsp:include page="../zxgj/bottom.jsp"></jsp:include>
-<script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${resPath }/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
 <script type="text/javascript">
     getMenu();
 
@@ -135,17 +136,6 @@
         return date.format("yyyy-MM-dd hh:mm");
     }
 
-    $(function () {
-        setbottom();
-    })
-
-    function setbottom() {
-        if ((document.documentElement.clientHeight - $("body").height()) > 80) {
-            $(".bottomInfoDiv").addClass("stbot");
-        } else {
-            $(".bottomInfoDiv").removeClass("stbot");
-        }
-    }
 </script>
 </body>
 </html>
