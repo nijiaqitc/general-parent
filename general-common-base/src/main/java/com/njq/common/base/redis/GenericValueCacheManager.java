@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-@SuppressWarnings("unchecked")
+
 public class GenericValueCacheManager<PK extends Serializable,V> extends AbstractCanIncreaseCacheManager<PK> {
 	private static final Logger logger = LoggerFactory.getLogger(GenericValueCacheManager.class);
     public GenericValueCacheManager() {
