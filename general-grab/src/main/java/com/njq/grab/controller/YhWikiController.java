@@ -45,15 +45,15 @@ public class YhWikiController {
 
     @RequestMapping("getPage")
     public String getPage(Model model) {
-        login();
-//        String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=2310481");
+//        login();
+        BaseTitle base = new BaseTitle();
+        String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=6597407",base);
 //        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
-//        model.addAttribute("doc", HtmlDecodeUtil.decodeHtml(context, js, fun));
-        BaseTitle base = new BaseTitle();
-        base.setId(14193L);
-        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage("https://blog.csdn.net/weianluo/article/details/82944936", base));
+        model.addAttribute("doc", context);
+//        base.setId(14193L);
+//        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage("https://blog.csdn.net/weianluo/article/details/82944936", base));
         return "grab/view";
     }
 

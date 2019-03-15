@@ -2,11 +2,12 @@ package com.njq.common.base.redis.lock;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import redis.clients.jedis.JedisCommands;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+
 
 public class JedisLock implements Closeable {
     public static final Random R = new Random();
@@ -22,13 +23,13 @@ public class JedisLock implements Closeable {
     private int randomRange;
     private String lockKey;
     private boolean locked;
-    private JedisConnectionFactory connectionFactory;
+    private RedisConnectionFactory connectionFactory;
 
-    public JedisLock(JedisConnectionFactory factory, String lockKey) {
+    public JedisLock(RedisConnectionFactory factory, String lockKey) {
         this(factory, lockKey, DEFAULT_TIMEOUT_MILLISECONDS, DEFAULT_EXPIRED_MILLISECONDS);
     }
 
-    public JedisLock(JedisConnectionFactory factory, String lockKey, int timeoutMilliseconds, int expiredMilliseconds) {
+    public JedisLock(RedisConnectionFactory factory, String lockKey, int timeoutMilliseconds, int expiredMilliseconds) {
         this.logger = LoggerFactory.getLogger(JedisLock.class);
         this.sleepTime = 100;
         this.locked = false;
@@ -42,19 +43,17 @@ public class JedisLock implements Closeable {
         this.unlock();
     }
 
-    public Long expire(int newExpiredMilliseconds) {
+    public Boolean expire(int newExpiredMilliseconds) {
         RedisConnection connection = this.connectionFactory.getConnection();
-        JedisCommands jedis = (JedisCommands)connection.getNativeConnection();
-
-        Long var4;
+        Boolean bl = false;
         try {
+        	connection.expire(this.lockKey.getBytes(), 1000L);
             this.logger.debug("ready to set expire time for {},new expired milliseconds:{}", this.lockKey, newExpiredMilliseconds);
-            var4 = jedis.expire(this.lockKey, newExpiredMilliseconds / 1000);
+            bl = connection.expire(this.lockKey.getBytes(), Long.valueOf(newExpiredMilliseconds / 1000));
         } finally {
             connection.close();
         }
-
-        return var4;
+        return bl;
     }
 
     public boolean acquire() throws InterruptedException {
@@ -74,12 +73,10 @@ public class JedisLock implements Closeable {
 
     public void unlock() {
         RedisConnection connection = this.connectionFactory.getConnection();
-        JedisCommands jedis = (JedisCommands)connection.getNativeConnection();
-
         try {
             this.logger.debug("ready to release the jedis lock,locked:{}, lockKey:{}", this.locked, this.lockKey);
             if (this.locked) {
-                jedis.del(this.lockKey);
+            	connection.del(this.lockKey.getBytes());
             }
         } finally {
             connection.close();
@@ -96,22 +93,25 @@ public class JedisLock implements Closeable {
         }
     }
 
-    private boolean tryAcquire() {
+    @SuppressWarnings("unused")
+	private boolean tryAcquire() {
         this.logger.debug("try to acquire jedis lock for {}", this.lockKey);
         RedisConnection connection = this.connectionFactory.getConnection();
-        JedisCommands jedis = (JedisCommands)connection.getNativeConnection();
 
         boolean var6;
         try {
             long expireTimestamp = System.currentTimeMillis() + (long)this.expiredMilliseconds + 1L;
             String expireTimestampStr = String.valueOf(expireTimestamp);
-            if (jedis.setnx(this.lockKey, expireTimestampStr) != 1L) {
-                String previousTimestamp = jedis.get(this.lockKey);
+            
+            if (!connection.setNX(this.lockKey.getBytes(), expireTimestampStr.getBytes())) {
+            	byte[] bt=connection.get(this.lockKey.getBytes());
+                String previousTimestamp = new String(bt);
                 boolean var7;
                 if (previousTimestamp != null) {
                     this.logger.debug("try to compare expire time,lock key:{},previous timestamp:{},current expire time:{}", new Object[]{this.lockKey, previousTimestamp, expireTimestampStr});
                     if (Long.parseLong(previousTimestamp) < System.currentTimeMillis()) {
-                        String previousTimestampAfterGetSet = jedis.getSet(this.lockKey, expireTimestampStr);
+                    	byte[] bc = connection.getSet(this.lockKey.getBytes(), expireTimestampStr.getBytes());
+                        String previousTimestampAfterGetSet = new String(bc);
                         if (previousTimestampAfterGetSet == null || previousTimestampAfterGetSet.equals(previousTimestamp)) {
                             this.locked = true;
                             boolean var8 = true;
@@ -124,8 +124,8 @@ public class JedisLock implements Closeable {
                     var7 = false;
                     return var7;
                 }
-
-                if (jedis.setnx(this.lockKey, expireTimestampStr) == 1L) {
+                
+                if (connection.setNX(this.lockKey.getBytes(), expireTimestampStr.getBytes())) {
                     this.locked = true;
                     var7 = true;
                     return var7;
