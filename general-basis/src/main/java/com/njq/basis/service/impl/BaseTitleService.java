@@ -1,19 +1,5 @@
 package com.njq.basis.service.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.common.base.constants.ChannelType;
@@ -25,23 +11,39 @@ import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
+import com.njq.common.base.redis.lock.JedisLock;
+import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.base.request.SaveTitleRequest;
 import com.njq.common.model.dao.BaseTitleGrabJpaRepository;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.util.string.StringUtil;
+import com.njq.common.util.string.StringUtil2;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BaseTitleService {
     @Resource
     private DaoCommon<BaseTitleLoading> baseTitleLoadingDao;
-    @Resource
-    private DaoCommon<BaseTitle> baseTitleDao;
     private Map<TitleType, SaveTitlePerformer> saveMap;
     @Resource
     private BaseTitleGrabJpaRepository baseTitleGrabJpaRepository;
-    
+    @Resource
+    private JedisLockFactory jedisLockFactory;
+
     @Autowired
     public BaseTitleService(SaveTitlePerformer grabSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
         saveMap = new HashMap<>();
@@ -92,20 +94,29 @@ public class BaseTitleService {
     }
 
     public BaseTitle saveTitle(SaveTitleRequest request) {
-        BaseTitle tt;
-        tt = verify(request.getMenu().getValue(), request.getChannel());
-        if (tt == null) {
-            tt = saveMap.get(request.getTitleType()).saveTitle(request);
-            BaseTitleLoading loading = new BaseTitleLoading();
-            loading.setTitleId(tt.getId());
-            loading.setUrl(request.getMenu().getValue());
-            loading.setCreateDate(new Date());
-            loading.setChannel(request.getChannel());
-            loading.setLoaded(ConstantsCommon.Use_Type.UN_USE);
-            loading.setDocIdSource(request.getMenu().getDocId());
-            baseTitleLoadingDao.save(loading);
+        String lockKey = StringUtil2.format("saveUrl-{0}-saveChannel-{1}-saveName-{2}", request.getMenu().getValue(), request.getChannel(), request.getMenu().getName());
+        try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
+            if (!jedisLock.acquire()) {
+                throw new BaseKnownException("并发获取锁失败！");
+            }
+            BaseTitle tt;
+            tt = verify(request.getMenu().getValue(), request.getChannel());
+            if (tt == null) {
+                tt = saveMap.get(request.getTitleType())
+                        .saveTitle(request);
+                BaseTitleLoading loading = new BaseTitleLoading();
+                loading.setTitleId(tt.getId());
+                loading.setUrl(request.getMenu().getValue());
+                loading.setCreateDate(new Date());
+                loading.setChannel(request.getChannel());
+                loading.setLoaded(ConstantsCommon.Use_Type.UN_USE);
+                loading.setDocIdSource(request.getMenu().getDocId());
+                baseTitleLoadingDao.save(loading);
+            }
+            return tt;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return tt;
     }
 
     /**
@@ -148,11 +159,6 @@ public class BaseTitleService {
         condition.addEqParam("channel", channel);
         BaseTitleLoading loading = baseTitleLoadingDao.queryTByParamForOne(condition);
         if (loading != null) {
-//            if (Use_Type.USED.equals(loading.getLoaded())) {
-//                throw new BaseKnownException(ErrorCodeConstant.ALREADY_LOAD_CODE, ErrorCodeConstant.ALREADY_LOAD_MSG);
-//            } else {
-//                return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
-//            }
             return saveMap.get(TitleType.GRAB_TITLE).getTitleById(loading.getTitleId());
         } else {
             return null;
@@ -199,83 +205,82 @@ public class BaseTitleService {
         }
         conditionsCommon.addSetOrderColum("createDate", "desc");
         List<BaseTitle> llist = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
-        llist.forEach(n->{
-        	for (int i = 0; i < str.length; i++) {
-        		if(!StringUtils.isEmpty(str[i])) {
-        			n.setTitle(searchText(str[i], n.getTitle()));        			
-        		}
-			}
+        llist.forEach(n -> {
+            for (int i = 0; i < str.length; i++) {
+                if (!StringUtils.isEmpty(str[i])) {
+                    n.setTitle(searchText(str[i], n.getTitle()));
+                }
+            }
         });
         return llist;
     }
 
-    public PageList<BaseTitle> searchPage(Integer page,Integer pageSize) {
-    	ConditionsCommon cc=new ConditionsCommon();
-    	cc.addPageParam(page, pageSize);
-    	cc.addSetOrderColum("id", "desc");
-    	return saveMap.get(TitleType.GRAB_TITLE).queryPageList(cc);
+    public PageList<BaseTitle> searchPage(Integer page, Integer pageSize) {
+        ConditionsCommon cc = new ConditionsCommon();
+        cc.addPageParam(page, pageSize);
+        cc.addSetOrderColum("id", "desc");
+        return saveMap.get(TitleType.GRAB_TITLE).queryPageList(cc);
     }
-    
-    private String searchText(String searchValue,String text) {
-		String lowerValue = text.toLowerCase();
-		int index = -1;
-		StringBuilder sb = new StringBuilder();
-		int start = 0;
-		while ((index = lowerValue.indexOf(searchValue)) >= 0) {
-			sb.append(text.substring(start, start + index));
-			sb.append("<em>");
-			sb.append(text.substring(start + index,start + index + searchValue.length()));
-			sb.append("</em>");
-			start += index + searchValue.length();
-			lowerValue = lowerValue.substring(index + searchValue.length() , lowerValue.length() );
-		}
-		sb.append(text.substring(start,text.length() ));
-		return sb.toString();
+
+    private String searchText(String searchValue, String text) {
+        String lowerValue = text.toLowerCase();
+        int index = -1;
+        StringBuilder sb = new StringBuilder();
+        int start = 0;
+        while ((index = lowerValue.indexOf(searchValue)) >= 0) {
+            sb.append(text.substring(start, start + index));
+            sb.append("<em>");
+            sb.append(text.substring(start + index, start + index + searchValue.length()));
+            sb.append("</em>");
+            start += index + searchValue.length();
+            lowerValue = lowerValue.substring(index + searchValue.length(), lowerValue.length());
+        }
+        sb.append(text.substring(start, text.length()));
+        return sb.toString();
     }
-    
-    
-    public List<BaseTitle>  getTitleByType(Long typeId,Long parentId){
-    	ConditionsCommon conditionsCommon = new ConditionsCommon();
-    	conditionsCommon.addEqParam("typeId", typeId);
-    	if(parentId != null) {
-    		conditionsCommon.addEqParam("parentId", parentId);    		
-    	}else {
-    		conditionsCommon.addIsNullParam("parentId");
-    	}
-    	conditionsCommon.addSetOrderColum("starTab", "desc");
-    	conditionsCommon.addSetOrderColum("id", "asc");
-    	return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+
+
+    public List<BaseTitle> getTitleByType(Long typeId, Long parentId) {
+        ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addEqParam("typeId", typeId);
+        if (parentId != null) {
+            conditionsCommon.addEqParam("parentId", parentId);
+        } else {
+            conditionsCommon.addIsNullParam("parentId");
+        }
+        conditionsCommon.addSetOrderColum("starTab", "desc");
+        conditionsCommon.addSetOrderColum("id", "asc");
+        return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
-    
-    public List<BaseTitle>  getTitleByTip(Long tipId){
-    	List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipId(tipId);
-    	return titleList.stream().map(n -> {
+
+    public List<BaseTitle> getTitleByTip(Long tipId) {
+        List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipId(tipId);
+        return titleList.stream().map(n -> {
             BaseTitle returnTitle = new BaseTitle();
             BeanUtils.copyProperties(n, returnTitle);
             return returnTitle;
         }).collect(Collectors.toList());
     }
-    
-    public List<BaseTitle> getTitleByTipName(String tipName){
-    	List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipName(tipName);
-    	return titleList.stream().map(n -> {
+
+    public List<BaseTitle> getTitleByTipName(String tipName) {
+        List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipName(tipName);
+        return titleList.stream().map(n -> {
             BaseTitle returnTitle = new BaseTitle();
             BeanUtils.copyProperties(n, returnTitle);
             return returnTitle;
         }).collect(Collectors.toList());
     }
-    
-    
-    
-    public Pair<BaseTitle,BaseTitle> getlrTitle(Long titleId){
-    	ConditionsCommon conditionsCommon = new ConditionsCommon();
-    	conditionsCommon.addLtParam("id", titleId);
-    	conditionsCommon.addPageParam(1, 1);
-    	List<BaseTitle> leftList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
-    	conditionsCommon = new ConditionsCommon();
-    	conditionsCommon.addGtParam("id", titleId);
-    	conditionsCommon.addPageParam(1, 1);
-    	List<BaseTitle> rightList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
-    	return Pair.of(CollectionUtils.isEmpty(leftList)? null : leftList.get(0), CollectionUtils.isEmpty(rightList) ? null : rightList.get(0));
+
+
+    public Pair<BaseTitle, BaseTitle> getlrTitle(Long titleId) {
+        ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addLtParam("id", titleId);
+        conditionsCommon.addPageParam(1, 1);
+        List<BaseTitle> leftList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+        conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addGtParam("id", titleId);
+        conditionsCommon.addPageParam(1, 1);
+        List<BaseTitle> rightList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+        return Pair.of(CollectionUtils.isEmpty(leftList) ? null : leftList.get(0), CollectionUtils.isEmpty(rightList) ? null : rightList.get(0));
     }
 }

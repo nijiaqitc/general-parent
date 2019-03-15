@@ -15,6 +15,7 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.model.vo.grab.GrabUrlYhInfo;
 import com.njq.common.util.grab.HtmlDecodeUtil;
@@ -25,6 +26,8 @@ import com.njq.grab.cache.GrabMenuCacheManager;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
+import com.njq.grab.service.operation.GrabDocSaveOperation;
+import com.njq.grab.service.operation.GrabDocUpdateOperation;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -35,7 +38,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,18 +51,24 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final LoginCacheManager loginCacheManager;
     private final GrabMenuCacheManager grabMenuCacheManager;
     private final BaseFileService baseFileService;
+    private final GrabDocSaveOperation grabDocSaveOperation;
+    private final GrabDocUpdateOperation grabDocUpdateOperation;
 
     @Autowired
     public YhWikiPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
                                            SaveTitlePerformer grabSaveTitlePerformer, LoginCacheManager loginCacheManager,
                                            GrabMenuCacheManager grabMenuCacheManager,
-                                           BaseFileService baseFileService) {
+                                           BaseFileService baseFileService,
+                                           GrabDocSaveOperation grabDocSaveOperation,
+                                           GrabDocUpdateOperation grabDocUpdateOperation) {
         this.baseTitleService = baseTitleService;
         this.grabDocDao = grabDocDao;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.loginCacheManager = loginCacheManager;
         this.grabMenuCacheManager = grabMenuCacheManager;
         this.baseFileService = baseFileService;
+        this.grabDocSaveOperation = grabDocSaveOperation;
+        this.grabDocUpdateOperation = grabDocUpdateOperation;
     }
 
     @Override
@@ -97,7 +105,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (menuList == null) {
             Document doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
             if (doc == null) {
-                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
+                throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
             }
             Elements e = doc.getElementsByTag("a");
             List<LeftMenu> list = new ArrayList<>();
@@ -165,23 +173,22 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long saveDoc(String doc, String title) {
-        GrabDoc grabDoc = new GrabDoc();
-        grabDoc.setChannel(ChannelType.YH_WIKI.getValue());
-        grabDoc.setCreateDate(new Date());
-        grabDoc.setDoc(doc);
-        grabDoc.setTitle(title);
-        grabDocDao.save(grabDoc);
-        return grabDoc.getId();
+        return grabDocSaveOperation.saveDoc(new GrabDocSaveRequestBuilder()
+                .ofChannel(ChannelType.YH_WIKI.getValue())
+                .ofDoc(doc)
+                .ofTitle(title)
+                .build())
+                .getId();
     }
 
     @Override
     public Long updateDoc(String doc, String title, Long id) {
-        GrabDoc grabDoc = new GrabDoc();
-        grabDoc.setId(id);
-        grabDoc.setDoc(doc);
-        grabDoc.setTitle(title);
-        grabDocDao.updateByPrimaryKeySelective(grabDoc);
-        return id;
+        return grabDocUpdateOperation.updateDoc(new GrabDocSaveRequestBuilder()
+                .ofTitle(title)
+                .ofDoc(doc)
+                .ofId(id)
+                .build())
+                .getId();
     }
 
     @Override
@@ -198,12 +205,12 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .build(ChannelType.YH_WIKI.getValue())
                 .getDoc(url);
         if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
-        
+
         Element et = doc.getElementById("login-container");
-        if(et != null) {
-        	loginCacheManager.reLogin(ChannelType.YH_WIKI);
+        if (et != null) {
+            loginCacheManager.reLogin(ChannelType.YH_WIKI);
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
         }
         Element enode = doc.getElementById("main-content");
@@ -212,7 +219,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
          * 下次再读取
          */
         if (enode == null) {
-        	throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
         enode.getElementsByTag("a").forEach(n -> {
             if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
@@ -244,8 +251,13 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         }
         try {
             menuList.forEach(n -> {
-                BaseTitle title = baseTitleService.saveTitle(new SaveTitleRequestBuilder().ofParentId(parentId)
-                        .onMenu(n).ofTypeId(typeId).ofChannel(ChannelType.YH_WIKI.getValue()).ofTitleType(TitleType.GRAB_TITLE).build());
+                BaseTitle title = baseTitleService.saveTitle(new SaveTitleRequestBuilder()
+                        .ofParentId(parentId)
+                        .onMenu(n)
+                        .ofTypeId(typeId)
+                        .ofChannel(ChannelType.YH_WIKI.getValue())
+                        .ofTitleType(TitleType.GRAB_TITLE)
+                        .build());
                 if (!CollectionUtils.isEmpty(n.getMenuList())) {
                     this.recursionSaveTitle(title.getId(), n.getMenuList(), typeId);
                 }

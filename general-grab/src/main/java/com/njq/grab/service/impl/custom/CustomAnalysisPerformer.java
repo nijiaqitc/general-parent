@@ -1,15 +1,5 @@
 package com.njq.grab.service.impl.custom;
 
-import java.util.Date;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
@@ -19,9 +9,18 @@ import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.GrabDoc;
+import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
+import com.njq.grab.service.operation.GrabDocSaveOperation;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CustomAnalysisPerformer {
@@ -32,8 +31,11 @@ public class CustomAnalysisPerformer {
     private DaoCommon<GrabDoc> grabDocDao;
     @Autowired
     private BaseFileService baseFileService;
+    @Autowired
+    private GrabDocSaveOperation grabDocSaveOperation;
+
     public Long grabAndSave(String url, String name, int type, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url, name, type,baseTitle.getTypeId());
+        String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
         return impl.saveLoadingDoc(doc, name, type, baseTitle);
     }
@@ -45,13 +47,13 @@ public class CustomAnalysisPerformer {
         return docId;
     }
 
-    public String analysisPage(String url, String name, int type,Long typeId) {
+    public String analysisPage(String url, String name, int type, Long typeId) {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CUSTOM.getValue())
                 .getDoc(url);
         logger.info("cusotm:" + name + " :----: " + url);
         if (doc == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG+url);
+            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
         Element enode = null;
         switch (type) {
@@ -90,12 +92,11 @@ public class CustomAnalysisPerformer {
     }
 
     public Long saveDoc(String doc, String title, BaseTitle baseTitle) {
-        GrabDoc grabDoc = new GrabDoc();
-        grabDoc.setChannel(baseTitle.getChannel());
-        grabDoc.setCreateDate(new Date());
-        grabDoc.setDoc(doc);
-        grabDoc.setTitle(title);
-        grabDocDao.save(grabDoc);
-        return grabDoc.getId();
+        return grabDocSaveOperation.saveDoc(new GrabDocSaveRequestBuilder()
+                .ofChannel(baseTitle.getChannel())
+                .ofDoc(doc)
+                .ofTitle(title)
+                .build())
+                .getId();
     }
 }
