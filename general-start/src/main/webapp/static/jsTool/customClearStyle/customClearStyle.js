@@ -219,7 +219,7 @@ function CustomDecoder() {
     	var ss = s.match(mt);
     	if (ss != null) {
             for (var i = 0; i < ss.length; i++) {
-                s = s.replace(ss[i], "");
+                s = s.replace(ss[i], " ");
             }
         }
         return s;
