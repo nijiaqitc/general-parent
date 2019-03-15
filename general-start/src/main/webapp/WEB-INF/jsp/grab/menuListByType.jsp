@@ -160,11 +160,11 @@
 			setbottom();
 		})
 		function setbottom(){
-			if($("body").height()<500){
-				$(".bottomInfoDiv").addClass("stbot");
-			}else{
-				$(".bottomInfoDiv").removeClass("stbot");
-			}
+            if ((document.documentElement.clientHeight - $("body").height()) > 80) {
+                $(".bottomInfoDiv").addClass("stbot");
+            } else {
+                $(".bottomInfoDiv").removeClass("stbot");
+            }
 		}
 	</script>
 </body>
