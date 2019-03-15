@@ -115,7 +115,7 @@
 						}
 						$(target).parent().after(dd.innerHTML);
 					}
-					setbottom();
+                    resetBottom();
 				}
 			});
 		}

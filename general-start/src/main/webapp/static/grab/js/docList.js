@@ -36,7 +36,7 @@ function searchDoc(p, s) {
                     $("#docList").append(outDiv);
                 }
                 njqpage.totalNum = Number(data.total);
-                setbottom();
+                resetBottom();
             } else {
                 njqpage.totalNum = Number(0);
             }

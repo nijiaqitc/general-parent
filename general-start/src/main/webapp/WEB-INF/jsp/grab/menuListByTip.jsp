@@ -100,7 +100,7 @@
                 } else {
                     $(target).parent().append(str);
                 }
-                setbottom();
+                resetBottom();
             }
         });
     }

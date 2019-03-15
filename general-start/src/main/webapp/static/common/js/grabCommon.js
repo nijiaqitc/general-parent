@@ -1,15 +1,16 @@
 $(function () {
-    if ((document.documentElement.clientHeight - $("body").height()) > 80) {
-        $(".bottomInfoDiv").addClass("stbot");
-    } else {
-        $(".bottomInfoDiv").removeClass("stbot");
-    }
+    resetBottom();
 })
 
 window.onresize = function () {
+    resetBottom();
+}
+
+
+function resetBottom() {
     var h = document.documentElement.clientHeight;
     var hbody = $("body").height();
-    if ((h - hbody) > 0) {
+    if ((h - hbody) > 80) {
         if (!$(".bottomInfoDiv").hasClass("stbot")) {
             $(".bottomInfoDiv").addClass("stbot");
         }
