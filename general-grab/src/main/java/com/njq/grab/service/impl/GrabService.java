@@ -1,5 +1,15 @@
 package com.njq.grab.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -7,8 +17,8 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.ConditionsCommon;
+import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
@@ -21,16 +31,6 @@ import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class GrabService {
@@ -166,11 +166,16 @@ public class GrabService {
         menu.setDocId(docId);
         menu.setName(title);
         ChannelType tt = ChannelType.getChannelType(channel);
-        BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder().onMenu(menu).ofId(Long.valueOf(docId))
-                .ofTypeId(baseTypeService.checkAndSave(type)).ofTips(baseTipService.checkAndSaveTips(tips))
-                .ofChannel(tt.getValue()).build());
+        BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder()
+        		.onMenu(menu)
+        		.ofId(Long.valueOf(docId))
+                .ofTypeId(baseTypeService.checkAndSave(type))
+                .ofTips(baseTipService.checkAndSaveTips(tips))
+                .ofChannel(tt.getValue())
+                .build());
+        String doc = performerService.getAnalysisPerformer(tt).analysisPage(url, baseTitle);
         // 修改文章
-        performerService.getAnalysisPerformer(tt).updateDoc(url, title, baseTitle.getDocId());
+        performerService.getAnalysisPerformer(tt).updateDoc(doc, title, baseTitle.getDocId());
     }
 
 

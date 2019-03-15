@@ -66,6 +66,8 @@ function CustomDecoder() {
     //第二步处理，清除空标签
     this.clearEmptyLabel = function () {
         this.str = this.str.replace(/\&nbsp;/g, "");
+        var inputList = this.str.match(/<input.*?\>/g);
+        this.clear(inputList);
         var sz = this.str.match(this.secondClear);
         this.clear(sz);
         this.clear(this.str.match(/\<!--.*?--\>/g));
@@ -148,7 +150,7 @@ function CustomDecoder() {
         if (s.startsWith("<a ")) {
             return this.dealAStr(s);
         }
-        return this.removeCss(s);
+        return this.removeCss(this.removeAttr(s,/ id( |)=( |)".*?"/g));
     };
     this.dealImgStr = function (s) {
         var w1 = s.match(/width(=|:)("|)(\w+)?("|;)/g);
@@ -207,6 +209,15 @@ function CustomDecoder() {
     this.removeCss = function (s) {
         var ss = s.match(this.zz3);
         if (ss != null) {
+            for (var i = 0; i < ss.length; i++) {
+                s = s.replace(ss[i], "");
+            }
+        }
+        return s;
+    };
+    this.removeAttr = function(s,mt){
+    	var ss = s.match(mt);
+    	if (ss != null) {
             for (var i = 0; i < ss.length; i++) {
                 s = s.replace(ss[i], "");
             }

@@ -9,7 +9,7 @@ window.onresize = function () {
 
 function resetBottom() {
     var h = document.documentElement.clientHeight;
-    var hbody = $("body").height();
+    var hbody = $("html").height();
     if ((h - hbody) > 80) {
         if (!$(".bottomInfoDiv").hasClass("stbot")) {
             $(".bottomInfoDiv").addClass("stbot");
