@@ -16,6 +16,8 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TestController {
 	public static   CyclicBarrier cyclicBarrier=new CyclicBarrier(5);
@@ -67,8 +69,13 @@ public class TestController {
 //		list.add(4);
 //		System.out.println(list.subList(0,4 ));
 		
-		String aaa = "aaa^bbbb";
-		System.out.println(aaa.split("\\^").length);
+//		String aaa = "aaa^bbbb";
+//		System.out.println(aaa.split("\\^").length);
+		String str = "<script>var currentBlogId=452926;var currentBlogApp='ibethfy',cb_enable_mathjax=false;var isLogined=false;</script>";
+		Pattern pattern =Pattern.compile("currentBlogId=.*?;");
+		Matcher mt =  pattern.matcher(str);
+		System.out.println(mt.find());
+		System.out.println(mt.group());
 	}
 
 	public class  createRunnable{

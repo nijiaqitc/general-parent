@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.model.po.BaseTitle;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabService;
@@ -47,7 +48,11 @@ public class YhWikiController {
     public String getPage(Model model) {
 //        login();
         BaseTitle base = new BaseTitle();
-        String context = yhWikiPageAnalysis.analysisPage("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=6597407",base);
+        
+        String context = yhWikiPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
+                .ofUrl("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=6597407")
+                .ofBaseTitle(base)
+                .build());
 //        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
