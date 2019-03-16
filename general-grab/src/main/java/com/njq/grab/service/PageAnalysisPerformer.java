@@ -1,6 +1,7 @@
 package com.njq.grab.service;
 
 import com.njq.common.model.po.BaseTitle;
+import com.njq.common.model.ro.AnalysisPageRequest;
 
 public interface PageAnalysisPerformer {
     /**
@@ -24,11 +25,12 @@ public interface PageAnalysisPerformer {
 
     /**
      * 获取然后保存
+     *
      * @param url
      * @param baseTitle
      * @return
      */
-    Long grabAndSave(String url, BaseTitle baseTitle);
+    Long grabAndSave(AnalysisPageRequest request);
 
     /**
      * 保存下载的文章
@@ -37,7 +39,7 @@ public interface PageAnalysisPerformer {
      * @param baseTitle
      * @return
      */
-    Long saveLoadingDoc(String url, BaseTitle baseTitle);
+    Long saveLoadingDoc(AnalysisPageRequest request);
 
     /**
      * 保存文章
@@ -60,18 +62,20 @@ public interface PageAnalysisPerformer {
 
     /**
      * 登录然后解析页面
+     *
      * @param url
      * @param baseTitle
      * @return
      */
-    String loginAndAnalysisPage(String url,BaseTitle baseTitle);
+    String loginAndAnalysisPage(AnalysisPageRequest request);
 
     /**
      * 页面解析
      * @param url
      * @param baseTitle 主要用于取typeId 类型id 可以不传 主要用于区分同一个不能有相同的文件名称
+     * @param trigger 触发器可以为空
      * @return
      */
-    String analysisPage(String url,BaseTitle baseTitle);
+    String analysisPage(AnalysisPageRequest request);
 
 }

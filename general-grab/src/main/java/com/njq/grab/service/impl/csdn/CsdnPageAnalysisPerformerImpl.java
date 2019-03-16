@@ -7,18 +7,19 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
-import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabDoc;
+import com.njq.common.model.ro.AnalysisPageRequest;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
@@ -28,12 +29,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author: nijiaqi
@@ -46,22 +42,17 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final BaseTipService baseTipService;
     private final BaseFileService baseFileService;
     private final SaveTitlePerformer grabSaveTitlePerformer;
-    private final DaoCommon<GrabDoc> grabDocDao;
-    private final ThreadPoolTaskExecutor loadPageTaskExecutor;
     private final GrabDocSaveOperation grabDocSaveOperation;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
 
     @Autowired
     public CsdnPageAnalysisPerformerImpl(BaseTitleService baseTitleService, BaseTipService baseTipService,
-                                         BaseFileService baseFileService, SaveTitlePerformer grabSaveTitlePerformer, DaoCommon<GrabDoc> grabDocDao,
-                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation, ThreadPoolTaskExecutor loadPageTaskExecutor) {
-        super();
+                                         BaseFileService baseFileService, SaveTitlePerformer grabSaveTitlePerformer,
+                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation) {
         this.baseTitleService = baseTitleService;
         this.baseTipService = baseTipService;
         this.baseFileService = baseFileService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
-        this.grabDocDao = grabDocDao;
-        this.loadPageTaskExecutor = loadPageTaskExecutor;
         this.grabDocSaveOperation = grabDocSaveOperation;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
     }
@@ -69,7 +60,10 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        this.grabAndSave(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
+        this.grabAndSave(new AnalysisPageRequestBuilder()
+                .ofUrl(loading.getUrl())
+                .ofBaseTitle(grabSaveTitlePerformer.getTitleById(loading.getTitleId()))
+                .build());
     }
 
     @Override
@@ -130,17 +124,18 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
 
     @Override
-    public Long grabAndSave(String url, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url, baseTitle);
+    public Long grabAndSave(AnalysisPageRequest request) {
+        String doc = this.analysisPage(request);
         CsdnPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CsdnPageAnalysisPerformerImpl.class);
-        return impl.saveLoadingDoc(doc, baseTitle);
+        request.setDoc(doc);
+        return impl.saveLoadingDoc(request);
     }
 
     @Override
-    public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
-        Long docId = this.saveDoc(doc, baseTitle.getTitle());
+    public Long saveLoadingDoc(AnalysisPageRequest request) {
+        Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,
-                baseTitle.getId());
+                request.getBaseTitle().getId());
         return docId;
     }
 
@@ -165,13 +160,14 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url, BaseTitle baseTitle) {
-        return this.analysisPage(url, baseTitle);
+    public String loginAndAnalysisPage(AnalysisPageRequest request) {
+        return this.analysisPage(request);
     }
 
     @Override
-    public String analysisPage(String url, BaseTitle baseTitle) {
+    public String analysisPage(AnalysisPageRequest request) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CSDN).getPageIndex();
+        String url = request.getUrl();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CSDN.getValue())
@@ -179,44 +175,20 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
-        Element enode = doc.getElementById("content_views");
-        if (enode == null) {
-            enode = doc.getElementsByTag("body").first();
+
+        GrabConfig config = new GrabConfigBuilder()
+                .ofBaseFileService(baseFileService)
+                .ofBaseTitle(request.getBaseTitle())
+                .ofGrabUrl(grabUrl)
+                .ofUrl(url)
+                .build();
+        String body = new CsdnBodyAnalysisPerformerImpl(config).analysis(doc);
+        if (request.getType()) {
+            new CsdnTipAnalysisPerformerImpl(config).analysis(doc);
         }
-        enode.getElementsByTag("img").forEach(n -> {
-            if (!n.attr("src").startsWith("http")) {
-                n.attr("src", baseFileService.dealImgSrc(baseTitle.getTypeId(), ChannelType.CSDN.getValue(), grabUrl, n.attr("src"), ChannelType.CSDN.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
-            }
-        });
-        loadPageTaskExecutor.submit(() -> {
-            triggerSave(doc, baseTitle);
-        });
-        return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
+
+        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
-    /**
-     * 保存标签，这个标签是在文章里面专门提取的
-     *
-     * @param doc
-     * @param baseTitle
-     */
-    private void triggerSave(Document doc, BaseTitle baseTitle) {
-        Elements elements = doc.getElementsByClass("tags-box");
-        Set<String> tagSet = new HashSet<String>();
-        if (!elements.isEmpty()) {
-            elements.forEach(n -> {
-                Elements as = n.getElementsByTag("a");
-                if (!as.isEmpty()) {
-                    as.forEach(m -> {
-                        tagSet.add(m.html());
-                    });
-                }
-            });
-        }
-        if (!CollectionUtils.isEmpty(tagSet)) {
-            String[] array = new String[tagSet.size()];
-            baseTipService.addNum(baseTipService.checkAndSaveTips(tagSet.toArray(array)), baseTitle.getId(), TitleType.GRAB_TITLE);
-        }
-    }
 
 }

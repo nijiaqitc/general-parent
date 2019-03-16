@@ -1,15 +1,5 @@
 package com.njq.grab.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -28,9 +18,18 @@ import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class GrabService {
@@ -66,7 +65,10 @@ public class GrabService {
             loadPageTaskExecutor.submit(() -> {
                 try {
                     performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
-                            .grabAndSave(n.getUrl(), grabSaveTitlePerformer.getTitleById(n.getTitleId()));
+                            .grabAndSave(new AnalysisPageRequestBuilder()
+                                    .ofUrl(n.getUrl())
+                                    .ofBaseTitle(grabSaveTitlePerformer.getTitleById(n.getTitleId()))
+                                    .build());
                 } catch (Exception e) {
                     logger.error("获取失败", e);
                 }
@@ -101,7 +103,10 @@ public class GrabService {
 
     public void loadDoc(BaseTitleLoading titleLoading) {
         performerService.getAnalysisPerformer(ChannelType.getChannelType(titleLoading.getChannel()))
-                .grabAndSave(titleLoading.getUrl(), grabSaveTitlePerformer.getTitleById(titleLoading.getTitleId()));
+                .grabAndSave(new AnalysisPageRequestBuilder()
+                        .ofUrl(titleLoading.getUrl())
+                        .ofBaseTitle(grabSaveTitlePerformer.getTitleById(titleLoading.getTitleId()))
+                        .build());
     }
 
     public String modiSingleDoc(Long docId) {
@@ -115,7 +120,10 @@ public class GrabService {
         }
         GrabDoc grabDoc = this.queryById(title.getDocId());
         String doc = performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
-                .loginAndAnalysisPage(loading.getUrl(), title);
+                .loginAndAnalysisPage(new AnalysisPageRequestBuilder()
+                        .ofUrl(loading.getUrl())
+                        .ofBaseTitle(title)
+                        .build());
         performerService.getAnalysisPerformer(ChannelType.getChannelType(loading.getChannel()))
                 .updateDoc(doc, grabDoc.getTitle(), grabDoc.getId());
         return "处理成功！";
@@ -156,7 +164,10 @@ public class GrabService {
                         .ofTitleType(TitleType.GRAB_TITLE)
                         .build());
         System.out.println("耗时b" + (System.currentTimeMillis() - time1) / 1000);
-        performerService.getAnalysisPerformer(tt).grabAndSave(url, baseTitle);
+        performerService.getAnalysisPerformer(tt).grabAndSave(new AnalysisPageRequestBuilder()
+                .ofUrl(url)
+                .ofBaseTitle(baseTitle)
+                .build());
     }
 
     public void updateAndGrab(String title, String url, String docId, String channel, String type, String tips) {
@@ -167,13 +178,16 @@ public class GrabService {
         menu.setName(title);
         ChannelType tt = ChannelType.getChannelType(channel);
         BaseTitle baseTitle = baseTitleService.updateTitle(new SaveTitleRequestBuilder()
-        		.onMenu(menu)
-        		.ofId(Long.valueOf(docId))
+                .onMenu(menu)
+                .ofId(Long.valueOf(docId))
                 .ofTypeId(baseTypeService.checkAndSave(type))
                 .ofTips(baseTipService.checkAndSaveTips(tips))
                 .ofChannel(tt.getValue())
                 .build());
-        String doc = performerService.getAnalysisPerformer(tt).analysisPage(url, baseTitle);
+        String doc = performerService.getAnalysisPerformer(tt).analysisPage(new AnalysisPageRequestBuilder()
+                .ofUrl(url)
+                .ofBaseTitle(baseTitle)
+                .build());
         // 修改文章
         performerService.getAnalysisPerformer(tt).updateDoc(doc, title, baseTitle.getDocId());
     }
@@ -230,28 +244,31 @@ public class GrabService {
             baseFileService.reloadFile();
         });
     }
-    
+
+    /**
+     * 修复tip关联数量
+     */
     public void repairTip() {
-    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+        ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addIsNotNullParam("tips");
         List<BaseTitleGrab> list = baseTitleGrabDao.queryColumnForList(conditionsCommon);
         for (BaseTitleGrab titleGrab : list) {
             String[] tips = titleGrab.getTips().split(",");
             if (tips != null && tips.length > 0) {
                 for (String tip : tips) {
-                	if("".equals(tip)) {
-                		continue;
-                	}
+                    if ("".equals(tip)) {
+                        continue;
+                    }
                     BaseTipConfig config = new BaseTipConfig();
                     config.setCreateDate(new Date());
                     config.setTipId(Long.parseLong(tip));
                     config.setSourceType(TitleType.GRAB_TITLE.getValue());
                     config.setTitleId(titleGrab.getId());
                     try {
-                    	baseTipService.saveToRepairTip(config);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+                        baseTipService.saveToRepairTip(config);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

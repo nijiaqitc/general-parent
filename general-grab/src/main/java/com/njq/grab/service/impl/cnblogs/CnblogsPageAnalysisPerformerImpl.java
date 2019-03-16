@@ -7,18 +7,19 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
-import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabDoc;
+import com.njq.common.model.ro.AnalysisPageRequest;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
@@ -34,7 +35,6 @@ import org.springframework.stereotype.Component;
 public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private static final Logger logger = LoggerFactory.getLogger(CnblogsPageAnalysisPerformerImpl.class);
     private final BaseTitleService baseTitleService;
-    private final DaoCommon<GrabDoc> grabDocDao;
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final BaseTipService baseTipService;
     private final BaseFileService baseFileService;
@@ -42,11 +42,10 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final GrabDocUpdateOperation grabDocUpdateOperation;
 
     @Autowired
-    public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
+    public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService,
                                             SaveTitlePerformer grabSaveTitlePerformer, BaseTipService baseTipService,
                                             BaseFileService baseFileService, GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation) {
         this.baseTitleService = baseTitleService;
-        this.grabDocDao = grabDocDao;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.baseTipService = baseTipService;
         this.baseFileService = baseFileService;
@@ -57,9 +56,11 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        this.grabAndSave(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
+        this.grabAndSave(new AnalysisPageRequestBuilder()
+                .ofUrl(loading.getUrl())
+                .ofBaseTitle(grabSaveTitlePerformer.getTitleById(loading.getTitleId()))
+                .build());
     }
-
 
     @Override
     public void login() {
@@ -71,10 +72,19 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CNBLOGS.getValue())
                 .getDoc(url);
-        Element element = doc.getElementById("sidebar_postcategory");
-        if (element == null) {
-            throw new BaseKnownException("找不到加载的标签");
+        Elements els = doc.getElementsByClass("catListPostArchive");
+        if (!els.isEmpty()) {
+            loadMenu(els.get(0), typeId);
+        } else {
+            Element element = doc.getElementById("sidebar_postcategory");
+            if (element == null) {
+                throw new BaseKnownException("找不到加载的标签");
+            }
+            loadMenu(element, typeId);
         }
+    }
+
+    private void loadMenu(Element element, Long typeId) {
         Elements elements = element.getElementsByTag("a");
         elements.forEach(n -> {
             Elements ss = HtmlGrabUtil
@@ -89,34 +99,34 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 String[] urlspl = href.split("/");
                 menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
                 CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-                impl.saveTitle(menu, typeId, n.html().split("\\(")[0]);
+                impl.saveTitle(menu, typeId);
             });
         });
     }
 
-    public void saveTitle(LeftMenu menu, Long typeId, String tip) {
+    public void saveTitle(LeftMenu menu, Long typeId) {
         logger.info("cnblogs" + menu.getName() + " :----: " + menu.getValue());
         baseTitleService.saveTitle(new SaveTitleRequestBuilder()
                 .onMenu(menu)
                 .ofTypeId(typeId)
                 .ofChannel(ChannelType.CNBLOGS.getValue())
                 .ofTitleType(TitleType.GRAB_TITLE)
-                .ofTips(baseTipService.checkAndSaveTips(tip))
                 .build());
     }
 
     @Override
-    public Long grabAndSave(String url, BaseTitle baseTitle) {
-        String doc = this.analysisPage(url, baseTitle);
+    public Long grabAndSave(AnalysisPageRequest request) {
+        String doc = this.analysisPage(request);
         CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-        return impl.saveLoadingDoc(doc, baseTitle);
+        request.setDoc(doc);
+        return impl.saveLoadingDoc(request);
     }
 
     @Override
-    public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
-        Long docId = this.saveDoc(doc, baseTitle.getTitle());
+    public Long saveLoadingDoc(AnalysisPageRequest request) {
+        Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,
-                baseTitle.getId());
+                request.getBaseTitle().getId());
         return docId;
     }
 
@@ -131,8 +141,9 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String analysisPage(String url, BaseTitle baseTitle) {
+    public String analysisPage(AnalysisPageRequest request) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CNBLOGS).getPageIndex();
+        String url = request.getUrl();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CNBLOGS.getValue())
@@ -140,15 +151,17 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
-        Element enode = doc.getElementById("cnblogs_post_body");
-        if (enode == null) {
-            enode = doc.getElementsByTag("body").first();
+        GrabConfig config = new GrabConfigBuilder()
+                .ofBaseFileService(baseFileService)
+                .ofBaseTitle(request.getBaseTitle())
+                .ofGrabUrl(grabUrl)
+                .ofUrl(url)
+                .build();
+        String body = new CnblogsBodyAnalysisPerformerImpl(config).analysis(doc);
+        if (request.getType()) {
+            new CnblogsTipAnalysisPerformerImpl(config).analysis(doc);
         }
-        enode.getElementsByTag("img").forEach(n -> {
-            logger.info("读取图片:" + n.attr("src"));
-            n.attr("src", baseFileService.dealImgSrc(baseTitle.getTypeId(), ChannelType.CNBLOGS.getValue(), grabUrl, n.attr("src"), ChannelType.CNBLOGS.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
-        });
-        return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
+        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
     @Override
@@ -162,8 +175,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url, BaseTitle baseTitle) {
-        return this.analysisPage(url, baseTitle);
+    public String loginAndAnalysisPage(AnalysisPageRequest request) {
+        return this.analysisPage(request);
     }
 
 }

@@ -7,14 +7,14 @@ import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
+import com.njq.common.model.ro.AnalysisPageRequest;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.model.vo.grab.GrabUrlYhInfo;
@@ -25,6 +25,8 @@ import com.njq.common.util.string.UrlUtil;
 import com.njq.grab.cache.GrabMenuCacheManager;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
@@ -46,7 +48,6 @@ import java.util.Map;
 public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private static final Logger logger = LoggerFactory.getLogger(YhWikiPageAnalysisPerformerImpl.class);
     private final BaseTitleService baseTitleService;
-    private final DaoCommon<GrabDoc> grabDocDao;
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final LoginCacheManager loginCacheManager;
     private final GrabMenuCacheManager grabMenuCacheManager;
@@ -55,14 +56,14 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final GrabDocUpdateOperation grabDocUpdateOperation;
 
     @Autowired
-    public YhWikiPageAnalysisPerformerImpl(BaseTitleService baseTitleService, DaoCommon<GrabDoc> grabDocDao,
-                                           SaveTitlePerformer grabSaveTitlePerformer, LoginCacheManager loginCacheManager,
+    public YhWikiPageAnalysisPerformerImpl(BaseTitleService baseTitleService,
+                                           SaveTitlePerformer grabSaveTitlePerformer,
+                                           LoginCacheManager loginCacheManager,
                                            GrabMenuCacheManager grabMenuCacheManager,
                                            BaseFileService baseFileService,
                                            GrabDocSaveOperation grabDocSaveOperation,
                                            GrabDocUpdateOperation grabDocUpdateOperation) {
         this.baseTitleService = baseTitleService;
-        this.grabDocDao = grabDocDao;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.loginCacheManager = loginCacheManager;
         this.grabMenuCacheManager = grabMenuCacheManager;
@@ -74,7 +75,10 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadPage(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingByDocId(String.valueOf(docId));
-        this.grabAndSave(loading.getUrl(), grabSaveTitlePerformer.getTitleById(loading.getTitleId()));
+        this.grabAndSave(new AnalysisPageRequestBuilder()
+                .ofUrl(loading.getUrl())
+                .ofBaseTitle(grabSaveTitlePerformer.getTitleById(loading.getTitleId()))
+                .build());
     }
 
     @Override
@@ -156,18 +160,18 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public Long grabAndSave(String url, BaseTitle baseTitle) {
-        logger.info("读取url" + url);
-        String doc = this.loginAndAnalysisPage(url, baseTitle);
+    public Long grabAndSave(AnalysisPageRequest request) {
+        logger.info("读取url" + request.getUrl());
+        String doc = this.loginAndAnalysisPage(request);
         YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
-        return impl.saveLoadingDoc(doc, baseTitle);
+        request.setDoc(doc);
+        return impl.saveLoadingDoc(request);
     }
 
     @Override
-    public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
-        Long docId = this.saveDoc(doc, baseTitle.getTitle());
-        baseTitleService.updateLoadSuccess(docId,
-                baseTitle.getId());
+    public Long saveLoadingDoc(AnalysisPageRequest request) {
+        Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
+        baseTitleService.updateLoadSuccess(docId, request.getBaseTitle().getId());
         return docId;
     }
 
@@ -192,14 +196,15 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
-    public String loginAndAnalysisPage(String url, BaseTitle baseTitle) {
+    public String loginAndAnalysisPage(AnalysisPageRequest request) {
         loginCacheManager.checkAndLogin(ChannelType.YH_WIKI);
-        return this.analysisPage(url, baseTitle);
+        return this.analysisPage(request);
     }
 
     @Override
-    public String analysisPage(String url, BaseTitle baseTitle) {
+    public String analysisPage(AnalysisPageRequest request) {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.YH_WIKI).getPageIndex();
+        String url = request.getUrl();
         url = url.startsWith("http") ? url : grabUrl + url;
         Document doc = HtmlGrabUtil
                 .build(ChannelType.YH_WIKI.getValue())
@@ -207,36 +212,23 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
-
         Element et = doc.getElementById("login-container");
         if (et != null) {
             loginCacheManager.reLogin(ChannelType.YH_WIKI);
             doc = HtmlGrabUtil.build(ChannelType.YH_WIKI.getValue()).getDoc(url);
         }
-        Element enode = doc.getElementById("main-content");
-        /**
-         * 重新登录还是登录不进去则停止读取，
-         * 下次再读取
-         */
-        if (enode == null) {
-            throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
-        }
-        enode.getElementsByTag("a").forEach(n -> {
-            if (n.attr("href").startsWith(grabUrl) || (!n.attr("href").startsWith("http"))) {
-                if (n.attr("href").startsWith("/download")) {
-                    n.attr("href", baseFileService.dealFileUrl(baseTitle.getTypeId(), ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("href"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getDocPlace(), GrabUrlInfoFactory.getImgUrl()));
-                } else {
-                    n.attr("href", "javascript:void(0)");
-                }
-            }
-        });
-        enode.getElementsByTag("img").forEach(n -> {
-            if (!n.attr("src").startsWith("http")) {
-                n.attr("src", baseFileService.dealImgSrc(baseTitle.getTypeId(), ChannelType.YH_WIKI.getValue(), grabUrl, n.attr("src"), ChannelType.YH_WIKI.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
-            }
-        });
-        return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
+        GrabConfig config = new GrabConfigBuilder()
+                .ofBaseFileService(baseFileService)
+                .ofBaseTitle(request.getBaseTitle())
+                .ofGrabUrl(grabUrl)
+                .ofUrl(url)
+                .build();
+        //解析body
+        String body = new YhwikiBodyAnalysisPerformerImpl(config)
+                .analysis(doc);
+        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
+
 
     /**
      * 递归保存标题

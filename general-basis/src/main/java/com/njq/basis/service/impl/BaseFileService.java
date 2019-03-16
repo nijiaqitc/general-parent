@@ -7,6 +7,7 @@ import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.redis.lock.JedisLock;
 import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.model.po.BaseFile;
+import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;
 import com.njq.common.model.ro.BaseFileSaveRequestBuilder;
 import com.njq.common.util.encrypt.Base64Util;
@@ -165,9 +166,11 @@ public class BaseFileService {
         return url;
     }
 
-
-    public String dealFileUrl(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
+    public String dealFileUrl(BaseFileDealRequest request) {
         String fileOldName = "";
+        String src = request.getSrc();
+        String shortName = request.getShortName();
+        String savePlace = request.getSavePlace();
         try {
             fileOldName = URLDecoder.decode(getOldName(src), "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -175,16 +178,16 @@ public class BaseFileService {
         }
         String place = getFilePlace(shortName, savePlace, fileOldName);
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = prefix + src;
+            src = request.getPrefix() + src;
         }
         Pair<Boolean, String> resultPair = changeSrcUrl(src, shortName, savePlace + place);
         BaseFile file = getFileInfo(new BaseFileSaveRequestBuilder()
-                .ofChannel(channel)
+                .ofChannel(request.getChannel())
                 .ofName(fileOldName)
                 .ofOldName(fileOldName)
                 .ofFilePlace(getSrc(shortName, savePlace) + "/downLoadFile?file=" + fileOldName)
                 .ofRealPlace(savePlace + place)
-                .ofTypeId(typeId)
+                .ofTypeId(request.getTypeId())
                 .ofOldSrc(src)
                 .ofResultPair(resultPair)
                 .build());

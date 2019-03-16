@@ -4,11 +4,9 @@ import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.model.po.BaseTitle;
-import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
@@ -28,8 +26,6 @@ public class CustomAnalysisPerformer {
     @Autowired
     private BaseTitleService baseTitleService;
     @Autowired
-    private DaoCommon<GrabDoc> grabDocDao;
-    @Autowired
     private BaseFileService baseFileService;
     @Autowired
     private GrabDocSaveOperation grabDocSaveOperation;
@@ -37,11 +33,11 @@ public class CustomAnalysisPerformer {
     public Long grabAndSave(String url, String name, int type, BaseTitle baseTitle) {
         String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
-        return impl.saveLoadingDoc(doc, name, type, baseTitle);
+        return impl.saveLoadingDoc(doc, baseTitle);
     }
 
-    public Long saveLoadingDoc(String doc, String name, int type, BaseTitle baseTitle) {
-        Long docId = this.saveDoc(doc, baseTitle.getTitle(), baseTitle);
+    public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
+        Long docId = this.saveDoc(doc, baseTitle);
         baseTitleService.updateLoadSuccess(docId,
                 baseTitle.getId());
         return docId;
@@ -91,11 +87,11 @@ public class CustomAnalysisPerformer {
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
-    public Long saveDoc(String doc, String title, BaseTitle baseTitle) {
+    public Long saveDoc(String doc, BaseTitle baseTitle) {
         return grabDocSaveOperation.saveDoc(new GrabDocSaveRequestBuilder()
                 .ofChannel(baseTitle.getChannel())
                 .ofDoc(doc)
-                .ofTitle(title)
+                .ofTitle(baseTitle.getTitle())
                 .build())
                 .getId();
     }
