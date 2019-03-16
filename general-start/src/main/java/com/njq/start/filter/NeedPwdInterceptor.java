@@ -31,6 +31,7 @@ public class NeedPwdInterceptor implements HandlerInterceptor {
         if (this.checkHadPwd(request, response)) {
             return true;
         } else {
+        	request.setAttribute("jumpurl", request.getServletPath());
             request.getRequestDispatcher("/pwdPage").forward(request, response);
             return false;
         }

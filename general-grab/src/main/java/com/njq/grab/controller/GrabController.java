@@ -60,14 +60,18 @@ public class GrabController {
         return "/grab/grabIndex";
     }
 
+    @ResponseBody
     @RequestMapping("loadJob")
-    public void loadJob(Model model) {
+    public String loadJob(Model model) {
         grabService.loadPageJobTask();
+        return "正在处理中...";
     }
 
+    @ResponseBody
     @RequestMapping("loadMenu")
-    public void loadMenu(Model model) {
+    public String loadMenu(Model model) {
         grabService.loadMenuJobTask();
+    	return "正在处理中...";
     }
 
     @RequestMapping("config")

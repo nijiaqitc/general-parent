@@ -9,6 +9,7 @@
 </head>
 <body>
     <form action="/setPwd" method="post">
+    	<input type="hidden" name="jumpurl" value="${jumpurl }">
         <input type="text" name = "token" >
         <input type="submit" name="提交">
     </form>

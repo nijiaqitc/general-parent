@@ -136,14 +136,13 @@ public class PersonalController {
         return "zxgj/pwdPage";
     }
 
-    @ResponseBody
     @RequestMapping(value = "setPwd", method = RequestMethod.POST)
-    public String setPwd(@RequestParam String token){
+    public String setPwd(@RequestParam String token ,@RequestParam String jumpurl){
         if(!TokenCheck.checkToken(token)){
             return "请设置正确的密码！";
         }
         CookieUtil.addCookie("loginFlag", "true");
-        return "处理成功！";
+        return "redirect:"+jumpurl;
     }
 
 
