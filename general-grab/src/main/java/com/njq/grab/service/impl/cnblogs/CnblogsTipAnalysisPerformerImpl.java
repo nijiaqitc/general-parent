@@ -51,39 +51,16 @@ public class CnblogsTipAnalysisPerformerImpl implements HtmlAnalysisPerformer {
 		                .build(ChannelType.CNBLOGS.getValue())
 		                .getDoc(pstr);
 		        JSONObject jsonObject  = JSON.parseObject(tipDoc.body().html());
-		        String tips=jsonObject.getString("Tags").split(">")[1].split("<")[0];
-		        if(config.getType()) {
-		        	config.getBaseTipService().addNum(config.getBaseTipService()
-		        			.checkAndSaveTips(tips.split("、")),config.getBaseTitle().getId(),TitleType.GRAB_TITLE);
+		        String sptip=jsonObject.getString("Tags");
+		        if(!StringUtil.isEmpty(sptip)) {
+		        	String tips=sptip.split(">")[1].split("<")[0];
+		        	if(config.getType()) {
+		        		config.getBaseTipService().addNum(config.getBaseTipService()
+		        				.checkAndSaveTips(tips.split("、")),config.getBaseTitle().getId(),TitleType.GRAB_TITLE);
+		        	}
 		        }
         	}
         }
-        
-        
-        
-        
-        
-//        https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp=xyou&blogId=349544&postId=7427779
-//        	https://www.cnblogs.com/xyou/p/7427779.html
         return null;
-    }
-    
-    
-    public class Tipobj{
-    	private String Categories;
-    	private String Tags;
-		public String getCategories() {
-			return Categories;
-		}
-		public void setCategories(String categories) {
-			Categories = categories;
-		}
-		public String getTags() {
-			return Tags;
-		}
-		public void setTags(String tags) {
-			Tags = tags;
-		}
-    	
     }
 }

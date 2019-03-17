@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -17,10 +16,14 @@ import org.springframework.util.CollectionUtils;
 import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.redis.lock.JedisLock;
+import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.model.dao.BaseTipJpaRepository;
 import com.njq.common.model.po.BaseTip;
 import com.njq.common.model.po.BaseTipConfig;
 import com.njq.common.model.vo.LabelNameVO;
+import com.njq.common.util.string.StringUtil2;
 
 @Service
 public class BaseTipService {
@@ -30,7 +33,8 @@ public class BaseTipService {
     private BaseTipJpaRepository baseTipJpaRepository;
     @Resource
     private DaoCommon<BaseTipConfig> baseTipConfigDao;
-
+    @Resource
+    private JedisLockFactory jedisLockFactory;
     /**
      * 校验是否存在标签，没有则进行保存
      *
@@ -38,15 +42,29 @@ public class BaseTipService {
      * @return
      */
     public Long checkAndSave(String tipName) {
-        ConditionsCommon condition = new ConditionsCommon();
-        condition.addEqParam("tipName", tipName);
-        BaseTip tip = baseTipDao.queryTByParamForOne(condition);
-        if (tip == null) {
-            tip = new BaseTip();
-            tip.setCreateDate(new Date());
-            tip.setTipName(tipName);
-            baseTipDao.save(tip);
-        }
+    	String lockKey = StringUtil2.format("tipName-{0}", tipName);
+    	BaseTip tip = null ;
+    	try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
+    		if (!jedisLock.acquire()) {
+                throw new BaseKnownException("tip保存并发获取锁失败！");
+            }
+    		ConditionsCommon condition = new ConditionsCommon();
+    		condition.addEqParam("tipName", tipName);
+    		tip = baseTipDao.queryTByParamForOne(condition);
+    		if (tip == null) {
+    			tip = new BaseTip();
+    			tip.setCreateDate(new Date());
+    			tip.setTipName(tipName);
+    			baseTipDao.save(tip);
+    		}
+		} catch (Exception e) {
+			try {
+				Thread.sleep(2000);
+				this.checkAndSave(tipName);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
         return tip.getId();
     }
 

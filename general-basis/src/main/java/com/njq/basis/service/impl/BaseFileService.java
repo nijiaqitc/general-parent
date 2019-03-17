@@ -110,6 +110,7 @@ public class BaseFileService {
             }
             return list.get(0);
         } catch (IOException | InterruptedException e) {
+        	logger.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }

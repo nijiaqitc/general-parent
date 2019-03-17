@@ -97,7 +97,7 @@ public class YxlDocSearchService {
     	ConditionsCommon cc1=new ConditionsCommon();
 		cc1.addEqParam("docId", docId);
 		YxlDocSearch ll=yxlDocSearchDao.queryTByParamForOne(cc1);
-    	if(ll!=null){
+    	if(ll!=null && ll.getTypeId() != null){
     		ConditionsCommon cc=new ConditionsCommon();
     		cc.addSeleParam("id","id");
     		cc.addSeleParam("docId","docId");    		
