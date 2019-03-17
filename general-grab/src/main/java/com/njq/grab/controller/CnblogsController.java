@@ -42,8 +42,9 @@ public class CnblogsController {
 //		cgblogsPageAnalysis.analysisPage("https://www.cnblogs.com/ceshi2016/mvc/blog/sidecolumn.aspx?blogApp=ceshi2016");
 //		return cgblogsPageAnalysis.analysisPage("https://www.cnblogs.com/ceshi2016/category/1065679.html");
         model.addAttribute("doc", cgblogsPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
-    			.ofUrl("https://www.cnblogs.com/Zachary-Fan/p/highcohesionlowcoupling.html")
+    			.ofUrl("https://www.cnblogs.com/ibethfy/p/10332819.html")
     			.ofBaseTitle(null)
+    			.ofType(false)
     			.build()));
         return "grab/view";
 	}

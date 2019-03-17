@@ -139,8 +139,12 @@ function CustomDecoder() {
     };
     //清除除了标签名字其他所有的内容（img、form等不适合此方法）
     this.getLabelName = function (s) {
-        var ss = s.match(this.zz1)[0].match(this.zz2)[0];
-        return "<" + ss + ">";
+    	try{
+    		var ss = s.match(this.zz1)[0].match(this.zz2)[0];
+    		return "<" + ss + ">";
+    	} catch (e) {
+    	}
+    	return s;
     };
     //生成不含class的字符串（针对img、form等标签）(如果是图片，那么根据其宽度等比生成长宽)
     this.getStyleOrClass = function (s) {
