@@ -100,13 +100,19 @@ public class JedisLock implements Closeable {
             String expireTimestampStr = String.valueOf(expireTimestamp);
             if (!connection.setNX(this.lockKey.getBytes(), expireTimestampStr.getBytes())) {
                 byte[] bt = connection.get(this.lockKey.getBytes());
-                String previousTimestamp = new String(bt);
+                String previousTimestamp = null; 
+                if(bt != null) {
+                	previousTimestamp = new String(bt);
+                }
                 boolean var7;
                 if (previousTimestamp != null) {
                     logger.debug("try to compare expire time,lock key:{},previous timestamp:{},current expire time:{}", new Object[]{this.lockKey, previousTimestamp, expireTimestampStr});
                     if (Long.parseLong(previousTimestamp) < System.currentTimeMillis()) {
                         byte[] bc = connection.getSet(this.lockKey.getBytes(), expireTimestampStr.getBytes());
-                        String previousTimestampAfterGetSet = new String(bc);
+                        String previousTimestampAfterGetSet = null;
+                        if(bc != null) {
+                        	previousTimestampAfterGetSet = new String(bc); 
+                        }
                         if (previousTimestampAfterGetSet == null || previousTimestampAfterGetSet.equals(previousTimestamp)) {
                             this.locked = true;
                             boolean var8 = true;

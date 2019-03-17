@@ -65,7 +65,7 @@ public class BaseTipService {
 				e1.printStackTrace();
 			}
 		}
-        return tip.getId();
+    	return tip==null?null:tip.getId();
     }
 
     /**
