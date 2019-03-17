@@ -1,5 +1,13 @@
 package com.njq.grab.service.impl.cnblogs;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -23,34 +31,28 @@ import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component("cgblogsPageAnalysis")
 public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private static final Logger logger = LoggerFactory.getLogger(CnblogsPageAnalysisPerformerImpl.class);
     private final BaseTitleService baseTitleService;
     private final SaveTitlePerformer grabSaveTitlePerformer;
-    private final BaseTipService baseTipService;
     private final BaseFileService baseFileService;
+    private final BaseTipService baseTipService; 
     private final GrabDocSaveOperation grabDocSaveOperation;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
 
     @Autowired
     public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService,
-                                            SaveTitlePerformer grabSaveTitlePerformer, BaseTipService baseTipService,
-                                            BaseFileService baseFileService, GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation) {
+                                            SaveTitlePerformer grabSaveTitlePerformer,
+                                            BaseFileService baseFileService, GrabDocSaveOperation grabDocSaveOperation, 
+                                            GrabDocUpdateOperation grabDocUpdateOperation,BaseTipService baseTipService) {
         this.baseTitleService = baseTitleService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
-        this.baseTipService = baseTipService;
         this.baseFileService = baseFileService;
         this.grabDocSaveOperation = grabDocSaveOperation;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
+        this.baseTipService = baseTipService;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     private void loadMenu(Element element, Long typeId) {
         Elements elements = element.getElementsByTag("a");
-        elements.forEach(n -> {
+        elements.parallelStream().forEach(n -> {
             Elements ss = HtmlGrabUtil
                     .build(ChannelType.CNBLOGS.getValue())
                     .getDoc(n.attr("href"))
@@ -152,10 +154,12 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }
         GrabConfig config = new GrabConfigBuilder()
+        		.ofBaseTipService(baseTipService)
                 .ofBaseFileService(baseFileService)
                 .ofBaseTitle(request.getBaseTitle())
                 .ofGrabUrl(grabUrl)
                 .ofUrl(url)
+                .ofType(request.getType())
                 .build();
         String body = new CnblogsBodyAnalysisPerformerImpl(config).analysis(doc);
         if (request.getType()) {

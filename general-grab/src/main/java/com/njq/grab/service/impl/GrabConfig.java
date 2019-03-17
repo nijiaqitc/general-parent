@@ -14,7 +14,8 @@ public class GrabConfig {
     private String grabUrl;
     private String url;
     private BaseTitle baseTitle;
-
+    private Boolean type = true;
+    
     public BaseFileService getBaseFileService() {
         return baseFileService;
     }
@@ -54,4 +55,13 @@ public class GrabConfig {
     public void setBaseTipService(BaseTipService baseTipService) {
         this.baseTipService = baseTipService;
     }
+
+	public Boolean getType() {
+		return type;
+	}
+
+	public void setType(Boolean type) {
+		this.type = type;
+	}
+    
 }

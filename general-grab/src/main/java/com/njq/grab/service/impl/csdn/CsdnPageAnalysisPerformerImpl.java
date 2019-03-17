@@ -81,7 +81,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             return;
         }
         Elements elements = element.getElementsByTag("ul").get(0).getElementsByTag("a");
-        elements.forEach(n -> {
+        elements.parallelStream().forEach(n -> {
             Elements spanElements = n.getElementsByTag("span");
             int num = Integer.parseInt(spanElements.get(0).html().split("篇")[0]);
             int pageNum = num % 20 == 0 ? num / 20 : (num / 20 + 1);
@@ -178,9 +178,11 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
         GrabConfig config = new GrabConfigBuilder()
                 .ofBaseFileService(baseFileService)
+                .ofBaseTipService(baseTipService)
                 .ofBaseTitle(request.getBaseTitle())
                 .ofGrabUrl(grabUrl)
                 .ofUrl(url)
+                .ofType(request.getType())
                 .build();
         String body = new CsdnBodyAnalysisPerformerImpl(config).analysis(doc);
         if (request.getType()) {

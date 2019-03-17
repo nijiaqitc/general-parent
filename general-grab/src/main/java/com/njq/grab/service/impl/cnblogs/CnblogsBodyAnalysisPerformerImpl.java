@@ -27,18 +27,20 @@ public class CnblogsBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         if (enode == null) {
             enode = doc.getElementsByTag("body").first();
         }
-        enode.getElementsByTag("img").forEach(n -> {
-            logger.info("读取图片:" + n.attr("src"));
-            n.attr("src",
-                    config.getBaseFileService().dealImgSrc(
-                            config.getBaseTitle().getTypeId(),
-                            ChannelType.CNBLOGS.getValue(),
-                            config.getGrabUrl(),
-                            n.attr("src"),
-                            ChannelType.CNBLOGS.getValue(),
-                            GrabUrlInfoFactory.getImagePlace(),
-                            GrabUrlInfoFactory.getImgUrl()));
-        });
+        if(config.getType()) {
+        	enode.getElementsByTag("img").parallelStream().forEach(n -> {
+        		logger.info("读取图片:" + n.attr("src"));
+        		n.attr("src",
+        				config.getBaseFileService().dealImgSrc(
+        						config.getBaseTitle().getTypeId(),
+        						ChannelType.CNBLOGS.getValue(),
+        						config.getGrabUrl(),
+        						n.attr("src"),
+        						ChannelType.CNBLOGS.getValue(),
+        						GrabUrlInfoFactory.getImagePlace(),
+        						GrabUrlInfoFactory.getImgUrl()));
+        	});        	
+        }
         return enode.html();
     }
 }

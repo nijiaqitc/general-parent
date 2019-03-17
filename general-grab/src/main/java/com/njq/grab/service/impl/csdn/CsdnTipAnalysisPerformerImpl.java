@@ -36,12 +36,14 @@ public class CsdnTipAnalysisPerformerImpl implements HtmlAnalysisPerformer {
                 }
             });
         }
-        if (!CollectionUtils.isEmpty(tagSet)) {
-            String[] array = new String[tagSet.size()];
-            config.getBaseTipService().addNum(config.getBaseTipService()
-                                    .checkAndSaveTips(tagSet.toArray(array)),
-                            config.getBaseTitle().getId(),
-                            TitleType.GRAB_TITLE);
+        if(config.getType()) {
+        	if (!CollectionUtils.isEmpty(tagSet)) {
+        		String[] array = new String[tagSet.size()];
+        		config.getBaseTipService().addNum(config.getBaseTipService()
+        				.checkAndSaveTips(tagSet.toArray(array)),
+        				config.getBaseTitle().getId(),
+        				TitleType.GRAB_TITLE);
+        	}
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.njq.grab.service.impl;
 
 import com.njq.basis.service.impl.BaseFileService;
+import com.njq.basis.service.impl.BaseTipService;
 import com.njq.common.model.po.BaseTitle;
 
 /**
@@ -9,10 +10,12 @@ import com.njq.common.model.po.BaseTitle;
  */
 public final class GrabConfigBuilder {
     private BaseFileService baseFileService;
+    private BaseTipService baseTipService;
     private String grabUrl;
     private String url;
     private BaseTitle baseTitle;
-
+    private Boolean type = true;
+    
     public GrabConfigBuilder() {
     }
 
@@ -25,6 +28,11 @@ public final class GrabConfigBuilder {
         return this;
     }
 
+    public GrabConfigBuilder ofBaseTipService(BaseTipService baseTipService) {
+    	this.baseTipService = baseTipService;
+    	return this;
+    }
+    
     public GrabConfigBuilder ofGrabUrl(String grabUrl) {
         this.grabUrl = grabUrl;
         return this;
@@ -39,13 +47,20 @@ public final class GrabConfigBuilder {
         this.baseTitle = baseTitle;
         return this;
     }
-
+    
+    public GrabConfigBuilder ofType(Boolean type) {
+        this.type = type;
+        return this;
+    }
+    
     public GrabConfig build() {
         GrabConfig grabConfig = new GrabConfig();
         grabConfig.setBaseFileService(baseFileService);
         grabConfig.setGrabUrl(grabUrl);
         grabConfig.setUrl(url);
         grabConfig.setBaseTitle(baseTitle);
+        grabConfig.setType(type);
+        grabConfig.setBaseTipService(baseTipService);
         return grabConfig;
     }
 }

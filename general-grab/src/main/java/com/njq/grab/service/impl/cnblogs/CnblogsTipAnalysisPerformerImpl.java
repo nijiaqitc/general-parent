@@ -9,6 +9,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.njq.common.base.constants.ChannelType;
+import com.njq.common.base.constants.TitleType;
+import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 
@@ -37,12 +43,47 @@ public class CnblogsTipAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         	}).filter(n->n!=null).collect(Collectors.toList());
         	if(!CollectionUtils.isEmpty(stlist)) {
         		String st = stlist.get(0);
-        		System.out.println(st.split("=")[1].split(";")[0]);
+        		String blogId = st.split("=")[1].split(";")[0];
+        		String[] sarray = StringUtil.urlsplit(config.getUrl());
+        		String pstr = "https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp="+sarray[3]+"&postId="+sarray[5].split("\\.")[0]+"&blogId="+blogId;
+        		System.out.println(pstr);
+		        Document tipDoc = HtmlGrabUtil
+		                .build(ChannelType.CNBLOGS.getValue())
+		                .getDoc(pstr);
+		        JSONObject jsonObject  = JSON.parseObject(tipDoc.body().html());
+		        String tips=jsonObject.getString("Tags").split(">")[1].split("<")[0];
+		        if(config.getType()) {
+		        	config.getBaseTipService().addNum(config.getBaseTipService()
+		        			.checkAndSaveTips(tips.split("、")),config.getBaseTitle().getId(),TitleType.GRAB_TITLE);
+		        }
         	}
         }
         
-//        https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp=xyou&blogId=349544&postId=7427779&_=1552733893970
+        
+        
+        
+        
+//        https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp=xyou&blogId=349544&postId=7427779
 //        	https://www.cnblogs.com/xyou/p/7427779.html
         return null;
+    }
+    
+    
+    public class Tipobj{
+    	private String Categories;
+    	private String Tags;
+		public String getCategories() {
+			return Categories;
+		}
+		public void setCategories(String categories) {
+			Categories = categories;
+		}
+		public String getTags() {
+			return Tags;
+		}
+		public void setTags(String tags) {
+			Tags = tags;
+		}
+    	
     }
 }

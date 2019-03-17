@@ -24,19 +24,21 @@ public class CsdnBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         if (enode == null) {
             enode = doc.getElementsByTag("body").first();
         }
-        enode.getElementsByTag("img").forEach(n -> {
-            if (!n.attr("src").startsWith("http")) {
-                n.attr("src",
-                        config.getBaseFileService()
-                                .dealImgSrc(config.getBaseTitle().getTypeId(),
-                                        ChannelType.CSDN.getValue(),
-                                        config.getGrabUrl(),
-                                        n.attr("src"),
-                                        ChannelType.CSDN.getValue(),
-                                        GrabUrlInfoFactory.getImagePlace(),
-                                        GrabUrlInfoFactory.getImgUrl()));
-            }
-        });
+        if(config.getType()) {
+        	enode.getElementsByTag("img").forEach(n -> {
+        		if (!n.attr("src").startsWith("http")) {
+        			n.attr("src",
+        					config.getBaseFileService()
+        					.dealImgSrc(config.getBaseTitle().getTypeId(),
+        							ChannelType.CSDN.getValue(),
+        							config.getGrabUrl(),
+        							n.attr("src"),
+        							ChannelType.CSDN.getValue(),
+        							GrabUrlInfoFactory.getImagePlace(),
+        							GrabUrlInfoFactory.getImgUrl()));
+        		}
+        	});
+        }
         return enode.html();
     }
 

@@ -222,6 +222,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .ofBaseTitle(request.getBaseTitle())
                 .ofGrabUrl(grabUrl)
                 .ofUrl(url)
+                .ofType(request.getType())
                 .build();
         //解析body
         String body = new YhwikiBodyAnalysisPerformerImpl(config)

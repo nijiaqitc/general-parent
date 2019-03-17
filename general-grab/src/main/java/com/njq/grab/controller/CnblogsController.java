@@ -27,8 +27,9 @@ public class CnblogsController {
 	@RequestMapping("cgb")
     public String cgb() {
 		cgblogsPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
-				.ofUrl("https://www.cnblogs.com/ceshi2016/mvc/blog/sidecolumn.aspx?blogApp=ceshi2016")
+				.ofUrl("https://www.cnblogs.com/itzgr/p/10546584.html")
 				.ofBaseTitle(null)
+				.ofType(true)
 				.build());
 //		return cgblogsPageAnalysis.analysisPage("https://www.cnblogs.com/ceshi2016/category/1065679.html");
 		return "";
