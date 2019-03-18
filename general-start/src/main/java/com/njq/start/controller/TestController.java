@@ -22,6 +22,16 @@ import java.util.regex.Pattern;
 public class TestController {
 	public static   CyclicBarrier cyclicBarrier=new CyclicBarrier(5);
 	public static void main(String[] args) throws Exception {
+
+		TestController tt = new TestController();
+		Semaphore semaphore = new Semaphore(3,true);
+		for(int i = 0 ; i <101 ;i++){
+			new Thread(tt.new smr(semaphore,i)).start();
+		}
+
+
+
+
 //		System.out.println(DateTime.now().getDayOfWeek());
 //		System.out.println(Period.weeks(1).toString());
 
@@ -71,12 +81,37 @@ public class TestController {
 		
 //		String aaa = "aaa^bbbb";
 //		System.out.println(aaa.split("\\^").length);
-		String str = "<script>var currentBlogId=452926;var currentBlogApp='ibethfy',cb_enable_mathjax=false;var isLogined=false;</script>";
-		Pattern pattern =Pattern.compile("currentBlogId=.*?;");
-		Matcher mt =  pattern.matcher(str);
-		System.out.println(mt.find());
-		System.out.println(mt.group());
+//		String str = "<script>var currentBlogId=452926;var currentBlogApp='ibethfy',cb_enable_mathjax=false;var isLogined=false;</script>";
+//		Pattern pattern =Pattern.compile("currentBlogId=.*?;");
+//		Matcher mt =  pattern.matcher(str);
+//		System.out.println(mt.find());
+//		System.out.println(mt.group());
 	}
+
+	public class  smr implements Runnable{
+		private Semaphore semaphore;
+		private int i;
+		public smr(Semaphore semaphore,int i) {
+			this.semaphore = semaphore;
+			this.i = i;
+		}
+
+		@Override
+		public void run() {
+			try {
+				semaphore.acquire();
+				System.out.println(i+"开始了");
+				TimeUnit.SECONDS.sleep(RandomUtils.nextInt(1,3));
+				System.out.println(i+"-----------------"+i);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			semaphore.release();
+		}
+	}
+
+
 
 	public class  createRunnable{
 		public Runnable getRunnable(){

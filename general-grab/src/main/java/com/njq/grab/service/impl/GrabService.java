@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 @Service
 public class GrabService {
@@ -61,9 +62,11 @@ public class GrabService {
 
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
+        Semaphore semaphore = new Semaphore(10,true);
         list.parallelStream().forEach(n -> {
             loadPageTaskExecutor.submit(() -> {
                 try {
+                    semaphore.acquire();
                     performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
                             .grabAndSave(new AnalysisPageRequestBuilder()
                                     .ofUrl(n.getUrl())
@@ -71,6 +74,8 @@ public class GrabService {
                                     .build());
                 } catch (Exception e) {
                     logger.error("获取失败", e);
+                }finally {
+                    semaphore.release();
                 }
             });
         });

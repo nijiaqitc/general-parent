@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,11 +45,14 @@ public class BaseTitleService {
     @Resource
     private JedisLockFactory jedisLockFactory;
 
+    private Semaphore semaphore;
+
     @Autowired
     public BaseTitleService(SaveTitlePerformer grabSaveTitlePerformer, SaveTitlePerformer baseSaveTitlePerformer) {
         saveMap = new HashMap<>();
         saveMap.put(TitleType.BASE_TITLE, baseSaveTitlePerformer);
         saveMap.put(TitleType.GRAB_TITLE, grabSaveTitlePerformer);
+        semaphore = new Semaphore(10, true);
     }
 
     /**
@@ -99,6 +103,16 @@ public class BaseTitleService {
             if (!jedisLock.acquire()) {
                 throw new BaseKnownException("并发获取锁失败！");
             }
+            return saveData(request);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private BaseTitle saveData(SaveTitleRequest request) {
+        try {
+            semaphore.acquire();
+            System.out.println("信号量并发："+(10-semaphore.availablePermits()));
             BaseTitle tt;
             tt = verify(request.getMenu().getValue(), request.getChannel());
             if (tt == null) {
@@ -114,8 +128,10 @@ public class BaseTitleService {
                 baseTitleLoadingDao.save(loading);
             }
             return tt;
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } finally {
+            semaphore.release();
         }
     }
 
