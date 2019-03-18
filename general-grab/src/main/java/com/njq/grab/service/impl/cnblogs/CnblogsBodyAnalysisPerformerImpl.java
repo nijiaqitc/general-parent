@@ -30,8 +30,7 @@ public class CnblogsBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         if(config.getType()) {
         	enode.getElementsByTag("img").parallelStream().forEach(n -> {
         		logger.info("读取图片:" + n.attr("src"));
-        		n.attr("src",
-        				config.getBaseFileService().dealImgSrc(
+        		n.attr("src", config.getBaseFileService().dealImgSrc(
         						config.getBaseTitle().getTypeId(),
         						ChannelType.CNBLOGS.getValue(),
         						config.getGrabUrl(),

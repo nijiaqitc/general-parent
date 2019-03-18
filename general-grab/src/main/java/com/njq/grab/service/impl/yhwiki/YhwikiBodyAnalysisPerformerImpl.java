@@ -51,16 +51,13 @@ public class YhwikiBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         		}
         	});
         	enode.getElementsByTag("img").forEach(n -> {
-        		if (!n.attr("src").startsWith("http")) {
-        			n.attr("src",
-        					config.getBaseFileService().dealImgSrc(config.getBaseTitle().getTypeId(),
-        							ChannelType.YH_WIKI.getValue(),
-        							config.getGrabUrl(),
-        							n.attr("src"),
-        							ChannelType.YH_WIKI.getValue(),
-        							GrabUrlInfoFactory.getImagePlace(),
-        							GrabUrlInfoFactory.getImgUrl()));
-        		}
+        		n.attr("src", config.getBaseFileService().dealImgSrc(config.getBaseTitle().getTypeId(),
+        						ChannelType.YH_WIKI.getValue(),
+        						config.getGrabUrl(),
+        						n.attr("src"),
+        						ChannelType.YH_WIKI.getValue(),
+        						GrabUrlInfoFactory.getImagePlace(),
+        						GrabUrlInfoFactory.getImgUrl()));
         	});
         }
         return enode.html();
