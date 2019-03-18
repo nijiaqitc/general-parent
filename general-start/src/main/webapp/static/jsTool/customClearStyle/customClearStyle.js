@@ -28,9 +28,9 @@ function CustomDecoder() {
     //去除上面匹配出来的字符串中的"<"、" "
     this.zz2 = /[^< ]+/;
     //匹配标签中的style或class
-    this.zz3 = /(style|class)=".*?"/g;
+    this.zz3 = /(style|class)(| *)=(| *)".*?"/g;
     //排除的标签
-    this.excludeLabel=[/<(svg)(.*?)>(.|\n)*?<\/\1>/g];
+    this.excludeLabel=[/<(svg)(.*?)>(.|\n| )*?<\/\1>/g];
     this.customStr = "";
     this.validate = function () {
         if (this.str == undefined) {
