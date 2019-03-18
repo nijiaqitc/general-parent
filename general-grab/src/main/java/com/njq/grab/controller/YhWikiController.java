@@ -49,16 +49,21 @@ public class YhWikiController {
 //        login();
         BaseTitle base = new BaseTitle();
         
-        String context = yhWikiPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
-                .ofUrl("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=6597407")
-                .ofBaseTitle(base)
-                .build());
+//        String context = yhWikiPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
+//                .ofUrl("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=6597407")
+//                .ofBaseTitle(base)
+//                .build());
+        
+        
 //        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
-        model.addAttribute("doc", context);
+//        model.addAttribute("doc", context);
 //        base.setId(14193L);
-//        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage("https://blog.csdn.net/weianluo/article/details/82944936", base));
+        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage(new AnalysisPageRequestBuilder()
+                .ofUrl("https://blog.csdn.net/m0_37190495/article/details/80360804")
+                .ofBaseTitle(base)
+                .build()));
         return "grab/view";
     }
 

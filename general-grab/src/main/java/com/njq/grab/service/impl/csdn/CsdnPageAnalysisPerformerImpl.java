@@ -81,6 +81,9 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             return;
         }
         Elements elements = element.getElementsByTag("ul").get(0).getElementsByTag("a");
+        if(elements.isEmpty()) {
+        	return;
+        }
         elements.parallelStream().forEach(n -> {
             Elements spanElements = n.getElementsByTag("span");
             int num = Integer.parseInt(spanElements.get(0).html().split("篇")[0]);
@@ -189,7 +192,8 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             new CsdnTipAnalysisPerformerImpl(config).analysis(doc);
         }
 
-        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
+//        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
+        return body;
     }
 
 

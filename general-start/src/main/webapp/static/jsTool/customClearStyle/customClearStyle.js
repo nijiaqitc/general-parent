@@ -20,7 +20,7 @@ function CustomDecoder() {
     //this.firstClear2=/<[^\/]\w+ .+?>/g; 直接修改下面的正则不修改此处的正则
     //因为第一步清除了样式，所以不会再存在标签里面存在空格的情况，所以直接用下面的匹配即可
     //以<开始匹配后面的连续字符直到第一个>结尾接着以</开始 和第一个括号内相同的字符>结尾
-    this.secondClear = /<(\w*)>(|\s)*(<\/\1*>)/g;
+    this.secondClear = /<(\w*)(| *)>(|\s)*(<\/\1*(| *)>)/g;
     //判断标签所属类型
     this.typeZz = [/<img.?/, /<form.?/, /<table.?/, /<th.?/, /<tr.?/, /<td.?/, /<a.?/];
     //匹配标签中的前一部分如：(<p )
@@ -69,6 +69,7 @@ function CustomDecoder() {
         var inputList = this.str.match(/<input.*?\>/g);
         this.clear(inputList);
         var sz = this.str.match(this.secondClear);
+        this.recurrenceClear();
         this.clear(sz);
         this.clear(this.str.match(/\<!--.*?--\>/g));
     };
@@ -79,6 +80,17 @@ function CustomDecoder() {
                     this.str = this.str.replace(sz[i], "");
                 }
             }
+        }
+    };
+    this.recurrenceClear = function () {
+    	var sz = this.str.match(this.secondClear);
+    	if (sz != undefined) {
+            for (var i = 0; i < sz.length; i++) {
+                if (!(/<th.?/.test(sz[i]) || /<td.?/.test(sz[i]))) {
+                    this.str = this.str.replace(sz[i], "");
+                }
+            }
+            this.recurrenceClear();
         }
     };
     //特殊处理,对于文章中的代码块， 做不修改操作，方式是在清理样式之前就把不修改的代码块替换成自定义的内容
