@@ -70,19 +70,14 @@ public class BaseTypeService {
             if (!jedisLock.acquire()) {
                 throw new BaseKnownException("type添加数量并发获取锁失败！");
             }
-            ConditionsCommon condition = new ConditionsCommon();
-            condition.addEqParam("typeId", typeId);
-            condition.addEqParam("channel", channel);
-            BaseTypeNum num = baseTypeNumDao.queryTByParamForOne(condition);
-            if (num == null) {
-                num = new BaseTypeNum();
+            int upnum = baseTypeNumJpaRepository.updateForAddNum(channel, typeId);
+            if(upnum == 0) {
+            	BaseTypeNum num = new BaseTypeNum();
                 num.setCreateDate(new Date());
                 num.setTypeId(typeId);
                 num.setNum(1);
                 num.setChannel(channel);
                 baseTypeNumDao.save(num);
-            } else {
-                baseTypeNumJpaRepository.updateForAddNum(channel, typeId);
             }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
