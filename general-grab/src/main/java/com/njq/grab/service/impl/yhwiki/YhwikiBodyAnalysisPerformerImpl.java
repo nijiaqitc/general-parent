@@ -1,14 +1,15 @@
 package com.njq.grab.service.impl.yhwiki;
 
-import com.njq.common.base.constants.ChannelType;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.exception.ErrorCodeConstant;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.ro.BaseFileDealRequestBuilder;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 /**
  * @author: nijiaqi
@@ -52,12 +53,9 @@ public class YhwikiBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         	});
         	enode.getElementsByTag("img").forEach(n -> {
         		n.attr("src", config.getBaseFileService().dealImgSrc(config.getBaseTitle().getTypeId(),
-        						ChannelType.YH_WIKI.getValue(),
+        						ChannelType.YH_WIKI,
         						config.getGrabUrl(),
-        						n.attr("src"),
-        						ChannelType.YH_WIKI.getValue(),
-        						GrabUrlInfoFactory.getImagePlace(),
-        						GrabUrlInfoFactory.getImgUrl()));
+        						n.attr("src")));
         	});
         }
         return enode.html();

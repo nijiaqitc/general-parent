@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.njq.common.base.constants.ChannelType;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.grab.service.PageAnalysisPerformer;
 
 @Service

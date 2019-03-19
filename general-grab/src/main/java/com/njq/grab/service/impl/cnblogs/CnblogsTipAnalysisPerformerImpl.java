@@ -1,18 +1,15 @@
 package com.njq.grab.service.impl.cnblogs;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.constants.TitleType;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.enumreg.title.TitleType;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.HtmlAnalysisPerformer;

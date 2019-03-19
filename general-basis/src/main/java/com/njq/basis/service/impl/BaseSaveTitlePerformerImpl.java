@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.njq.basis.service.SaveTitlePerformer;
-import com.njq.common.base.constants.ChannelType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.request.SaveTitleRequest;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 
 @Component("baseSaveTitlePerformer")

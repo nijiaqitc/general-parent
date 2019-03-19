@@ -140,7 +140,49 @@
 			<artifactId>fastjson</artifactId>
             <version>1.2.8.sec01</version>
 		</dependency>
+		<dependency>
+			<groupId>com.njq.common.enumreg</groupId>
+		    <artifactId>framework-common-enumreg</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- 第三方外部依赖 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.5</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
+		<!--javassist 是dubbo引用的库，引用的版本不支持JDK8，此处引用最新的3.20.0-GA 可支持JDK8 -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.21.0-GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.9</version>
+		</dependency>
+		
+		
+		<dependency>
+	    	<groupId>com.njq.file.load</groupId>
+		    <artifactId>general-file-load-api</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+		
 	</dependencies>
 
 	<modules>

@@ -2,7 +2,7 @@ package com.njq.common.base.request;
 
 import java.io.Serializable;
 
-import com.njq.common.base.constants.TitleType;
+import com.njq.common.enumreg.title.TitleType;
 import com.njq.common.model.vo.LeftMenu;
 
 public class SaveTitleRequest implements Serializable {

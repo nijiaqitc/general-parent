@@ -1,10 +1,11 @@
 package com.njq.start.testcontroller;
 
-import com.njq.common.base.constants.EnumHelper;
-import com.njq.common.base.constants.ValueDescription3;
+import java.util.List;
+
 import org.apache.commons.lang3.EnumUtils;
 
-import java.util.List;
+import com.njq.common.enumreg.EnumHelper;
+import com.njq.common.enumreg.ValueDescription3;
 
 public enum YHSeller implements ValueDescription3 {
     MALL(1L, "次日达商城"),

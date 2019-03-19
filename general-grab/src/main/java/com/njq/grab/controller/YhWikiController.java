@@ -3,6 +3,8 @@ package com.njq.grab.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.BaseTipService;
-import com.njq.common.base.constants.ChannelType;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.SaveFileInfo;
+import com.njq.file.load.api.model.UpFileInfoRequest;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
@@ -28,7 +33,9 @@ public class YhWikiController {
     private static CookieStore store;
     @Autowired
     private PageAnalysisPerformer yhWikiPageAnalysis;
-
+    @Resource
+    private FileLoadService fileLoadService;
+    
     @RequestMapping("login")
     public void login() {
         Map<String, String> param = new HashMap<>();
@@ -73,6 +80,16 @@ public class YhWikiController {
     	return "grab/view";
     }
     
+    @ResponseBody
+    @RequestMapping("ttt")
+    public String tttt(Model model) {
+    	UpFileInfoRequest req = new UpFileInfoRequest();
+    	req.setType(ChannelType.CSDN);
+    	req.setUrl("https://img-blog.csdn.net/20180320140751880?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L2xqbHNibG9n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70");
+    	SaveFileInfo info = fileLoadService.loadPic(req);
+    	System.out.println(info);
+    	return "";
+    }
     
     
     @Autowired

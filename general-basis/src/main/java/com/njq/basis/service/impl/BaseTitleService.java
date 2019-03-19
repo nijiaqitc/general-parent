@@ -1,9 +1,23 @@
 package com.njq.basis.service.impl;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.SaveTitlePerformer;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.constants.TitleType;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
@@ -14,26 +28,14 @@ import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.base.redis.lock.JedisLock;
 import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.base.request.SaveTitleRequest;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.enumreg.title.TitleType;
 import com.njq.common.model.dao.BaseTitleGrabJpaRepository;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
 import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.util.string.StringUtil;
 import com.njq.common.util.string.StringUtil2;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-import java.util.stream.Collectors;
 
 @Service
 public class BaseTitleService {

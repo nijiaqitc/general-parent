@@ -1,17 +1,5 @@
 package com.njq.grab.service.impl.custom;
 
-import com.njq.basis.service.impl.BaseFileService;
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.config.SpringContextUtil;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.exception.ErrorCodeConstant;
-import com.njq.common.model.po.BaseTitle;
-import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
-import com.njq.common.util.grab.HtmlDecodeUtil;
-import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import com.njq.grab.service.operation.GrabDocSaveOperation;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,6 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.njq.basis.service.impl.BaseFileService;
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.config.SpringContextUtil;
+import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.exception.ErrorCodeConstant;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.model.po.BaseTitle;
+import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
+import com.njq.common.util.grab.HtmlDecodeUtil;
+import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.grab.service.impl.GrabUrlInfoFactory;
+import com.njq.grab.service.operation.GrabDocSaveOperation;
 
 @Component
 public class CustomAnalysisPerformer {
@@ -82,7 +83,7 @@ public class CustomAnalysisPerformer {
         }
         String uri = uriStr;
         enode.getElementsByTag("img").forEach(n -> {
-            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM.getValue(), uri, n.attr("src"), ChannelType.CUSTOM.getValue(), GrabUrlInfoFactory.getImagePlace(), GrabUrlInfoFactory.getImgUrl()));
+            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM, uri, n.attr("src")));
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }

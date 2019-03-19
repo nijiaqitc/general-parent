@@ -1,35 +1,36 @@
 package com.njq.basis.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.redis.lock.JedisLock;
 import com.njq.common.base.redis.lock.JedisLockFactory;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;
 import com.njq.common.model.ro.BaseFileSaveRequestBuilder;
-import com.njq.common.util.encrypt.Base64Util;
 import com.njq.common.util.grab.SendConstants;
-import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.IdGen;
 import com.njq.common.util.string.StringUtil2;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.SaveFileInfo;
+import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
 
 /**
  * @author: nijiaqi
@@ -42,53 +43,48 @@ public class BaseFileService {
     private DaoCommon<BaseFile> fileDao;
     @Resource
     private JedisLockFactory jedisLockFactory;
-
-    public String dealImgSrc(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
+    @Resource
+    private FileLoadService fileLoadService;
+    
+    
+    public String dealImgSrc(Long typeId, ChannelType channel, String prefix, String src) {
         if (src.startsWith("data:image/png;base64")) {
-            return dealBase64Src(typeId, channel, prefix, src, shortName, savePlace, imgPlace).getfilePlace();
+            return dealBase64Src(typeId, channel, prefix, src).getfilePlace();
         } else {
-            return dealPicSrc(typeId, channel, prefix, src, shortName, savePlace, imgPlace).getfilePlace();
+            return dealPicSrc(typeId, channel, prefix, src).getfilePlace();
         }
     }
 
-    public BaseFile dealBase64Src(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
-        String picName = IdGen.get().toString();
-        String picPlace = Base64Util.GenerateImage(src.split("base64,")[1], picName, savePlace);
-        Pair<Boolean, String> resultPair = null;
-        if (!StringUtils.isEmpty(picPlace)) {
-            resultPair = Pair.of(true, "");
-        } else {
-            resultPair = Pair.of(false, "base64位图片生成失败！");
-        }
+    public BaseFile dealBase64Src(Long typeId, ChannelType channel, String prefix, String src) {
+        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+        		.ofUrl(src).ofType(channel).build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
-                .ofChannel(channel)
-                .ofName(picName)
-                .ofOldName(picName)
-                .ofFilePlace(imgPlace + picPlace)
-                .ofRealPlace(savePlace + picPlace)
+                .ofChannel(channel.getValue())
+                .ofName(fileInfo.getFileNewName())
+                .ofOldName(fileInfo.getFileOldName())
+                .ofFilePlace(fileInfo.getFilePlace())
+                .ofRealPlace(fileInfo.getRealPlace())
                 .ofTypeId(typeId)
-                .ofOldSrc("base64")
-                .ofResultPair(resultPair)
+                .ofOldSrc(fileInfo.getOldSrc())
+                .ofResultPair(fileInfo.getResultPair())
                 .build());
     }
 
-    public BaseFile dealPicSrc(Long typeId, String channel, String prefix, String src, String shortName, String savePlace, String imgPlace) {
-        String fileOldName = getOldName(src);
-        String fileNewName = getNewName(fileOldName);
-        String place = getFilePlace(shortName, savePlace, fileNewName);
+    public BaseFile dealPicSrc(Long typeId, ChannelType channel, String prefix, String src) {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = prefix + src;
         }
-        Pair<Boolean, String> resultPair = BaseFileService.changeSrcUrl(src, shortName, savePlace + place);
+        SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
+        		.ofUrl(src).ofType(channel).build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
-                .ofChannel(channel)
-                .ofName(fileNewName)
-                .ofOldName(fileOldName)
-                .ofFilePlace(imgPlace + place)
-                .ofRealPlace(savePlace + place)
+                .ofChannel(channel.getValue())
+                .ofName(fileInfo.getFileNewName())
+                .ofOldName(fileInfo.getFileOldName())
+                .ofFilePlace(fileInfo.getFilePlace())
+                .ofRealPlace(fileInfo.getRealPlace())
                 .ofTypeId(typeId)
-                .ofOldSrc(src)
-                .ofResultPair(resultPair)
+                .ofOldSrc(fileInfo.getOldSrc())
+                .ofResultPair(fileInfo.getResultPair())
                 .build());
     }
 
@@ -168,52 +164,34 @@ public class BaseFileService {
     }
 
     public String dealFileUrl(BaseFileDealRequest request) {
-        String fileOldName = "";
         String src = request.getSrc();
-        String shortName = request.getShortName();
-        String savePlace = request.getSavePlace();
-        try {
-            fileOldName = URLDecoder.decode(getOldName(src), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            logger.error("编码转换出错", e);
-        }
-        String place = getFilePlace(shortName, savePlace, fileOldName);
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = request.getPrefix() + src;
         }
-        Pair<Boolean, String> resultPair = changeSrcUrl(src, shortName, savePlace + place);
+        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+        		.ofUrl(src).ofType(ChannelType.getChannelType(request.getChannel())).build());
         BaseFile file = getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(request.getChannel())
-                .ofName(fileOldName)
-                .ofOldName(fileOldName)
-                .ofFilePlace(getSrc(shortName, savePlace) + "/downLoadFile?file=" + fileOldName)
-                .ofRealPlace(savePlace + place)
+                .ofName(fileInfo.getFileNewName())
+                .ofOldName(fileInfo.getFileOldName())
+                .ofFilePlace(fileInfo.getFilePlace())
+                .ofRealPlace(fileInfo.getRealPlace())
                 .ofTypeId(request.getTypeId())
-                .ofOldSrc(src)
-                .ofResultPair(resultPair)
+                .ofOldSrc(fileInfo.getOldSrc())
+                .ofResultPair(fileInfo.getResultPair())
                 .build());
         return file.getfilePlace();
     }
-
-    public static Pair<Boolean, String> changeSrcUrl(String src, String shortName, String savePlace) {
-        try {
-            UrlChangeUtil.downLoad(src, savePlace, shortName);
-            return Pair.of(true, "");
-        } catch (Exception e) {
-            logger.error("下载出错", e);
-            return Pair.of(false, e.getMessage());
-        }
-    }
-
 
     public void reloadFile() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
-            Pair<Boolean, String> resultPair = changeSrcUrl(n.getOldSrc(), n.getChannel(), n.getRealPlace());
+        	SaveFileInfo fileInfo = fileLoadService.reload(new UpFileInfoRequestBuilder()
+            		.ofUrl(n.getOldSrc()).ofType(ChannelType.getChannelType(n.getChannel())).ofRealSavePlace(n.getRealPlace()).build());
             BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
-            impl.updateFileLoadFlag(n, resultPair);
+            impl.updateFileLoadFlag(n, fileInfo.getResultPair());
         });
     }
 

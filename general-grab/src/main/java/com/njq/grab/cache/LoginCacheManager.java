@@ -1,13 +1,14 @@
 package com.njq.grab.cache;
 
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.redis.CacheNamePrefixEnum;
-import com.njq.common.base.redis.GenericValueCacheManager;
-import com.njq.common.util.string.StringUtil2;
-import com.njq.grab.service.impl.PerformerService;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import com.njq.common.base.redis.GenericValueCacheManager;
+import com.njq.common.enumreg.cachepre.CacheNamePrefixEnum;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.util.string.StringUtil2;
+import com.njq.grab.service.impl.PerformerService;
 
 @Component
 public class LoginCacheManager extends GenericValueCacheManager<String, Boolean> {

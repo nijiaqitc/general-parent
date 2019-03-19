@@ -1,12 +1,13 @@
 package com.njq.grab.cache;
 
-import com.njq.common.base.redis.CacheNamePrefixEnum;
-import com.njq.common.base.redis.GenericValueCacheManager;
-import com.njq.common.model.vo.LeftMenu;
-import com.njq.common.util.string.StringUtil2;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.njq.common.base.redis.GenericValueCacheManager;
+import com.njq.common.enumreg.cachepre.CacheNamePrefixEnum;
+import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.util.string.StringUtil2;
 
 /**
  * @author: nijiaqi

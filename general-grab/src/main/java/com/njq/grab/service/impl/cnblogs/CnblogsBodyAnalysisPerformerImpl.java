@@ -1,13 +1,13 @@
 package com.njq.grab.service.impl.cnblogs;
 
-import com.njq.common.base.constants.ChannelType;
-import com.njq.grab.service.HtmlAnalysisPerformer;
-import com.njq.grab.service.impl.GrabConfig;
-import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.grab.service.HtmlAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
 
 /**
  * @author: nijiaqi
@@ -32,12 +32,9 @@ public class CnblogsBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         		logger.info("读取图片:" + n.attr("src"));
         		n.attr("src", config.getBaseFileService().dealImgSrc(
         						config.getBaseTitle().getTypeId(),
-        						ChannelType.CNBLOGS.getValue(),
+        						ChannelType.CNBLOGS,
         						config.getGrabUrl(),
-        						n.attr("src"),
-        						ChannelType.CNBLOGS.getValue(),
-        						GrabUrlInfoFactory.getImagePlace(),
-        						GrabUrlInfoFactory.getImgUrl()));
+        						n.attr("src")));
         	});        	
         }
         return enode.html();

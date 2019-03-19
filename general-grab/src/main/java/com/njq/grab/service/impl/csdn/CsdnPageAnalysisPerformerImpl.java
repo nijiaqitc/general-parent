@@ -1,28 +1,5 @@
 package com.njq.grab.service.impl.csdn;
 
-import com.njq.basis.service.SaveTitlePerformer;
-import com.njq.basis.service.impl.BaseFileService;
-import com.njq.basis.service.impl.BaseTipService;
-import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.config.SpringContextUtil;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.exception.ErrorCodeConstant;
-import com.njq.common.base.request.SaveTitleRequestBuilder;
-import com.njq.common.model.po.BaseTitleLoading;
-import com.njq.common.model.ro.AnalysisPageRequest;
-import com.njq.common.model.ro.AnalysisPageRequestBuilder;
-import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
-import com.njq.common.model.vo.LeftMenu;
-import com.njq.common.util.grab.HtmlDecodeUtil;
-import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.grab.service.PageAnalysisPerformer;
-import com.njq.grab.service.impl.GrabConfig;
-import com.njq.grab.service.impl.GrabConfigBuilder;
-import com.njq.grab.service.impl.GrabUrlInfoFactory;
-import com.njq.grab.service.operation.GrabDocSaveOperation;
-import com.njq.grab.service.operation.GrabDocUpdateOperation;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -30,6 +7,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.basis.service.impl.BaseFileService;
+import com.njq.basis.service.impl.BaseTipService;
+import com.njq.basis.service.impl.BaseTitleService;
+import com.njq.common.base.config.SpringContextUtil;
+import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.exception.ErrorCodeConstant;
+import com.njq.common.base.request.SaveTitleRequestBuilder;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.enumreg.title.TitleType;
+import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.ro.AnalysisPageRequest;
+import com.njq.common.model.ro.AnalysisPageRequestBuilder;
+import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
+import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabConfigBuilder;
+import com.njq.grab.service.impl.GrabUrlInfoFactory;
+import com.njq.grab.service.operation.GrabDocSaveOperation;
+import com.njq.grab.service.operation.GrabDocUpdateOperation;
 
 /**
  * @author: nijiaqi

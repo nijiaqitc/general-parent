@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
-import com.njq.common.base.constants.ChannelType;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.vo.grab.GrabTypeInfo;

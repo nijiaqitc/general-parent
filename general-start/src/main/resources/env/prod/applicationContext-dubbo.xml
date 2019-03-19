@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	 http://code.alibabatech.com/schema/dubbo	http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+       default-lazy-init="true">
+
+
+    <description>Dubbo provider配置</description>
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="general-start"/>
+
+    <!-- 到这里调用 -->
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address.client}" id="zookeeperClient"/>
+
+    <!-- 用dubbo协议在30900端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${dubbo.application.port}" dispather="all" threadpool="cached" threads="5000"/>
+
+	<dubbo:reference id="fileLoadService" interface="com.njq.file.load.api.FileLoadService"
+                     check="false" version="1.0" url="" registry="zookeeperClient" protocol="dubbo" timeout="15000"/>
+
+
+
+
+</beans>

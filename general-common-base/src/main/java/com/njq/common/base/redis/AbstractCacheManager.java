@@ -3,9 +3,10 @@ package com.njq.common.base.redis;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import com.njq.common.enumreg.cachepre.CacheNamePrefixEnum;
 
 import redis.clients.jedis.exceptions.JedisConnectionException;
 

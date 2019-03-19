@@ -1,10 +1,10 @@
 package com.njq.grab.service.impl;
 
-import com.njq.common.base.config.SpringContextUtil;
-import com.njq.common.base.constants.ChannelType;
-import com.njq.common.model.po.GrabUrlInfo;
-
 import java.util.HashMap;
+
+import com.njq.common.base.config.SpringContextUtil;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.model.po.GrabUrlInfo;
 
 /**
  * @author: nijiaqi

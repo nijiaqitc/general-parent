@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.njq.common.base.constants.ChannelType;
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.vo.grab.GrabTitleVO;
 import com.njq.common.model.vo.grab.GrabTypeInfo;

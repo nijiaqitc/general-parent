@@ -1,11 +1,12 @@
 package com.njq.yxl.cache;
 
-import com.njq.common.base.redis.CacheNamePrefixEnum;
-import com.njq.common.base.redis.GenericValueCacheManager;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.njq.common.base.redis.GenericValueCacheManager;
+import com.njq.common.enumreg.cachepre.CacheNamePrefixEnum;
 
 @Component
 public class YxlDocListCacheReader extends GenericValueCacheManager<String, List<String>> {

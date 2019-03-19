@@ -1,14 +1,15 @@
 package com.njq.grab.service.impl.csdn;
 
-import com.njq.common.base.constants.TitleType;
-import com.njq.grab.service.HtmlAnalysisPerformer;
-import com.njq.grab.service.impl.GrabConfig;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.njq.common.enumreg.title.TitleType;
+import com.njq.grab.service.HtmlAnalysisPerformer;
+import com.njq.grab.service.impl.GrabConfig;
 
 /**
  * @author: nijiaqi

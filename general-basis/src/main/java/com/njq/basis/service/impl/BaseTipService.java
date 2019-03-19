@@ -1,27 +1,29 @@
 package com.njq.basis.service.impl;
 
-import com.njq.common.base.constants.TitleType;
-import com.njq.common.base.dao.ConditionsCommon;
-import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.redis.lock.JedisLock;
-import com.njq.common.base.redis.lock.JedisLockFactory;
-import com.njq.common.model.dao.BaseTipJpaRepository;
-import com.njq.common.model.po.BaseTip;
-import com.njq.common.model.po.BaseTipConfig;
-import com.njq.common.model.vo.LabelNameVO;
-import com.njq.common.util.string.StringUtil2;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import com.njq.common.base.dao.ConditionsCommon;
+import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.redis.lock.JedisLock;
+import com.njq.common.base.redis.lock.JedisLockFactory;
+import com.njq.common.enumreg.title.TitleType;
+import com.njq.common.model.dao.BaseTipJpaRepository;
+import com.njq.common.model.po.BaseTip;
+import com.njq.common.model.po.BaseTipConfig;
+import com.njq.common.model.vo.LabelNameVO;
+import com.njq.common.util.string.StringUtil2;
 
 @Service
 public class BaseTipService {
