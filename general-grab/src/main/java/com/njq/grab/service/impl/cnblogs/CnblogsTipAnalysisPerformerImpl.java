@@ -33,19 +33,25 @@ public class CnblogsTipAnalysisPerformerImpl implements HtmlAnalysisPerformer {
     public String analysis(Document doc) {
         Elements tages = doc.getElementsByTag("script");
         if(!tages.isEmpty()) {
-        	Pattern pattern =Pattern.compile("currentBlogId=.*?;");
-        	List<String> stlist = tages.stream().map(n->{        		
-        		Matcher mt =  pattern.matcher(n.html());
-        		if(mt.find()) {
-        			return mt.group();
+        	String curId = null;
+        	String enId = null;
+        	for(int i=0;i<tages.size();i++) {
+        		Pattern pt1 =Pattern.compile("currentBlogId=.*?;");
+        		Matcher mt1 =  pt1.matcher(tages.get(i).html());
+        		if(mt1.find()) {
+        			curId = mt1.group();
         		}
-        		return null;        		
-        	}).filter(n->n!=null).collect(Collectors.toList());
-        	if(!CollectionUtils.isEmpty(stlist)) {
-        		String st = stlist.get(0);
-        		String blogId = st.split("=")[1].split(";")[0];
+        		Pattern pt2 =Pattern.compile("cb_entryId=.*?,");
+        		Matcher mt2 =  pt2.matcher(tages.get(i).html());
+        		if(mt2.find()) {
+        			enId = mt2.group();
+        		}
+        	}
+        	if(curId!=null&&enId!=null) {
+        		String blogId = curId.split("=")[1].split(";")[0];
+        		String postId = enId.split("=")[1].split(",")[0];
         		String[] sarray = StringUtil.urlsplit(config.getUrl());
-        		String pstr = "https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp="+sarray[3]+"&postId="+sarray[5].split("\\.")[0]+"&blogId="+blogId;
+        		String pstr = "https://www.cnblogs.com/mvc/blog/CategoriesTags.aspx?blogApp="+sarray[3]+"&postId="+postId+"&blogId="+blogId;
         		System.out.println(pstr);
 		        Document tipDoc = HtmlGrabUtil
 		                .build(ChannelType.CNBLOGS.getValue())
