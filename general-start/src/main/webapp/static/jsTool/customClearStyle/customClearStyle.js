@@ -85,12 +85,16 @@ function CustomDecoder() {
     this.recurrenceClear = function () {
     	var sz = this.str.match(this.secondClear);
     	if (sz != undefined) {
+    		var flag = false;
             for (var i = 0; i < sz.length; i++) {
                 if (!(/<th.?/.test(sz[i]) || /<td.?/.test(sz[i]))) {
                     this.str = this.str.replace(sz[i], "");
+                    flag = true;
                 }
             }
-            this.recurrenceClear();
+            if(flag){
+            	this.recurrenceClear();
+            }
         }
     };
     //特殊处理,对于文章中的代码块， 做不修改操作，方式是在清理样式之前就把不修改的代码块替换成自定义的内容
