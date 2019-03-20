@@ -12,13 +12,14 @@
     <dubbo:application name="general-start"/>
 
     <!-- 到这里调用 -->
-    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address.client}" id="zookeeperClient"/>
+    <!--     <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address.client}" id="zookeeperClient"/> -->
 
-    <!-- 用dubbo协议在30900端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${dubbo.application.port}" dispather="all" threadpool="cached" threads="5000"/>
+    <dubbo:registry address="N/A" id="zookeeperClient"></dubbo:registry>
 
-	<dubbo:reference id="fileLoadService" interface="com.njq.file.load.api.FileLoadService"
-                     check="false" version="1.0" url="" registry="zookeeperClient" protocol="dubbo" timeout="15000"/>
+    <dubbo:reference id="fileLoadService" interface="com.njq.file.load.api.FileLoadService"
+                     check="false" version="1.0"  registry="zookeeperClient" protocol="dubbo" timeout="15000"  url="dubbo://121.41.52.189:30958"/>
+
+    <dubbo:consumer timeout="6000000" check="false"></dubbo:consumer>
 
 
 
