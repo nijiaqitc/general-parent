@@ -12,7 +12,7 @@
   <!-- 文件保存日志的相关配置 --> 
   <appender name="ERROR-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
      <!-- 保存日志文件的路径 -->
-    <file>C://mywork//logs//error.log</file>
+    <file>logs//error.log</file>
     <!-- 日志格式 -->
     <encoder>
         <pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
@@ -29,7 +29,7 @@
     <!-- 循环政策：基于时间创建日志文件 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- 日志文件名格式 -->
-      <fileNamePattern>C://mywork//logs//error.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>logs//error.%d{yyyy-MM-dd}.log</fileNamePattern>
       <!-- 最大保存时间：30天-->
       <maxHistory>30</maxHistory>
     </rollingPolicy>
