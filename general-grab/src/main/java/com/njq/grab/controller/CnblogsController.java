@@ -1,11 +1,17 @@
 package com.njq.grab.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.ro.AnalysisPageRequestBuilder;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.SaveFileInfo;
+import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
 import com.njq.grab.service.PageAnalysisPerformer;
 
 @RequestMapping("cnblogs")
@@ -47,5 +53,17 @@ public class CnblogsController {
     			.ofType(false)
     			.build()));
         return "grab/view";
+	}
+	
+	
+	@Resource
+    private FileLoadService fileLoadService;
+	@RequestMapping("tsts")
+    public void tsts() {
+		
+		SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
+				.ofUrl("https://t12.baidu.com/it/u=2126351807,3022701237&fm=76").ofType(ChannelType.CUSTOM).build());
+		System.out.println(fileInfo);
+		System.out.println(fileInfo.getRealPlace());
 	}
 }
