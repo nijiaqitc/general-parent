@@ -63,7 +63,12 @@ function saveDoc(){
         "&typeId="+$("#selectType").val();
     }
     data+="&tips="+tipList+"&isShow="+$("input[name='isshow']:checked").val()+
-    "&id="+$("#docId").val()+"&specalType="+$("input[name='specalType']:checked").val()+"&general="+njq.getContentTxt();
+    "&id="+$("#docId").val();
+    
+    if($("input[name='specalType']")[0] != null){
+    	data+="&specalType="+$("input[name='specalType']:checked").val();
+    }
+    data+="&general="+njq.getContentTxt();
     
     njq.saveData(data,function(data,status){
     	if(status=="saveFalse"){
