@@ -3,16 +3,25 @@ package com.njq.zxgj.controller;
  * 资源分享页面
  */
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
+import com.njq.basis.service.impl.BaseCodeService;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.base.interceptor.NeedPwd;
+import com.njq.common.base.other.IpUtil;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
+import com.njq.common.base.redis.RedisCommon;
+import com.njq.common.model.po.BaseCode;
+import com.njq.common.model.po.ToolResourceshare;
+import com.njq.common.model.vo.ResourceshareVO;
+import com.njq.common.util.image.ImageUtil;
+import com.njq.common.util.other.CookieExpire;
+import com.njq.common.util.other.CookieUtil;
+import com.njq.common.util.string.IdGen;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.ResourceShareRequestBuilder;
+import com.njq.file.load.api.model.SaveFileInfo;
+import com.njq.zxgj.service.ToolResourceShareService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,22 +29,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.njq.basis.service.impl.BaseCodeService;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.base.interceptor.NeedPwd;
-import com.njq.common.base.other.IpUtil;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.redis.RedisCommon;
-import com.njq.common.model.po.BaseCode;
-import com.njq.common.model.po.ToolResourceshare;
-import com.njq.common.model.vo.ResourceshareVO;
-import com.njq.common.util.encrypt.Base64Util;
-import com.njq.common.util.image.ImageUtil;
-import com.njq.common.util.other.CookieExpire;
-import com.njq.common.util.other.CookieUtil;
-import com.njq.common.util.other.PropertyUtil;
-import com.njq.common.util.string.IdGen;
-import com.njq.zxgj.service.ToolResourceShareService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping("rcShare")
@@ -46,6 +47,8 @@ public class ResourceShareController {
     public BaseCodeService codeService;
     @Resource
     public ToolResourceShareService resourceShareService;
+    @Autowired
+    private FileLoadService fileLoadService;
 
     /**
      * 跳转到资源分享页面
@@ -155,11 +158,11 @@ public class ResourceShareController {
     @RequestMapping(value = "resetDownLoadTimes", method = RequestMethod.GET)
     @ResponseBody
     public void resetDownLoadTimes(HttpServletRequest request) {
-    	String ip = IpUtil.getIpAddr(request);
-    	RedisCommon.setHashString(ip, "downLoadTimes", "0");
-    	Object cc = RedisCommon.getString(ip, "downLoadTimes");
-    	int times = Integer.parseInt(cc.toString());
-    	System.out.println("重置下载次数为：" + times);
+        String ip = IpUtil.getIpAddr(request);
+        RedisCommon.setHashString(ip, "downLoadTimes", "0");
+        Object cc = RedisCommon.getString(ip, "downLoadTimes");
+        int times = Integer.parseInt(cc.toString());
+        System.out.println("重置下载次数为：" + times);
     }
 
     /**
@@ -182,8 +185,7 @@ public class ResourceShareController {
             , @RequestParam(required = true) Long shareTypeTwo, @RequestParam(required = true) Long shareTypeThree,
                                                  @RequestParam(required = true) String selepicOne, @RequestParam(required = true) String selepicTwo, @RequestParam(required = true) String selepicThree,
                                                  @RequestParam(required = true) String shareUrl, String sharePwd,
-                                                 @RequestParam(required = true) String resourceDesc
-    ) {
+                                                 @RequestParam(required = true) String resourceDesc) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (selepicOne.split("base64,").length < 2) {
             MessageCommon.getFalseMap(map, "请上传第一张图");
@@ -197,36 +199,58 @@ public class ResourceShareController {
             MessageCommon.getFalseMap(map, "请上传第三张图");
             return map;
         }
-        String realPath = PropertyUtil.get("image.place") + "/shareResources/total/" + shareTypeOne + "/" + shareTypeTwo + "/" + shareTypeThree;
+
         String picName = IdGen.get().toString();
-        String picPlaceA = Base64Util.GenerateImage(selepicOne.split("base64,")[1], picName + "-1", realPath, map);
-        String picPlaceB = Base64Util.GenerateImage(selepicTwo.split("base64,")[1], picName + "-2", realPath, map);
-        String picPlaceC = Base64Util.GenerateImage(selepicThree.split("base64,")[1], picName + "-3", realPath, map);
+        SaveFileInfo infoA = fileLoadService.upShareFile(ResourceShareRequestBuilder.aResourceShareRequest()
+                .ofShareTypeOne(shareTypeOne)
+                .ofShareTypeTwo(shareTypeTwo)
+                .ofShareTypeThree(shareTypeThree)
+                .ofImgStr(selepicOne.split("base64,")[1])
+                .ofName(picName + "-1")
+                .ofSkeletonize(picName + "-z-0" + ".jpg")
+                .ofWidth(328)
+                .ofHeight(196)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
+        SaveFileInfo infoB = fileLoadService.upShareFile(ResourceShareRequestBuilder.aResourceShareRequest()
+                .ofShareTypeOne(shareTypeOne)
+                .ofShareTypeTwo(shareTypeTwo)
+                .ofShareTypeThree(shareTypeThree)
+                .ofImgStr(selepicOne.split("base64,")[1])
+                .ofName(picName + "-1")
+                .ofSkeletonize(picName + "-z-1" + ".jpg")
+                .ofWidth(860)
+                .ofHeight(516)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
+        SaveFileInfo infoC = fileLoadService.upShareFile(ResourceShareRequestBuilder.aResourceShareRequest()
+                .ofShareTypeOne(shareTypeOne)
+                .ofShareTypeTwo(shareTypeTwo)
+                .ofShareTypeThree(shareTypeThree)
+                .ofImgStr(selepicOne.split("base64,")[1])
+                .ofName(picName + "-2")
+                .ofSkeletonize(picName + "-z-2" + ".jpg")
+                .ofWidth(860)
+                .ofHeight(516)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
 
-
-        File file1 = new File(realPath + "/" + picPlaceA);
-        File file2 = new File(realPath + "/" + picPlaceA);
-        File file3 = new File(realPath + "/" + picPlaceB);
-        File file4 = new File(realPath + "/" + picPlaceC);
-        picName += "-z";
-        //生成缩略图
-        ImageUtil.scale(file1, realPath + "/" + picName + "-0" + ".jpg", 328, 196);
-        //压缩图片1
-        ImageUtil.scale(file2, realPath + "/" + picName + "-1" + ".jpg", 860, 516);
-        //压缩图片2
-        ImageUtil.scale(file3, realPath + "/" + picName + "-2" + ".jpg", 860, 516);
-        //压缩图片3
-        ImageUtil.scale(file4, realPath + "/" + picName + "-3" + ".jpg", 860, 516);
-        file1.delete();
-        file2.delete();
-        file3.delete();
-        file4.delete();
+        SaveFileInfo infoD = fileLoadService.upShareFile(ResourceShareRequestBuilder.aResourceShareRequest()
+                .ofShareTypeOne(shareTypeOne)
+                .ofShareTypeTwo(shareTypeTwo)
+                .ofShareTypeThree(shareTypeThree)
+                .ofImgStr(selepicOne.split("base64,")[1])
+                .ofName(picName + "-3")
+                .ofSkeletonize(picName + "-z-3" + ".jpg")
+                .ofWidth(860)
+                .ofHeight(516)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
         ToolResourceshare rc = new ToolResourceshare();
-        String str = "/uploadImage" + "/shareResources/total/" + shareTypeOne + "/" + shareTypeTwo + "/" + shareTypeThree + "/";
-        rc.setPicUrlBase(str + picName.split("-")[0]);
-        rc.setPicUrlA(str + picName + "-1" + ".jpg");
-        rc.setPicUrlB(str + picName + "-2" + ".jpg");
-        rc.setPicUrlC(str + picName + "-3" + ".jpg");
+        rc.setPicUrlBase(infoA.getFilePlace() + picName);
+        rc.setPicUrlA(infoB.getFilePlace() + picName + "-z-1" + ".jpg");
+        rc.setPicUrlB(infoC.getFilePlace() + picName + "-z-2" + ".jpg");
+        rc.setPicUrlC(infoD.getFilePlace() + picName + "-z-3" + ".jpg");
         rc.setResourceDesc(resourceDesc);
         rc.setCodeIdA(shareTypeOne);
         rc.setCodeIdB(shareTypeTwo);

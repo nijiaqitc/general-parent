@@ -13,4 +13,9 @@ public class TokenCheck {
             return false;
         }
     }
+
+    public static boolean debugType(){
+        return false;
+    }
+
 }

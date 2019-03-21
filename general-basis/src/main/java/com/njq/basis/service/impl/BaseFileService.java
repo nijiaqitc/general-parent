@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.njq.common.base.other.TokenCheck;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,10 @@ public class BaseFileService {
             src = request.getPrefix() + src;
         }
         SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(ChannelType.getChannelType(request.getChannel())).ofDebugFlag(true).build());
+        		.ofUrl(src)
+                .ofType(ChannelType.getChannelType(request.getChannel()))
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
         BaseFile file = getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(request.getChannel())
                 .ofName(fileInfo.getFileNewName())
@@ -78,7 +82,10 @@ public class BaseFileService {
     
     public BaseFile dealBase64Src(Long typeId, ChannelType channel, String prefix, String src) {
         SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(channel).ofDebugFlag(true).build());
+        		.ofUrl(src)
+                .ofType(channel)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(channel.getValue())
                 .ofName(fileInfo.getFileNewName())
@@ -96,7 +103,10 @@ public class BaseFileService {
             src = prefix + src;
         }
         SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(channel).ofDebugFlag(true).build());
+        		.ofUrl(src)
+                .ofType(channel)
+                .ofDebugFlag(TokenCheck.debugType())
+                .build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(channel.getValue())
                 .ofName(fileInfo.getFileNewName())

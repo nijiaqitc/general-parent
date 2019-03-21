@@ -50,8 +50,6 @@ public class GjHomeController {
     private BannerCacheReader bannerCacheReader;
     @Autowired
     private FileLoadService fileLoadService;
-    @Value("${file.place}")
-    private String docPlace;
 
     /**
      * 跳转到首页
@@ -144,9 +142,6 @@ public class GjHomeController {
         List<YxlTip> tipList = yxlDocService.queryTipList();
         try {
             model.addAttribute("tipName", tipName);
-            /*if(StringUtil.IsNotEmpty(tipName)){
-                model.addAttribute("tipName", new String(tipName.getBytes("iso8859-1"),"utf-8"));                
-            }*/
             model.addAttribute("tipList", tipList);
             model.addAttribute("ismob", ismob);
         } catch (Exception e) {
