@@ -1,12 +1,19 @@
 package com.njq.yxl.controller;
 
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.model.po.BaseBanner;
-import com.njq.common.model.po.YxlTip;
-import com.njq.common.util.other.PropertyUtil;
-import com.njq.yxl.cache.BannerCacheReader;
-import com.njq.yxl.service.YxlDocSearchService;
-import com.njq.yxl.service.YxlDocService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +28,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseBanner;
+import com.njq.common.model.po.YxlTip;
+import com.njq.common.util.other.PropertyUtil;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.DownLoadFileRequestBuilder;
+import com.njq.file.load.api.model.ReBackFileInfo;
+import com.njq.yxl.cache.BannerCacheReader;
+import com.njq.yxl.service.YxlDocSearchService;
+import com.njq.yxl.service.YxlDocService;
 
 @Controller
 public class GjHomeController {
@@ -43,6 +48,8 @@ public class GjHomeController {
     private YxlDocService yxlDocService;
     @Autowired
     private BannerCacheReader bannerCacheReader;
+    @Autowired
+    private FileLoadService fileLoadService;
     @Value("${file.place}")
     private String docPlace;
 
@@ -204,35 +211,32 @@ public class GjHomeController {
     }
 
 
-    @SuppressWarnings("downLoadFile")
     @RequestMapping(value = "{shortname}/{dfolder}/downLoadFile", method = RequestMethod.GET)
     public void downLoadFile(String file,@PathVariable(value = "shortname") String shortname,
                              @PathVariable(value = "dfolder") String dfolder,
                              HttpServletRequest request, HttpServletResponse response) {
-//    	http://localhost:8087/yhwiki/20190114/downLoadFile?file=京东到家对接性能测试方案.docx
-        InputStream is = null;
+    	ReBackFileInfo fileInfo = fileLoadService.readFile(DownLoadFileRequestBuilder
+    			.aDownLoadFileRequest()
+    			.ofFile(file)
+    			.ofDfolder(dfolder)
+    			.ofShortname(shortname)
+    			.build());
+    	if(fileInfo.getName()==null) {
+    		return;
+    	}
         BufferedOutputStream bous = null;
         try {
-            String url = docPlace+"/"+shortname+"/"+dfolder+"/"+file;
-            File f = new File(url);
-            byte[] body = null;
-            is = new FileInputStream(f);
-            body = new byte[is.available()];
-            is.read(body);
             response.reset();
-            response.addHeader("Content-Disposition", "attchement;filename=" +  new String(f.getName().getBytes("UTF-8"),"ISO-8859-1"));
+            response.addHeader("Content-Disposition", "attchement;filename=" +  new String(fileInfo.getName().getBytes("UTF-8"),"ISO-8859-1"));
             ServletOutputStream outputStream = response.getOutputStream();
             bous = new BufferedOutputStream(outputStream);
             response.setContentType("application/octet-stream");
-            outputStream.write(body);
+            outputStream.write(fileInfo.getBody());
             outputStream.close();
         } catch (Exception e) {
             logger.error("下载文件出错：" + e.getMessage());
         } finally {
             try {
-                if (is != null) {
-                    is.close();
-                }
                 if (bous != null) {
                     bous.close();
                 }

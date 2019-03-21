@@ -46,18 +46,39 @@ public class BaseFileService {
     @Resource
     private FileLoadService fileLoadService;
     
-    
     public String dealImgSrc(Long typeId, ChannelType channel, String prefix, String src) {
-        if (src.startsWith("data:image/png;base64")) {
-            return dealBase64Src(typeId, channel, prefix, src).getfilePlace();
+    	BaseFile file;
+    	if (src.startsWith("data:image/png;base64")) {
+    		file = dealBase64Src(typeId, channel, prefix, src);
         } else {
-            return dealPicSrc(typeId, channel, prefix, src).getfilePlace();
+        	file = dealPicSrc(typeId, channel, prefix, src);
         }
+    	return "&{|"+file.getId()+"|}";
     }
 
+    public String dealFileUrl(BaseFileDealRequest request) {
+        String src = request.getSrc();
+        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+            src = request.getPrefix() + src;
+        }
+        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+        		.ofUrl(src).ofType(ChannelType.getChannelType(request.getChannel())).ofDebugFlag(true).build());
+        BaseFile file = getFileInfo(new BaseFileSaveRequestBuilder()
+                .ofChannel(request.getChannel())
+                .ofName(fileInfo.getFileNewName())
+                .ofOldName(fileInfo.getFileOldName())
+                .ofFilePlace(fileInfo.getFilePlace())
+                .ofRealPlace(fileInfo.getRealPlace())
+                .ofTypeId(request.getTypeId())
+                .ofOldSrc(fileInfo.getOldSrc())
+                .ofResultPair(fileInfo.getResultPair())
+                .build());
+        return "&{|"+file.getId()+"|}";
+    }
+    
     public BaseFile dealBase64Src(Long typeId, ChannelType channel, String prefix, String src) {
         SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(channel).build());
+        		.ofUrl(src).ofType(channel).ofDebugFlag(true).build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(channel.getValue())
                 .ofName(fileInfo.getFileNewName())
@@ -75,7 +96,7 @@ public class BaseFileService {
             src = prefix + src;
         }
         SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(channel).build());
+        		.ofUrl(src).ofType(channel).ofDebugFlag(true).build());
         return getFileInfo(new BaseFileSaveRequestBuilder()
                 .ofChannel(channel.getValue())
                 .ofName(fileInfo.getFileNewName())
@@ -117,7 +138,7 @@ public class BaseFileService {
         file.setCreateDate(new Date());
         file.setName(request.getName());
         file.setOldName(request.getOldName());
-        file.setfilePlace(request.getFilePlace());
+        file.setFilePlace(request.getFilePlace());
         file.setRealPlace(request.getRealPlace());
         file.setTypeId(request.getTypeId());
         file.setLoadFlag(request.getResultPair().getKey());
@@ -163,25 +184,7 @@ public class BaseFileService {
         return url;
     }
 
-    public String dealFileUrl(BaseFileDealRequest request) {
-        String src = request.getSrc();
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = request.getPrefix() + src;
-        }
-        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
-        		.ofUrl(src).ofType(ChannelType.getChannelType(request.getChannel())).build());
-        BaseFile file = getFileInfo(new BaseFileSaveRequestBuilder()
-                .ofChannel(request.getChannel())
-                .ofName(fileInfo.getFileNewName())
-                .ofOldName(fileInfo.getFileOldName())
-                .ofFilePlace(fileInfo.getFilePlace())
-                .ofRealPlace(fileInfo.getRealPlace())
-                .ofTypeId(request.getTypeId())
-                .ofOldSrc(fileInfo.getOldSrc())
-                .ofResultPair(fileInfo.getResultPair())
-                .build());
-        return file.getfilePlace();
-    }
+    
 
     public void reloadFile() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
@@ -203,5 +206,11 @@ public class BaseFileService {
             f.setColumDesc(resultPair.getValue());
         }
         fileDao.updateByPrimaryKeySelective(f);
+    }
+    
+    
+    
+    public BaseFile queryById(Long id) {
+    	return fileDao.queryTById(id);
     }
 }

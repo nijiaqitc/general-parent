@@ -162,7 +162,7 @@ public class GrabController {
     	model.addAttribute("titleInfo", title);
     	model.addAttribute("leftTitle", pairTitle.getLeft());
     	model.addAttribute("rightTitle", pairTitle.getRight());
-        model.addAttribute("doc", grabService.queryById(docId));
+        model.addAttribute("doc", grabService.loadDoc(docId));
         model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
         model.addAttribute("topList", baseTipService.getTopTips());
         return "grab/knowledgeDoc";

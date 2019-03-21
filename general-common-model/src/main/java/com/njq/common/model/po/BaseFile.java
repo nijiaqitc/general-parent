@@ -81,101 +81,93 @@ public class BaseFile implements Serializable {
         this.columDesc = columDesc;
     }
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getOldName() {
-        return oldName;
-    }
+	public String getOldName() {
+		return oldName;
+	}
 
-    public void setOldName(String oldName) {
-        this.oldName = oldName;
-    }
+	public void setOldName(String oldName) {
+		this.oldName = oldName;
+	}
 
-    public String getfilePlace() {
-        return filePlace;
-    }
+	public String getFilePlace() {
+		return filePlace;
+	}
 
-    public void setfilePlace(String filePlace) {
-        this.filePlace = filePlace;
-    }
+	public void setFilePlace(String filePlace) {
+		this.filePlace = filePlace;
+	}
 
-    public String getRealPlace() {
-        return realPlace;
-    }
+	public String getOldSrc() {
+		return oldSrc;
+	}
 
-    public void setRealPlace(String realPlace) {
-        this.realPlace = realPlace;
-    }
+	public void setOldSrc(String oldSrc) {
+		this.oldSrc = oldSrc;
+	}
 
-    public String getChannel() {
-        return channel;
-    }
+	public String getRealPlace() {
+		return realPlace;
+	}
 
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
+	public void setRealPlace(String realPlace) {
+		this.realPlace = realPlace;
+	}
 
-    public Long getTypeId() {
-        return typeId;
-    }
+	public String getChannel() {
+		return channel;
+	}
 
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
-    }
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public Long getTypeId() {
+		return typeId;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setTypeId(Long typeId) {
+		this.typeId = typeId;
+	}
 
-    public Timestamp getModiDate() {
-        return modiDate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setModiDate(Timestamp modiDate) {
-        this.modiDate = modiDate;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public String getFilePlace() {
-        return filePlace;
-    }
+	public Timestamp getModiDate() {
+		return modiDate;
+	}
 
-    public void setFilePlace(String filePlace) {
-        this.filePlace = filePlace;
-    }
+	public void setModiDate(Timestamp modiDate) {
+		this.modiDate = modiDate;
+	}
 
-    public String getOldSrc() {
-        return oldSrc;
-    }
+	public Boolean getLoadFlag() {
+		return loadFlag;
+	}
 
-    public void setOldSrc(String oldSrc) {
-        this.oldSrc = oldSrc;
-    }
-
-    public Boolean getLoadFlag() {
-        return loadFlag;
-    }
-
-    public void setLoadFlag(Boolean loadFlag) {
-        this.loadFlag = loadFlag;
-    }
+	public void setLoadFlag(Boolean loadFlag) {
+		this.loadFlag = loadFlag;
+	}
 
 	public String getColumDesc() {
 		return columDesc;
@@ -184,6 +176,8 @@ public class BaseFile implements Serializable {
 	public void setColumDesc(String columDesc) {
 		this.columDesc = columDesc;
 	}
+
+    
 
     
 }

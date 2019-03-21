@@ -293,6 +293,7 @@ public class BaseTitleService {
     public Pair<BaseTitle, BaseTitle> getlrTitle(Long titleId) {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addLtParam("id", titleId);
+        conditionsCommon.addSetOrderColum("id", "desc");
         conditionsCommon.addPageParam(1, 1);
         List<BaseTitle> leftList = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
         conditionsCommon = new ConditionsCommon();

@@ -17,7 +17,7 @@
 	<dubbo:registry address="N/A" id="zookeeperClient"></dubbo:registry>
 
 	<dubbo:reference id="fileLoadService" interface="com.njq.file.load.api.FileLoadService"
-                     check="false" version="1.0"  registry="zookeeperClient" protocol="dubbo" timeout="15000"  url="dubbo://121.41.52.189:30958"/>
+                     check="false" version="1.0"  registry="zookeeperClient" protocol="dubbo" timeout="15000"  url="dubbo://127.0.0.1:30958"/>
 
 	<dubbo:consumer timeout="6000000" check="false"></dubbo:consumer>
 

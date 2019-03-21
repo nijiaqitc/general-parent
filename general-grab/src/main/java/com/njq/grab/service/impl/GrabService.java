@@ -3,6 +3,8 @@ package com.njq.grab.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,7 @@ import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.enumreg.title.TitleType;
+import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.po.BaseTipConfig;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleGrab;
@@ -204,7 +207,30 @@ public class GrabService {
         return grabDocDao.queryTById(docId);
     }
 
-
+    public GrabDoc loadDoc(Long docId) {
+    	GrabDoc doc = grabDocDao.queryTById(docId);
+    	Pattern pt1 =Pattern.compile("&amp;\\{\\|.*?\\|\\}");
+    	Matcher mt1 =  pt1.matcher(doc.getDoc());
+    	String matchstr;
+    	String imagId;
+    	BaseFile file;
+    	String docstr = doc.getDoc();
+    	String[] sp;
+    	while(mt1.find()) {
+    		matchstr = mt1.group();
+    		sp = matchstr.split("\\|");
+    		if(sp.length > 1) {
+    			imagId = sp[1];    			
+    			file = baseFileService.queryById(Long.parseLong(imagId));
+    			if(file != null) {
+    				docstr = docstr.replace(matchstr, file.getFilePlace());    			
+    			}
+    		}
+    	}
+    	doc.setDoc(docstr);
+    	return doc;
+    }
+    
     public List<BaseTitle> queryTitleList(Long docId, ChannelType channel) {
         return baseTitleService.getTitleList(channel, docId);
     }
