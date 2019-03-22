@@ -1,28 +1,13 @@
 package com.njq.admin.controller;
 
-/**
- * 工具接口，集中上传图片。等一系列功能
- */
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.njq.admin.common.UserCommon;
-import com.njq.basis.service.impl.BaseBannerService;
-import com.njq.common.base.dao.ConstantsCommon;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;import com.njq.common.enumreg.channel.ChannelType;
-import com.njq.common.model.po.BaseBanner;
-import com.njq.common.model.po.TbkPic;
-import com.njq.common.util.date.DateUtil;
-import com.njq.common.util.encrypt.Base64Util;
-import com.njq.common.util.image.UpPicUtil;
-import com.njq.common.util.other.PropertyUtil;
-import com.njq.common.util.string.IdGen;
-import com.njq.file.load.api.FileLoadService;
-import com.njq.file.load.api.model.ByteRequestBuilder;
-import com.njq.file.load.api.model.SaveFileInfo;
-import com.njq.file.load.api.model.UpBannerRequestBuilder;
-import com.njq.file.load.api.model.UpBase64RequestBuilder;
-import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
-import com.njq.tbk.service.TbkPicService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -37,12 +22,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/**
+ * 工具接口，集中上传图片。等一系列功能
+ */
+
+import com.njq.admin.common.UserCommon;
+import com.njq.basis.service.impl.BaseBannerService;
+import com.njq.basis.service.impl.BaseFileService;
+import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.model.po.BaseBanner;
+import com.njq.common.model.po.TbkPic;
+import com.njq.common.model.ro.BaseFileSaveRequestBuilder;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.ByteRequestBuilder;
+import com.njq.file.load.api.model.SaveFileInfo;
+import com.njq.file.load.api.model.UpBannerRequestBuilder;
+import com.njq.file.load.api.model.UpBase64RequestBuilder;
+import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
+import com.njq.tbk.service.TbkPicService;
 
 @RequestMapping("toolsManage")
 @Controller
@@ -55,7 +55,8 @@ public class ToolController {
     public TbkPicService tbkpicService;
     @Autowired
     private FileLoadService fileLoadService;
-
+    @Autowired
+    private BaseFileService  baseFileService;
 
     @RequestMapping(value = "formUpTest", method = RequestMethod.POST)
     @ResponseBody
@@ -79,9 +80,18 @@ public class ToolController {
     	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
     		try {
     			SaveFileInfo fileInfo = fileLoadService.upYxlByteFile(ByteRequestBuilder.aByteRequest()
-    					.ofType(ChannelType.YH_WIKI)
+    					.ofType(ChannelType.YXL)
     					.ofName(entry.getValue().getOriginalFilename())
     					.ofData(entry.getValue().getBytes())
+    					.ofDebugFlag(TokenCheck.debugType())
+    					.build());
+    			baseFileService.saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
+    					.ofChannel(ChannelType.YXL.getValue())
+    					.ofFilePlace(fileInfo.getFilePlace())
+    					.ofName(fileInfo.getFileNewName())
+    					.ofOldName(entry.getValue().getOriginalFilename())
+    					.ofRealPlace(fileInfo.getRealPlace())
+    					.ofResultPair(fileInfo.getResultPair())
     					.build());
     			resultMap.put(entry.getKey(), fileInfo.getFilePlace());				
 			} catch (Exception e) {
@@ -93,11 +103,28 @@ public class ToolController {
     	Map<String, String[]> strMap =  req.getParameterMap();
     	for(Map.Entry<String, String[]> entry:strMap.entrySet()) {
     		if(entry.getValue() != null) {
-//    			BASE64Decoder decoder = new BASE64Decoder();
-    			SaveFileInfo fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
-    					.ofUrl(entry.getValue()[0])
-    					.ofType(ChannelType.YH_WIKI)
-    					.build());   
+    			SaveFileInfo fileInfo=null;
+    			if(entry.getValue()[0].startsWith("data")) {
+    				fileLoadService.loadBase64(UpFileInfoRequestBuilder.anUpFileInfoRequest()
+    						.ofUrl(entry.getValue()[0])
+    						.ofType(ChannelType.YXL)
+    						.ofDebugFlag(TokenCheck.debugType())
+    						.build());
+    			}else {
+    				fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
+    						.ofUrl(entry.getValue()[0])
+    						.ofType(ChannelType.YXL)
+    						.ofDebugFlag(TokenCheck.debugType())
+    						.build());      				
+    			}
+    			baseFileService.saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
+    					.ofChannel(ChannelType.YXL.getValue())
+    					.ofFilePlace(fileInfo.getFilePlace())
+    					.ofName(fileInfo.getFileNewName())
+    					.ofOldName(fileInfo.getFileOldName())
+    					.ofRealPlace(fileInfo.getRealPlace())
+    					.ofResultPair(fileInfo.getResultPair())
+    					.build());
     			resultMap.put(entry.getKey(), fileInfo.getFilePlace());
     		}
     	}

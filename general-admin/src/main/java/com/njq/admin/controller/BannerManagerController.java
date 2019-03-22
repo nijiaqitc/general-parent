@@ -1,17 +1,15 @@
 package com.njq.admin.controller;
 
-import com.njq.basis.service.impl.BaseBannerService;
-import com.njq.common.base.dao.ConstantsCommon;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;
-import com.njq.common.model.po.BaseBanner;
-import com.njq.file.load.api.FileLoadService;
-import com.njq.file.load.api.model.SaveFileInfo;
-import com.njq.file.load.api.model.UpBannerRequestBuilder;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.basis.service.impl.BaseBannerService;
+import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.base.other.TokenCheck;
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.model.po.BaseBanner;
+import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.ByteRequestBuilder;
+import com.njq.file.load.api.model.SaveFileInfo;
 
 @Controller
 @RequestMapping("banner")
@@ -91,37 +93,32 @@ public class BannerManagerController {
     @RequestMapping(value = "upBanner", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> upBanner(HttpServletRequest req) {
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload sfu = new ServletFileUpload(factory);
-        sfu.setFileSizeMax(1024 * 400);
-        Map<String, Object> m = new HashMap<String, Object>();
-        try {
-            SaveFileInfo saveFileInfo;
-            List<FileItem> items = sfu.parseRequest(req);
-            // 区分表单域
-            for (int i = 0; i < items.size(); i++) {
-                if (!items.get(i).isFormField()) {
-                    saveFileInfo = fileLoadService.upBanner(UpBannerRequestBuilder
-                            .anUpBannerRequest()
-                            .ofItem(items.get(i))
-                            .ofDebugFlag(TokenCheck.debugType())
-                            .build());
-                    if (saveFileInfo.getFileNewName() != null) {
-                        BaseBanner banner = new BaseBanner();
-                        banner.setCreateDate(new Date());
-                        banner.setIsUse(ConstantsCommon.Use_Type.UN_USE);
-                        banner.setPicPlace(saveFileInfo.getFilePlace());
-                        banner.setName(saveFileInfo.getFileNewName());
-                        bannerService.saveObject(banner);
-                        MessageCommon.getSuccessMap(m);
-                    }
+    	
+    	Map<String, Object> resultMap = new HashMap<>();
+    	Map<String, MultipartFile> mms =  ((MultipartHttpServletRequest) req).getFileMap();
+    	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
+    		try {
+    			SaveFileInfo saveFileInfo = fileLoadService.upBannerByteFile(ByteRequestBuilder.aByteRequest()
+    					.ofType(ChannelType.SBANNER)
+    					.ofName(entry.getValue().getOriginalFilename())
+    					.ofData(entry.getValue().getBytes())
+    					.ofDebugFlag(TokenCheck.debugType())
+    					.build());
+    			if (saveFileInfo.getFileNewName() != null) {
+                    BaseBanner banner = new BaseBanner();
+                    banner.setCreateDate(new Date());
+                    banner.setIsUse(ConstantsCommon.Use_Type.UN_USE);
+                    banner.setPicPlace(saveFileInfo.getFilePlace());
+                    banner.setName(saveFileInfo.getFileNewName());
+                    bannerService.saveObject(banner);
+                    MessageCommon.getSuccessMap(resultMap);
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            MessageCommon.getFalseMap(m, "上传出现异常！");
-        }
-        return m;
+			} catch (Exception e) {
+				e.printStackTrace();
+	            MessageCommon.getFalseMap(resultMap, "上传出现异常！");
+			}
+		}
+    	return resultMap;
     }
 
     /**

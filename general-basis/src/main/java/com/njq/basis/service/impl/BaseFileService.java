@@ -153,7 +153,9 @@ public class BaseFileService {
         file.setTypeId(request.getTypeId());
         file.setLoadFlag(request.getResultPair().getKey());
         file.setColumDesc(request.getResultPair().getValue());
-        file.setOldSrc(request.getOldSrc().length() > 240 ? request.getOldSrc().substring(0, 240) + "......" : request.getOldSrc());
+        if(StringUtil2.IsNotEmpty(request.getOldSrc())) {
+        	file.setOldSrc(request.getOldSrc().length() > 240 ? request.getOldSrc().substring(0, 240) + "......" : request.getOldSrc());        	
+        }
         fileDao.save(file);
         return file;
     }
