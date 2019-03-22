@@ -9,8 +9,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.exception.ErrorCodeConstant;
+import com.njq.common.exception.BaseKnownException;
+import com.njq.common.exception.ErrorCodeConstant;
 import com.njq.common.model.po.GrabUrlInfo;
 
 @Service

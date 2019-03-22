@@ -3,9 +3,9 @@ package com.njq.grab.service.impl.yhwiki;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.njq.common.base.exception.BaseKnownException;
-import com.njq.common.base.exception.ErrorCodeConstant;
 import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.exception.BaseKnownException;
+import com.njq.common.exception.ErrorCodeConstant;
 import com.njq.common.model.ro.BaseFileDealRequestBuilder;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;

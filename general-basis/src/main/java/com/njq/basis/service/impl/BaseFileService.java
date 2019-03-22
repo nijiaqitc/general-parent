@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.njq.common.base.other.TokenCheck;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +17,11 @@ import org.springframework.util.CollectionUtils;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
+import com.njq.common.base.other.TokenCheck;
 import com.njq.common.base.redis.lock.JedisLock;
 import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.exception.BaseKnownException;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;

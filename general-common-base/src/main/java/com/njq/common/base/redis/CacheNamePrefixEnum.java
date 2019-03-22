@@ -1,6 +1,6 @@
 package com.njq.common.base.redis;
 
-import com.njq.common.base.constants.ValueDescription;
+import com.njq.common.enumreg.ValueDescription;
 
 /**
  * redis緩存前綴設置

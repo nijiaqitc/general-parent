@@ -1,21 +1,23 @@
 package com.njq.basis.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.base.exception.BaseKnownException;
 import com.njq.common.base.redis.lock.JedisLock;
 import com.njq.common.base.redis.lock.JedisLockFactory;
+import com.njq.common.exception.BaseKnownException;
 import com.njq.common.model.dao.BaseTypeNumJpaRepository;
 import com.njq.common.model.po.BaseType;
 import com.njq.common.model.po.BaseTypeNum;
 import com.njq.common.model.vo.LabelNameVO;
 import com.njq.common.util.string.StringUtil2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class BaseTypeService {

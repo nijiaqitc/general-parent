@@ -8,7 +8,7 @@ import com.njq.admin.common.UserCommon;
 import com.njq.basis.service.impl.BaseBannerService;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
-import com.njq.common.base.other.TokenCheck;
+import com.njq.common.base.other.TokenCheck;import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.TbkPic;
 import com.njq.common.util.date.DateUtil;
@@ -17,9 +17,11 @@ import com.njq.common.util.image.UpPicUtil;
 import com.njq.common.util.other.PropertyUtil;
 import com.njq.common.util.string.IdGen;
 import com.njq.file.load.api.FileLoadService;
+import com.njq.file.load.api.model.ByteRequestBuilder;
 import com.njq.file.load.api.model.SaveFileInfo;
 import com.njq.file.load.api.model.UpBannerRequestBuilder;
 import com.njq.file.load.api.model.UpBase64RequestBuilder;
+import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
 import com.njq.tbk.service.TbkPicService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -32,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -70,28 +74,36 @@ public class ToolController {
     @RequestMapping(value = "upTest", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> upTest(HttpServletRequest req) {
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload sfu = new ServletFileUpload(factory);
-        sfu.setFileSizeMax(1024 * 1024);
-        Map<String, Object> m = new HashMap<String, Object>();
-        try {
-            List<FileItem> items = sfu.parseRequest(req);
-            String fileName;
-            String dd = DateUtil.toDateString8(new Date());
-            // 区分表单域
-            for (int i = 0; i < items.size(); i++) {
-                SaveFileInfo saveFileInfo = fileLoadService.upyxlFile(UpBannerRequestBuilder
-                        .anUpBannerRequest()
-                        .ofItem(items.get(i))
-                        .ofDebugFlag(TokenCheck.debugType())
-                        .build());
-                m.put(saveFileInfo.getFileNewName(), saveFileInfo.getFilePlace());
-            }
-            return m;
-        } catch (Exception e) {
-            logger.error("上传图片出现异常", e);
-        }
-        return null;
+    	Map<String, Object> resultMap = new HashMap<>();
+    	Map<String, MultipartFile> mms =  ((MultipartHttpServletRequest) req).getFileMap();
+    	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
+    		try {
+    			SaveFileInfo fileInfo = fileLoadService.upYxlByteFile(ByteRequestBuilder.aByteRequest()
+    					.ofType(ChannelType.YH_WIKI)
+    					.ofName(entry.getValue().getOriginalFilename())
+    					.ofData(entry.getValue().getBytes())
+    					.build());
+    			resultMap.put(entry.getKey(), fileInfo.getFilePlace());				
+			} catch (Exception e) {
+				e.printStackTrace();
+	            MessageCommon.getFalseMap(resultMap, "上传出现异常！");
+			}
+		}
+    	
+    	Map<String, String[]> strMap =  req.getParameterMap();
+    	for(Map.Entry<String, String[]> entry:strMap.entrySet()) {
+    		if(entry.getValue() != null) {
+//    			BASE64Decoder decoder = new BASE64Decoder();
+    			SaveFileInfo fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
+    					.ofUrl(entry.getValue()[0])
+    					.ofType(ChannelType.YH_WIKI)
+    					.build());   
+    			resultMap.put(entry.getKey(), fileInfo.getFilePlace());
+    		}
+    	}
+    	
+    	return resultMap;
+    	
     }
 
     @RequestMapping(value = "upTest1", method = RequestMethod.GET)
@@ -105,7 +117,7 @@ public class ToolController {
             List<FileItem> items = sfu.parseRequest(req);
             // 区分表单域
             for (int i = 0; i < items.size(); i++) {
-                SaveFileInfo saveFileInfo = fileLoadService.upyxlFile(UpBannerRequestBuilder
+                SaveFileInfo saveFileInfo = fileLoadService.upYxlFile(UpBannerRequestBuilder
                         .anUpBannerRequest()
                         .ofItem(items.get(i))
                         .ofDebugFlag(TokenCheck.debugType())
