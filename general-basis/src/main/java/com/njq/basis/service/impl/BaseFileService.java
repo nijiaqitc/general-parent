@@ -62,7 +62,7 @@ public class BaseFileService {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = request.getPrefix() + src;
         }
-        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+        SaveFileInfo fileInfo = fileLoadService.loadFile(new UpFileInfoRequestBuilder()
         		.ofUrl(src)
                 .ofType(ChannelType.getChannelType(request.getChannel()))
                 .ofDebugFlag(TokenCheck.debugType())
