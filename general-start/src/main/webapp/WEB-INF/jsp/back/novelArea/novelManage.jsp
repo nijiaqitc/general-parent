@@ -28,7 +28,7 @@
 	             <div class="menu-box" style="width: 150px;height: 220px;background-color: white;float: left;margin-left: 30px;margin-top: 20px;">
 			         <a href="novelTitleList?docId=${doc.id }">
 				         <div style="width: 100%;height: 200px;clear: both;">
-				         <div style="width: 30px;font-size: 22px;margin-left: 10px;padding-top: 10px;">
+				         <div style="width: 30px;font-size: 18px;margin-left: 10px;padding-top: 10px;">
 					         ${doc.title}
 				         </div>
 				         </div>
