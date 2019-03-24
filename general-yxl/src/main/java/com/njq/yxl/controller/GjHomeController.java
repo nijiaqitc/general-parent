@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseBanner;
+import com.njq.common.model.po.YxlDocSearch;
 import com.njq.common.model.po.YxlTip;
+import com.njq.common.model.vo.DocVO;
 import com.njq.common.util.other.PropertyUtil;
 import com.njq.file.load.api.FileLoadService;
 import com.njq.file.load.api.model.DownLoadFileRequestBuilder;
@@ -70,6 +71,16 @@ public class GjHomeController {
         return "zxgj/index";
     }
 
+    @RequestMapping(value = "index2", method = RequestMethod.GET)
+    public String toIndex2(Model model, String ismob) {
+    	List<YxlDocSearch> xlList=yxlDocSearchService.queryTitleYxlList(true);
+    	List<DocVO> docList=yxlDocSearchService.queryTitlelist();
+        model.addAttribute("doclist",docList);
+        model.addAttribute("xlDoclist",xlList);
+        model.addAttribute("ismob", ismob);
+        return "zxgj/index2";
+    }
+    
     /**
      * 获取banner图片
      *

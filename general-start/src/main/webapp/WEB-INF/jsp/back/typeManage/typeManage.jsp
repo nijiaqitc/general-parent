@@ -201,8 +201,11 @@
 					ajaxAfter();
 					var str="";
 					$.each(data.list,function(n,d){
-						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>"+
-						d.parentName+"</td><td>"+d.columDesc+"</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
+						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>";
+						if(d.parentName != null){
+							str+=d.parentName;
+						}
+						str+="</td><td>"+d.columDesc+"</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 					})
 					$("#dataBody").html(str);
 					njqpage.totalNum=Number(data.total);

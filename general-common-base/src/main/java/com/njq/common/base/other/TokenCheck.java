@@ -1,5 +1,7 @@
 package com.njq.common.base.other;
 
+import com.njq.common.base.config.SpringContextUtil;
+
 /**
  * @author: nijiaqi
  * @date: 2019/2/18
@@ -15,7 +17,8 @@ public class TokenCheck {
     }
 
     public static boolean debugType(){
-        return false;
+    	String flag = SpringContextUtil.getValue("debugFlag");
+        return Boolean.parseBoolean(flag);
     }
 
 }

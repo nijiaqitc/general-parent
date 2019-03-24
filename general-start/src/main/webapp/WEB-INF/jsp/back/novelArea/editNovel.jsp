@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>编辑小说</title>
 <jsp:include page="${path}/commonTopLink"></jsp:include>
-<link href="${resPath }/jsTool/njqeditor/css/njqEditorTypeOne.css"  rel="stylesheet">
+<link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleOne.css"  rel="stylesheet">
 </head>
 <body>
 	<!-- 通用顶部 -->
@@ -74,6 +74,10 @@
     	}
     }
     function showDialog1(t){
+    	if($("#fintype").css("display")=="block"){
+    		$("#fintype").hide();
+    		return;
+    	}
     	$("#fintype").show();
     	var top=t.parentElement.offsetTop+t.offsetTop;
         $("#fintype").css({"top":top+"px"});
@@ -93,7 +97,7 @@
     			id:$("#docId").val(),
     			doc:$("#njqEditor_context").html(),
     			finishStatus:$("input[name='fin']:checked").val(),
-    			fontNum:$("#njqEditor_wordCount").html().split("：")[1],
+    			fontNum:$("#njqEditor_wordCount").children().first().html(),
     			titleIndex:$("#titleIndex").val()
     		},
     		success:function(data){

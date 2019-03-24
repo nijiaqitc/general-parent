@@ -120,7 +120,7 @@ public class XsDocDetailService {
 	public XsDocDetail updateObject(XsDocDetail detail) {
 		XsDocDetail d=docDetailDao.queryTById(detail.getId());
 		d.setTitle(detail.getTitle());
-		d.setDoc(d.getDoc());
+		d.setDoc(detail.getDoc());
 		d.setFontNum(detail.getFontNum());
 		d.setFinishStatus(detail.getFinishStatus());
 		d.setModiDate(new Timestamp(System.currentTimeMillis()));

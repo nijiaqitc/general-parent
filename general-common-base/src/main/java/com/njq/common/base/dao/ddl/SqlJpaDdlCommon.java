@@ -348,7 +348,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
         if (cc.getParamMap() != null && cc.getParamMap().size() > 0) {
             SqlJpaInnerDeal.buildWhere(stb, cc.getParamMap());
         }
-        Query query = getHqlQuery(stb.toString(), cc.getClassName());
+        Query query = getHqlQuery(stb.toString(), null);
         SqlJpaInnerDeal.bandParam(query, cc.getParamMap());
         return query.executeUpdate();
     }

@@ -84,9 +84,9 @@
 						<c:if test="${doc.type!=2 }">
 							<div class="titleStyle" >
 							 <a href="novelView?docId=${doc.id }" 
-							     <c:if test="${doc.finishStatus==0}">style="color:green;"</c:if>
-							     <c:if test="${doc.finishStatus==1}">style="color:red;"</c:if>
-							     <c:if test="${doc.finishStatus==2}">style="color:black;"</c:if>
+							     <c:if test="${doc.finishStatus==0}">style="color:green;" title="未开始"</c:if>
+							     <c:if test="${doc.finishStatus==1}">style="color:red;" title="编写中"</c:if>
+							     <c:if test="${doc.finishStatus==2}">style="color:black;" title="已完成"</c:if>
 							 >第${doc.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title}</a>
 							 <a href="editNovel?docId=${doc.id}" style="float: left;">
                                  <i class="icon-edit" style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>

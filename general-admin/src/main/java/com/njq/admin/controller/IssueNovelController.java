@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.njq.admin.common.UserCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.XsDocDetail;
@@ -128,6 +129,39 @@ public class IssueNovelController {
 	}
 
 	/**
+	 * 添加章节
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping(value = "/addTitle", method = RequestMethod.POST)
+	public String addTitle(XsTitleDetail detail, Model model) {
+		XsTitleDetail d = titleService.queryDetalByOrderIndex(detail);
+		XsDocDetail docDetail;
+		if (d == null) {
+			detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
+			detail.setCreateDate(new Date());
+			titleService.saveTitle(detail);
+			docDetail = new XsDocDetail();
+			docDetail.setThcId(detail.getId());
+			docDetail.setCreateDate(new Date());
+			docDetail.setFinishStatus(detail.getFinishStatus());
+			docDetail.setFontNum(0);
+			docDetail.setTitle(detail.getTitle());
+			docDetail.setIsShow(detail.getIsShow());
+			docDetail.setUserId(UserCommon.getUserId());
+			docDetail.setInTurn(detail.getOrderIndex());
+			docDetailService.saveObject(docDetail);
+		} else {
+			detail = d;
+			docDetail = docDetailService.queryByTitleId(d.getId());
+		}
+		model.addAttribute("docdetail", docDetail);
+		model.addAttribute("titleDetail", detail);
+		return "back/novelArea/editNovel";
+	}
+	
+	/**
 	 * 修改文章
 	 * 
 	 * @param docId
@@ -160,27 +194,7 @@ public class IssueNovelController {
 		return MessageCommon.getSuccessMap();
 	}
 
-	/**
-	 * 添加章节
-	 * 
-	 * @param name
-	 * @return
-	 */
-	@RequestMapping(value = "/addTitle", method = RequestMethod.POST)
-	public String addTitle(XsTitleDetail detail, Model model) {
-		XsTitleDetail d = titleService.queryDetalByOrderIndex(detail);
-		if (d == null) {
-			detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
-			detail.setCreateDate(new Date());
-			titleService.saveTitle(detail);
-		} else {
-			detail = d;
-		}
-		model.addAttribute("title", detail.getTitle());
-		model.addAttribute("titleIndex", detail.getTitleIndex());
-		model.addAttribute("docId", detail.getId());
-		return "back/novelArea/issueNovel";
-	}
+	
 
 	/**
 	 * 修改章节

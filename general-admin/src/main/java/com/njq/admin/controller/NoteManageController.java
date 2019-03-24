@@ -140,7 +140,7 @@ public class NoteManageController {
 	@RequestMapping(value = "readNote", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> readNote(Long docId, Long folderId, HttpServletRequest req) {
-		if (req.getSession().getAttribute("folderUnLock").equals(folderId)) {
+		if (UserCommon.getUserId() !=null || req.getSession().getAttribute("folderUnLock").equals(folderId)) {
 			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("note", yxlNoteService.queryById(docId));
 			return m;
