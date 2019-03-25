@@ -30,7 +30,7 @@ function CustomDecoder() {
     //匹配标签中的style或class
     this.zz3 = /(style|class)(| *)=(| *)".*?"/g;
     //排除的标签
-    this.excludeLabel=[/<(svg)(.*?)>(.|\n| )*?<\/\1>/g];
+    this.excludeLabel=[/<(svg)(.*?)>(.|\n| )*?<\/\1>/g,/<(style)(.*?)>(.|\n| )*?<\/\1>/g];
     this.customStr = "";
     this.validate = function () {
         if (this.str == undefined) {
@@ -68,9 +68,11 @@ function CustomDecoder() {
         this.str = this.str.replace(/\&nbsp;/g, "");
         var inputList = this.str.match(/<input.*?\>/g);
         this.clear(inputList);
-        var sz = this.str.match(this.secondClear);
+        for(var i=0;i<this.excludeLabel.length;i++){
+        	this.clear(this.str.match(this.excludeLabel[i]));
+        }
         this.recurrenceClear();
-        this.clear(sz);
+        this.clear(this.str.match(this.secondClear));
         this.clear(this.str.match(/\<!--.*?--\>/g));
     };
     this.clear = function (sz) {

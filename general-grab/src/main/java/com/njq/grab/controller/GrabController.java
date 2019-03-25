@@ -28,6 +28,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.po.BaseTitleLoading;
+import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LabelNameVO;
 import com.njq.common.util.string.StringUtil;
@@ -153,6 +154,10 @@ public class GrabController {
 
     @RequestMapping(value = "/knowledge/{docId}", method = RequestMethod.GET)
     public String docView(Model model, @PathVariable(value = "docId") Long docId,Boolean allInfo) {
+    	GrabDoc doc = grabService.loadDoc(docId);
+    	if(doc == null) {
+    		return "grab/noDoc";
+    	}
     	BaseTitle title = baseTitleService.getTitleByDocId(docId);
     	if(allInfo!=null&&allInfo) {
     		BaseTitleLoading loading =  baseTitleService.getLoadingByTitleId(title.getId());
@@ -162,7 +167,7 @@ public class GrabController {
     	model.addAttribute("titleInfo", title);
     	model.addAttribute("leftTitle", pairTitle.getLeft());
     	model.addAttribute("rightTitle", pairTitle.getRight());
-        model.addAttribute("doc", grabService.loadDoc(docId));
+        model.addAttribute("doc", doc);
         model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
         model.addAttribute("topList", baseTipService.getTopTips());
         return "grab/knowledgeDoc";
