@@ -48,6 +48,9 @@ public class BaseFile implements Serializable {
     @Column(name = "type_id")
     private Long typeId;
 
+    @Column(name = "file_type")
+    private String fileType;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
     private Date createDate;
@@ -67,7 +70,7 @@ public class BaseFile implements Serializable {
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, Date createDate, Timestamp modiDate, Boolean loadFlag, String columDesc) {
+    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, String fileType, Date createDate, Timestamp modiDate, Boolean loadFlag, String columDesc) {
         this.name = name;
         this.oldName = oldName;
         this.filePlace = filePlace;
@@ -75,109 +78,114 @@ public class BaseFile implements Serializable {
         this.realPlace = realPlace;
         this.channel = channel;
         this.typeId = typeId;
+        this.fileType = fileType;
         this.createDate = createDate;
         this.modiDate = modiDate;
         this.loadFlag = loadFlag;
         this.columDesc = columDesc;
     }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getOldName() {
-		return oldName;
-	}
+    public String getOldName() {
+        return oldName;
+    }
 
-	public void setOldName(String oldName) {
-		this.oldName = oldName;
-	}
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
+    }
 
-	public String getFilePlace() {
-		return filePlace;
-	}
+    public String getFilePlace() {
+        return filePlace;
+    }
 
-	public void setFilePlace(String filePlace) {
-		this.filePlace = filePlace;
-	}
+    public void setFilePlace(String filePlace) {
+        this.filePlace = filePlace;
+    }
 
-	public String getOldSrc() {
-		return oldSrc;
-	}
+    public String getOldSrc() {
+        return oldSrc;
+    }
 
-	public void setOldSrc(String oldSrc) {
-		this.oldSrc = oldSrc;
-	}
+    public void setOldSrc(String oldSrc) {
+        this.oldSrc = oldSrc;
+    }
 
-	public String getRealPlace() {
-		return realPlace;
-	}
+    public String getRealPlace() {
+        return realPlace;
+    }
 
-	public void setRealPlace(String realPlace) {
-		this.realPlace = realPlace;
-	}
+    public void setRealPlace(String realPlace) {
+        this.realPlace = realPlace;
+    }
 
-	public String getChannel() {
-		return channel;
-	}
+    public String getChannel() {
+        return channel;
+    }
 
-	public void setChannel(String channel) {
-		this.channel = channel;
-	}
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 
-	public Long getTypeId() {
-		return typeId;
-	}
+    public Long getTypeId() {
+        return typeId;
+    }
 
-	public void setTypeId(Long typeId) {
-		this.typeId = typeId;
-	}
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public Timestamp getModiDate() {
-		return modiDate;
-	}
+    public Timestamp getModiDate() {
+        return modiDate;
+    }
 
-	public void setModiDate(Timestamp modiDate) {
-		this.modiDate = modiDate;
-	}
+    public void setModiDate(Timestamp modiDate) {
+        this.modiDate = modiDate;
+    }
 
-	public Boolean getLoadFlag() {
-		return loadFlag;
-	}
+    public Boolean getLoadFlag() {
+        return loadFlag;
+    }
 
-	public void setLoadFlag(Boolean loadFlag) {
-		this.loadFlag = loadFlag;
-	}
+    public void setLoadFlag(Boolean loadFlag) {
+        this.loadFlag = loadFlag;
+    }
 
-	public String getColumDesc() {
-		return columDesc;
-	}
+    public String getColumDesc() {
+        return columDesc;
+    }
 
-	public void setColumDesc(String columDesc) {
-		this.columDesc = columDesc;
-	}
+    public void setColumDesc(String columDesc) {
+        this.columDesc = columDesc;
+    }
 
-    
+    public String getFileType() {
+        return fileType;
+    }
 
-    
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
 }

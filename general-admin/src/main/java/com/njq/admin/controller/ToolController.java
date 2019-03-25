@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.njq.common.enumreg.FileType;
+import com.njq.common.util.string.StringUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -92,6 +94,7 @@ public class ToolController {
     					.ofOldName(entry.getValue().getOriginalFilename())
     					.ofRealPlace(fileInfo.getRealPlace())
     					.ofResultPair(fileInfo.getResultPair())
+                        .ofFileType(FileType.IMAGE.getValue())
     					.build());
     			resultMap.put(entry.getKey(), fileInfo.getFilePlace());				
 			} catch (Exception e) {
@@ -124,6 +127,7 @@ public class ToolController {
     					.ofOldName(fileInfo.getFileOldName())
     					.ofRealPlace(fileInfo.getRealPlace())
     					.ofResultPair(fileInfo.getResultPair())
+                        .ofFileType(FileType.IMAGE.getValue())
     					.build());
     			resultMap.put(entry.getKey(), fileInfo.getFilePlace());
     		}

@@ -159,7 +159,15 @@
 					var str="";
 					$.each(data.list,function(n,d){
 						createCode(d);
-						str +="<tr><td onclick='check(this)'><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>"+d.value+"</td><td class='center'>"+d.desc+"</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
+						str +="<tr><td onclick='check(this)'><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>";
+						if(d.value != null){
+							str += d.value;
+						}
+						str += "</td><td class='center'>";
+						if(d.desc != null){
+							str +=d.desc;
+						}
+						str +="</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 						
 					})
 					num=Math.ceil(data.total/size);
@@ -373,7 +381,15 @@
 	        	success:function(data){
 	        		var str="";
 					$.each(data.list,function(n,d){
-						str +="<tr><input type='hidden' name='type' value='"+d.type+"' ><td onclick='check(this)'><i class='icon-check-empty'></i></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>"+d.value+"</td><td class='center'>"+d.desc+"</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
+						str +="<tr><input type='hidden' name='type' value='"+d.type+"' ><td onclick='check(this)'><i class='icon-check-empty'></i></td><td>"+d.id+"</td><td class='center'>"+d.name+"</td><td>";
+						if(d.value != null){
+							str+=d.value;
+						}
+						str+="</td><td class='center'>";
+						if(d.desc != null){
+							str += d.desc; 
+						}
+						str +="</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 					})
 					node.html(str);
 					str="";

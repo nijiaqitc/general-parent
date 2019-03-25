@@ -188,9 +188,9 @@
 			url : "/static/jsTool/njqeditor/",// 项目路径
 			pic : {
 				enable:true,//是否允许上传
-				picSrc : "/",// 图片上传地址
-				upType : 1,// 上传方式，1：上传图片为临时图片，最后保存同文字一起上传到服务，2：上传图片立马传入到服务器，3:不上传图片
-				ignoreSrc : "/",// 忽略的url地址，使用|进行多网址分隔，不想用忽略地址直接用“/”即可，比如引用本网站静态资源库的图片，但地址不同，不想上传这些地址是配置
+				picSrc : "/toolsManage/upTest",// 图片上传地址
+				upType : 2,// 上传方式，1：上传图片为临时图片，最后保存同文字一起上传到服务，2：上传图片立马传入到服务器，3:不上传图片
+				ignoreSrc : "http://www.njqityun.com|http://image.njqityun.com",// 忽略的url地址，使用|进行多网址分隔，不想用忽略地址直接用“/”即可，比如引用本网站静态资源库的图片，但地址不同，不想上传这些地址是配置
 				maxWidth:550//图片最大宽度限制
 			},
 			wordUrl : "/",// 内容上传地址
@@ -253,8 +253,8 @@
 			url : "/static/jsTool/njqeditor/",// 项目路径
 			pic : {
 				enable:true,//是否允许上传
-				picSrc : "http://www.njqityun.com/toolsManage/upTest",// 图片上传地址
-				upType : 1,// 上传方式，1：上传图片为临时图片，最后保存同文字一起上传到服务，2：上传图片立马传入到服务器，3:不上传图片
+				picSrc : "/toolsManage/upTest",// 图片上传地址
+				upType : 2,// 上传方式，1：上传图片为临时图片，最后保存同文字一起上传到服务，2：上传图片立马传入到服务器，3:不上传图片
 				ignoreSrc : "http://www.njqityun.com|http://image.njqityun.com",// 忽略的url地址，使用|进行多网址分隔，不想用忽略地址直接用“/”即可，比如引用本网站静态资源库的图片，但地址不同，不想上传这些地址是配置
 				maxWidth:550//图片最大宽度限制
 			},

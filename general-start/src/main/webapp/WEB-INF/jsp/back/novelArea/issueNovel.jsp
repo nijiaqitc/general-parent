@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发表小说</title>
 <jsp:include page="${path}/commonTopLink"></jsp:include>
-<link href="${resPath }/jsTool/njqeditor/css/njqEditorTypeOne.css"  rel="stylesheet">
+<link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleOne.css"  rel="stylesheet">
 </head>
 <body>
 	<!-- 通用顶部 -->
@@ -67,11 +67,18 @@
     	$(btn.parentNode).hide();
     	if($("#tkSetValue")[0].typeValue==1){
     		   $("#njqEditor_name_value").html(btn.previousElementSibling.value);
+    		   $("#title").val(btn.previousElementSibling.value);
     	}else{
     		   $("#njqEditor_num_value").html("第"+btn.previousElementSibling.value+"章");
+    		   $("#titleIndex").val(btn.previousElementSibling.value);
     	}
     }
     function showDialog1(t){
+    	if($("#fintype").css("display")=="block"){
+    		$("#fintype").hide();
+    		return;
+    	}
+    	
     	$("#fintype").show();
     	var top=t.parentElement.offsetTop+t.offsetTop;
         $("#fintype").css({"top":top+"px"});
@@ -89,7 +96,8 @@
     			userId:"",
     			doc:$("#njqEditor_context").html(),
     			finishStatus:$("input[name='fin']:checked").val(),
-    			fontNum:$("#njqEditor_wordCount").html().split("：")[1]
+    			fontNum:$("#njqEditor_wordCount").children().first().html(),
+    			titleIndex:$("#titleIndex").val()
     		},
     		success:function(data){
     			if(data.state==1){

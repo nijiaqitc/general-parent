@@ -4,7 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * @author: nijiaqi
- * @date: 2019/3/15
+ * @date: 2019/3/25
  */
 public final class BaseFileSaveRequestBuilder {
     private String channel;
@@ -13,10 +13,11 @@ public final class BaseFileSaveRequestBuilder {
     private String filePlace;
     private String realPlace;
     private Long typeId;
+    private String fileType;
     private String oldSrc;
     private Pair<Boolean, String> resultPair;
 
-    public BaseFileSaveRequestBuilder() {
+    private BaseFileSaveRequestBuilder() {
     }
 
     public static BaseFileSaveRequestBuilder aBaseFileSaveRequest() {
@@ -53,6 +54,11 @@ public final class BaseFileSaveRequestBuilder {
         return this;
     }
 
+    public BaseFileSaveRequestBuilder ofFileType(String fileType) {
+        this.fileType = fileType;
+        return this;
+    }
+
     public BaseFileSaveRequestBuilder ofOldSrc(String oldSrc) {
         this.oldSrc = oldSrc;
         return this;
@@ -71,6 +77,7 @@ public final class BaseFileSaveRequestBuilder {
         baseFileSaveRequest.setFilePlace(filePlace);
         baseFileSaveRequest.setRealPlace(realPlace);
         baseFileSaveRequest.setTypeId(typeId);
+        baseFileSaveRequest.setFileType(fileType);
         baseFileSaveRequest.setOldSrc(oldSrc);
         baseFileSaveRequest.setResultPair(resultPair);
         return baseFileSaveRequest;

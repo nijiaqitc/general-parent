@@ -278,6 +278,11 @@ public class GrabService {
         });
     }
 
+    public void fileLoadQuery(){
+        performerService.getAnalysisPerformer(ChannelType.YH_WIKI).login();
+        baseFileService.fileLoadQuery();
+    }
+
     /**
      * 修复tip关联数量
      */

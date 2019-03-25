@@ -6352,7 +6352,7 @@
 		    },
 		    // 整理待上传的图片
 		    arrangeUpPic:function(){
-		    	upPicArray={};
+//		    	upPicArray={};
 		    	// 先获取出所有图片
 		    	var imgs=util.getElementsByTagName(editorContext,"img");
 		    	if(imgs.length==0){
