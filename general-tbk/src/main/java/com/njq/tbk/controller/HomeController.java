@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.TbkRecommendDocView;
 import com.njq.common.model.po.TbkType;
+import com.njq.common.model.vo.TbkTypeVO;
 import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkTypeService;
 
@@ -41,7 +42,7 @@ public class HomeController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String toIndex(Model model, String ismob) {
         List<TbkRecommendDocView> viewList = tbkdocService.queryRecommendDoc(new HashMap<String, Object>(), 1, 3);
-        List<TbkType> littleDivTextList = tbktypeService.queryLittleDivText(1, 3);
+        List<TbkTypeVO> littleDivTextList = tbktypeService.queryLittleDivText(1, 3);
         model.addAttribute("recommendDocList", viewList);
         model.addAttribute("littleDivTextList", littleDivTextList);
         model.addAttribute("ismob", ismob);
@@ -59,7 +60,7 @@ public class HomeController {
     @ResponseBody
     public Map<String, Object> queryLittleDoc(int page) {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<TbkType> littleDivTextList = tbktypeService.queryLittleDivText(page, 3);
+        List<TbkTypeVO> littleDivTextList = tbktypeService.queryLittleDivText(page, 3);
         map.put("littleDivTextList", littleDivTextList);
         return map;
     }

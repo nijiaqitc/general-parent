@@ -69,7 +69,6 @@ public class TbkRecommendDocView implements Serializable {
 	@Column(name="userName")
 	private String userName;
 
-	private String[] searchValue;
 	// Constructors
 
 	/** default constructor */
@@ -175,13 +174,6 @@ public class TbkRecommendDocView implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	public String[] getSearchValue() {
-		return searchValue;
-	}
-
-	public void setSearchValue(String[] searchValue) {
-		this.searchValue = searchValue;
 	}
 	
 	public String getSearchGeneral(){
@@ -305,15 +297,6 @@ public class TbkRecommendDocView implements Serializable {
 	private String formatRed(String str){
 		if(str==null){
 			return "";
-		}
-		if(this.searchValue==null){
-			return str;
-		}
-		if(this.searchValue.length>0){
-			for(String value:searchValue){
-				str=str.replaceAll(value,"<em>"+value+"</em>" );
-			}
-			return str;
 		}
 		return "";
 	}

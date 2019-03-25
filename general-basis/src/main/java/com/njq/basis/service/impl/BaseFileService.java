@@ -48,13 +48,21 @@ public class BaseFileService {
     private FileLoadService fileLoadService;
 
     public String dealImgSrc(Long typeId, ChannelType channel, String prefix, String src) {
-        BaseFile file;
-        if (src.startsWith("data:image/png;base64")) {
-            file = dealBase64Src(typeId, channel, prefix, src);
-        } else {
-            file = dealPicSrc(typeId, channel, prefix, src);
+    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+            src = prefix + src;
         }
-        return "&{|" + file.getId() + "|}";
+    	List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
+    	if(CollectionUtils.isEmpty(list)) {
+    		BaseFile file;
+    		if (src.startsWith("data:image/png;base64")) {
+    			file = dealBase64Src(typeId, channel, prefix, src);
+    		} else {
+    			file = dealPicSrc(typeId, channel, prefix, src);
+    		}
+    		return "&{|" + file.getId() + "|}";
+    	}else {
+    		return "&{|" + list.get(0).getId() + "|}"; 
+    	}
     }
 
     public String dealFileUrl(BaseFileDealRequest request) {
@@ -62,87 +70,112 @@ public class BaseFileService {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = request.getPrefix() + src;
         }
-        SaveFileInfo fileInfo = fileLoadService.loadFile(new UpFileInfoRequestBuilder()
-                .ofUrl(src)
-                .ofType(ChannelType.getChannelType(request.getChannel()))
-                .ofDebugFlag(TokenCheck.debugType())
-                .build());
-        BaseFile file = getFileInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
-                .ofChannel(request.getChannel())
-                .ofName(fileInfo.getFileNewName())
-                .ofOldName(fileInfo.getFileOldName())
-                .ofFilePlace(fileInfo.getFilePlace())
-                .ofRealPlace(fileInfo.getRealPlace())
-                .ofTypeId(request.getTypeId())
-                .ofOldSrc(fileInfo.getOldSrc())
-                .ofResultPair(fileInfo.getResultPair())
-                .ofFileType(StringUtil.urlPostfix(fileInfo.getFileNewName()))
-                .build());
-        return "&{|" + file.getId() + "|}";
+        String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), request.getSrc());
+        try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
+            if (!jedisLock.acquire()) {
+                throw new BaseKnownException("并发获取锁失败！"+lockKey);
+            }
+            List<BaseFile> list = getFileListByCon(request.getTypeId(), request.getChannel(), getOldName(src));
+            if (CollectionUtils.isEmpty(list)) {
+            	SaveFileInfo fileInfo = fileLoadService.loadFile(new UpFileInfoRequestBuilder()
+            			.ofUrl(src)
+            			.ofType(ChannelType.getChannelType(request.getChannel()))
+            			.ofDebugFlag(TokenCheck.debugType())
+            			.build());
+            	BaseFile file = saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
+            			.ofChannel(request.getChannel())
+            			.ofName(fileInfo.getFileNewName())
+            			.ofOldName(fileInfo.getFileOldName())
+            			.ofFilePlace(fileInfo.getFilePlace())
+            			.ofRealPlace(fileInfo.getRealPlace())
+            			.ofTypeId(request.getTypeId())
+            			.ofOldSrc(fileInfo.getOldSrc())
+            			.ofResultPair(fileInfo.getResultPair())
+            			.ofFileType(StringUtil.urlPostfix(fileInfo.getFileNewName()))
+            			.build());
+            	return "&{|" + file.getId() + "|}";
+            }
+            return "&{|" + list.get(0).getId() + "|}";
+        } catch (IOException | InterruptedException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        
+        
     }
 
     public BaseFile dealBase64Src(Long typeId, ChannelType channel, String prefix, String src) {
-        SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
-                .ofUrl(src)
-                .ofType(channel)
-                .ofDebugFlag(TokenCheck.debugType())
-                .build());
-        return getFileInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
-                .ofChannel(channel.getValue())
-                .ofName(fileInfo.getFileNewName())
-                .ofOldName(fileInfo.getFileOldName())
-                .ofFilePlace(fileInfo.getFilePlace())
-                .ofRealPlace(fileInfo.getRealPlace())
-                .ofTypeId(typeId)
-                .ofOldSrc(fileInfo.getOldSrc())
-                .ofResultPair(fileInfo.getResultPair())
-                .ofFileType(FileType.IMAGE.getValue())
-                .build());
-    }
-
-    public BaseFile dealPicSrc(Long typeId, ChannelType channel, String prefix, String src) {
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = prefix + src;
-        }
-        SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
-                .ofUrl(src)
-                .ofType(channel)
-                .ofDebugFlag(TokenCheck.debugType())
-                .build());
-        return getFileInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
-                .ofChannel(channel.getValue())
-                .ofName(fileInfo.getFileNewName())
-                .ofOldName(fileInfo.getFileOldName())
-                .ofFilePlace(fileInfo.getFilePlace())
-                .ofRealPlace(fileInfo.getRealPlace())
-                .ofTypeId(typeId)
-                .ofOldSrc(fileInfo.getOldSrc())
-                .ofResultPair(fileInfo.getResultPair())
-                .ofFileType(FileType.IMAGE.getValue())
-                .build());
-    }
-
-    public BaseFile getFileInfo(BaseFileSaveRequest request) {
-        String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", request.getOldName(), request.getOldSrc());
+    	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), src);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
-                throw new BaseKnownException("并发获取锁失败！");
+                throw new BaseKnownException("并发获取锁失败！"+lockKey);
             }
-            ConditionsCommon conditionsCommon = new ConditionsCommon();
-            conditionsCommon.addEqParam("oldName", request.getOldName());
-            if (request.getTypeId() != null) {
-                conditionsCommon.addEqParam("typeId", request.getTypeId());
-            }
-            conditionsCommon.addEqParam("channel", request.getChannel());
-            List<BaseFile> list = fileDao.queryTByParam(conditionsCommon);
+            List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
             if (CollectionUtils.isEmpty(list)) {
-                return saveInfo(request);
+            	SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+                        .ofUrl(src)
+                        .ofType(channel)
+                        .ofDebugFlag(TokenCheck.debugType())
+                        .build());
+                return saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
+                        .ofChannel(channel.getValue())
+                        .ofName(fileInfo.getFileNewName())
+                        .ofOldName(fileInfo.getFileOldName())
+                        .ofFilePlace(fileInfo.getFilePlace())
+                        .ofRealPlace(fileInfo.getRealPlace())
+                        .ofTypeId(typeId)
+                        .ofOldSrc(fileInfo.getOldSrc())
+                        .ofResultPair(fileInfo.getResultPair())
+                        .ofFileType(FileType.IMAGE.getValue())
+                        .build());
             }
             return list.get(0);
         } catch (IOException | InterruptedException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public BaseFile dealPicSrc(Long typeId, ChannelType channel, String prefix, String src) {
+    	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), src);
+        try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
+            if (!jedisLock.acquire()) {
+                throw new BaseKnownException("并发获取锁失败！"+lockKey);
+            }
+            List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
+            if (CollectionUtils.isEmpty(list)) {
+            	SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
+                        .ofUrl(src)
+                        .ofType(channel)
+                        .ofDebugFlag(TokenCheck.debugType())
+                        .build());
+                return saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
+                        .ofChannel(channel.getValue())
+                        .ofName(fileInfo.getFileNewName())
+                        .ofOldName(fileInfo.getFileOldName())
+                        .ofFilePlace(fileInfo.getFilePlace())
+                        .ofRealPlace(fileInfo.getRealPlace())
+                        .ofTypeId(typeId)
+                        .ofOldSrc(fileInfo.getOldSrc())
+                        .ofResultPair(fileInfo.getResultPair())
+                        .ofFileType(FileType.IMAGE.getValue())
+                        .build());
+            }
+            return list.get(0);
+        } catch (IOException | InterruptedException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<BaseFile> getFileListByCon(Long typeId,String channel,String oldName){
+    	ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addEqParam("oldName", oldName);
+        if (typeId != null) {
+            conditionsCommon.addEqParam("typeId", typeId);
+        }
+        conditionsCommon.addEqParam("channel", channel);
+        return fileDao.queryTByParam(conditionsCommon);
     }
 
     public BaseFile saveInfo(BaseFileSaveRequest request) {

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.njq.common.base.interceptor.NeedPwd;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.basis.service.impl.BaseUserService;
+import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.common.model.po.TbkPic;
 import com.njq.common.model.po.TbkRecommendDocView;
@@ -28,9 +28,9 @@ import com.njq.common.model.po.TbkType;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
+import com.njq.common.model.vo.TbkRecommendDocVO;
 import com.njq.common.util.other.PropertyUtil;
 import com.njq.common.util.string.StringUtil;
-import com.njq.grab.service.impl.GrabService;
 import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkPicService;
 import com.njq.tbk.service.TbkTipService;
@@ -242,7 +242,7 @@ public class WapController {
     @RequestMapping(value = "searchDoc", method = RequestMethod.GET)
     public String searchDoc(Model model, @RequestParam String searchValue, @RequestParam(required = false, defaultValue = "0") int page,
                             @RequestParam(required = false, defaultValue = "10") int size) {
-        List<TbkRecommendDocView> list = tbkdocService.querySearchDocForList(page, size, searchValue.split(" "));
+        List<TbkRecommendDocVO> list = tbkdocService.querySearchDocForList(page, size, searchValue.split(" "));
         model.addAttribute("viewList", list);
         model.addAttribute("searchValue", StringUtil.StringsToString(searchValue.split(" ")));
         return "wap/searchDocList";
@@ -263,7 +263,7 @@ public class WapController {
     public Map<String, Object> reLoadsearchDoc(Model model, @RequestParam String[] searchValue, @RequestParam(required = false, defaultValue = "0") int page,
                                                @RequestParam(required = false, defaultValue = "10") int size) {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<TbkRecommendDocView> list = tbkdocService.querySearchDocForList(page, size, searchValue);
+        List<TbkRecommendDocVO> list = tbkdocService.querySearchDocForList(page, size, searchValue);
         map.put("docList", list);
         if (StringUtil.IsNotEmpty(searchValue)) {
             map.put("searchValue", searchValue);

@@ -3,19 +3,15 @@ package com.njq.tbk.controller;
  * 文章管理接口
  */
 
-import com.njq.basis.service.impl.BaseUserService;
-import com.njq.common.base.dao.PageList;
-import com.njq.common.base.other.MessageCommon;
-import com.njq.common.model.po.TbkDoc;
-import com.njq.common.model.po.TbkPic;
-import com.njq.common.model.po.TbkRecommendDocView;
-import com.njq.common.model.po.TbkTip;
-import com.njq.common.model.po.TbkType;
-import com.njq.common.util.date.DateUtil;
-import com.njq.tbk.service.TbkDocService;
-import com.njq.tbk.service.TbkPicService;
-import com.njq.tbk.service.TbkTipService;
-import com.njq.tbk.service.TbkTypeService;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,14 +22,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.njq.basis.service.impl.BaseUserService;
+import com.njq.common.base.dao.PageList;
+import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.TbkDoc;
+import com.njq.common.model.po.TbkPic;
+import com.njq.common.model.po.TbkRecommendDocView;
+import com.njq.common.model.po.TbkTip;
+import com.njq.common.model.po.TbkType;
+import com.njq.common.model.vo.TbkRecommendDocVO;
+import com.njq.common.util.date.DateUtil;
+import com.njq.tbk.service.TbkDocService;
+import com.njq.tbk.service.TbkPicService;
+import com.njq.tbk.service.TbkTipService;
+import com.njq.tbk.service.TbkTypeService;
 
 
 @RequestMapping("doc")
@@ -135,7 +137,7 @@ public class DocController {
     public Map<String, Object> searchDoc(Model model, String[] searchValue, int page, int size) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (searchValue.length > 0) {
-            PageList<TbkRecommendDocView> list = tbkdocService.querySearchDoc(page, size, searchValue);
+            PageList<TbkRecommendDocVO> list = tbkdocService.querySearchDoc(page, size, searchValue);
             map.put("doc", list);
             if (list.getTotal() > 0) {
                 MessageCommon.getSuccessMap(map);

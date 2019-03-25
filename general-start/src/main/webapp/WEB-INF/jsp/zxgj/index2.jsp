@@ -125,7 +125,7 @@
 		                </div>
 	            	</c:forEach>
 	                <c:forEach items="${xlDoclist }" var="doc">
-		                <div class="toolsBtn2 titleStyleDiv2"><a target="_blank" href="${path }/yxl/knowledge/${doc.docId }">${doc.title }</a></div>   
+		                <div class="toolsBtn2 titleStyleDiv2" style="clear: both;"><a target="_blank" href="${path }/yxl/knowledge/${doc.docId }">${doc.title }</a></div>   
 	                </c:forEach>
 	            </div>
 	        </div>

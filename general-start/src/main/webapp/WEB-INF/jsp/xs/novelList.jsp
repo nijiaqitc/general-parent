@@ -13,7 +13,6 @@
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
-	<jsp:include page="../zxgj/top.jsp"></jsp:include>
 	<div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
 	<!--     结束：顶部菜单栏 -->
 	<!-- 中间正文公用部分 -->

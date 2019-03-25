@@ -17,11 +17,16 @@ import com.njq.common.model.po.TbkTip;
 import com.njq.common.model.po.TbkType;
 import com.njq.common.model.po.TbkTypeDocConfig;
 import com.njq.common.model.po.TbkTypePicConfig;
+import com.njq.common.model.vo.TbkRecommendDocVO;
 import com.njq.common.util.rely.APIUtil;
 import com.njq.common.util.string.StringUtil;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -298,7 +303,7 @@ public class TbkDocService {
      * @param searchValue
      * @return
      */
-    public PageList<TbkRecommendDocView> querySearchDoc(int page, int size,
+    public PageList<TbkRecommendDocVO> querySearchDoc(int page, int size,
                                                         String[] searchValue) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         String str = "";
@@ -320,10 +325,18 @@ public class TbkDocService {
             paramMap.put("readType", Doc_Type.NORMAL);
         }
         PageList<TbkRecommendDocView> pageList = (PageList<TbkRecommendDocView>) tbkRecommendDocViewDao.queryHqlByParamForPage(hql, cc, paramMap);
+        PageList<TbkRecommendDocVO> pvList = new PageList<>();
+        List<TbkRecommendDocVO> voList = new ArrayList<>();
         for (TbkRecommendDocView view : pageList.getList()) {
-            view.setSearchValue(searchValue);
+        	TbkRecommendDocVO vo = new TbkRecommendDocVO();
+        	BeanUtils.copyProperties(view, vo);
+        	voList.add(vo);
+        	vo.setSearchValue(searchValue);
+        	
         }
-        return pageList;
+        pvList.setList(voList);
+        pvList.setTotal(pvList.getTotal());
+        return pvList;
     }
 
     /**
@@ -335,7 +348,7 @@ public class TbkDocService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<TbkRecommendDocView> querySearchDocForList(int page, int size,
+    public List<TbkRecommendDocVO> querySearchDocForList(int page, int size,
                                                            String[] searchValue) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         String str = "";
@@ -356,10 +369,15 @@ public class TbkDocService {
             paramMap.put("readType", Doc_Type.NORMAL);
         }
         List<TbkRecommendDocView> list = (List<TbkRecommendDocView>) tbkRecommendDocViewDao.queryHqlByParamForLimit(hql, cc, paramMap);
-        for (TbkRecommendDocView view : list) {
-            view.setSearchValue(searchValue);
-        }
-        return list;
+        
+        List<TbkRecommendDocVO> voList = new ArrayList<>();
+        list.forEach(n->{
+        	TbkRecommendDocVO vo = new TbkRecommendDocVO();
+        	BeanUtils.copyProperties(n, vo);
+        	vo.setSearchValue(searchValue);
+        	voList.add(vo);
+        });
+        return voList;
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.njq.common.base.dao.ConditionsCommon;
@@ -19,6 +20,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.TbkRecommendDocView;
 import com.njq.common.model.po.TbkType;
 import com.njq.common.model.po.TbkTypeDocConfig;
+import com.njq.common.model.vo.TbkTypeVO;
 import com.njq.common.util.rely.APIUtil;
 import com.njq.common.util.string.StringUtil;
 
@@ -227,13 +229,14 @@ public class TbkTypeService {
 	 * @param size
 	 * @return
 	 */
-	public List<TbkType> queryLittleDivText(int page, int size) {
+	public List<TbkTypeVO> queryLittleDivText(int page, int size) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
 		cc.addEqParam("status", ConstantsCommon.Del_Status.YES);
 		cc.addEqParam("parentId", ConstantsCommon.Org_Id.FIRST_ORG_ID);
 		cc.addSetOrderColum("inTurn", "asc");
 		List<TbkType> typeList=tbktypeDao.queryForListNoPage(cc);
+		List<TbkTypeVO> voList = new ArrayList<>();
 		ConditionsCommon cc1=new ConditionsCommon();
 		cc1.addPageParam(1, 5);
 		cc1.addSetOrderColum("id", "desc");
@@ -248,13 +251,16 @@ public class TbkTypeService {
 				requestForCheck(cc1);
 				docList.addAll((List<TbkRecommendDocView>)tbkRecommendDocViewDao.queryForListNoPage(cc1));
 			}
-//			if(docList.size()>4){
-//				type.setTextList(docList.subList(0, 5));								
-//			}else{
-//				type.setTextList(docList);
-//			}
+			TbkTypeVO vo = new TbkTypeVO();
+			BeanUtils.copyProperties(type, vo);
+			if(docList.size()>4){
+				vo.setTextList(docList.subList(0, 5));								
+			}else{
+				vo.setTextList(docList);
+			}
+			voList.add(vo);
 		}
-		return typeList;
+		return voList;
 	}
 	
 	/**
