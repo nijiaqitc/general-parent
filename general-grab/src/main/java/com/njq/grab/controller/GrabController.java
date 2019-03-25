@@ -250,7 +250,13 @@ public class GrabController {
         grabService.reloadFile();
         return "执行成功";
     }
-    
+
+    @ResponseBody
+    @RequestMapping(value = "fileLoadQuery", method = RequestMethod.GET)
+    public String fileLoadQuery(){
+        grabService.fileLoadQuery();
+        return "执行成功";
+    }
     
     @ResponseBody
     @RequestMapping(value = "getTipList", method = RequestMethod.POST)

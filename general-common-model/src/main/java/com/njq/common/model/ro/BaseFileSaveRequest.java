@@ -31,6 +31,12 @@ public class BaseFileSaveRequest {
      * 类型id
      */
     private Long typeId;
+
+    /**
+     * 文件类型
+     */
+    private String fileType;
+
     /**
      * 原来的链接地址
      */
@@ -102,5 +108,13 @@ public class BaseFileSaveRequest {
 
     public void setResultPair(Pair<Boolean, String> resultPair) {
         this.resultPair = resultPair;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 }
