@@ -48,6 +48,9 @@ public class BaseFileService {
     private FileLoadService fileLoadService;
 
     public String dealImgSrc(Long typeId, ChannelType channel, String prefix, String src) {
+    	if(StringUtil2.isEmpty(src)) {
+    		return "";
+    	}
     	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = prefix + src;
         }
@@ -66,6 +69,9 @@ public class BaseFileService {
     }
 
     public String dealFileUrl(BaseFileDealRequest request) {
+    	if(StringUtil2.isEmpty(request.getSrc())) {
+    		return "";
+    	}
         String src = request.getSrc();
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             src = request.getPrefix() + src;
