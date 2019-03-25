@@ -97,7 +97,7 @@ public class BaseFileService {
             			.ofTypeId(request.getTypeId())
             			.ofOldSrc(fileInfo.getOldSrc())
             			.ofResultPair(fileInfo.getResultPair())
-            			.ofFileType(StringUtil.urlPostfix(fileInfo.getFileNewName()))
+            			.ofFileType(StringUtil.urlPostfix(fileInfo.getFilePlace()))
             			.build());
             	return "&{|" + file.getId() + "|}";
             }
