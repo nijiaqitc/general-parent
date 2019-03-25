@@ -280,7 +280,7 @@ public class GrabService {
 
     public void fileLoadQuery(){
         performerService.getAnalysisPerformer(ChannelType.YH_WIKI).login();
-        baseFileService.fileLoadQuery();
+        baseFileService.updateLoadQuery();
     }
 
     /**
