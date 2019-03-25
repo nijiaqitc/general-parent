@@ -26,5 +26,11 @@
 	<div><a target="_blank" href="/recordManager">记录管理</a></div>
 	<div><a target="_blank" href="/pwdPage">权限登录</a></div>
 	<div><a target="_blank" href="/mdValue">获取md值</a></div>
+	
+	<div>
+		<a href="/xs/novelList">小说</a>
+		<a href="/tbk">tbk</a>
+		<a href="/grab/index">抓文</a>
+	</div>
 </body>
 </html>
