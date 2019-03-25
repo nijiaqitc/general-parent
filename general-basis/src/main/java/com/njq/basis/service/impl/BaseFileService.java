@@ -55,9 +55,9 @@ public class BaseFileService {
     	if(CollectionUtils.isEmpty(list)) {
     		BaseFile file;
     		if (src.startsWith("data:image/png;base64")) {
-    			file = dealBase64Src(typeId, channel, prefix, src);
+    			file = dealBase64Src(typeId, channel, src);
     		} else {
-    			file = dealPicSrc(typeId, channel, prefix, src);
+    			file = dealPicSrc(typeId, channel, src);
     		}
     		return "&{|" + file.getId() + "|}";
     	}else {
@@ -104,7 +104,7 @@ public class BaseFileService {
         
     }
 
-    public BaseFile dealBase64Src(Long typeId, ChannelType channel, String prefix, String src) {
+    public BaseFile dealBase64Src(Long typeId, ChannelType channel, String src) {
     	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), src);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
@@ -136,7 +136,7 @@ public class BaseFileService {
         }
     }
 
-    public BaseFile dealPicSrc(Long typeId, ChannelType channel, String prefix, String src) {
+    public BaseFile dealPicSrc(Long typeId, ChannelType channel, String src) {
     	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), src);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
