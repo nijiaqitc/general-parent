@@ -265,7 +265,7 @@ public class BaseFileService {
         });
     }
 
-    public void updateLoadQuery() {
+    public void queryLoadQuery() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
