@@ -129,7 +129,7 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     	logger.info("重新加载url" + request.getUrl());
         String doc = this.analysisPage(request);
         CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getDocId());
     }
     
     @Override

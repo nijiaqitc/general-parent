@@ -140,7 +140,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     	logger.info("重新加载url" + request.getUrl());
         String doc = this.analysisPage(request);
         CsdnPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CsdnPageAnalysisPerformerImpl.class);
-        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getDocId());
     }
     
     @Override

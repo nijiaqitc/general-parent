@@ -174,7 +174,7 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     	logger.info("重新加载url" + request.getUrl());
         String doc = this.loginAndAnalysisPage(request);
         YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
-        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getDocId());
     }
     
     @Override
