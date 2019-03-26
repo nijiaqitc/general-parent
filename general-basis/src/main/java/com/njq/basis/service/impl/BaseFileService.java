@@ -276,15 +276,19 @@ public class BaseFileService {
                     .ofRealSavePlace(n.getRealPlace())
                     .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
                     .build());
-            if (StringUtil.IsNotEmpty(info.getFileNewName())) {
-                BaseFile f = new BaseFile();
-                f.setId(n.getId());
-                f.setLoadFlag(true);
-                fileDao.updateByPrimaryKeySelective(f);
-            }
+            BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
+            impl.updateFileFlag(n,info);
         });
     }
 
+    public void updateFileFlag(BaseFile f,SaveFileInfo info){
+        if (StringUtil.IsNotEmpty(info.getFileNewName())) {
+            BaseFile f1 = new BaseFile();
+            f1.setId(f.getId());
+            f1.setLoadFlag(true);
+            fileDao.updateByPrimaryKeySelective(f1);
+        }
+    }
 
     public void updateFileLoadFlag(BaseFile baseFile, Pair<Boolean, String> resultPair) {
         BaseFile f = new BaseFile();
