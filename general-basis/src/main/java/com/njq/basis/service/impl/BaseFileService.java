@@ -13,6 +13,7 @@ import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;
 import com.njq.common.model.ro.BaseFileSaveRequestBuilder;
+import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.string.IdGen;
 import com.njq.common.util.string.StringUtil;
@@ -83,10 +84,11 @@ public class BaseFileService {
             }
             List<BaseFile> list = getFileListByCon(request.getTypeId(), request.getChannel(), getOldName(src));
             if (CollectionUtils.isEmpty(list)) {
-            	SaveFileInfo fileInfo = fileLoadService.loadFile(new UpFileInfoRequestBuilder()
+            	SaveFileInfo fileInfo = fileLoadService.loadFile(UpFileInfoRequestBuilder.anUpFileInfoRequest()
             			.ofUrl(src)
             			.ofType(ChannelType.getChannelType(request.getChannel()))
             			.ofDebugFlag(TokenCheck.debugType())
+            			.ofCookieStr(HtmlGrabUtil.build(request.getChannel()).getCookieStr())
             			.build());
             	BaseFile file = saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
             			.ofChannel(request.getChannel())
@@ -118,10 +120,11 @@ public class BaseFileService {
             }
             List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
             if (CollectionUtils.isEmpty(list)) {
-            	SaveFileInfo fileInfo = fileLoadService.loadBase64(new UpFileInfoRequestBuilder()
+            	SaveFileInfo fileInfo = fileLoadService.loadBase64(UpFileInfoRequestBuilder.anUpFileInfoRequest()
                         .ofUrl(src)
                         .ofType(channel)
                         .ofDebugFlag(TokenCheck.debugType())
+                        .ofCookieStr(HtmlGrabUtil.build(channel.getValue()).getCookieStr())
                         .build());
                 return saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
                         .ofChannel(channel.getValue())
@@ -150,10 +153,11 @@ public class BaseFileService {
             }
             List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
             if (CollectionUtils.isEmpty(list)) {
-            	SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
+            	SaveFileInfo fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
                         .ofUrl(src)
                         .ofType(channel)
                         .ofDebugFlag(TokenCheck.debugType())
+                        .ofCookieStr(HtmlGrabUtil.build(channel.getValue()).getCookieStr())
                         .build());
                 return saveInfo(BaseFileSaveRequestBuilder.aBaseFileSaveRequest()
                         .ofChannel(channel.getValue())
@@ -246,8 +250,12 @@ public class BaseFileService {
         conditionsCommon.addEqParam("fileType", FileType.IMAGE.getValue());
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
-            SaveFileInfo fileInfo = fileLoadService.reload(UpFileInfoRequestBuilder.anUpFileInfoRequest()
-                    .ofUrl(n.getOldSrc()).ofType(ChannelType.getChannelType(n.getChannel())).ofRealSavePlace(n.getRealPlace()).build());
+            SaveFileInfo fileInfo = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
+                    .ofUrl(n.getOldSrc())
+                    .ofType(ChannelType.getChannelType(n.getChannel()))
+                    .ofRealSavePlace(n.getRealPlace())
+                    .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
+                    .build());
             BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
             impl.updateFileLoadFlag(n, fileInfo.getResultPair());
         });
@@ -259,7 +267,10 @@ public class BaseFileService {
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
             SaveFileInfo info = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
-                    .ofUrl(n.getOldSrc()).ofType(ChannelType.getChannelType(n.getChannel())).ofRealSavePlace(n.getRealPlace())
+                    .ofUrl(n.getOldSrc())
+                    .ofType(ChannelType.getChannelType(n.getChannel()))
+                    .ofRealSavePlace(n.getRealPlace())
+                    .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
                     .build());
             if (StringUtil.IsNotEmpty(info.getFileNewName())) {
                 BaseFile f = new BaseFile();

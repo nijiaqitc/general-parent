@@ -23,14 +23,21 @@ public class TestController {
 	public static   CyclicBarrier cyclicBarrier=new CyclicBarrier(5);
 	public static void main(String[] args) throws Exception {
 
-		TestController tt = new TestController();
-		Semaphore semaphore = new Semaphore(3,true);
-		for(int i = 0 ; i <101 ;i++){
-			new Thread(tt.new smr(semaphore,i)).start();
-		}
+//		TestController tt = new TestController();
+//		Semaphore semaphore = new Semaphore(3,true);
+//		for(int i = 0 ; i <101 ;i++){
+//			new Thread(tt.new smr(semaphore,i)).start();
+//		}
 
-
-
+		
+		String filePlace = "C:/mywork/doc/debug/uploadDoc/yhwiki/20190325/微信商城v212-交互-0510.zip";		
+		String[] str = filePlace.split("\\/");
+		System.out.println(filePlace.substring(0, (filePlace.length()-str[str.length-1].length()-1)));
+		
+		
+		
+//		File dir = new File("C:\\mywork\\doc\\debug\\uploadDoc\\yhwiki\\20190325\\微信商城v212-交互-0510.zip");
+//		dir.mkdirs();
 
 //		System.out.println(DateTime.now().getDayOfWeek());
 //		System.out.println(Period.weeks(1).toString());

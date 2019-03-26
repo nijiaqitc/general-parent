@@ -61,7 +61,7 @@ public class CnblogsController {
 	@RequestMapping("tsts")
     public void tsts() {
 		
-		SaveFileInfo fileInfo = fileLoadService.loadPic(new UpFileInfoRequestBuilder()
+		SaveFileInfo fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
 				.ofUrl("https://t12.baidu.com/it/u=2126351807,3022701237&fm=76").ofType(ChannelType.CUSTOM).build());
 		System.out.println(fileInfo);
 		System.out.println(fileInfo.getRealPlace());
