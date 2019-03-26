@@ -79,6 +79,9 @@ public class GrabController {
     @RequestMapping("reloadJob")
     public String reloadJob(Model model,@RequestParam(required=false) String channel,
     		@RequestParam(required=false) Long docId) {
+    	if(StringUtil.isEmpty(channel)&&docId==null) {
+    		return "channel和docId不能同时为空！";	
+    	}
     	grabService.reloadPageJobTask(channel, docId);
     	return "正在处理中...";
     }

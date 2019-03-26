@@ -289,7 +289,15 @@ public class GrabService {
         customAnalysisPerformer.grabAndSave(url, name, getType, baseTitle);
     }
 
-    
+    public void reloadCustom(Long docId) {
+//    	List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null,"2");
+//    	list.forEach(n->{
+//    		customAnalysisPerformer.grabAndReload(n.getUrl(), name, type, baseTitle);
+//    		
+//    	});
+    	
+//    	BaseTitleLoading loading = baseTitleService.getLoadingByDocId(docId)
+    }
 
     public void updateTips(String tipName, Long docId) {
         String tipId = baseTipService.checkAndSaveTips(tipName);
