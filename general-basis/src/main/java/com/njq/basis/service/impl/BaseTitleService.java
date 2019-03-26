@@ -71,6 +71,7 @@ public class BaseTitleService {
         if (StringUtil.IsNotEmpty(loaded)) {
         	condition.addEqParam("loaded", loaded);        	
         }
+        condition.addLtParam("tryNum", 4);
         condition.addPageParam(1, 500);
         List<BaseTitleLoading> loadingList = baseTitleLoadingDao.queryColumnForList(condition);
         return loadingList;

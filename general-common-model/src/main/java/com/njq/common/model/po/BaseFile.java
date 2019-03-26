@@ -63,6 +63,9 @@ public class BaseFile implements Serializable {
 
     @Column(name = "colum_desc")
     private String columDesc;
+    
+    @Column(name = "try_num")
+    private Integer tryNum;
 
     /**
      * default constructor
@@ -70,22 +73,26 @@ public class BaseFile implements Serializable {
     public BaseFile() {
     }
 
-    public BaseFile(String name, String oldName, String filePlace, String oldSrc, String realPlace, String channel, Long typeId, String fileType, Date createDate, Timestamp modiDate, Boolean loadFlag, String columDesc) {
-        this.name = name;
-        this.oldName = oldName;
-        this.filePlace = filePlace;
-        this.oldSrc = oldSrc;
-        this.realPlace = realPlace;
-        this.channel = channel;
-        this.typeId = typeId;
-        this.fileType = fileType;
-        this.createDate = createDate;
-        this.modiDate = modiDate;
-        this.loadFlag = loadFlag;
-        this.columDesc = columDesc;
-    }
+    public BaseFile(Long id, String name, String oldName, String filePlace, String oldSrc, String realPlace,
+			String channel, Long typeId, String fileType, Date createDate, Timestamp modiDate, Boolean loadFlag,
+			String columDesc, Integer tryNum) {
+		this.id = id;
+		this.name = name;
+		this.oldName = oldName;
+		this.filePlace = filePlace;
+		this.oldSrc = oldSrc;
+		this.realPlace = realPlace;
+		this.channel = channel;
+		this.typeId = typeId;
+		this.fileType = fileType;
+		this.createDate = createDate;
+		this.modiDate = modiDate;
+		this.loadFlag = loadFlag;
+		this.columDesc = columDesc;
+		this.tryNum = tryNum;
+	}
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -188,4 +195,14 @@ public class BaseFile implements Serializable {
     public void setFileType(String fileType) {
         this.fileType = fileType;
     }
+
+	public Integer getTryNum() {
+		return tryNum;
+	}
+
+	public void setTryNum(Integer tryNum) {
+		this.tryNum = tryNum;
+	}
+    
+    
 }

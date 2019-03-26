@@ -9,6 +9,7 @@ import com.njq.common.base.redis.lock.JedisLockFactory;
 import com.njq.common.enumreg.FileType;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.exception.BaseKnownException;
+import com.njq.common.model.dao.BaseFileJpaRepository;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;
@@ -47,7 +48,8 @@ public class BaseFileService {
     private JedisLockFactory jedisLockFactory;
     @Resource
     private FileLoadService fileLoadService;
-
+    @Resource
+    private BaseFileJpaRepository baseFileJpaRepository;
     public String dealImgSrc(Long typeId, ChannelType channel, String prefix, String src) {
     	if(StringUtil2.isEmpty(src)) {
     		return "";
@@ -252,6 +254,7 @@ public class BaseFileService {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
         conditionsCommon.addEqParam("fileType", FileType.IMAGE.getValue());
+        conditionsCommon.addLtParam("tryNum", 4);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
             SaveFileInfo fileInfo = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
@@ -268,25 +271,30 @@ public class BaseFileService {
     public void queryLoadQuery() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
+        conditionsCommon.addLtParam("tryNum", 4);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
-            SaveFileInfo info = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
-                    .ofUrl(n.getOldSrc())
-                    .ofType(ChannelType.getChannelType(n.getChannel()))
-                    .ofRealSavePlace(n.getRealPlace())
-                    .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
-                    .build());
+        	SaveFileInfo info = null;
+        	try {
+        		 info = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
+        				.ofUrl(n.getOldSrc())
+        				.ofType(ChannelType.getChannelType(n.getChannel()))
+        				.ofRealSavePlace(n.getRealPlace())
+        				.ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
+        				.build());
+			} catch (Exception e) {
+				logger.error("重新加载出错！"+n.getOldSrc());
+			}
             BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
             impl.updateFileFlag(n,info);
         });
     }
 
     public void updateFileFlag(BaseFile f,SaveFileInfo info){
-        if (StringUtil.IsNotEmpty(info.getFileNewName())) {
-            BaseFile f1 = new BaseFile();
-            f1.setId(f.getId());
-            f1.setLoadFlag(true);
-            fileDao.updateByPrimaryKeySelective(f1);
+        if (info==null || StringUtil.IsNotEmpty(info.getFileNewName())) {
+        	baseFileJpaRepository.updateForSuccess(f.getId());
+        }else {
+        	baseFileJpaRepository.updateForAddNum(f.getId());        	
         }
     }
 

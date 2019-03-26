@@ -39,8 +39,26 @@ public class BaseTitleLoading implements Serializable {
 	@Column(name="doc_id_source")
 	private String docIdSource;
 	
+	@Column(name = "try_num")
+    private Integer tryNum;
+	
 	public BaseTitleLoading() {
 	}
+
+	public BaseTitleLoading(Long id, String channel, Date createDate, String loaded, Timestamp modiDate, Long titleId,
+			String url, String docIdSource, Integer tryNum) {
+		super();
+		this.id = id;
+		this.channel = channel;
+		this.createDate = createDate;
+		this.loaded = loaded;
+		this.modiDate = modiDate;
+		this.titleId = titleId;
+		this.url = url;
+		this.docIdSource = docIdSource;
+		this.tryNum = tryNum;
+	}
+
 
 	public Long getId() {
 		return this.id;
@@ -104,6 +122,14 @@ public class BaseTitleLoading implements Serializable {
 
 	public void setDocIdSource(String docIdSource) {
 		this.docIdSource = docIdSource;
+	}
+
+	public Integer getTryNum() {
+		return tryNum;
+	}
+
+	public void setTryNum(Integer tryNum) {
+		this.tryNum = tryNum;
 	}
 
 	
