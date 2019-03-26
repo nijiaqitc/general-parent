@@ -66,7 +66,7 @@ public class GrabService {
     private BaseFileService baseFileService;
 
     public void loadPageJobTask() {
-        List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null);
+        List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null,"0");
         Semaphore semaphore = new Semaphore(10,true);
         list.parallelStream().forEach(n -> {
             loadPageTaskExecutor.submit(() -> {
@@ -101,6 +101,30 @@ public class GrabService {
         });
     }
 
+    public void reloadPageJobTask(String channel ,Long docId) {
+    	baseTitleService.updateToReload(channel, docId);
+    	List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(channel,"2");
+    	Semaphore semaphore = new Semaphore(10,true);
+        list.parallelStream().forEach(n -> {
+            loadPageTaskExecutor.submit(() -> {
+                try {
+                    semaphore.acquire();
+                    performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
+                            .grabAndReload(new AnalysisPageRequestBuilder()
+                                    .ofUrl(n.getUrl())
+                                    .ofBaseTitle(grabSaveTitlePerformer.getTitleById(n.getTitleId()))
+                                    .build());
+                    baseTitleService.updateLoadingSuccess(n.getId());
+                } catch (Exception e) {
+                    logger.error("获取失败", e);
+                }finally {
+                    semaphore.release();
+                }
+            });
+        });
+        System.out.println(loadPageTaskExecutor.getActiveCount());
+    }
+    
     public void loadSingleDoc(Long docId) {
         BaseTitleLoading loading = baseTitleService.getLoadingById(docId);
         if (loading != null) {
@@ -265,6 +289,7 @@ public class GrabService {
         customAnalysisPerformer.grabAndSave(url, name, getType, baseTitle);
     }
 
+    
 
     public void updateTips(String tipName, Long docId) {
         String tipId = baseTipService.checkAndSaveTips(tipName);

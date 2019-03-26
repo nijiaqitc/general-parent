@@ -125,6 +125,14 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
+    public Long grabAndReload(AnalysisPageRequest request) {
+    	logger.info("重新加载url" + request.getUrl());
+        String doc = this.analysisPage(request);
+        CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+    }
+    
+    @Override
     public Long saveLoadingDoc(AnalysisPageRequest request) {
         Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,

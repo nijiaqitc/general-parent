@@ -63,17 +63,40 @@ public class BaseTitleService {
      * @param channel
      * @return
      */
-    public List<BaseTitleLoading> getLoadedTitle(String channel) {
+    public List<BaseTitleLoading> getLoadedTitle(String channel,String loaded) {
         ConditionsCommon condition = new ConditionsCommon();
         if (StringUtil.IsNotEmpty(channel)) {
             condition.addEqParam("channel", channel);
         }
-        condition.addEqParam("loaded", "0");
+        if (StringUtil.IsNotEmpty(loaded)) {
+        	condition.addEqParam("loaded", loaded);        	
+        }
         condition.addPageParam(1, 500);
         List<BaseTitleLoading> loadingList = baseTitleLoadingDao.queryColumnForList(condition);
         return loadingList;
     }
 
+    public void updateToReload(String channel,Long docId) {
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addsetColumParam("loaded", "2");
+    	if(!StringUtil2.isEmpty(channel)) {
+    		condition.addEqParam("channel", channel);    		
+    	}
+    	if(docId != null&&docId >0) {
+    		BaseTitle title = saveMap.get(TitleType.GRAB_TITLE).getTitleByDocId(docId);    		
+    		condition.addEqParam("titleId", title.getId());
+    	}
+    	condition.addEqParam("loaded", "1");
+    	baseTitleLoadingDao.update(condition);
+    }
+    
+    public void updateLoadingSuccess(Long id) {
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addsetColumParam("loaded", "1");
+    	condition.addEqParam("id", id);
+    	baseTitleLoadingDao.update(condition);
+    }
+    
     public BaseTitleLoading getLoadingByDocId(String docId) {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addEqParam("docIdSource", docId);

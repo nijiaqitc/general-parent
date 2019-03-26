@@ -170,6 +170,14 @@ public class YhWikiPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
+    public Long grabAndReload(AnalysisPageRequest request) {
+    	logger.info("重新加载url" + request.getUrl());
+        String doc = this.loginAndAnalysisPage(request);
+        YhWikiPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(YhWikiPageAnalysisPerformerImpl.class);
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+    }
+    
+    @Override
     public Long saveLoadingDoc(AnalysisPageRequest request) {
         Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId, request.getBaseTitle().getId());

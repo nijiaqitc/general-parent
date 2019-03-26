@@ -23,6 +23,7 @@ import com.njq.common.model.ro.AnalysisPageRequest;
 import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
@@ -135,6 +136,14 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     }
 
     @Override
+    public Long grabAndReload(AnalysisPageRequest request) {
+    	logger.info("重新加载url" + request.getUrl());
+        String doc = this.analysisPage(request);
+        CsdnPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CsdnPageAnalysisPerformerImpl.class);
+        return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getId());
+    }
+    
+    @Override
     public Long saveLoadingDoc(AnalysisPageRequest request) {
         Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,
@@ -192,8 +201,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             new CsdnTipAnalysisPerformerImpl(config).analysis(doc);
         }
 
-//        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
-        return body;
+        return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
 

@@ -75,6 +75,14 @@ public class GrabController {
     	return "正在处理中...";
     }
 
+    @ResponseBody
+    @RequestMapping("reloadJob")
+    public String reloadJob(Model model,@RequestParam(required=false) String channel,
+    		@RequestParam(required=false) Long docId) {
+    	grabService.reloadPageJobTask(channel, docId);
+    	return "正在处理中...";
+    }
+    
     @RequestMapping("config")
     public String grabPage(Model model) {
         model.addAttribute("channelList", ChannelType.getChannelValueList());

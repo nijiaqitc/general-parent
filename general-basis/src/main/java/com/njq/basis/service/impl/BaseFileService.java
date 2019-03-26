@@ -52,9 +52,12 @@ public class BaseFileService {
     	if(StringUtil2.isEmpty(src)) {
     		return "";
     	}
+    	if(!(src.split("\\.").length>2)) {
+    		src = prefix + src;
+    	}
     	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = prefix + src;
-        }
+    		src = SendConstants.HTTP_PREFIX+"://"+src;
+    	}
     	List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
     	if(CollectionUtils.isEmpty(list)) {
     		BaseFile file;
@@ -74,9 +77,12 @@ public class BaseFileService {
     		return "";
     	}
         String src = request.getSrc();
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = request.getPrefix() + src;
-        }
+        if(!(src.split("\\.").length>2)) {
+    		src = request.getPrefix() + src;
+    	}
+    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+    		src = SendConstants.HTTP_PREFIX+"://"+src;
+    	}
         String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), request.getSrc());
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
@@ -108,12 +114,10 @@ public class BaseFileService {
             logger.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        
-        
     }
 
     public BaseFile dealBase64Src(Long typeId, ChannelType channel, String src) {
-    	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), src);
+    	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", "base64", src);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
                 throw new BaseKnownException("并发获取锁失败！"+lockKey);

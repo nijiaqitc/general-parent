@@ -31,6 +31,13 @@ public interface PageAnalysisPerformer {
     Long grabAndSave(AnalysisPageRequest request);
 
     /**
+     * 重新加载
+     * @param request
+     * @return
+     */
+    Long grabAndReload(AnalysisPageRequest request);
+    
+    /**
      * 保存下载的文章
      *
      * @param request

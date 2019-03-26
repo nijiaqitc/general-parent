@@ -30,10 +30,19 @@ public class TestController {
 //		}
 
 		
-		String filePlace = "C:/mywork/doc/debug/uploadDoc/yhwiki/20190325/微信商城v212-交互-0510.zip";		
-		String[] str = filePlace.split("\\/");
-		System.out.println(filePlace.substring(0, (filePlace.length()-str[str.length-1].length()-1)));
+//		String filePlace = "C:/mywork/doc/debug/uploadDoc/yhwiki/20190325/微信商城v212-交互-0510.zip";		
+//		String[] str = filePlace.split("\\/");
+//		System.out.println(filePlace.substring(0, (filePlace.length()-str[str.length-1].length()-1)));
 		
+		String url = "https://img-blog.csdn.net/20180428102835632";
+		String uriStr = url.split("\\/")[2];
+        if (url.startsWith("https")) {
+            uriStr = "https://" + uriStr;
+        } else {
+            uriStr = "http://" + uriStr;
+        }
+		
+		System.out.println(uriStr);
 		
 		
 //		File dir = new File("C:\\mywork\\doc\\debug\\uploadDoc\\yhwiki\\20190325\\微信商城v212-交互-0510.zip");

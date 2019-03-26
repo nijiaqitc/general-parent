@@ -20,6 +20,7 @@ import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
+import com.njq.grab.service.operation.GrabDocUpdateOperation;
 
 @Component
 public class CustomAnalysisPerformer {
@@ -30,13 +31,22 @@ public class CustomAnalysisPerformer {
     private BaseFileService baseFileService;
     @Autowired
     private GrabDocSaveOperation grabDocSaveOperation;
-
+    @Autowired
+    private GrabDocUpdateOperation grabDocUpdateOperation;
+    
     public Long grabAndSave(String url, String name, int type, BaseTitle baseTitle) {
         String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
         return impl.saveLoadingDoc(doc, baseTitle);
     }
 
+    public Long grabAndReload(String url, String name, int type, BaseTitle baseTitle) {
+    	logger.info("重新加载url" + url);
+        String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
+        CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
+        return impl.updateDoc(doc, baseTitle.getTitle(), baseTitle.getId());
+    }
+    
     public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
         Long docId = this.saveDoc(doc, baseTitle);
         baseTitleService.updateLoadSuccess(docId,
@@ -93,6 +103,15 @@ public class CustomAnalysisPerformer {
                 .ofChannel(baseTitle.getChannel())
                 .ofDoc(doc)
                 .ofTitle(baseTitle.getTitle())
+                .build())
+                .getId();
+    }
+    
+    public Long updateDoc(String doc, String title, Long id) {
+        return grabDocUpdateOperation.updateDoc(new GrabDocSaveRequestBuilder()
+                .ofTitle(title)
+                .ofDoc(doc)
+                .ofId(id)
                 .build())
                 .getId();
     }

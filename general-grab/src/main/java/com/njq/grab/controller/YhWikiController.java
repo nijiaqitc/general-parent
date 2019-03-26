@@ -18,6 +18,7 @@ import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.common.util.grab.SendConstants;
 import com.njq.file.load.api.FileLoadService;
 import com.njq.file.load.api.model.SaveFileInfo;
 import com.njq.file.load.api.model.UpFileInfoRequest;
@@ -83,11 +84,22 @@ public class YhWikiController {
     @ResponseBody
     @RequestMapping("ttt")
     public String tttt(Model model) {
-    	UpFileInfoRequest req = new UpFileInfoRequest();
-    	req.setType(ChannelType.CSDN);
-    	req.setUrl("https://img-blog.csdn.net/20180320140751880?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L2xqbHNibG9n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70");
-    	SaveFileInfo info = fileLoadService.loadPic(req);
-    	System.out.println(info);
+//    	UpFileInfoRequest req = new UpFileInfoRequest();
+//    	req.setType(ChannelType.CSDN);
+//    	req.setUrl("http://img-blog.csdn.net/20180428102835632");
+//    	SaveFileInfo info = fileLoadService.loadPic(req);
+//    	System.out.println(info.getRealPlace());
+    	
+    	String src = "img-blog.csdn.net/20180428102835632";
+    	if(!(src.split("\\.").length>2)) {
+    		src = "https://blog.csdn.net/" + src;
+    		
+    	}
+    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+    		src = SendConstants.HTTP_PREFIX+"://"+src;
+    	}
+    	System.out.println(src);
+    	
     	return "";
     }
     
