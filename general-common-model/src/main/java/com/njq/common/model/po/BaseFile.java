@@ -65,7 +65,7 @@ public class BaseFile implements Serializable {
     private String columDesc;
     
     @Column(name = "try_num")
-    private Integer tryNum;
+    private Integer tryNum = 1;
 
     /**
      * default constructor

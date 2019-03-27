@@ -295,7 +295,7 @@ pre, xmp, plaintext, listing{
     position:none;
 }
 .njq_editor_total .editor_full_editorDiv{
-	margin-bottom: 160px !important;
+/* 	margin-bottom: 160px !important; */
 }
 .njq_editor_total .editor_recover_editorDiv{
 	/* margin-top:20px;  */

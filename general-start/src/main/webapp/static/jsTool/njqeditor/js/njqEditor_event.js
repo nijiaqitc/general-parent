@@ -2337,12 +2337,14 @@
 						lastNode.appendChild(pre2);
 					}
 				}else if(node.nodeType==3){
-					pre1=util.createCustomNode(constants.PRE);
-					span=util.createCustomNode(constants.SPAN);
-					pre1.appendChild(util.createTextNode(this.getSpeace(index)));
-					pre1.appendChild(util.createTextNode(node.data
-							.replace(/\</g,"&lt;").replace(/\>/g,"&gt;")));
-					lastNode.appendChild(pre1);
+					if(node.wholeText.trim()!=""){
+						pre1=util.createCustomNode(constants.PRE);
+						span=util.createCustomNode(constants.SPAN);
+						pre1.appendChild(util.createTextNode(this.getSpeace(index)));
+						pre1.appendChild(util.createTextNode(node.data
+								.replace(/\</g,"&lt;").replace(/\>/g,"&gt;")));
+						lastNode.appendChild(pre1);						
+					}
 				}
 			},
 			// 根据index获取指定长度的空格
@@ -6813,6 +6815,15 @@
 //				fn("上传文章失败，请检查上传文章地址！","saveFalse");
 //				return;
 //			}
+			
+			if(sysConfig.customUpDocEvent){
+				sysConfig.customUpDocEvent(data,fn);
+			}else{
+				upDoc(data,fn);
+			}
+		}
+		
+		function upDoc(data,fn){
 			var xmlhttp; 
 			// 兼容 IE7+, Firefox, Chrome, Opera, Safari
 			if(window.XMLHttpRequest){ 
@@ -6863,9 +6874,12 @@
 			if(userConfig.saveWord.isNeedTimes){
 				dt+="&"+userConfig.saveWord.timestamp+"="+tempVar.timestamp;
 			}
+			var passParam = ids.editorParamDiv.children[0].value;
+			if(passParam){
+				dt+="&"+passParam;
+			}
 			xmlhttp.send(dt);
 		}
-		
 		
 		// 上传图片到服务器(二进制流、网络图片、图片data数据)，图片不防并发
 		var upPicToServer=function(fun,data,fn){

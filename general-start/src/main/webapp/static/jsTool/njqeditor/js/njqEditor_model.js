@@ -53,6 +53,15 @@
 				}
 				editorNode.parentNode.insertBefore(ed, editorNode);
 				window.njqEditor.userConfig.initText = editorNode.innerHTML;
+				//添加隐藏参数域
+				var sdpd = document.createElement("div");
+				sdpd.style.display="none";
+				sdpd.id=njqEditor.sysConfig.ids.editorParamDiv;
+				var sendp= document.createElement("input");
+				sendp.value = editorNode.getAttribute("pv");
+				sdpd.append(sendp);
+				//将隐藏域置于底部
+				ed.append(sdpd);
 				util.remove(editorNode);
 				var scriptList = div.getElementsByTagName("script");
 				var fn, evalHtml;

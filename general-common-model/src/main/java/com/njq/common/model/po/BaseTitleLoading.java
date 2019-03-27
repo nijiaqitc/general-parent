@@ -40,7 +40,7 @@ public class BaseTitleLoading implements Serializable {
 	private String docIdSource;
 	
 	@Column(name = "try_num")
-    private Integer tryNum;
+    private Integer tryNum = 1;
 	
 	public BaseTitleLoading() {
 	}

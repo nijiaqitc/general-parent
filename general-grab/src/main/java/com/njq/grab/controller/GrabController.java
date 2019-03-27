@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.impl.BaseTipService;
@@ -84,6 +86,29 @@ public class GrabController {
     	}
     	grabService.reloadPageJobTask(channel, docId);
     	return "正在处理中...";
+    }
+    
+    @RequestMapping("editKnowledge")
+    public String editKnowledge(Model model, @RequestParam Long docId) {
+    	if(docId == null) {
+    		return "/grab/noDoc";
+    	}
+    	GrabDoc doc = grabService.readDoc(docId);
+    	model.addAttribute("doc", doc);
+    	return "/grab/editKnowledge";
+    }
+    
+    @ResponseBody
+    @RequestMapping("editToSave")
+    public Map<String, Object> editToSave(Model model, HttpServletRequest req ) {
+    	MultipartHttpServletRequest params=((MultipartHttpServletRequest) req); 
+    	String docId=params.getParameter("docId");
+    	String text = params.getParameter("text");
+    	if(StringUtil.isEmpty(text)) {
+    		return MessageCommon.getFalseMap("内容为空，暂不保存！");
+    	}
+    	grabService.updateDoc(Long.parseLong(docId), text);
+    	return MessageCommon.getSuccessMap();
     }
     
     @RequestMapping("config")
@@ -165,7 +190,7 @@ public class GrabController {
 
     @RequestMapping(value = "/knowledge/{docId}", method = RequestMethod.GET)
     public String docView(Model model, @PathVariable(value = "docId") Long docId,Boolean allInfo) {
-    	GrabDoc doc = grabService.loadDoc(docId);
+    	GrabDoc doc = grabService.readDoc(docId);
     	if(doc == null) {
     		return "grab/noDoc";
     	}

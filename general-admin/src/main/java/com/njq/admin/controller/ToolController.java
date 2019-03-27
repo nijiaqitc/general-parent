@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import com.njq.common.enumreg.FileType;
-import com.njq.common.util.string.StringUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -34,6 +32,7 @@ import com.njq.basis.service.impl.BaseFileService;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.base.other.TokenCheck;
+import com.njq.common.enumreg.FileType;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.TbkPic;
@@ -114,6 +113,9 @@ public class ToolController {
     						.ofDebugFlag(TokenCheck.debugType())
     						.build());
     			}else {
+    				if(entry.getValue()[0].contains("njqityun.com")) {
+    					continue;
+    				}
     				fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
     						.ofUrl(entry.getValue()[0])
     						.ofType(ChannelType.YXL)

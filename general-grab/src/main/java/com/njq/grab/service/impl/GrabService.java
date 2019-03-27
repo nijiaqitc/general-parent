@@ -231,7 +231,14 @@ public class GrabService {
         return grabDocDao.queryTById(docId);
     }
 
-    public GrabDoc loadDoc(Long docId) {
+    public void updateDoc(Long docId , String doc) {
+    	GrabDoc dd = new GrabDoc();
+    	dd.setId(docId);
+    	dd.setDoc(doc);
+    	grabDocDao.updateByPrimaryKeySelective(dd);
+    }
+    
+    public GrabDoc readDoc(Long docId) {
     	GrabDoc doc = grabDocDao.queryTById(docId);
     	Pattern pt1 =Pattern.compile("&amp;\\{\\|.*?\\|\\}");
     	Matcher mt1 =  pt1.matcher(doc.getDoc());

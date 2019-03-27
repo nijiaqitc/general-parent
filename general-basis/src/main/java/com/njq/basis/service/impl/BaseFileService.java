@@ -1,5 +1,18 @@
 package com.njq.basis.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
@@ -22,18 +35,6 @@ import com.njq.common.util.string.StringUtil2;
 import com.njq.file.load.api.FileLoadService;
 import com.njq.file.load.api.model.SaveFileInfo;
 import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author: nijiaqi
@@ -254,7 +255,7 @@ public class BaseFileService {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
         conditionsCommon.addEqParam("fileType", FileType.IMAGE.getValue());
-        conditionsCommon.addLtParam("tryNum", 4);
+        conditionsCommon.addLtParam("tryNum", 6);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
             SaveFileInfo fileInfo = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
@@ -264,14 +265,14 @@ public class BaseFileService {
                     .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
                     .build());
             BaseFileService impl = SpringContextUtil.getBean(BaseFileService.class);
-            impl.updateFileLoadFlag(n, fileInfo.getResultPair());
+            impl.updateFileFlag(n, fileInfo);
         });
     }
 
     public void queryLoadQuery() {
         ConditionsCommon conditionsCommon = new ConditionsCommon();
         conditionsCommon.addEqParam("loadFlag", false);
-        conditionsCommon.addLtParam("tryNum", 4);
+        conditionsCommon.addLtParam("tryNum", 6);
         List<BaseFile> fileList = fileDao.queryTByParam(conditionsCommon);
         fileList.forEach(n -> {
         	SaveFileInfo info = null;
@@ -297,17 +298,6 @@ public class BaseFileService {
         	baseFileJpaRepository.updateForAddNum(f.getId());        	
         }
     }
-
-    public void updateFileLoadFlag(BaseFile baseFile, Pair<Boolean, String> resultPair) {
-        BaseFile f = new BaseFile();
-        f.setId(baseFile.getId());
-        f.setLoadFlag(resultPair.getKey());
-        if (!resultPair.getKey()) {
-            f.setColumDesc(resultPair.getValue());
-        }
-        fileDao.updateByPrimaryKeySelective(f);
-    }
-
 
     public BaseFile queryById(Long id) {
         return fileDao.queryTById(id);

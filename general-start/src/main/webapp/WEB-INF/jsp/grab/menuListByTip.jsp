@@ -54,6 +54,9 @@
             position: fixed;
             width: 100%;
         }
+        .contextArea div{
+        	padding: 4px 0px;
+        }
     </style>
 </head>
 <body>
