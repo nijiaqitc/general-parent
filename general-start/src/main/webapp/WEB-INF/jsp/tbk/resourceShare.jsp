@@ -199,6 +199,9 @@
     	<jsp:include page="${resPath }/tbk/commonjsp/footer.jsp"></jsp:include>
     </div>
     <!--     结束：页面底部  -->
+	<script type="text/javascript" src="${resPath }/tbk/js/navigate.js" >
+		var resPath = "${resPath }";
+	</script>
     <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
     <script src="${resPath }/chajian/Jcrop-0.9.12/js/jquery.Jcrop.js"></script>
     <script src="${resPath }/tbk/js/resourceShare.js"></script>

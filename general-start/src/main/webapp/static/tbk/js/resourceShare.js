@@ -24,7 +24,7 @@ function queryRc(page){
 				str+="<li class='menu-box"+wiclass+"'>"+
              	"<div class='lidiv1'>"+
              		"<img class='lidiv1img1' picOne='"+data.list[i].picUrlA+"' picTwo='"+data.list[i].picUrlB+"' picThree='"+data.list[i].picUrlC+"' onclick='viewpic(this)' src='"+data.list[i].picUrlBase+"-z-0.jpg'>"+
-             		"<img class='lidiv1img2' src='../tbk/images/shadowimg300.gif' >"+
+             		"<img class='lidiv1img2' src='"+resPath+"/tbk/images/shadowimg300.gif' >"+
              	"</div>"+
              	"<div class='lidiv2'>"+
              	"	<span>"+data.list[i].resourceDesc+"</span>"+
@@ -505,9 +505,9 @@ function saveShareResource(e){
 			if(data.state==1){
 				alert("提交成功，感谢您的分享，谢谢！");
 				$("#shareForm")[0].reset();
-				$("#selepicOne").attr("src","../tbk/images/image.png");
-				$("#selepicTwo").attr("src","../tbk/images/image.png");
-				$("#selepicThree").attr("src","../tbk/images/image.png");
+				$("#selepicOne").attr("src",resPath+"/tbk/images/image.png");
+				$("#selepicTwo").attr("src",resPath+"/tbk/images/image.png");
+				$("#selepicThree").attr("src",resPath+"/tbk/images/image.png");
 				$("#myModal").hide();
 	    		$("#custom-background").hide();
 			}else{

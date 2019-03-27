@@ -67,7 +67,7 @@ if(${ismob!=true}){
 			    			</span>
 			    		</div>
 			    		<div class="longTextLeft">
-			    			<img alt="文章代表图片" src="${path }${doc.url }" >
+			    			<img alt="文章代表图片" src="${resPath }${doc.url }" >
 			    		</div>
 			    		<div align="left" class="longTextRight1" >
 			    			<div class="longTextStyle">
@@ -110,7 +110,7 @@ if(${ismob!=true}){
 		    				<span><a href="${path }/doc/docView/${text.textList[0].id}" target="_blank" >${text.textList[0].title }</a></span>
 		    			</div>
 		    			<div class="littleDivCenterDiv">
-		    				<img alt="文章代表图片" src="${path }${text.textList[0].url }" >
+		    				<img alt="文章代表图片" src="${resPath }${text.textList[0].url }" >
 		    			</div>
 		    			<div class="littleDivCenterDivText" align="left" >
 		    				<span class="topFont"><a href="${path }/doc/docView/${text.textList[0].id}" target="_blank" >${text.textList[0].formatGeneral50 }</a></span>

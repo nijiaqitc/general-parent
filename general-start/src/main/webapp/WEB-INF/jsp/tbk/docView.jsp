@@ -79,8 +79,8 @@
 			    </div>
 				<div align="left" class="aTotalDiv1">
 					<div align="left" class="aTitle">
-					<c:if test="${docType==2 }"><img style="width: 50px;" alt="转载" src="../tbk/images/z.png"></c:if>
-					<c:if test="${docType==1 }"><img style="width: 50px;" alt="转载" src="../tbk/images/y.png"></c:if>
+					<c:if test="${docType==2 }"><img style="width: 50px;" alt="转载" src="${resPath }/tbk/images/z.png"></c:if>
+					<c:if test="${docType==1 }"><img style="width: 50px;" alt="转载" src="${resPath }/tbk/images/y.png"></c:if>
 					${docViewTitle}</div>
 					<div align="left" class="aGeneral">
 						&nbsp;&nbsp;
