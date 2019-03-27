@@ -22,7 +22,7 @@ function searchDoc(p,s){
 		s=10;
 	}
 	$.ajax({
-		url:"doc/searchDoc",
+		url:"/doc/searchDoc",
 		data:{
 			searchValue:searchValue,
 			page:p,

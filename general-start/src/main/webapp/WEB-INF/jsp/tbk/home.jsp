@@ -139,6 +139,9 @@ if(${ismob!=true}){
     </div>
     <!--     结束：页面底部  -->
     <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <script type="text/javascript">
+    	var respath="${resPath }";
+    </script>
     <script type="text/javascript" src="${resPath }/tbk/js/index.js" ></script>
 </body>
 </html>

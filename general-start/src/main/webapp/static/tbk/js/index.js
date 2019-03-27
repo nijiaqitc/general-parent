@@ -114,7 +114,7 @@ function getlittleDoc(){
 				    				"<span><a href='"+jspath+"/doc/docView/"+data.littleDivTextList[i].textList[0].id+"' target='_blank' >"+data.littleDivTextList[i].textList[0].title+"</a></span>"+
 				    			"</div>"+
 				    			"<div class='littleDivCenterDiv'>"+
-				    				"<img alt='' src='"+jspath+data.littleDivTextList[i].textList[0].url+"' >"+
+				    				"<img alt='' src='"+respath+data.littleDivTextList[i].textList[0].url+"' >"+
 				    			"</div>"+
 				    			"<div class='littleDivCenterDivText' align='left'>"+
 				    				"<span class='topFont'><a href='"+jspath+"/doc/docView/"+data.littleDivTextList[i].textList[0].id+"' target='_blank' >"+data.littleDivTextList[i].textList[0].formatGeneral50+"</a></span>"+
