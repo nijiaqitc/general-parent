@@ -20,19 +20,19 @@
                	  <a href="${path }/"   ><span class="hideTitle">首页</span></a>
                </li>
                <li class="picwall">
-               	  <a href="${path }/picWallInit"  ><span class="hideTitle">图片墙</span></a>
+               	  <a href="${path }/tbk/picWallInit"  ><span class="hideTitle">图片墙</span></a>
                </li>
                <li class="fastSearch">
-                  <a href="${path }/fastSearchInit" ><span class="hideTitle">文章搜索</span></a>
+                  <a href="${path }/tbk/fastSearchInit" ><span class="hideTitle">文章搜索</span></a>
                </li>
                <li class="techup">
                   <a href="${path }/rcShare/init" ><span class="hideTitle">技术成长</span></a>
                </li>
                <li class="webinit">
-                  <a href="${path }/webMapInit" ><span class="hideTitle">网站导航</span></a>
+                  <a href="${path }/tbk/webMapInit" ><span class="hideTitle">网站导航</span></a>
                </li>
                <li class="aboutmeinit">
-                  <a href="${path }/aboutMeInit" ><span class="hideTitle">关于站长</span></a>
+                  <a href="${path }/tbk/aboutMeInit" ><span class="hideTitle">关于站长</span></a>
                </li> 
            </ul>
     	<img alt="" src="${resPath }/tbk/images/daohang.jpg">

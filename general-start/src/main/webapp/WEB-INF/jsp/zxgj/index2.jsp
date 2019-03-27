@@ -114,6 +114,7 @@
 	    <div align="center">
 	        <div class="showArea2" >
 	            <div class="contextCloud" align="left">
+	            	<div>
 	            	<c:forEach items="${doclist }" var="doc">
 		                <div class="toolsBtn2 titleStyleDiv" >
 		                    <div class="showTitle"><a target="_blank" href="${path }/yxl/knowledge/${doc.id }">${doc.title }</a></div>
@@ -124,9 +125,12 @@
 		                    <span class="readNum"></span></div>
 		                </div>
 	            	</c:forEach>
+	            	</div>
+	            	<div style="clear: both;">
 	                <c:forEach items="${xlDoclist }" var="doc">
-		                <div class="toolsBtn2 titleStyleDiv2" style="clear: both;"><a target="_blank" href="${path }/yxl/knowledge/${doc.docId }">${doc.title }</a></div>   
+		                <div class="toolsBtn2 titleStyleDiv2"><a target="_blank" href="${path }/yxl/knowledge/${doc.docId }">${doc.title }</a></div>   
 	                </c:forEach>
+	            	</div>
 	            </div>
 	        </div>
 	    </div>

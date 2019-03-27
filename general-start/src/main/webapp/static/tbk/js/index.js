@@ -89,7 +89,7 @@ $(document).ready(function(){
 
 function getlittleDoc(){
 	$.ajax({
-    	url:"queryLittleDoc",
+    	url:"tbk/queryLittleDoc",
     	data:{
     		page:page
     	},

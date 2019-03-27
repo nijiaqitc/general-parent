@@ -34,6 +34,9 @@
     </div>
     <!--     结束：页面底部  -->
     <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
+    <script type="text/javascript">
+    	var respath="${resPath }";
+    </script>
     <script src="${resPath }/tbk/js/picWall.js" type="text/javascript"></script>
 </body>
 </html>

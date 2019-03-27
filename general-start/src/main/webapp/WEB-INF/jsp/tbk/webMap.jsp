@@ -38,7 +38,7 @@
     		</div>
     		<div align="center" class="menu-box adocsearch" >
     			<div align="left" class="ahomeDiv1">
-    				<div class="ahomeDiv2"><a href="fastSearchInit">文章搜索</a></div>
+    				<div class="ahomeDiv2"><a href="tbk/fastSearchInit">文章搜索</a></div>
     				<div class="ahomeDiv3">
     					根据标题、标签、文章内容快速检索出文章（左右两边暂时啥都不放，有空在两边放搜索排行等）
     				</div>
@@ -46,7 +46,7 @@
     		</div>
     		<div align="center" class="menu-box adocsearch2" >
     			<div align="left" class="ahomeDiv1">
-    				<div class="ahomeDiv2"><a href="technologyUpInit">技术成长</a></div>
+    				<div class="ahomeDiv2"><a href="tbk/technologyUpInit">技术成长</a></div>
     				<div class="ahomeDiv3">
     					暂时就放一张图片。等有空把此栏目换成小工具，显示各种小工具列表如json格式转换、xml格式转换等
     				</div>
@@ -54,7 +54,7 @@
     		</div>
     		<div align="center" class="menu-box adocsearch2" >
     			<div align="left" class="ahomeDiv1">
-    				<div class="ahomeDiv2"><a href="picWallInit">图片墙</a></div>
+    				<div class="ahomeDiv2"><a href="tbk/picWallInit">图片墙</a></div>
     				<div class="ahomeDiv3">
     					显示文章对应的图片，列出所有的文章
     				</div>
@@ -62,7 +62,7 @@
     		</div>
     		<div align="center" class="menu-box adocsearch1" >
     			<div align="left" class="ahomeDiv1">
-    				<div class="ahomeDiv2"><a href="webMapInit">网站导航</a></div>
+    				<div class="ahomeDiv2"><a href="tbk/webMapInit">网站导航</a></div>
     				<div class="ahomeDiv3">
     					风格不怎么好看，以后再改版。暂时没时间
     				</div>
@@ -70,7 +70,7 @@
     		</div>
     		<div align="center" class="menu-box adocsearch1" >
     			<div align="left" class="ahomeDiv1">
-    				<div class="ahomeDiv2"><a href="aboutMeInit">关于站长</a></div>
+    				<div class="ahomeDiv2"><a href="tbk/aboutMeInit">关于站长</a></div>
     				<div class="ahomeDiv3">
     					站长简历
     				</div>

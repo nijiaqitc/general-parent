@@ -13,7 +13,6 @@
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
-    <jsp:include page="../zxgj/top.jsp"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：顶部菜单栏 -->
     <div class="contextAare" align="center" >
@@ -36,14 +35,14 @@
 			</div>
 			<div class="bottomArea">
 				<c:if test="${pn.pre!=null}">
-					<div class="pnbtn"><a href="${path }/zxgj/novelRead/${pn.pre}">上一章</a></div>
+					<div class="pnbtn"><a href="${path }/xs/novelRead/${pn.pre}">上一章</a></div>
 				</c:if>
 				<c:if test="${pn.pre==null}">
 					<div class="unbtn">上一章</div>
 				</c:if>
 				<div class="pnbtn"><a href="${path }/xs/novelList">目录</a></div>
 				<c:if test="${pn.next!=null}">
-					<div><a href="${path }/zxgj/novelRead/${pn.next}">下一章</a></div>
+					<div><a href="${path }/xs/novelRead/${pn.next}">下一章</a></div>
 				</c:if>
 				<c:if test="${pn.next==null}">
 					<div class="uub">下一章</div>

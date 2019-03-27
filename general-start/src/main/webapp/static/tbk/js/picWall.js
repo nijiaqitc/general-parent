@@ -35,8 +35,8 @@ function getDocList(p){
         		for(var i=0;i<data.viewList.length;i++){
             		str+="<div align='center' class='menu-box aoutDiv7'>"+
 	    	    		"<div>"+"<a href='"+jspath+"/doc/docView/"+data.viewList[i].id+"'  target='_blank'>"+
-	    		    		"<img class='aoutDiv2 picWallSize' src='"+data.viewList[i].url+"' alt='文章图片' >"+
-	    		    		"<img class='aoutDiv3' src='"+jspath+"/tbk/images/shadowimg300.gif' alt='底部阴影' >"+"</a>"+
+	    		    		"<img class='aoutDiv2 picWallSize' src='"+respath+"/"+data.viewList[i].url+"' alt='文章图片' >"+
+	    		    		"<img class='aoutDiv3' src='"+respath+"/"+"/tbk/images/shadowimg300.gif' alt='底部阴影' >"+"</a>"+
 	    	    		"</div>"+
 	    	    		"<div align='left' class='aoutDiv4' ><a href='"+jspath+"/doc/docView/"+data.viewList[i].id+"' class='atitleSize'  target='_blank'>"+data.viewList[i].formatTitle+"</a></div>"+
 	    	    		"<div class='aoutDiv5' align='left'>"+

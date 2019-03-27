@@ -40,7 +40,7 @@ function searchDoc(p,s){
 	    				"</div>"+
 	    				"<div class='arightDiv2div2'><span>标签:</span>";
 			    	for(var j=0;j<data.doc.list[i].tipsList.length;j++){
-			    		str+="<span><a href='"+jspath+"/fastSearchInit?searchValue="+data.doc.list[i].tipsList[j]+"' target='_blank' >"+data.doc.list[i].tipsList[j]+"</a></span>"
+			    		str+="<span><a href='"+jspath+"/app/fastSearchInit?searchValue="+data.doc.list[i].tipsList[j]+"' target='_blank' >"+data.doc.list[i].tipsList[j]+"</a></span>"
 			    	}
 	    			str+="</div>"+
 	    				"<div class='arightDiv2div3'>"+

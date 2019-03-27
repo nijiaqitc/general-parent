@@ -36,7 +36,7 @@
 							类型：${docViewType } |  
 						 2016-03-29  |  浏览(10)
 						</p> 
-						<img class="aUlLi1img" src="${docViewPicPlace }" alt="" />
+						<img class="aUlLi1img" src="${resPath }/tbk${docViewPicPlace }" alt="" />
 						<p class="aUlLi1p2" >${docViewTitle }</p>
 						<p class="aUlLi1p3">${docViewGeneral }</p>
 					</li>

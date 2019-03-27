@@ -62,7 +62,7 @@ if(${ismob!=true}){
 								类型：${view.typeName } |  
 							 ${view.formatCreatedDate }  |  浏览(${view.readnums })
 							</p> 
-							<img class="aUlLi1img" src="${path}${view.url }" alt="文章代表图片" />
+							<img class="aUlLi1img" src="${resPath}/${view.url }" alt="文章代表图片" />
 							<p class="aUlLi1p2" ><a href="${view.id }" target="_blank">${fn:substring(view.title, 0, 16)}</a></p>
 							<p class="aUlLi1p3">
 							${fn:substring(view.formatGeneralHref1, 0, 100)}...
@@ -101,7 +101,7 @@ if(${ismob!=true}){
 							类型:<a href="${path }/doc/docForType/${tbkType.id }" target="_blank">${tbkType.name }</a>|
 							标签: 
 							<c:forEach items="${docViewTbkTipList }" var="tbkTip">
-									<a href="${path }/fastSearchInit?searchValue=${tbkTip.name }" target="_blank">${tbkTip.name }</a>
+									<a href="${path }/tbk/fastSearchInit?searchValue=${tbkTip.name }" target="_blank">${tbkTip.name }</a>
 							</c:forEach>
 						</div>
 						  
@@ -143,7 +143,7 @@ if(${ismob!=true}){
 		     			类型:<a href="${path }/doc/docForType/${tbkType.id }" target="_blank">${tbkType.name }</a>|
 						标签: 
 						<c:forEach items="${docViewTbkTipList }" var="tbkTip">
-								<a href="${path }/fastSearchInit?searchValue=${tbkTip.name }" target="_blank">${tbkTip.name }</a>
+								<a href="${path }/tbk/fastSearchInit?searchValue=${tbkTip.name }" target="_blank">${tbkTip.name }</a>
 						</c:forEach>  
 	     			</div>
 	     		</div>

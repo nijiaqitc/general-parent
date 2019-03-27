@@ -210,7 +210,6 @@ public class GjHomeController {
      * @param request
      * @return
      */
-    @SuppressWarnings("resource")
     @RequestMapping(value = "downLoadEditor", method = RequestMethod.GET)
     public ResponseEntity<byte[]> downLoadEditor(HttpServletRequest request) {
         return downLoad(PropertyUtil.get("downLoadFile"));
