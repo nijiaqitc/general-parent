@@ -25,6 +25,7 @@
 		<div>/grab/reloadJob?channel=xxx&docId=xxx</div>
 	</div>
 	
+	<div>修改文章 /grab/editKnowledge?docId=xxx</div>
 	<div><a target="_blank" href="/yxlIssueDoc">yxl文章发表</a></div>
 	<div><a target="_blank" href="/updateYxlDocPage">yxl文章修改</a></div>
 	<div><a target="_blank" href="/noteManager">笔记管理</a></div>
