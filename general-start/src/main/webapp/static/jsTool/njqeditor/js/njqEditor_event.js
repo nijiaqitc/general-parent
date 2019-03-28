@@ -3393,7 +3393,7 @@
 							exNode=util.extractContents(customRange);
 							util.insertAfter(exNode,parentNode);
 							util.insertAfter(node,parentNode);
-							util.deleteAllChildrenEmptyNodes(parentNode);
+							util.deleteAllChildrenEmptyNodes(parentNode,true);
 							flag=false;
 							node.newNode=true;
 						}else{
