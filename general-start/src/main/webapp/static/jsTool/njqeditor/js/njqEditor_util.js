@@ -144,8 +144,6 @@
 					tempNode.needCheck = null;
 				}
 				
-				
-				
 				if (tempNode.nodeType == 1 && type == 1) {
 					//针对标签节点
 					tempNode = fun(tempNode);
@@ -169,6 +167,8 @@
 				if (flag) {
 					break;
 				}
+				
+				
 				// 判断返回的节点是否需要重新校验
 				if (!tempNode.newNode) {
 					if (tempNode != endNode) {
@@ -1275,8 +1275,7 @@
 				if (node.innerHTML == constants.SPACE) {
 					this.removeNode(node.firstChild, 1);
 				} else {
-					node.innerHTML = node.innerHTML.replace(new RegExp(
-							constants.SPACE), "");
+					node.innerHTML = node.innerHTML.replace(new RegExp(constants.SPACE), "");
 				}
 			} else {
 				// 第一种情况是在当前文本节点后续进行进行标签创建，由于进行了替换，选区位置从最后一个变到第一个了，所以要重置选区
@@ -1574,7 +1573,7 @@
 			if (str == null) {
 				return true;
 			}
-			if (str == "") {
+			if (str.trim() == "") {
 				return true;
 			}
 		},
@@ -1621,20 +1620,16 @@
 			if (node.tagName == constants.TD) {
 				return false;
 			}
+			var pv;
 			if (this.isElementNode(node)) {
-				// 如果是属性节点，那么判断节点中的内容是否为空
-				if (node.innerHTML == constants.EMPTY) {
-					return true;
-				} else {
-					return false;
-				}
+				pv = node.innerHTML.trim();
 			} else {
-				// 如果是文本节点，那么判断文本节点是否为空
-				if (node.data == constants.EMPTY) {
-					return true;
-				} else {
-					return false;
-				}
+				pv = node.data.trim();
+			}
+			if (pv == constants.EMPTY) {
+				return true;
+			} else {
+				return false;
 			}
 		},
 		/**
@@ -1651,24 +1646,16 @@
 			if (node.tagName == constants.TD) {
 				return false;
 			}
+			var hv;
 			if (this.isElementNode(node)) {
-				// 如果是属性节点，那么判断节点中的内容是否为空
-				if (node.innerHTML == constants.EMPTY
-						|| node.innerHTML == constants.SPACE
-						|| node.innerHTML == "<br>") {
-					return true;
-				} else {
-					return false;
-				}
+				hv = node.innerHTML.trim(); 
 			} else {
-				// 如果是文本节点，那么判断文本节点是否为空
-				if (node.data == constants.EMPTY
-						|| node.innerHTML == constants.SPACE
-						|| node.innerHTML == "<br>") {
-					return true;
-				} else {
-					return false;
-				}
+				hv = node.data.trim();
+			}
+			if (hv == constants.EMPTY || hv == constants.SPACE || hv == "<br>") {
+				return true;
+			} else {
+				return false;
 			}
 		},
 		/**
@@ -1790,6 +1777,7 @@
 		emptyNodeAddBr : function(node, addNode) {
 			// 如果node节点是空的那么添加br节点
 			if (this.checkStrIsEmpty(this.trim(node.innerHTML))) {
+				node.innerHTML = "";
 				node.appendChild(addNode.cloneNode());
 			}
 		},
@@ -2532,7 +2520,7 @@
 			while(tempNode){
 				node=tempNode;
 				tempNode=node.previousSibling;
-				if(node.nodeType==3&&node.data==constants.EMPTY){
+				if(node.nodeType==3&&node.data.trim()==constants.EMPTY){
 					node.parentNode.removeChild(node);
 				}
 			}
@@ -2602,7 +2590,7 @@
 	(function() {
 		// ie8不支持trim方法
 		String.prototype.trim = function() {
-			return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			return this.replace(/^\s+|\s+$/g,'');
 		}
 		if (!("classList" in document.documentElement)) {
 			Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,'classList',

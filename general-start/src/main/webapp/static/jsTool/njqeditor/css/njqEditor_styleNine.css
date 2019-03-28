@@ -105,16 +105,16 @@
 /*----------------------滚动条样式结束----------------------*/
 /* ----------------------查看源码开始---------------------- */
 .njq_editor_total .codeCenter{
-	margin-top: 2px;font-size:13px;outline: none;overflow: hidden;min-height: 800px;min-width: 500px;
+	margin-top: 2px;font-size:13px;outline: none;overflow: hidden;min-height: 800px;min-width: 500px;line-height: 16px !important;
 }
 .njq_editor_total .codeCenterLeft{
     min-width: 22px;float: left;background-color: #eee;border-right: 1px solid #888;	
 }
 .njq_editor_total .codeCenterLeft div{
-	height: 15px;
+	height: 16px;
 }
 .njq_editor_total .codeCenterCenter{
-    float: left;margin-left: 8px;width: 88%;  outline: none;
+    float: left;margin-left: 8px;width: 88%;  outline: none;line-height: 16px !important;
 }
 .njq_editor_total .codeCenter pre{
 	margin:0px;
@@ -134,7 +134,7 @@
 	 min-width: 22px;float: right;background-color: #eee;border-left: 1px solid #888;	
 }
 .njq_editor_total .codeCenterRight div{
-	height: 15px;
+	height: 16px;
 }
 .njq_editor_total .textTip{
     background-color: white;height: 20px;line-height: 20px;font-size: 12px;display: none;
@@ -250,6 +250,13 @@ pre, xmp, plaintext, listing{
 }
 /* ----------------------预览文章结束---------------------- */
 /* ----------------------全屏显示开始---------------------- */
+.editor_code_area{
+	margin-bottom: 60px;
+}
+.editor_tip_full{
+	bottom: 20px;
+    position: fixed;
+}
 .editor_full{
 	overflow: auto;
     position: fixed;

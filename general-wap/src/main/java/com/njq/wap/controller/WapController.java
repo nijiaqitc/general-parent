@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.basis.service.impl.BaseUserService;
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.common.model.po.TbkPic;
@@ -29,7 +30,6 @@ import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
 import com.njq.common.model.vo.TbkRecommendDocVO;
-import com.njq.common.util.other.PropertyUtil;
 import com.njq.common.util.string.StringUtil;
 import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkPicService;
@@ -225,7 +225,7 @@ public class WapController {
             model.addAttribute("recommendDocList", viewList);
             tbkdocService.updateDocById(doc.getId(), null);
         }
-        model.addAttribute("authUrl", PropertyUtil.get("auth.url") + "/doc/docView/" + docId);
+        model.addAttribute("authUrl", SpringContextUtil.getValue("auth.url") + "/doc/docView/" + docId);
         return "wap/docView";
     }
 

@@ -122,6 +122,7 @@
 			var bottom=document.getElementById("njqEditor_wordCount").parentNode;
 			var toos=document.getElementById("njqEditor_toolDiv");
 			var editorDiv=document.getElementById("njqEditor_editorDiv");
+			var editorTip=document.getElementById("njqEditor_tip");
 			editorNode.classList.remove("editor_normal");
 			editorNode.classList.add("editor_full");
 			body.classList.add("editor_full_body");
@@ -132,6 +133,7 @@
 			toos.classList.remove("editor_recover_tools");
 			editorDiv.classList.add("editor_full_editorDiv");
 			editorDiv.classList.remove("editor_recover_editorDiv");
+			editorTip.classList.add("editor_tip_full");
 			var btnArea=toos.getElementsByClassName("toolTopDiv");
 			if(btnArea){
 				for(var i=0;i<btnArea.length;i++){
@@ -153,6 +155,7 @@
 			var bottom=document.getElementById("njqEditor_wordCount").parentNode;
 			var toos=document.getElementById("njqEditor_toolDiv");
 			var editorDiv=document.getElementById("njqEditor_editorDiv");
+			var editorTip=document.getElementById("njqEditor_tip");
 			editorNode.classList.add("editor_normal");
 			editorNode.classList.remove("editor_full");
 			body.classList.remove("editor_full_body");
@@ -163,6 +166,7 @@
 			toos.classList.add("editor_recover_tools");
 			editorDiv.classList.remove("editor_full_editorDiv");
 			editorDiv.classList.add("editor_recover_editorDiv");
+			editorTip.classList.remove("editor_tip_full");
 			var btnArea=toos.getElementsByClassName("toolTopDiv");
 			if(btnArea){
 				for(var i=0;i<btnArea.length;i++){

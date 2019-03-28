@@ -1,15 +1,16 @@
 package com.njq.zxgj.controller;
 
-import com.njq.common.base.email.EmailSender;
-import com.njq.common.model.dao.BaseUserJpaRepository;
-import com.njq.common.model.po.BaseUser;
-import com.njq.zxgj.service.TestService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.njq.common.base.email.EmailSender;
+import com.njq.common.model.dao.BaseUserJpaRepository;
+import com.njq.common.model.po.BaseUser;
+import com.njq.zxgj.service.TestService;
 
 @Controller
 public class TestA {

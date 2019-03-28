@@ -9,13 +9,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.LogCommon;
 import com.njq.common.model.po.ToolResourceshare;
 import com.njq.common.model.vo.ResourceshareVO;
-import com.njq.common.util.other.PropertyUtil;
 
 @Service
 public class ToolResourceShareService {
@@ -50,7 +50,6 @@ public class ToolResourceShareService {
 					map.put("codeIdB",paramMap.get("type2"));
 					if(!paramMap.get("type3").equals(-1L)){
 						str+=" and codeIdC= '"+paramMap.get("type3").toString()+"'";
-//						map.put("codeIdC",paramMap.get("type3").toString());
 					}
 				}
 			}
@@ -59,6 +58,7 @@ public class ToolResourceShareService {
 		PageList<ToolResourceshare> list= resourceshareDao.queryHqlByParamForPage(str, cc, map);
 		PageList<ResourceshareVO> voList=new PageList<ResourceshareVO>();
 		List<ResourceshareVO> vo=new ArrayList<ResourceshareVO>();
+		String imgUrl = SpringContextUtil.getValue("image.url");
 		for(ToolResourceshare share:list.getList()){
 			ResourceshareVO v=new ResourceshareVO();
 			v.setId(share.getId());
@@ -67,10 +67,10 @@ public class ToolResourceShareService {
 			v.setCodeIdB(share.getCodeIdB());
 			v.setCodeIdC(Long.parseLong(share.getCodeIdC()));
 			v.setPwd(share.getPwd());
-			v.setPicUrlBase(PropertyUtil.get("image.url")+share.getPicUrlBase());
-			v.setPicUrlA(PropertyUtil.get("image.url")+share.getPicUrlA());
-			v.setPicUrlB(PropertyUtil.get("image.url")+share.getPicUrlB());
-			v.setPicUrlC(PropertyUtil.get("image.url")+share.getPicUrlC());
+			v.setPicUrlBase(imgUrl+share.getPicUrlBase());
+			v.setPicUrlA(imgUrl+share.getPicUrlA());
+			v.setPicUrlB(imgUrl+share.getPicUrlB());
+			v.setPicUrlC(imgUrl+share.getPicUrlC());
 			vo.add(v);
 		}
 		voList.setTotal(list.getTotal());

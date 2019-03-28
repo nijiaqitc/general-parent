@@ -27,12 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.YxlDocSearch;
 import com.njq.common.model.po.YxlTip;
 import com.njq.common.model.vo.DocVO;
-import com.njq.common.util.other.PropertyUtil;
 import com.njq.file.load.api.FileLoadService;
 import com.njq.file.load.api.model.DownLoadFileRequestBuilder;
 import com.njq.file.load.api.model.ReBackFileInfo;
@@ -212,7 +212,7 @@ public class GjHomeController {
      */
     @RequestMapping(value = "downLoadEditor", method = RequestMethod.GET)
     public ResponseEntity<byte[]> downLoadEditor(HttpServletRequest request) {
-        return downLoad(PropertyUtil.get("downLoadFile"));
+        return downLoad(SpringContextUtil.getValue("downLoadFile"));
     }
 
 

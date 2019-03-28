@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.njq.common.base.dao.ConditionsCommon;
 import org.springframework.stereotype.Service;
 
 import com.njq.common.base.dao.DaoCommon;
