@@ -31,6 +31,7 @@
                 processData:false,
                 contentType:false,
                 success:function(data){
+                	tempVar.timestamp=null;
                     if(data.state==1){
                     	fn(data.message,200);
                     }else{

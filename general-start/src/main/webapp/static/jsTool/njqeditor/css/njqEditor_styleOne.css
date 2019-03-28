@@ -144,6 +144,8 @@
 .editor_tip_full{
 	bottom: 20px;
     position: fixed;
+    z-index: 9999;
+    width: 100%;
 }
 .editor_full{
 	overflow: auto;
