@@ -52,7 +52,7 @@
             },
             // 写入内容
             setContent: function (text) {
-                if (text == "" || text == null) {
+                if (text == constants.EMPTY || text == null) {
                     editorContext.innerHTML = "<div><br></div>";
                     return;
                 }
@@ -88,7 +88,7 @@
                     div.appendChild(resetRange.cloneContents());
                     return service.getContentTxt(div.firstChild, div);
                 } else {
-                    return "";
+                    return constants.EMPTY;
                 }
             },
             // 获取准备保存的内容
@@ -278,7 +278,7 @@
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("按钮控制器捕获异常，忽略异常继续执行！");
                 }
@@ -313,7 +313,7 @@
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("弹框控制器捕获异常，忽略异常继续执行！");
                 }
@@ -350,7 +350,7 @@
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("编辑器控制器捕获异常，忽略异常继续执行！");
                 }
@@ -365,7 +365,7 @@
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("页面控制器捕获异常，忽略异常继续执行！");
                 }
@@ -386,7 +386,7 @@
                     service.resetBtnStatus();
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("执行自定义控制器捕获异常，忽略异常继续执行！");
                 }
@@ -401,7 +401,7 @@
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
-                        console.error("", e);
+                        console.error(constants.EMPTY, e);
                     }
                     throw new Error("其他事件控制器捕获异常，忽略异常继续执行！");
                 }
@@ -429,7 +429,7 @@
                 if (range.startContainer.nodeType == 3) {
                     if (range.startContainer.data.startsWith(constants.SPACE)) {
                         var offset = range.startOffset;
-                        range.startContainer.data = range.startContainer.data.replace(constants.SPACE, "");
+                        range.startContainer.data = range.startContainer.data.replace(constants.SPACE, constants.EMPTY);
                         range.setStart(range.startContainer, offset - 1);
                         range.collapse(true);
                         util.setRange(range);
@@ -541,16 +541,16 @@
             // 清空文档-按钮事件
             _clearAll: function () {
                 var empty = util.createEmptyNode(constants.DIV);
-                editorContext.innerHTML = "";
+                editorContext.innerHTML = constants.EMPTY;
                 editorContext.appendChild(empty);
                 allEvents._wordCountReckon();
                 resetRange.setStartBefore(empty.firstChild);
                 resetRange.setEndBefore(empty.firstChild);
                 if (ids.editorNameValue) {
-                    ids.editorNameValue.innerHTML = "";
+                    ids.editorNameValue.innerHTML = constants.EMPTY;
                 }
                 if (ids.editorNumValue) {
-                    ids.editorNumValue.innerHTML = "";
+                    ids.editorNumValue.innerHTML = constants.EMPTY;
                 }
             },
             // 全屏-按钮事件
@@ -729,9 +729,9 @@
                 if (dialog) {
                     var data = util.getElementsByClassName(dialog, "datadialog")[0];
                     var inputs = util.getElementsByTagName(data, constants.INPUT);
-                    inputs[0].value = "";
-                    inputs[1].value = "";
-                    inputs[2].value = "";
+                    inputs[0].value = constants.EMPTY;
+                    inputs[1].value = constants.EMPTY;
+                    inputs[2].value = constants.EMPTY;
                     inputs[3].checked = false;
                     var range = service.getRange();
                     // 获取焦点
@@ -748,12 +748,12 @@
             // 超链接-添加超链接
             _addHref: function () {
                 var inputs = util.getElementsByTagName(this.parentNode.parentNode.firstElementChild, constants.INPUT);
-                if (!inputs[0].getAttribute("readonly") && inputs[0].value == "") {
-                    if (inputs[0].value == "") {
+                if (!inputs[0].getAttribute("readonly") && inputs[0].value == constants.EMPTY) {
+                    if (inputs[0].value == constants.EMPTY) {
                         return;
                     }
                 }
-                if (inputs[1].value == "") {
+                if (inputs[1].value == constants.EMPTY) {
                     return;
                 }
                 service.addHref(inputs);
@@ -1173,7 +1173,7 @@
             _wordCountReckon: function () {
                 if (userConfig.wordCount.isShow) {
                     var text = editorContext.innerHTML;
-                    var count = text.replace(/<.*?>/g, "").replace(/&nbsp;/g, " ").length;
+                    var count = text.replace(/<.*?>/g, constants.EMPTY).replace(/&nbsp;/g, " ").length;
                     if (userConfig.wordCount.top) {
                         ids.editorTopWordCount.innerHTML = count;
                     }
@@ -1573,13 +1573,13 @@
                 tempDiv.innerHTML = editorContext.innerHTML;
                 var place = {};
                 this.completeElementPlace(tempDiv, -1, place);
-                var styleStr = "";
+                var styleStr = constants.EMPTY;
                 for (var i in place) {
                     styleStr += "[0]" + i + "=" + place[i] + "|"
                 }
                 styleStr = styleStr.substring(0, styleStr.length - 1);
                 // 进行url编码转义，目前转义的字符为 % & +
-                var array = [util.tranWord(tempDiv.innerHTML), "" + util.tranWord(styleStr)];
+                var array = [util.tranWord(tempDiv.innerHTML), constants.EMPTY + util.tranWord(styleStr)];
 //				this.styleToClass(styleStr,array[0]);
                 return array;
             },
@@ -1589,7 +1589,7 @@
                 tempDiv.innerHTML = editorContext.innerHTML;
                 var place = {};
                 this.completeElementPlace(tempDiv, -1, place);
-                var styleStr = "", stlen, sty, flag = true;
+                var styleStr = constants.EMPTY, stlen, sty, flag = true;
                 for (var i in place) {
                     sty = place[i].split(";");
                     stlen = sty.length
@@ -1608,12 +1608,12 @@
                 }
                 styleStr = styleStr.substring(0, styleStr.length - 1);
                 // 进行url编码转义，目前转义的字符为 % & +
-                return [util.tranWord(tempDiv.innerHTML), "" + util.tranWord(styleStr)];
+                return [util.tranWord(tempDiv.innerHTML), constants.EMPTY + util.tranWord(styleStr)];
             },
             //把样式内容转换成class内容
             styleToClass: function (style, html) {
                 var cssArray = style.split("|");
-                var stvalue, styv, stlen, styleStr = "", flag = true;
+                var stvalue, styv, stlen, styleStr = constants.EMPTY, flag = true;
                 for (var i in cssArray) {
                     stvalue = cssArray[i].split("=");
                     styv = stvalue[0].split("]");
@@ -2339,7 +2339,7 @@
                         lastNode.appendChild(pre2);
                     }
                 } else if (node.nodeType == 3) {
-                    if (node.wholeText.trim() != "") {
+                    if (node.wholeText.trim() != constants.EMPTY) {
                         pre1 = util.createCustomNode(constants.PRE);
                         span = util.createCustomNode(constants.SPAN);
                         pre1.appendChild(util.createTextNode(this.getSpeace(index)));
@@ -2351,7 +2351,7 @@
             },
             // 根据index获取指定长度的空格
             getSpeace: function (index) {
-                var speace = "";
+                var speace = constants.EMPTY;
                 for (var i = 0; i < index; i++) {
                     speace += "    ";
                 }
@@ -2360,13 +2360,13 @@
             // 将源码转换为html页面
             backToView: function () {
                 var htmlNode = util.getElementsByClassName(editorNode, "codeCenterCenter")[0];
-                var textNode = "";
+                var textNode = constants.EMPTY;
                 var tempNode = htmlNode.firstChild;
                 // 为了区分在源码环境下，不包含在div中的一些代码
                 var t = 0, hyht;
                 while (tempNode) {
                     if (tempNode.nodeType == 1) {
-                        hyht = util.trim(tempNode.innerHTML).replace(/<.+?>/g, "");
+                        hyht = util.trim(tempNode.innerHTML).replace(/<.+?>/g, constants.EMPTY);
                         if (this.isParentpjNode("&lt;", hyht)) {
                             t = 0;
                             textNode += hyht;
@@ -2386,7 +2386,7 @@
                 }
                 // 将源码节点区域隐藏
                 styles.hideStyleNode(htmlNode.parentNode);
-                textNode = textNode.replace(new RegExp(constants.SPACE), "");
+                textNode = textNode.replace(new RegExp(constants.SPACE), constants.EMPTY);
 // htmlNode.parentNode.remove();
                 var labelList = textNode.match(/(&lt;)((?!(&lt;)).)+(&gt;)/g);
                 var replaceValue;
@@ -2394,7 +2394,7 @@
                     replaceValue = labelList[i].replace(/&lt;/g, "\<").replace(/&gt;/g, "\>")
                     textNode = textNode.replace(labelList[i], replaceValue);
                 }
-                editorContext.innerHTML = textNode.replace(/&amp;lt;/g, "&lt;").replace(/&amp;gt;/g, "&gt;").replace(/[\r\n\t]/g, "");
+                editorContext.innerHTML = textNode.replace(/&amp;lt;/g, "&lt;").replace(/&amp;gt;/g, "&gt;").replace(/[\r\n\t]/g, constants.EMPTY);
                 // 对代码进行格式化
                 this.decodeService(editorContext.firstChild);
                 // 由于进行转换后所有节点全部都不存在了，所以选区也要重新设置
@@ -2504,7 +2504,7 @@
                     }
                     if (!isnext) {
                         alert("不接受此文件类型！");
-                        target.value = "";
+                        target.value = constants.EMPTY;
                         return false;
                     }
                 } else {
@@ -2526,17 +2526,17 @@
                 var size = fileSize / 1024;
                 if (size > filemaxsize) {
                     alert("附件大小不能大于" + filemaxsize / 1024 + "M！");
-                    target.value = "";
+                    target.value = constants.EMPTY;
                     return false;
                 }
                 if (size <= 0) {
                     alert("附件大小不能为0M！");
-                    target.value = "";
+                    target.value = constants.EMPTY;
                     return false;
                 }
                 var img = new Image();
                 img.src = window.URL.createObjectURL(target.files[0]);
-                var picuplabel = Math.random() + "";
+                var picuplabel = Math.random() + constants.EMPTY;
                 picuplabel = "pic" + picuplabel.substring(picuplabel.length - 6, picuplabel.length);
                 img.setAttribute("picuplabel", picuplabel);
                 img.onload = function () {
@@ -2819,7 +2819,7 @@
             },
             // 合并单元格
             mergeCells: function (rangeTable) {
-                var nodeValue = "";
+                var nodeValue = constants.EMPTY;
                 var firstTd = rangeTable.tempTable[rangeTable.beginRowIndex][rangeTable.beginColIndex].td;
                 for (var i = rangeTable.beginRowIndex; i <= rangeTable.endRowIndex; i++) {
                     for (var j = rangeTable.beginColIndex; j <= rangeTable.endColIndex; j++) {
@@ -3145,7 +3145,7 @@
                 var parentArray = util.getOutNode(this.getRange());
                 var styleArray = style.split(";"), childArray;
                 // 分割后将最后的空元素剔除掉
-                if (styleArray[styleArray.length - 1] == "") {
+                if (styleArray[styleArray.length - 1] == constants.EMPTY) {
                     styleArray.pop();
                 }
                 for (var i in parentArray) {
@@ -3454,7 +3454,7 @@
                     afterNode = node.nextSibling;
                     beforeNode = node.previousSibling;
                     // 全是空格或者空的节点直接删除
-                    if (node.nodeType == 3 && util.trim(node.data) == "") {
+                    if (node.nodeType == 3 && util.trim(node.data) == constants.EMPTY) {
                         util.removeNode(node);
                         node = afterNode;
                         continue;
@@ -3606,7 +3606,7 @@
                             temp = tempArrays[j];
                             spanNode = util.createCustomNode(constants.SPAN);
                             nodeStyle = temp.getAttribute("style");
-                            if (nodeStyle != null && nodeStyle != "") {
+                            if (nodeStyle != null && nodeStyle != constants.EMPTY) {
                                 spanNode.setAttribute("style", nodeStyle);
                             }
                             util.insertBefore(spanNode, temp);
@@ -3720,7 +3720,7 @@
                     }
                 }
                 //把一些回车符等都删除掉
-                decodeNode.innerHTML = decodeNode.innerHTML.replace(/[\r\n\t]/g, "");
+                decodeNode.innerHTML = decodeNode.innerHTML.replace(/[\r\n\t]/g, constants.EMPTY);
                 //进行处理先准备(粘贴的头部可能带有style标签)
                 var styleNodeList = util.getElementsByTagName(decodeNode, constants.STYLE);
                 for (var i in styleNodeList) {
@@ -4644,7 +4644,7 @@
                         return parent;
                     }
                     if (btn.valueNode.innerHTML != setValue) {
-                        btn.valueNode.innerHTML = "";
+                        btn.valueNode.innerHTML = constants.EMPTY;
                         btn.tempFlag = false;
                     }
                 } else {
@@ -4673,7 +4673,7 @@
                 }
                 if (btn.valueChanged) {
                     if (btn.valueNode.innerHTML != setValue) {
-                        btn.valueNode.innerHTML = "";
+                        btn.valueNode.innerHTML = constants.EMPTY;
                         btn.tempFlag = false;
                     }
                 } else {
@@ -4701,7 +4701,7 @@
                 }
                 if (btn.valueChanged) {
                     if (btn.valueNode.innerHTML != setValue) {
-                        btn.valueNode.innerHTML = "";
+                        btn.valueNode.innerHTML = constants.EMPTY;
                         btn.tempFlag = false;
                     }
                 } else {
@@ -5889,7 +5889,7 @@
             // 取消操作
             cancelDiff: function (node, styleName) {
                 if (styleName) {
-                    if (node.style[styleName] != null && node.style[styleName] != "") {
+                    if (node.style[styleName] != null && node.style[styleName] != constants.EMPTY) {
                         if (node.getAttribute("style").split(";").length > 2) {
                             node.style[styleName] = null;
                             return node;
@@ -6008,7 +6008,7 @@
                         util.rangeAreaDele(range);
                     }
                     var brnode = util.createCustomNode(constants.BR);
-                    if (range.startContainer.innerHTML == "") {
+                    if (range.startContainer.innerHTML == constants.EMPTY) {
                         this.insertNode(range, brnode.cloneNode());
                     }
                     if (range.endContainer.childNodes.length == range.endOffset) {
@@ -6254,7 +6254,7 @@
              * 获取纯文本
              */
             getContentTxt: function (firstNode, lastNode) {
-                var text = "";
+                var text = constants.EMPTY;
                 util.forListNode(firstNode, lastNode, function (node) {
                     text += node.data;
                     return node;
@@ -6392,7 +6392,7 @@
                         if (userConfig.parsePicType == 2 && /^http/g.test(imgs[i].src)) {
                             continue;
                         }
-                        var picuplabel = Math.random() + "";
+                        var picuplabel = Math.random() + constants.EMPTY;
                         picuplabel = "pic" + picuplabel.substring(picuplabel.length - 6, picuplabel.length);
                         imgs[i].setAttribute("picuplabel", picuplabel);
                         if (regArray.length > 0) {
@@ -6675,7 +6675,7 @@
                     var height = editNode.offsetHeight;
                     editNode.beforeHeight = height;
                     var num = height / 15;
-                    var leftDiv = "", rightDiv = "";
+                    var leftDiv = constants.EMPTY, rightDiv = constants.EMPTY;
                     for (var i = 1; i <= num; i++) {
                         leftDiv += "<div>" + i + "</div>";
                         rightDiv += "<div>" + i + "</div>";
@@ -6777,7 +6777,7 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     var text = xmlhttp.responseText.match(/<body.*?>[\S\s]*?<\/body>/g)[0];
-                    text = text.replace(/<body.*?>/g, "").replace(/<\/body>/g, "").trim();
+                    text = text.replace(/<body.*?>/g, constants.EMPTY).replace(/<\/body>/g, constants.EMPTY).trim();
                     fun(text);
                 }
             }
@@ -6871,7 +6871,7 @@
             }
             xmlhttp.open("POST", userConfig.wordUrl, true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            var dt = "";
+            var dt = constants.EMPTY;
             if (userConfig.saveWord.saveType == 2) {
                 var array = service.separateData();
                 dt += userConfig.saveWord.textName + "=" + array[0] + "&" +

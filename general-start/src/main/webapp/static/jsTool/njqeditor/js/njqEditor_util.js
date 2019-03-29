@@ -651,7 +651,7 @@
                     this.delSameStyleName(tagNodeList[i], compareNode);
                 }
                 //相同的标签且无样式直接删除
-                if (tagNodeList[i].tagName == compareNode.tagName && tagNodeList[i].style.cssText.trim() == "") {
+                if (tagNodeList[i].tagName == compareNode.tagName && tagNodeList[i].style.cssText.trim() == constants.EMPTY) {
                     this.moveAllChildNodeToOut(tagNodeList[i]);
                     // 因为移除后数组的长度减1了
                     --i;
@@ -1161,10 +1161,10 @@
                     nodeStyle[this.trim(temp[0])] = this.trim(temp[1]);
                 }
             }
-            var style = "";
+            var style = constants.EMPTY;
             // 将提取出来的节点样式进行赋值
             for (var i in nodeStyle) {
-                if (i != "") {
+                if (i != constants.EMPTY) {
                     style += i + ":" + nodeStyle[i] + ";"
                 }
             }
@@ -1279,7 +1279,7 @@
          * 删除空占位符 node:需要删除空占位符的节点 range:选区
          */
         removeSpace: function (node, range) {
-            if (!node || node.nodeValue.trim() == "") {
+            if (!node || node.nodeValue.trim() == constants.EMPTY) {
                 return;
             }
             if (this.isElementNode(node)) {
@@ -1528,7 +1528,7 @@
          */
         setNodeStyle: function (fNode, sNode) {
             var cssText = sNode.style.cssText;
-            if (this.trim(cssText) == "") {
+            if (this.trim(cssText) == constants.EMPTY) {
                 return;
             }
             var far = this.trim(cssText).split(";");
@@ -1545,7 +1545,7 @@
          */
         delSameStyleName: function (fNode, sNode) {
             var cssText = sNode.style.cssText;
-            if (this.trim(cssText) == "") {
+            if (this.trim(cssText) == constants.EMPTY) {
                 return;
             }
             var far = this.trim(cssText).split(";");
@@ -1562,7 +1562,7 @@
          */
         setUnNodeStyle: function (fNode, sNode) {
             var cssText = sNode.style.cssText;
-            if (this.trim(cssText) == "") {
+            if (this.trim(cssText) == constants.EMPTY) {
                 return;
             }
             var far = this.trim(cssText).split(";");
@@ -1584,7 +1584,7 @@
             if (!str) {
                 return true;
             }
-            if (str.trim() == "") {
+            if (str.trim() == constants.EMPTY) {
                 return true;
             }
         },
@@ -1788,7 +1788,7 @@
         emptyNodeAddBr: function (node, addNode) {
             // 如果node节点是空的那么添加br节点
             if (this.checkStrIsEmpty(this.trim(node.innerHTML))) {
-                node.innerHTML = "";
+                node.innerHTML = constants.EMPTY;
                 node.appendChild(addNode.cloneNode());
             }
         },
@@ -1796,7 +1796,7 @@
          * 判断是否是空文本节点 node:判断的节点
          */
         isEmptyTextNode: function (node) {
-            if (node.nodeType == 3 && node.nodeValue.trim() == "") {
+            if (node.nodeType == 3 && node.nodeValue.trim() == constants.EMPTY) {
                 return true;
             }
             return false;
