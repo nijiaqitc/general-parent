@@ -18,6 +18,7 @@ import com.njq.common.base.other.LogCommon;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.TitlethcVO;
+import com.njq.common.model.vo.XsListVO;
 import com.njq.common.util.string.StringUtil;
 @Service
 public class XsTitleDetailService {
@@ -216,6 +217,37 @@ public class XsTitleDetailService {
 		titleDetailDao.delTRealById(id);		
 	}
 
+	public List<XsListVO> queryAllTitleGroupJuan(Long bookId){
+		List<XsListVO> voList = new ArrayList<>();
+		List<XsTitleDetail> juanList = this.queryJuanList(bookId,2,null);
+		for (int i = 0; i < juanList.size(); i++) {
+			List<XsTitleDetail> menuList = this.queryJuanList(null,3,juanList.get(i).getId());
+			XsTitleDetail detail = juanList.get(i); 
+			XsListVO vo = new XsListVO();
+			vo.setJuanDetail(detail);
+			vo.setpId(detail.getId());
+			vo.setTotal(menuList.size());
+			vo.setList(menuList);
+			voList.add(vo);
+		}
+		return voList;
+	}
+	
+	
+	public List<XsTitleDetail> queryJuanList(Long bookId , Integer type,Long pId){
+		ConditionsCommon condition = new ConditionsCommon();
+		if(bookId != null) {
+			condition.addEqParam("bookId", bookId);			
+		}
+		if(type != null) {
+			condition.addEqParam("type", type);			
+		}
+		if(pId != null) {
+			condition.addEqParam("parentId", pId);
+		}
+		condition.addSetOrderColum("id", "asc");
+		return titleDetailDao.queryColumnForList(condition);
+	}
 	/**
 	 * 查询所有章节标题列表
 	 * @param parentId
@@ -249,6 +281,8 @@ public class XsTitleDetailService {
 		return l1;
 	}
 
+	
+	
     /**
      * 查询最大章节数
      * @param bookId

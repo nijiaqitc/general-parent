@@ -37,8 +37,11 @@ public class XsDocGeneralInfo implements Serializable {
 	private Integer fontNum;
 
 	@Column(name="good_num")
-	private Integer goodNum;
+	private Integer goodNum=0;
 
+	@Column(name="bad_num")
+	private Integer badNum=0;
+	
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
@@ -120,5 +123,13 @@ public class XsDocGeneralInfo implements Serializable {
     public void setFontNum(Integer fontNum) {
         this.fontNum = fontNum;
     }
+
+	public Integer getBadNum() {
+		return badNum;
+	}
+
+	public void setBadNum(Integer badNum) {
+		this.badNum = badNum;
+	}
 
 }

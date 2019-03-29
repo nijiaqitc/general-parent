@@ -29,10 +29,13 @@
 				</div>
 			</div>
 			<div class="rightpart" align="right">
-				<div class="numfen">7.8</div>
-				<div class="plxl">12056 人评价</div>
+				<div class="numfen">${generalInfo.fontNum }</div>
+				<div class="plxl">${discussCount } 人评价</div>
 				<div class="thi"></div>
-				<div><span class="icon-thumbs-up uop" >赞</span><span class="icon-thumbs-down uop risp" >踩</span></div>
+				<div>
+					(${generalInfo.goodNum })<span class="icon-thumbs-up uop" >赞</span>
+					(${generalInfo.badNum })<span class="icon-thumbs-down uop risp" >踩</span>
+				</div>
 			</div>
 		</div>
 		<div class="cengen">

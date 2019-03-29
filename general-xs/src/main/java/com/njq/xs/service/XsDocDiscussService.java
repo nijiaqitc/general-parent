@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.XsDocDiscuss;
@@ -53,8 +54,9 @@ public class XsDocDiscussService {
      * @return
      */
     public int queryCount(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
-        return 0;
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addEqParam("docId", paramMap.get("docId"));
+    	return docDiscussDao.queryForCount(condition);
     }
 
     /**
