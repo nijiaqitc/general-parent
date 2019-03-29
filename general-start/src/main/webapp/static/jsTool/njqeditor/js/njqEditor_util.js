@@ -207,7 +207,7 @@
                 return node.firstChild;
             } else {
                 if (node.nextSibling) {
-                    return emptyCheckAndReturn(node, parentNode);
+                    return this.emptyCheckAndReturn(node, parentNode);
                 } else {
                     return this.getNextNode(node, parentNode);
                 }
@@ -228,7 +228,7 @@
                     return this.getNextNode(node, parentNode);
                 }
             } else {
-                return emptyCheckAndReturn(node, parentNode);
+                return this.emptyCheckAndReturn(node, parentNode);
             }
         },
         emptyCheckAndReturn: function (node, parentNode) {

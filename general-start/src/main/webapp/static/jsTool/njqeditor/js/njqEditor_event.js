@@ -1939,12 +1939,17 @@
             clearDecode: function () {
                 var range = this.getRange();
                 var fflag = false, lflag = false;
+                var stText,stOffset,endText,endOffset;
                 if (!range.collapsed) {
                     // 设定开始选区
                     if (util.isElementNode(range.startContainer) && range.startOffset == 0
                         && range.startContainer.childNodes.length > 0) {
                         util.insertBefore(stMark, util.getMinNode(range.startContainer));
                         fflag = true;
+                    }
+                    if(util.isTextNode(range.startContainer)){
+                    	stText=range.startContainer;
+                    	stOffset=range.startOffset;
                     }
                     // 设定结束选区
                     if (util.isElementNode(range.endContainer) &&
@@ -1953,6 +1958,10 @@
                         util.insertAfter(enMark, util.getMinLastNode(range.endContainer));
                         lflag = true;
                     }
+                    if(util.isTextNode(range.endContainer)){
+                    	endText=range.endContainer;
+                    	endOffset=range.endOffset;
+                    }
                 }
                 var parentArray = util.getOutNode(range);
                 util.forListNode(parentArray[0], parentArray[parentArray.length - 1], this.clearDecodefun(), 1);
@@ -1960,10 +1969,14 @@
                 if (fflag) {
                     resetRange.setStartBefore(stMark);
                     stMark.remove();
+                }else{
+                	resetRange.setStart(stText, stOffset);
                 }
                 if (lflag) {
                     resetRange.setEndAfter(enMark);
                     enMark.remove();
+                }else{
+                	resetRange.setEnd(endText,endOffset);
                 }
             },
             clearDecodefun: function () {
@@ -3834,8 +3847,9 @@
                     }
                     flag = false;
                 }
-
-                resetRange.setStartAfter(stMark);
+                //粘贴后让选取默认选中复制的内容
+//                resetRange.setStartAfter(stMark);
+                resetRange.setStartBefore(enMark);
                 resetRange.setEndBefore(enMark);
                 if (stMark.parentNode.childNodes.length == 1) {
                     util.remove(stMark.parentNode);
@@ -6812,17 +6826,19 @@
                 return;
             }
             //通过对时间轴进行校验，进行js防并发
-            if (userConfig.saveWord.isNeedTimes) {
-                if (!tempVar.timestamp) {
-                    //设置时间轴
-                    tempVar.timestamp = Date.parse(new Date()) / 1000;
-                } else {
-                    if (fn) {
-                        fn("正在保存，请稍后再试！", "saveFalse");
-                    }
-                    return;
-                }
-            }
+//            if (userConfig.saveWord.isNeedTimes) {
+//                if (!tempVar.timestamp) {
+//                    //设置时间轴
+//                    tempVar.timestamp = Date.parse(new Date()) / 1000;
+//                } else {
+//                    if (fn) {
+//                        fn("正在保存，请稍后再试！", "saveFalse");
+//                    }
+//                    return;
+//                }
+//            }
+            
+            
 //			if(!/^http/g.test(userConfig.wordUrl)){
 //				fn("上传文章失败，请检查上传文章地址！","saveFalse");
 //				return;
