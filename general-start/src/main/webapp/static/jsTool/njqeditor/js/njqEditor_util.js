@@ -154,7 +154,7 @@
                     //针对文本节点和标签节点
                     tempNode = fun(tempNode);
                 }
-                if(!tempNode){
+                if (!tempNode) {
                     return;
                 }
                 // 针对注释节点直接删除
@@ -2514,7 +2514,7 @@
             if (type == 1) {
                 this.clearEmptyTextNode(pnode.previousSibling);
             } else {
-                if (pnode) {
+                if (pnode&&pnode.lastChild) {
                     this.clearEmptyTextNode(pnode.lastChild);
                 }
             }
