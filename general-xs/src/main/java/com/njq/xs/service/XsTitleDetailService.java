@@ -1,6 +1,7 @@
 package com.njq.xs.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.LogCommon;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.TitlethcVO;
 import com.njq.common.model.vo.XsListVO;
@@ -25,6 +27,9 @@ public class XsTitleDetailService {
 
 	@Resource
 	private DaoCommon<XsTitleDetail> titleDetailDao;
+	@Resource
+	public XsDocGeneralInfoService docGeneralInfoService;
+	
 	/**
 	 * 查询所有章节
 	 * @param paramMap
@@ -178,17 +183,7 @@ public class XsTitleDetailService {
 	 * @param title
 	 */
 	public void updateTitleById(XsTitleDetail title) {
-		titleDetailDao.update(title);
-		
-		
-//		Titlethc  =titleDetailDao.queryTById(title.getId());
-//		Message m = titleDetailDao.queryTById(title.getId());
-//		m.setTitle(title.getTitle());
-//		m.setContext(title.getContext());
-//		titleDetailDao.update(m);
-//		//日志记录
-//		logService.saveLog(userId, "修改", "消息表", "对行"+m.getId()+"进行修改");
-		
+		titleDetailDao.updateByPrimaryKeySelective(title);
 	}
 
 	/**
@@ -374,4 +369,35 @@ public class XsTitleDetailService {
 		return m;
 	}
 
+	
+	public Long saveNovel(String title , String contextDesc){
+		XsTitleDetail detail = new XsTitleDetail();
+		detail.setTitle(title);
+		detail.setContextDesc(contextDesc);
+		detail.setCreateDate(new Date());
+		detail.setOrderIndex(0);
+		detail.setType(1);
+		this.saveTitle(detail);
+		XsDocGeneralInfo info = new XsDocGeneralInfo();
+		info.setBadNum(0);
+		info.setGoodNum(0);
+		info.setCreateDate(new Date());
+		info.setFontNum(0);
+		info.setTitleId(detail.getId());
+		info.setViewNum(0);
+		docGeneralInfoService.saveObject(info);
+		return detail.getId();
+	}
+	
+	public Long updateNovel(Long id , String title , String contextDesc){
+		XsTitleDetail detail = new XsTitleDetail();
+		detail.setId(id);
+		detail.setTitle(title);
+		detail.setContextDesc(contextDesc);
+		this.updateTitleById(detail);
+		return detail.getId();
+	}
+	
+	
+	
 }

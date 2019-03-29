@@ -16,6 +16,7 @@ import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.TitlethcVO;
+import com.njq.common.model.vo.XsListVO;
 import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsDocDiscussService;
 import com.njq.xs.service.XsDocGeneralInfoService;
@@ -47,28 +48,19 @@ public class XsController {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="novelList",method=RequestMethod.GET)
-    public String novelList(Model model,Long docId){
-    	if(docId==null) {
+    public String novelList(Model model,Long titleId){
+    	if(titleId==null) {
     		return "grab/noDoc";
     	}
-    	XsTitleDetail docInfo=titleService.queryNameById(docId);
+    	XsTitleDetail docInfo=titleService.queryNameById(titleId);
     	model.addAttribute("docInfo", docInfo);
-//    	Map<String, Object> m=titleService.queryMaxNum(docId);
-        List<XsTitleDetail> list=titleService.queryAllTitleListByDocId(docId);
-        model.addAttribute("list", list);
 		Map<String, Object> paramMap = new HashMap();
-        paramMap.put("docId", docId);
+        paramMap.put("docId", titleId);
         model.addAttribute("discussCount", xsDocDiscussService.queryCount(paramMap));
-
         XsDocGeneralInfo info = xsDocGeneralInfoService.queryByTitleId(docInfo.getId());
         model.addAttribute("generalInfo", info);
-        
-        
-        
-//        XsDocGeneralInfo info=docGeneralInfoService.queryByTitleId(docId);
-//        model.addAttribute("info", info);
-//        model.addAttribute("titleIndex", m.get("titleIndex"));
-//        model.addAttribute("orderIndex", m.get("orderIndex"));
+        List<XsListVO> xsList =  xsTitleDetailService.queryAllTitleGroupJuan(titleId);
+        model.addAttribute("xsList", xsList);
         return "xs/novelList";
     }
     

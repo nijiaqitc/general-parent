@@ -21,7 +21,7 @@
 			<div class="leftpart"><img ></div>
 			<div class="centerpart">
 				<div align="left" class="docTitle">${docInfo.title }</div>
-				<div class="contextDesc" align="left">
+				<div class="contextDesc" style="text-indent: 28px;" align="left">
 					${docInfo.contextDesc }
 				</div>
 				<div align="left">
@@ -29,35 +29,42 @@
 				</div>
 			</div>
 			<div class="rightpart" align="right">
-				<div class="numfen">${generalInfo.fontNum }</div>
+				<div class="numfen">共 ${generalInfo.fontNum } 字</div>
 				<div class="plxl">${discussCount } 人评价</div>
 				<div class="thi"></div>
 				<div>
-					(${generalInfo.goodNum })<span class="icon-thumbs-up uop" >赞</span>
-					(${generalInfo.badNum })<span class="icon-thumbs-down uop risp" >踩</span>
+					<span class="icon-thumbs-up uop" >赞</span>(${generalInfo.goodNum })
+					<span class="icon-thumbs-down uop risp" >踩</span>(${generalInfo.badNum })
 				</div>
 			</div>
 		</div>
 		<div class="cengen">
-			<div class="hantp">
-				<div align="left" class="tt">
-					<h3>正文·最新20章</h3>
+			<c:forEach items="${xsList }" var="xs">
+				<div class="hantp">
+					<div align="left" class="tt">
+						<h3>${xs.juanDetail.title }·共${xs.total }章</h3>
+					</div>
+					<div class="zwqy" align="left">
+						<ul class="ttul" >
+							<c:forEach items="${xs.list }" var="menu">
+								<li><a href="${path}/xs/novelRead/67">第${menu.orderIndex}章 ${menu.title }</a><span class="icon-lock lockEm"></span></li>
+							</c:forEach>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+						</ul>
+					</div>
 				</div>
-				<div class="zwqy" align="left">
-					<ul class="ttul" >
-						<li><a href="${path}/xs/novelRead/67">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-						<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-					</ul>
-				</div>
-			</div>
+			</c:forEach>
+			
+			
+			
 			<div class="hantp">
 				<div align="left" class="tt">
 					<h3>正文·共100章</h3>

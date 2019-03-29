@@ -34,7 +34,7 @@
 		<div class="cengen">
 			<div class="hantp">
 				<c:forEach items="${docList }" var="doc">
-					<a href="xs/novelList?docId=${doc.id }" >
+					<a href="xs/novelList?titleId=${doc.id }" >
 						<div class="titleArea">${doc.title }</div>
 					</a>	
 				</c:forEach>

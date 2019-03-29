@@ -195,6 +195,19 @@ public class IssueNovelController {
 	}
 
 	
+	@RequestMapping(value = "/addNovel", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addNovel(String title,String contextDesc, Model model) {
+		titleService.saveNovel(title, contextDesc);
+		return MessageCommon.getSuccessMap();
+	}
+	
+	@RequestMapping(value = "/updateNovel", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateNovel(Long id, String title,String contextDesc, Model model) {
+		titleService.updateNovel(id, title, contextDesc);
+		return MessageCommon.getSuccessMap();
+	}
 
 	/**
 	 * 修改章节
