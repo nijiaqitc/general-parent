@@ -1,6 +1,5 @@
 package com.njq.admin.controller;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.admin.common.UserCommon;
+import com.njq.basis.service.impl.BaseUserService;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
@@ -42,7 +43,8 @@ public class IssueNovelController {
 	public XsDocDetailService docDetailService;
 	@Resource
 	public XsDocGeneralInfoService docGeneralInfoService;
-
+	@Resource
+	public BaseUserService baseUserService; 
 	/**
 	 * 跳转到小说管理界面
 	 * 
@@ -76,8 +78,8 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "novelView", method = RequestMethod.GET)
 	public String novelView(Model model, @RequestParam(required = true) Long docId) {
-		XsTitleDetail titleDetail = titleService.queryNameById(docId);
-		XsDocDetail docdetail = docDetailService.queryByTitleId(docId);
+		XsTitleDetail titleDetail = titleService.queryById(docId);
+		XsDocDetail docdetail = docDetailService.queryById(titleDetail.getDocId());
 //        model.addAttribute("detail", detailList.size()>0?detailList.get(0):null);
 		model.addAttribute("docdetail", docdetail);
 		model.addAttribute("titleDetail", titleDetail);
@@ -92,10 +94,13 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "novelTitleList", method = RequestMethod.GET)
 	public String novelTitleList(Model model, @RequestParam(required = true) Long docId) {
-		XsTitleDetail docInfo = titleService.queryNameById(docId);
+		//查询书本名称
+		XsTitleDetail docInfo = titleService.queryById(docId);
+		BaseUser user = baseUserService.queryUserById(2L);
 		Map<String, Object> m = titleService.queryMaxNum(docId);
 		List<XsTitleDetail> list = titleService.queryAllTitleListByDocId(docId);
 		XsDocGeneralInfo info = docGeneralInfoService.queryByTitleId(docId);
+		model.addAttribute("user", user);
 		model.addAttribute("list", list);
 		model.addAttribute("info", info);
 		model.addAttribute("docInfo", docInfo);
@@ -115,12 +120,12 @@ public class IssueNovelController {
 	public Map<String, Object> saveNovel(XsDocDetail detail, String titleIndex) {
 		if (detail.getId() != null) {
 			XsDocDetail d = docDetailService.updateObject(detail);
-			XsTitleDetail t = titleService.queryNameById(d.getThcId());
-			t.setTitle(d.getTitle());
-			t.setTitleIndex(titleIndex);
-			t.setFinishStatus(d.getFinishStatus());
-			t.setModiDate(new Timestamp(System.currentTimeMillis()));
-			titleService.updateObject(t);
+//			XsTitleDetail t = titleService.queryById(d.getThcId());
+//			t.setTitle(d.getTitle());
+//			t.setTitleIndex(titleIndex);
+//			t.setFinishStatus(d.getFinishStatus());
+//			t.setModiDate(new Timestamp(System.currentTimeMillis()));
+//			titleService.updateObject(t);
 		} else {
 			detail.setCreateDate(new Date());
 			docDetailService.saveObject(detail);
@@ -139,22 +144,19 @@ public class IssueNovelController {
 		XsTitleDetail d = titleService.queryDetalByOrderIndex(detail);
 		XsDocDetail docDetail;
 		if (d == null) {
+			docDetail = new XsDocDetail();
+			docDetail.setCreateDate(new Date());
+			docDetail.setFontNum(0);
+			docDetail.setTitle(detail.getTitle());
+			docDetail.setUserId(UserCommon.getUserId());
+			docDetailService.saveObject(docDetail);
+			detail.setDocId(docDetail.getId());
 			detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
 			detail.setCreateDate(new Date());
 			titleService.saveTitle(detail);
-			docDetail = new XsDocDetail();
-			docDetail.setThcId(detail.getId());
-			docDetail.setCreateDate(new Date());
-			docDetail.setFinishStatus(detail.getFinishStatus());
-			docDetail.setFontNum(0);
-			docDetail.setTitle(detail.getTitle());
-			docDetail.setIsShow(detail.getIsShow());
-			docDetail.setUserId(UserCommon.getUserId());
-			docDetail.setInTurn(detail.getOrderIndex());
-			docDetailService.saveObject(docDetail);
 		} else {
 			detail = d;
-			docDetail = docDetailService.queryByTitleId(d.getId());
+			docDetail = docDetailService.queryById(d.getDocId());
 		}
 		model.addAttribute("docdetail", docDetail);
 		model.addAttribute("titleDetail", detail);
@@ -169,8 +171,8 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "/editNovel", method = RequestMethod.GET)
 	public String editNovel(@RequestParam(required = true) Long docId, Model model) {
-		XsTitleDetail titleDetail = titleService.queryNameById(docId);
-		XsDocDetail docdetail = docDetailService.queryByTitleId(docId);
+		XsTitleDetail titleDetail = titleService.queryById(docId);
+		XsDocDetail docdetail = docDetailService.queryById(titleDetail.getDocId());
 		model.addAttribute("docdetail", docdetail);
 		model.addAttribute("titleDetail", titleDetail);
 		return "back/novelArea/editNovel";
@@ -189,6 +191,7 @@ public class IssueNovelController {
 		if ("0".equals(detail.getTitleIndex())) {
 			detail.setTitleIndex(null);
 		}
+		detail.setUserId(UserCommon.getUserId());
 		detail.setCreateDate(new Date());
 		titleService.saveTitle(detail);
 		return MessageCommon.getSuccessMap();
@@ -198,7 +201,7 @@ public class IssueNovelController {
 	@RequestMapping(value = "/addNovel", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addNovel(String title,String contextDesc, Model model) {
-		titleService.saveNovel(title, contextDesc);
+		titleService.saveNovel(title, contextDesc,UserCommon.getUserId());
 		return MessageCommon.getSuccessMap();
 	}
 	

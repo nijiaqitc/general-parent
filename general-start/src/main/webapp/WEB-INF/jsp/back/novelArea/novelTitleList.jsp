@@ -35,7 +35,7 @@
 					<div style="float: left;width: 534px;height: 230px;">
 						<div style="height: 110px;border-bottom: 1px dashed #888;">
 							<div style="padding: 30px 10px;font-size: 20px;font-weight: 600;">${docInfo.title}</div>
-							<div style="padding-left: 20px;float: left;">作者：琦三叔</div>
+							<div style="padding-left: 20px;float: left;">作者：${user.userName }</div>
 							<div style="float: right;padding-right: 20px;">状态：未开始</div>
 						</div>
 						<div style="text-indent: 24px;height: 98px;">
@@ -120,16 +120,27 @@
 							<input type="hidden" id="type" name="type" >
 							<div style="padding: 4px;margin-top: 20px;" id="typeJuan">
 							     类别：
-							 <select id="selectType" disabled="disabled" style="width: 250px;" name="type"><option value="2">卷名</option><option value="3">标题</option></select>
+							 	<select id="selectType" disabled="disabled" style="width: 250px;" name="type">
+							 		<option value="2">卷名</option>
+							 		<option value="3">标题</option>
+							 	</select>
 							</div>
 							<div style="padding: 4px;margin-top: 20px;">
-							     章节：<input id="titleIndex" numIndex="${titleIndex==null?0:titleIndex+1}" type="text" style="width: 250px;background: #fff;" name="titleIndex" value="${titleIndex==null?0:titleIndex+1}">
-							<label style="font-size: 12px;color: red;margin-left: 40px;">不需要章节数则设为0</label>
+							     章序：<input id="titleIndex" numIndex="${titleIndex==null?0:titleIndex+1}" type="text" style="width: 250px;background: #fff;" name="titleIndex" value="${titleIndex==null?0:titleIndex+1}">
+									<label style="font-size: 12px;color: red;margin-left: 40px;">填写章节序号，不需要则设为0</label>
 							</div>
-							<div style="padding: 4px;margin-top: 10px;">标题：<input id="title" type="text" style="width: 250px;background: #fff;" name="title"></div>
-							<div style="padding: 4px;margin-top: 20px;">索引：<input  type="text" style="width: 250px;" readonly="readonly" name="orderIndex" value="${orderIndex==null?0:orderIndex+1}"></div>
-							<div style="padding: 4px;margin-top: 20px;">概要：<textarea id="contextDesc" style="width: 300px;height: 100px;background: #fff;" name="contextDesc"></textarea></div>
-							<div style="padding: 4px;margin-top: 20px;">显示：<input type="radio" name="isShow" value="1" > &nbsp;&nbsp;&nbsp;&nbsp;不显示<input type="radio" name="isShow" value="0" checked="checked"></div>
+							<div style="padding: 4px;margin-top: 10px;">
+								标题：<input id="title" type="text" style="width: 250px;background: #fff;" name="title">
+							</div>
+							<div style="padding: 4px;margin-top: 20px;">
+								索引：<input  type="text" style="width: 250px;" readonly="readonly" name="orderIndex" value="${orderIndex==null?0:orderIndex+1}">
+							</div>
+							<div style="padding: 4px;margin-top: 20px;">
+								概要：<textarea id="contextDesc" style="width: 300px;height: 100px;background: #fff;" name="contextDesc"></textarea>
+							</div>
+							<div style="padding: 4px;margin-top: 20px;">
+								显示：<input type="radio" name="isShow" value="1" > &nbsp;&nbsp;&nbsp;&nbsp;不显示<input type="radio" name="isShow" value="0" checked="checked">
+							</div>
 						</div>
 					</div>
 				</div>

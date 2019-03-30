@@ -112,7 +112,7 @@
     		$("#rightToolTitle")[0].targetValue=$("#title").val();
     		$("#rightToolNum")[0].targetValue=$("#titleIndex").val();
     		var radios=$("input[name='fin']");
-    		var dex="${docdetail.finishStatus }";
+    		var dex="${titleDetail.finishStatus }";
     		for(var i=0;i<radios.length;i++){
     			if(dex==i){
     				$(radios[i]).prop("checked",true);

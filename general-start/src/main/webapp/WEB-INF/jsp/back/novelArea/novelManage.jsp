@@ -29,7 +29,12 @@
 	    border-left: 1px solid #36a9e1;
 	    text-decoration: none;
 	}
-
+	.rightBtn{
+		color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;cursor: pointer;margin-top: 10px;
+	}
+	.titleLeft{
+		width: 30px;font-size: 18px;margin-left: 10px;padding-top: 10px;float: left;
+	}
 </style>
 </head>
 <body>
@@ -53,17 +58,28 @@
 			</div>
 		     <c:forEach items="${list }" var="doc">
 	             <div class="menu-box" style="width: 150px;height: 220px;background-color: white;float: left;margin-left: 30px;margin-top: 20px;">
-			         <a href="novelTitleList?docId=${doc.id }">
-				         <div style="width: 100%;height: 200px;clear: both;">
-					         <div style="width: 30px;font-size: 18px;margin-left: 10px;padding-top: 10px;">
+			         <div style="width: 100%;height: 170px;clear: both;">
+				         <a href="novelTitleList?docId=${doc.id }">
+					         <div class="titleLeft">
 						         ${doc.title}
 					         </div>
+				         </a>
+				         <div style="width: 30px;float: right;">
+				         	<c:if test="${doc.isShow==0}">
+					         	<i class="icon-eye-open nnum1i rightBtn" style="color:black;" title="开启" onclick="editshow('${doc.id}',1)"></i>
+				         	</c:if>			
+				         	<c:if test="${doc.isShow==1}">
+					         	<i class="icon-eye-open nnum1i rightBtn" title="关闭" onclick="editshow('${doc.id}',0)"></i>
+				         	</c:if>
+				         	<i class="icon-edit nnum1i rightBtn" title="编辑" onclick="updateDialog('${doc.id}','${doc.title}','${doc.contextDesc }')"></i>
 				         </div>
-			         </a>
+			         </div>
 				     <div style="width: 100%;font-size: 12px;overflow: auto;">
-				         <i class="icon-heart nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(1000)</span>
-				         <i class="icon-thumbs-down nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(1000)</span>
-				         <i class="icon-eye-open nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(1000)</span>   
+				         <i class="icon-heart nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(${doc.goodNum })</span>
+				         <i class="icon-thumbs-down nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(${doc.badNum })</span>
+				     </div>
+				     <div>
+<!-- 				         <i class="icon-eye-open nnum1i" style="color: red;line-height: 20px;margin-right: 4px;margin-left: 10px;"></i><span style="float: left;">(1000)</span>   				      -->
 				     </div>
 			    </div>
 		     </c:forEach>
@@ -107,6 +123,9 @@
 	</div>
 </body>
 <jsp:include page="${path}/commonBottomLink"></jsp:include>
+<!-- start:公共页，存放公共框 -->
+<jsp:include page="${path}/publicJsp"></jsp:include>
+<script src="${resPath }/back/js/publicJs.js"></script>
 <script src="${resPath }/back/js/jquery.validate.min.js"></script>
 <script src="${resPath }/back/js/jqueryValidateExtend.js"></script>
 <script type="text/javascript">
@@ -134,6 +153,19 @@ function showDialogForSave(e){
     $("#agreeBtn").show();
 	$("#modiBtn").hide();
 	$("#dialogTitleName").html("新增小说");
+	$("#myModal").show();
+	$("#custom-background").show();
+}
+
+function updateDialog(idv,tv,cv){
+	$("#modiBtn").show();
+	$("#agreeBtn").hide();
+	$("#dialogTitleName").html("修改小说");
+	
+	$("#title").val(tv);
+	$("#contextDesc").val(cv);
+	$("#id").val(idv);
+	
 	$("#myModal").show();
 	$("#custom-background").show();
 }
@@ -187,13 +219,31 @@ function update(){
 				type:"post",
 				success:function(data){
 					if(data.state==1){
-						closeDialog();
-					}
+		                location.reload(); 
+		            }
 					showSureMessage("提示",data.message);
 				}
 			})
 		}
 	})
+}
+
+
+function editshow(id,isShow){
+	$.ajax({
+		url:"${path}/novelManage/updateShowType",
+		data:{
+			id:id,
+			isShow:isShow
+		},
+		type:"post",
+		success:function(data){
+			if(data.state==1){
+                location.reload(); 
+            }
+		}
+	})
+
 }
 </script>
 </html>

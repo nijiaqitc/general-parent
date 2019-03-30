@@ -21,7 +21,9 @@ public class TitlethcVO implements java.io.Serializable {
 	private Integer indexOne;
 	private Integer indexTwo;
 	private Integer total;
-
+	private Integer goodNum;
+	private Integer badNum;
+	private String isShow;
 	// Constructors
 
 	/** default constructor */
@@ -114,5 +116,29 @@ public class TitlethcVO implements java.io.Serializable {
         this.total = total;
     }
 
+	public String getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(String isShow) {
+		this.isShow = isShow;
+	}
+
+	public Integer getGoodNum() {
+		return goodNum;
+	}
+
+	public void setGoodNum(Integer goodNum) {
+		this.goodNum = goodNum;
+	}
+
+	public Integer getBadNum() {
+		return badNum;
+	}
+
+	public void setBadNum(Integer badNum) {
+		this.badNum = badNum;
+	}
+	
 	
 }

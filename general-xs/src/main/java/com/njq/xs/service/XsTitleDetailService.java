@@ -142,17 +142,17 @@ public class XsTitleDetailService {
         List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);
         List<TitlethcVO> voList=new ArrayList<TitlethcVO>();
         for(XsTitleDetail t:queryList){
-            String sql="select count(*) num from "+
-                    "( select id from xs_title_detail where parent_id="+t.getId()+") l1 , xs_title_detail l2 "+
-                    "where  l2.parent_id=l1.id ";
-            List<Map<String, Object>> countL=titleDetailDao.querySqlByParamForMap(sql, null);
             TitlethcVO vo=new TitlethcVO();
             vo.setId(t.getId());
             vo.setParentId(t.getParentId());
             vo.setTitle(t.getTitle());
-            vo.setTotal(Integer.parseInt(countL.get(0).get("num").toString()));
             vo.setType(t.getType());
             vo.setContextDesc(t.getContextDesc());
+            vo.setIsShow(t.getIsShow());
+            XsDocGeneralInfo gi = docGeneralInfoService.queryByTitleId(t.getId());
+            vo.setTotal(gi.getFontNum());
+            vo.setGoodNum(gi.getGoodNum());
+            vo.setBadNum(gi.getBadNum());
             voList.add(vo);
         }
         return voList;
@@ -163,11 +163,8 @@ public class XsTitleDetailService {
      * @param id
      * @return
      */
-	public XsTitleDetail queryNameById(Long id) {
-        ConditionsCommon cc=new ConditionsCommon();
-        cc.addEqParam("id", id);
-        List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);
-		return queryList.get(0);
+	public XsTitleDetail queryById(Long id) {
+        return titleDetailDao.queryTById(id);
 	}
 
 	/**
@@ -370,13 +367,16 @@ public class XsTitleDetailService {
 	}
 
 	
-	public Long saveNovel(String title , String contextDesc){
+	public Long saveNovel(String title , String contextDesc,Long userId){
 		XsTitleDetail detail = new XsTitleDetail();
 		detail.setTitle(title);
 		detail.setContextDesc(contextDesc);
 		detail.setCreateDate(new Date());
-		detail.setOrderIndex(0);
+		detail.setOrderIndex(1);
 		detail.setType(1);
+		detail.setParentId(0L);
+		detail.setIsShow("1");
+		detail.setUserId(userId);
 		this.saveTitle(detail);
 		XsDocGeneralInfo info = new XsDocGeneralInfo();
 		info.setBadNum(0);

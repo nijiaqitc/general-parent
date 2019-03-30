@@ -24,6 +24,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocUserOp;
 import com.njq.common.model.po.XsTitleDesign;
+import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.NovelDocVO;
 import com.njq.common.model.vo.TitlethcVO;
 import com.njq.common.util.string.StringUtil;
@@ -31,6 +32,7 @@ import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsDocDiscussService;
 import com.njq.xs.service.XsDocUserOpService;
 import com.njq.xs.service.XsTitleDesignService;
+import com.njq.xs.service.XsTitleDetailService;
 
 
 @RequestMapping("novel")
@@ -45,7 +47,8 @@ public class NovelController {
     public XsDocUserOpService docUserOpService;
     @Resource
     public XsDocDetailService docDetailService;
-
+    @Resource
+    public XsTitleDetailService xsTitleDetailService; 
     /**
      * 添加章节
      *
@@ -217,9 +220,10 @@ public class NovelController {
      */
     @RequestMapping(value = "/readDoc/{docId}", method = RequestMethod.GET)
     public String readDoc(Model model, @PathVariable(value = "docId") Long docId, HttpServletRequest request) {
-        XsDocDetail detail = docDetailService.queryByTitleId(docId);
+    	XsTitleDetail title = xsTitleDetailService.queryById(docId);
+        XsDocDetail detail = docDetailService.queryById(title.getId());
         NovelDocVO novel = new NovelDocVO();
-        novel.setDocId(detail.getThcId());
+//        novel.setDocId(detail.getThcId());
         novel.setCreateDate(detail.getCreateDate());
         novel.setText(detail.getDoc());
         novel.setTitle(detail.getTitle());
@@ -297,7 +301,6 @@ public class NovelController {
         detail.setDoc(text);
         detail.setTitle(title);
         detail.setUserId(userId);
-        detail.setThcId(docId);
         docDetailService.saveObject(detail);
         return MessageCommon.getSuccessMap();
     }

@@ -45,6 +45,9 @@ public class XsTitleDetail implements Serializable {
 	@Column(name="is_show")
 	private String isShow;
 
+	@Column(name="doc_id")
+	private Long docId;
+	
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
@@ -63,27 +66,38 @@ public class XsTitleDetail implements Serializable {
 	@Column(name="type")
 	private Integer type;
 
+	@Column(name="user_id")
+	private Long userId;
+	
 	// Constructors
 
     /** default constructor */
     public XsTitleDetail() {
     }
 
-    /** full constructor */
-    public XsTitleDetail(Long parentId, Integer type, String title, String contextDesc, String isShow, String titleIndex, Integer orderIndex,
-            Timestamp createDate, Timestamp modiDate) {
-        this.parentId = parentId;
-        this.type = type;
-        this.title = title;
-        this.contextDesc = contextDesc;
-        this.isShow = isShow;
-        this.titleIndex = titleIndex;
-        this.orderIndex = orderIndex;
-        this.createDate = createDate;
-        this.modiDate = modiDate;
-    }
 
-    // Property accessors
+    public XsTitleDetail(Long id, Long bookId, String contextDesc, Date createDate, String finishStatus, String isShow,
+			Long docId, Timestamp modiDate, Integer orderIndex, Long parentId, String title, String titleIndex,
+			Integer type) {
+		super();
+		this.id = id;
+		this.bookId = bookId;
+		this.contextDesc = contextDesc;
+		this.createDate = createDate;
+		this.finishStatus = finishStatus;
+		this.isShow = isShow;
+		this.docId = docId;
+		this.modiDate = modiDate;
+		this.orderIndex = orderIndex;
+		this.parentId = parentId;
+		this.title = title;
+		this.titleIndex = titleIndex;
+		this.type = type;
+	}
+
+
+
+	// Property accessors
 
     public Long getId() {
         return this.id;
@@ -181,4 +195,23 @@ public class XsTitleDetail implements Serializable {
         this.finishStatus = finishStatus;
     }
 
+	public Long getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Long docId) {
+		this.docId = docId;
+	}
+
+
+	public Long getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
+	
 }

@@ -52,7 +52,7 @@ public class XsController {
     	if(titleId==null) {
     		return "grab/noDoc";
     	}
-    	XsTitleDetail docInfo=titleService.queryNameById(titleId);
+    	XsTitleDetail docInfo=titleService.queryById(titleId);
     	model.addAttribute("docInfo", docInfo);
 		Map<String, Object> paramMap = new HashMap();
         paramMap.put("docId", titleId);
@@ -70,15 +70,16 @@ public class XsController {
      * @return
      */
     @RequestMapping(value="novelRead/{docId}",method=RequestMethod.GET)
-    public String novelRead(Model model,@PathVariable(value="docId") Long docId){
-    	XsDocDetail detail=xsDocDetailService.queryByTitleId(docId);
-    	if(detail!=null){
-    		Map<String, Object> m=xsTitleDetailService.queryBeforeAndNextNo(detail.getThcId());
+    public String novelRead(Model model,@PathVariable(value="titleId") Long titleId){
+    	XsTitleDetail title = xsTitleDetailService.queryById(titleId);
+    	if(title.getDocId()!=null) {
+    		XsDocDetail detail = xsDocDetailService.queryById(title.getDocId());
+    		Map<String, Object> m=xsTitleDetailService.queryBeforeAndNextNo(title.getId());
     		model.addAttribute("pn", m);
     		model.addAttribute("doc", detail);
     		return "xs/novelRead";
-    	}else{
-    		return "aaaa";	
+    	}else {
+    		return "aaaa";
     	}
     }
 }

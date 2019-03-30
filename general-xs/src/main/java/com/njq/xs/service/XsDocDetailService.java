@@ -51,17 +51,6 @@ public class XsDocDetailService {
     }
     
     /**
-     * 根据章节id查询文章
-     * @param docId
-     * @return
-     */
-    public XsDocDetail queryByTitleId(Long docId) {
-        ConditionsCommon cc=new ConditionsCommon();
-        cc.addEqParam("thcId", docId);
-        return docDetailDao.queryTByParamForOne(cc);
-    }
-
-    /**
      * 根据条件查询总数
      * @param paramMap
      * @return
@@ -122,7 +111,6 @@ public class XsDocDetailService {
 		d.setTitle(detail.getTitle());
 		d.setDoc(detail.getDoc());
 		d.setFontNum(detail.getFontNum());
-		d.setFinishStatus(detail.getFinishStatus());
 		d.setModiDate(new Timestamp(System.currentTimeMillis()));
 		docDetailDao.update(d);
 		return d;

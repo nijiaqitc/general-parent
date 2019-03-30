@@ -66,7 +66,7 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public int saveObject(XsDocGeneralInfo t) {
-        // TODO Auto-generated method stub
+    	docGeneralInfoDao.save(t);
         return 0;
     }
 
