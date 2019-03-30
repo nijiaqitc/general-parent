@@ -49,6 +49,11 @@ public class XsDocUserOpService {
         return docUserOpDao.queryTById(docId);
     }
 
+    public XsDocUserOp queryByCon(ConditionsCommon con) {
+    	return docUserOpDao.queryTByParamForOne(con);
+    }
+    
+    
     /**
      * 根据条件查询总数
      * @param paramMap

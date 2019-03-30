@@ -69,17 +69,29 @@ public class XsController {
      * 小说文章阅览
      * @return
      */
-    @RequestMapping(value="novelRead/{docId}",method=RequestMethod.GET)
+    @RequestMapping(value="novelRead/{titleId}",method=RequestMethod.GET)
     public String novelRead(Model model,@PathVariable(value="titleId") Long titleId){
     	XsTitleDetail title = xsTitleDetailService.queryById(titleId);
     	if(title.getDocId()!=null) {
+    		XsDocGeneralInfo genInfo = xsDocGeneralInfoService.queryByTitleId(title.getId());
     		XsDocDetail detail = xsDocDetailService.queryById(title.getDocId());
     		Map<String, Object> m=xsTitleDetailService.queryBeforeAndNextNo(title.getId());
     		model.addAttribute("pn", m);
     		model.addAttribute("doc", detail);
+    		model.addAttribute("genInfo", genInfo);
+    		model.addAttribute("title", title);
     		return "xs/novelRead";
     	}else {
     		return "aaaa";
     	}
     }
+    
+    @RequestMapping(value="novelRead/{titleId}",method=RequestMethod.POST)
+    public String novelOp(Model model,@PathVariable(value="titleId") Long titleId){
+    	
+    	return null;
+    	
+    }
+    
+    
 }

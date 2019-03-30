@@ -1,5 +1,6 @@
 package com.njq.xs.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +11,19 @@ import org.springframework.stereotype.Service;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.model.dao.XsDocGeneralInfoJpaRepository;
 import com.njq.common.model.po.XsDocGeneralInfo;
+import com.njq.common.model.po.XsDocUserOp;
 
 @Service
 public class XsDocGeneralInfoService {
 
     @Resource
     private DaoCommon<XsDocGeneralInfo> docGeneralInfoDao;
-    
+    @Resource
+    private XsDocGeneralInfoJpaRepository xsDocGeneralInfoJpaRepository;
+    @Resource
+    private XsDocUserOpService xsDocUserOpService;
     /**
      * 查询列表（分页）
      * @param paramMap
@@ -101,6 +107,30 @@ public class XsDocGeneralInfoService {
         return 0;
     }
 
+    public int update(String op,Long titleId,Long userId) {
+    	ConditionsCommon con = new ConditionsCommon();
+    	con.addEqParam("userId", userId);
+    	con.addEqParam("op", op);
+    	con.addEqParam("titleId", titleId);
+    	XsDocUserOp uop = xsDocUserOpService.queryByCon(con);
+    	if(uop != null) {
+    		return 0;
+    	}
+    	if(op == "2") {
+    		xsDocGeneralInfoJpaRepository.updateForAddGoodNum(titleId);
+    	}else  if(op == "3"){
+    		xsDocGeneralInfoJpaRepository.updateForAddBadNum(titleId);
+    	}
+    	uop = new XsDocUserOp();
+    	uop.setOp(op);
+    	uop.setCreateDate(new Date());
+    	uop.setTitleId(titleId);
+    	uop.setUserId(userId);
+    	xsDocUserOpService.saveObject(uop);
+    	return 0;
+    }
+    
+    
     /**
      * 根据文章id查询统计数
      * @param id

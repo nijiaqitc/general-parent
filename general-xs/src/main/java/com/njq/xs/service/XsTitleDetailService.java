@@ -386,6 +386,7 @@ public class XsTitleDetailService {
 		info.setTitleId(detail.getId());
 		info.setViewNum(0);
 		docGeneralInfoService.saveObject(info);
+		
 		return detail.getId();
 	}
 	

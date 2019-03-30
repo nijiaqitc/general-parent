@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,10 +22,12 @@
 				<h1 class="topTitle">第${pn.cn.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title }</h1>
 				<div align="center">
 					<div class="topTitleBt">
-						<span class="geninfo"><span class="icon-thumbs-down"></span> 1000</span>
-						<span class="geninfo"><span class=" icon-thumbs-up"></span> 1000</span>
+						<span class="geninfo"><span class="icon-thumbs-up" style="cursor: pointer;"></span> ${genInfo.goodNum }</span>
+						<span class="geninfo"><span class="icon-thumbs-down" style="cursor: pointer;"></span> ${genInfo.badNum }</span>
 						<span class="geninfo"><span class="icon-pencil"></span> ${doc.fontNum } 字</span>
-						<span class="geninfo"><span class="icon-time"></span> ${doc.formatCreateDate }</span>
+						<span class="geninfo"><span class="icon-time"></span> 
+							<fmt:formatDate value="${doc.createDate}" pattern="yyyy/MM/dd HH:mm" />
+						</span>
 					</div>
 				</div>
 			</div>
@@ -40,7 +43,7 @@
 				<c:if test="${pn.pre==null}">
 					<div class="unbtn">上一章</div>
 				</c:if>
-				<div class="pnbtn"><a href="${path }/xs/novelList">目录</a></div>
+				<div class="pnbtn"><a href="${path }/xs/novelList?titleId=${title.id}">目录</a></div>
 				<c:if test="${pn.next!=null}">
 					<div><a href="${path }/xs/novelRead/${pn.next}">下一章</a></div>
 				</c:if>
