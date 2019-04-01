@@ -1952,9 +1952,8 @@
                     	stOffset=range.startOffset;
                     }
                     // 设定结束选区
-                    if (util.isElementNode(range.endContainer) &&
-                        range.endOffset == range.endContainer.childNodes.length
-                        && range.startContainer.childNodes.length > 0) {
+                    if (util.isElementNode(range.endContainer) &&range.endContainer.childNodes.length > 0
+                    	&&range.endOffset == range.endContainer.childNodes.length) {
                         util.insertAfter(enMark, util.getMinLastNode(range.endContainer));
                         lflag = true;
                     }
@@ -1962,6 +1961,9 @@
                     	endText=range.endContainer;
                     	endOffset=range.endOffset;
                     }
+                }else{
+                	stText=endText=range.startContainer;
+                	stOffset=endOffset=range.startOffset;
                 }
                 var parentArray = util.getOutNode(range);
                 util.forListNode(parentArray[0], parentArray[parentArray.length - 1], this.clearDecodefun(), 1);
