@@ -377,7 +377,7 @@ public class XsTitleDetailService {
 	}
 
 	
-	public Long saveNovel(String title , String contextDesc,Long userId){
+	public Long saveNovel(String title , String contextDesc,Long userId,String finishStatus){
 		XsTitleDetail detail = new XsTitleDetail();
 		detail.setTitle(title);
 		detail.setContextDesc(contextDesc);
@@ -387,6 +387,7 @@ public class XsTitleDetailService {
 		detail.setParentId(0L);
 		detail.setIsShow("1");
 		detail.setUserId(userId);
+		detail.setFinishStatus(finishStatus);
 		this.saveTitle(detail);
 		XsDocGeneralInfo info = new XsDocGeneralInfo();
 		info.setBadNum(0);

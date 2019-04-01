@@ -85,7 +85,6 @@ public class IssueNovelController {
 			return "grab/noDoc";
 		}
 		XsDocDetail docdetail = docDetailService.queryById(titleDetail.getDocId());
-//        model.addAttribute("detail", detailList.size()>0?detailList.get(0):null);
 		model.addAttribute("docdetail", docdetail);
 		model.addAttribute("titleDetail", titleDetail);
 		return "back/novelArea/novelView";
@@ -105,7 +104,7 @@ public class IssueNovelController {
 		BeanUtils.copyProperties(docInfo, vo);
 		Map<String, Object> m = titleService.queryMaxNum(docInfo.getId());
 		vo.setMaxTitleIndex(m.get("titleIndex")==null?0:Integer.valueOf(m.get("titleIndex").toString()));
-		vo.setMaxOrderIndex(Integer.valueOf(m.get("orderIndex").toString()));
+		vo.setMaxOrderIndex(m.get("orderIndex")==null?0:Integer.valueOf(m.get("orderIndex").toString()));
 		BaseUser user = baseUserService.queryUserById(2L);
 		List<XsTitleDetailVO> list = titleService.queryAllTitleListByDocId(docId);
 		XsDocGeneralInfo info = docGeneralInfoService.queryByTitleId(docId);
@@ -127,12 +126,6 @@ public class IssueNovelController {
 	public Map<String, Object> saveNovel(XsDocDetail detail, String titleIndex) {
 		if (detail.getId() != null) {
 			XsDocDetail d = docDetailService.updateObject(detail);
-//			XsTitleDetail t = titleService.queryById(d.getThcId());
-//			t.setTitle(d.getTitle());
-//			t.setTitleIndex(titleIndex);
-//			t.setFinishStatus(d.getFinishStatus());
-//			t.setModiDate(new Timestamp(System.currentTimeMillis()));
-//			titleService.updateObject(t);
 		} else {
 			detail.setCreateDate(new Date());
 			docDetailService.saveObject(detail);
@@ -210,8 +203,8 @@ public class IssueNovelController {
 	
 	@RequestMapping(value = "/addNovel", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addNovel(String title,String contextDesc, Model model) {
-		titleService.saveNovel(title, contextDesc,UserCommon.getUserId());
+	public Map<String, Object> addNovel(String title,String contextDesc,String finishStatus, Model model) {
+		titleService.saveNovel(title, contextDesc,UserCommon.getUserId(),finishStatus);
 		return MessageCommon.getSuccessMap();
 	}
 	

@@ -108,7 +108,7 @@
 								</select>
 							</div>
 							<div style="padding: 4px;margin-top: 20px;">概要：
-								<textarea id="contextDesc" name="contextDesc"  style="width: 300px;height: 230px;background: #fff;"></textarea>
+								<textarea id="contextDesc" name="contextDesc"  style="width: 300px;height: 130px;background: #fff;"></textarea>
 							</div>
 						</div>
 					</div>
