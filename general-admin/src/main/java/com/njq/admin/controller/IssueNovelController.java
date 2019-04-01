@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.TitlethcVO;
+import com.njq.common.model.vo.xs.XsTitleDetailVO;
 import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsDocDiscussService;
 import com.njq.xs.service.XsDocGeneralInfoService;
@@ -79,6 +81,9 @@ public class IssueNovelController {
 	@RequestMapping(value = "novelView", method = RequestMethod.GET)
 	public String novelView(Model model, @RequestParam(required = true) Long docId) {
 		XsTitleDetail titleDetail = titleService.queryById(docId);
+		if(titleDetail.getDocId() == null) {
+			return "grab/noDoc";
+		}
 		XsDocDetail docdetail = docDetailService.queryById(titleDetail.getDocId());
 //        model.addAttribute("detail", detailList.size()>0?detailList.get(0):null);
 		model.addAttribute("docdetail", docdetail);
@@ -96,16 +101,18 @@ public class IssueNovelController {
 	public String novelTitleList(Model model, @RequestParam(required = true) Long docId) {
 		//查询书本名称
 		XsTitleDetail docInfo = titleService.queryById(docId);
+		XsTitleDetailVO vo = new XsTitleDetailVO();
+		BeanUtils.copyProperties(docInfo, vo);
+		Map<String, Object> m = titleService.queryMaxNum(docInfo.getId());
+		vo.setMaxTitleIndex(m.get("titleIndex")==null?0:Integer.valueOf(m.get("titleIndex").toString()));
+		vo.setMaxOrderIndex(Integer.valueOf(m.get("orderIndex").toString()));
 		BaseUser user = baseUserService.queryUserById(2L);
-		Map<String, Object> m = titleService.queryMaxNum(docId);
-		List<XsTitleDetail> list = titleService.queryAllTitleListByDocId(docId);
+		List<XsTitleDetailVO> list = titleService.queryAllTitleListByDocId(docId);
 		XsDocGeneralInfo info = docGeneralInfoService.queryByTitleId(docId);
 		model.addAttribute("user", user);
 		model.addAttribute("list", list);
 		model.addAttribute("info", info);
-		model.addAttribute("docInfo", docInfo);
-		model.addAttribute("titleIndex", m.get("titleIndex"));
-		model.addAttribute("orderIndex", m.get("orderIndex"));
+		model.addAttribute("docInfo", vo);
 		return "back/novelArea/novelTitleList";
 	}
 
@@ -172,6 +179,9 @@ public class IssueNovelController {
 	@RequestMapping(value = "/editNovel", method = RequestMethod.GET)
 	public String editNovel(@RequestParam(required = true) Long docId, Model model) {
 		XsTitleDetail titleDetail = titleService.queryById(docId);
+		if(titleDetail.getDocId() == null) {
+			return "grab/noDoc";
+		}
 		XsDocDetail docdetail = docDetailService.queryById(titleDetail.getDocId());
 		model.addAttribute("docdetail", docdetail);
 		model.addAttribute("titleDetail", titleDetail);
@@ -207,8 +217,8 @@ public class IssueNovelController {
 	
 	@RequestMapping(value = "/updateNovel", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateNovel(Long id, String title,String contextDesc, Model model) {
-		titleService.updateNovel(id, title, contextDesc);
+	public Map<String, Object> updateNovel(Long id, String title,String contextDesc,String finishStatus, Model model) {
+		titleService.updateNovel(id, title, contextDesc,finishStatus);
 		return MessageCommon.getSuccessMap();
 	}
 
@@ -255,12 +265,14 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "/updateJuan", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateJuan(Long id, String title, String contextDesc, String isShow) {
+	public Map<String, Object> updateJuan(Long id,String titleIndex, String title,Integer orderIndex, String contextDesc, String isShow) {
 		XsTitleDetail de = new XsTitleDetail();
 		de.setId(id);
 		de.setTitle(title);
 		de.setIsShow(isShow);
 		de.setContextDesc(contextDesc);
+		de.setOrderIndex(orderIndex);
+		de.setTitleIndex(titleIndex);
 		titleService.updateTitleById(de);
 		return MessageCommon.getSuccessMap();
 	}

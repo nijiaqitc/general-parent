@@ -24,6 +24,7 @@ public class TitlethcVO implements java.io.Serializable {
 	private Integer goodNum;
 	private Integer badNum;
 	private String isShow;
+	private String finishStatus;
 	// Constructors
 
 	/** default constructor */
@@ -138,6 +139,14 @@ public class TitlethcVO implements java.io.Serializable {
 
 	public void setBadNum(Integer badNum) {
 		this.badNum = badNum;
+	}
+
+	public String getFinishStatus() {
+		return finishStatus;
+	}
+
+	public void setFinishStatus(String finishStatus) {
+		this.finishStatus = finishStatus;
 	}
 	
 	

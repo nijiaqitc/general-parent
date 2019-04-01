@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.njq.common.base.dao.ConditionsCommon;
@@ -21,6 +22,7 @@ import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.TitlethcVO;
 import com.njq.common.model.vo.XsListVO;
+import com.njq.common.model.vo.xs.XsTitleDetailVO;
 import com.njq.common.util.string.StringUtil;
 @Service
 public class XsTitleDetailService {
@@ -153,6 +155,7 @@ public class XsTitleDetailService {
             vo.setTotal(gi.getFontNum());
             vo.setGoodNum(gi.getGoodNum());
             vo.setBadNum(gi.getBadNum());
+            vo.setFinishStatus(t.getFinishStatus()==null?"0":t.getFinishStatus());
             voList.add(vo);
         }
         return voList;
@@ -240,33 +243,40 @@ public class XsTitleDetailService {
 		condition.addSetOrderColum("id", "asc");
 		return titleDetailDao.queryColumnForList(condition);
 	}
+
 	/**
 	 * 查询所有章节标题列表
 	 * @param parentId
 	 * @return
 	 */
-	public List<XsTitleDetail> queryAllTitleListByDocId(Long parentId) {
+	public List<XsTitleDetailVO> queryAllTitleListByDocId(Long parentId) {
 		List<XsTitleDetail> list=this.queryListByParentId(parentId);
 		List<Long> ids=new ArrayList<Long>();
-		TreeMap<Long, List<XsTitleDetail>> trmap=new TreeMap<Long, List<XsTitleDetail>>();
-		List<XsTitleDetail> l;
+		TreeMap<Long, List<XsTitleDetailVO>> trmap=new TreeMap<Long, List<XsTitleDetailVO>>();
+		List<XsTitleDetailVO> l;
 		for(XsTitleDetail detail:list){
 			ids.add(detail.getId());
-			l=new ArrayList<XsTitleDetail>();
-			l.add(detail);
+			l=new ArrayList<XsTitleDetailVO>();
+			XsTitleDetailVO vo = new XsTitleDetailVO();
+			BeanUtils.copyProperties(detail, vo);
+			l.add(vo);
+			Map<String, Object> mp = this.queryMaxNum(detail.getId());
+			vo.setMaxTitleIndex(mp.get("titleIndex")==null?0:Integer.valueOf(mp.get("titleIndex").toString()));
+			vo.setMaxOrderIndex(mp.get("orderIndex")==null?0:Integer.valueOf(mp.get("orderIndex").toString()));
 			trmap.put(detail.getId(), l);
 		}
 		if(ids.size()>0){
 			ConditionsCommon cc=new ConditionsCommon();
 			cc.addInParam("parentId", ids);
-			cc.addSetOrderColum("id", "asc");
+			cc.addSetOrderColum("orderIndex", "asc");
 			List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);
 			for(XsTitleDetail d:queryList){
-				trmap.get(d.getParentId()).add(d);
+				XsTitleDetailVO vo = new XsTitleDetailVO();
+				BeanUtils.copyProperties(d, vo);
+				trmap.get(d.getParentId()).add(vo);
 			}
-			
 		}
-        List<XsTitleDetail> l1=new ArrayList<XsTitleDetail>();
+        List<XsTitleDetailVO> l1=new ArrayList<>();
         for(Long key :trmap.keySet()){
         	l1.addAll(trmap.get(key));
         }
@@ -280,10 +290,10 @@ public class XsTitleDetailService {
      * @param bookId
      * @return
      */
-    public Map<String, Object> queryMaxNum(Long bookId) {
-        String sql="select max(title_index) titleIndex, max(order_index) orderIndex from xs_title_detail  where book_id=:bookId";
+    public Map<String, Object> queryMaxNum(Long parentId) {
+        String sql="select max(title_index) titleIndex, max(order_index) orderIndex from xs_title_detail  where parent_id=:parentId";
         Map<String, Object> paramMap=new HashMap<String, Object>();
-        paramMap.put("bookId", bookId);
+        paramMap.put("parentId", parentId);
         List<Map<String, Object>> m=titleDetailDao.querySqlByParamForMap(sql, paramMap);
         return m.get(0);
     }
@@ -390,11 +400,12 @@ public class XsTitleDetailService {
 		return detail.getId();
 	}
 	
-	public Long updateNovel(Long id , String title , String contextDesc){
+	public Long updateNovel(Long id , String title , String contextDesc,String finishStatus){
 		XsTitleDetail detail = new XsTitleDetail();
 		detail.setId(id);
 		detail.setTitle(title);
 		detail.setContextDesc(contextDesc);
+		detail.setFinishStatus(finishStatus);
 		this.updateTitleById(detail);
 		return detail.getId();
 	}

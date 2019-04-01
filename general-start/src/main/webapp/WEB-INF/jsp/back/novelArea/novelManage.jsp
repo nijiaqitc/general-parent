@@ -71,7 +71,7 @@
 				         	<c:if test="${doc.isShow==1}">
 					         	<i class="icon-eye-open nnum1i rightBtn" title="关闭" onclick="editshow('${doc.id}',0)"></i>
 				         	</c:if>
-				         	<i class="icon-edit nnum1i rightBtn" title="编辑" onclick="updateDialog('${doc.id}','${doc.title}','${doc.contextDesc }')"></i>
+				         	<i class="icon-edit nnum1i rightBtn" title="编辑" onclick="updateDialog('${doc.id}','${doc.title}','${doc.contextDesc }','${doc.finishStatus }')"></i>
 				         </div>
 			         </div>
 				     <div style="width: 100%;font-size: 12px;overflow: auto;">
@@ -98,6 +98,14 @@
 							<input type="hidden" id="id" name="id" >
 							<div style="padding: 4px;margin-top: 10px;">名称：
 								<input id="title" type="text" style="width: 300px;background: #fff;" name="title">
+							</div>
+							<div style="padding: 4px;margin-top: 10px;">
+								进行状态：
+								<select id="finishStatus" name="finishStatus" style="width: 300px;background: #fff;">
+									<option value="0" >未开始</option>
+									<option value="1" >编写中</option>
+									<option value="2" >已完成</option>
+								</select>
 							</div>
 							<div style="padding: 4px;margin-top: 20px;">概要：
 								<textarea id="contextDesc" name="contextDesc"  style="width: 300px;height: 230px;background: #fff;"></textarea>
@@ -157,7 +165,7 @@ function showDialogForSave(e){
 	$("#custom-background").show();
 }
 
-function updateDialog(idv,tv,cv){
+function updateDialog(idv,tv,cv,sts){
 	$("#modiBtn").show();
 	$("#agreeBtn").hide();
 	$("#dialogTitleName").html("修改小说");
@@ -165,6 +173,8 @@ function updateDialog(idv,tv,cv){
 	$("#title").val(tv);
 	$("#contextDesc").val(cv);
 	$("#id").val(idv);
+	
+	$("#finishStatus").val(sts);
 	
 	$("#myModal").show();
 	$("#custom-background").show();

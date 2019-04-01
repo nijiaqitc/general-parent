@@ -16,6 +16,19 @@
 		padding-left: 38px;
 		border-bottom: 1px dashed #888;
 	}
+	.juanBtnStyle{
+		float: right;font-size: 12px;cursor: pointer;
+	}
+	.juanBtnStyle i:hover{
+		background: #5293b3;
+	}
+	.rightTip{
+		float: right;
+	    font-size: 12px;
+	    margin-top: -10px;
+        color: red;
+        position: absolute;
+	}
 </style>
 </head>
 <body>
@@ -36,7 +49,7 @@
 						<div style="height: 110px;border-bottom: 1px dashed #888;">
 							<div style="padding: 30px 10px;font-size: 20px;font-weight: 600;">${docInfo.title}</div>
 							<div style="padding-left: 20px;float: left;">作者：${user.userName }</div>
-							<div style="float: right;padding-right: 20px;">状态：未开始</div>
+							<div style="float: right;padding-right: 20px;">状态：${docInfo.statusName }</div>
 						</div>
 						<div style="text-indent: 24px;height: 98px;">
 						  <div style="padding: 22px 10px;">
@@ -44,8 +57,8 @@
 						  </div>
 						</div>
 						<div style="overflow: auto;height: 22px;">
-							<div style="float: right;cursor: pointer;" onclick="showDialog(${docInfo.id},2)">
-							    <a href="#" onclick="showDialog()">
+							<div style="float: right;cursor: pointer;" >
+							    <a href="#" onclick="showDialog(${docInfo.id},2,${docInfo.maxTitleIndex},${docInfo.maxOrderIndex })">
 								    <i class="icon-plus btnStyle "></i>
 							    </a>
 <!-- 								<i  class="icon-edit btnStyle"></i> -->
@@ -58,7 +71,10 @@
 				<div style="width: 800px;" align="left">
 					<c:forEach items="${list }" var="doc">
 						<c:if test="${doc.type==2 }">
-							<div style="padding: 10px;font-weight: 600;font-size: 20px;clear: both;overflow: auto;padding-top: 20px;">
+							<div style="padding: 10px;font-weight: 600;font-size: 20px;clear: both;overflow: auto;padding-top: 20px;"  
+								attIdlabel="${doc.id}"  attTypelabel="${doc.type }" 
+								attTitleIndex="${doc.titleIndex }" attOrderIndex="${doc.orderIndex }" 
+								attTitle="${doc.title }" attIsShow="${doc.isShow }" attDesc="${doc.contextDesc }">
 								<div style="float: left;">${doc.title } &nbsp;&nbsp;&nbsp;&nbsp; ${doc.contextDesc }</div>
 								<c:if test="${doc.isShow==1 }">
 	                                <a href="#" style="float: left;" onclick="openOrClose(0,${doc.id})">
@@ -70,37 +86,46 @@
 	                                    <i class="icon-eye-close" style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
 	                                </a>
 	                            </c:if>
-								<div style="float: right;font-size: 12px;cursor: pointer;margin-left: 10px;" onclick="showDialog(${doc.id},3)">
+								<div class="juanBtnStyle" style="margin-left: 10px;" onclick="showDialog(${doc.id},3,${doc.maxTitleIndex},${doc.maxOrderIndex })">
 								    <i class="icon-plus btnStyle"></i>
 								</div>
-								<div style="float: right;font-size: 12px;cursor: pointer;margin-left: 10px;" onclick="modiShow(${doc.id})">
+								<div class="juanBtnStyle" style="margin-left: 10px;" onclick="modiShow(this)">
 									<i class="icon-edit btnStyle"></i>
 								</div>
-								<div style="float: right;font-size: 12px;cursor: pointer;" onclick="delJuan(${doc.id})">
+								<div class="juanBtnStyle" style="margin-left: 10px;" onclick="delJuan(${doc.id})">
 									<i class="icon-minus btnStyle"></i>
+								</div>
+								<div title="显示本卷序号" class="juanBtnStyle" style="" onclick="showIndex(${doc.id})">
+									<i class="icon-eye-open btnStyle"></i>
 								</div>
 							</div>
 						</c:if>
 						<c:if test="${doc.type!=2 }">
-							<div class="titleStyle" >
+							<div  class="titleStyle"  attIdlabel="${doc.id}"  attTypelabel="${doc.type }" 
+								attTitleIndex="${doc.titleIndex }" attOrderIndex="${doc.orderIndex }" 
+								attTitle="${doc.title }" attIsShow="${doc.isShow }" attDesc="${doc.contextDesc }"  >
 							 <a href="novelView?docId=${doc.id }" 
 							     <c:if test="${doc.finishStatus==0}">style="color:green;" title="未开始"</c:if>
 							     <c:if test="${doc.finishStatus==1}">style="color:red;" title="编写中"</c:if>
 							     <c:if test="${doc.finishStatus==2}">style="color:black;" title="已完成"</c:if>
 							 >第${doc.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title}</a>
-							 <a href="editNovel?docId=${doc.id}" style="float: left;">
+							 <a  href="javascript:void(0)"  title="修改标题信息"    onclick="modiShow(this)" style="float: left;">
+                                 <i class="icon-edit"  style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
+                             </a>
+							 <a href="editNovel?docId=${doc.id}" title="修改章节信息" style="float: left;">
                                  <i class="icon-edit" style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
                              </a>
 							 <c:if test="${doc.isShow==1 }">
 								 <a href="#" style="float: left;" onclick="openOrClose(0,${doc.id})">
-									 <i class="icon-eye-open" style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
+									 <i class="icon-eye-open" title="当前文章已可见"  style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
 								 </a>
 							 </c:if>
 							 <c:if test="${doc.isShow==0 }">
                                  <a href="#" style="float: left;" onclick="openOrClose(1,${doc.id})">
-                                     <i class="icon-eye-close" style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
+                                     <i class="icon-eye-close" title="当前文章已关闭"  style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
                                  </a>
                              </c:if>
+                             	<label class="rightTip" style="display: none;" name="pjuan-${doc.parentId }">${doc.orderIndex }</label>
 							</div>
 						</c:if>
 					</c:forEach>
@@ -115,25 +140,44 @@
 				<div class="custom-customModel-body" style="height: 406px;">
 					<div class="body-div1" align="center">
 						<div align="left" style="width: 310px;">
+							<input type="hidden" id="modiId" name="modiId">
 							<input type="hidden" id="parentId" name="parentId" >
 							<input type="hidden" id="bookId" name="bookId" value="${docInfo.id}">
 							<input type="hidden" id="type" name="type" >
 							<div style="padding: 4px;margin-top: 20px;" id="typeJuan">
 							     类别：
-							 	<select id="selectType" disabled="disabled" style="width: 250px;" name="type">
-							 		<option value="2">卷名</option>
-							 		<option value="3">标题</option>
-							 	</select>
+							    <input type="radio" name="selectType" value="2">卷名
+							    <input type="radio" name="selectType" value="3">章节
+							    <input type="radio" name="selectType" value="4">非章节
 							</div>
-							<div style="padding: 4px;margin-top: 20px;">
-							     章序：<input id="titleIndex" numIndex="${titleIndex==null?0:titleIndex+1}" type="text" style="width: 250px;background: #fff;" name="titleIndex" value="${titleIndex==null?0:titleIndex+1}">
-									<label style="font-size: 12px;color: red;margin-left: 40px;">填写章节序号，不需要则设为0</label>
+							<div style="padding: 4px;">
+									<div style="font-size: 12px;color: red;margin-left: 40px;" >
+										当前卷最大章节序号为：
+										<label id="maxTitleIndex"></label>
+									</div>
+							     章序：<input id="titleIndex" numIndex="${titleIndex==null?0:titleIndex+1}" 
+								     	type="text" style="width: 250px;background: #fff;" 
+								     	name="titleIndex" value="${titleIndex==null?0:titleIndex+1}"
+								     	autocomplete="off"
+								     	oninput = "value=value.replace(/[^\d]/g,'0')" >
+								    <div style="font-size: 12px;color: red;margin-left: 40px;">
+										填写章节序号，不需要则设为
+										<label>0</label>
+								    </div>
 							</div>
-							<div style="padding: 4px;margin-top: 10px;">
+							<div style="padding: 4px;">
 								标题：<input id="title" type="text" style="width: 250px;background: #fff;" name="title">
 							</div>
-							<div style="padding: 4px;margin-top: 20px;">
-								索引：<input  type="text" style="width: 250px;" readonly="readonly" name="orderIndex" value="${orderIndex==null?0:orderIndex+1}">
+							<div style="padding: 4px;">
+								<div style="font-size: 12px;color: red;margin-left: 40px;">
+									当前卷最大索引（章节排序）序号为：
+									<label id="maxOrderIndex">0</label>
+								</div>
+								索引：<input  type="text" style="width: 250px;background: #fff;" id="orderIndex"
+									name="orderIndex" autocomplete="off" 
+									autocomplete="off"
+									oninput = "value=value.replace(/[^\d]/g,'0')"
+									value="${orderIndex==null?0:orderIndex+1}">
 							</div>
 							<div style="padding: 4px;margin-top: 20px;">
 								概要：<textarea id="contextDesc" style="width: 300px;height: 100px;background: #fff;" name="contextDesc"></textarea>
@@ -162,14 +206,30 @@
 <jsp:include page="${path}/commonBottomLink"></jsp:include>
 <script type="text/javascript">
 
-	function showDialog(docId,type){
-		$("#parentId").val(docId);
-		$("#selectType").val(type);
+	function showDialog(docId,type,tindex,oindex){
 		if(type==2){
-			$("#titleIndex").val(0);
+			$($("input[name='selectType']:first")).prop("checked",true);
+			$($("input[name='selectType']")[1]).attr("disabled",true);
+			$($("input[name='selectType']")[2]).attr("disabled",true);
 		}else{
-			$("#titleIndex").val($("#titleIndex").attr("numIndex"));
+			$($("input[name='selectType']:first")).attr("disabled",true);
+			$($("input[name='selectType']")[1]).attr("disabled",false);
+			$($("input[name='selectType']")[2]).attr("disabled",false);
+			$($("input[name='selectType']")[1]).prop("checked",true);
 		}
+		if(tindex){
+			$("#maxTitleIndex").html(tindex);
+			$("#titleIndex").val(tindex+1);
+		}else{
+			$("#maxTitleIndex").parent().hide();
+		}
+		if(oindex){
+			$("#maxOrderIndex").html(oindex);
+			$("input[name='orderIndex']").val(oindex+1);
+		}else{
+			$("#maxOrderIndex").parent().hide();
+		}
+		$("#parentId").val(docId);
 		$("#type").val(type);
 		$("#bqTip").show();
 		$("#modiBtn").hide();
@@ -184,7 +244,7 @@
 	}
 	
 	function saveInfo(){
-		if($("#selectType").val()==3){
+		if($("input[name='selectType']:checked").val() != 2){
             $("#titleForm").submit();
             return;
         }
@@ -195,6 +255,8 @@
 			success:function(data){
 				if(data.state==1){
 					location.reload(); 
+				}else{
+					alert(data.message)
 				}
 			}
 		})
@@ -219,7 +281,7 @@
         }) */
 	}
 	
-	function modiShow(docId){
+	function modiShow(target){
 // 		$("#modiBtn").show
 		/* $("#parentId").val(docId);
         $("#selectType").val(type);
@@ -229,10 +291,33 @@
             $("#titleIndex").val($("#titleIndex").attr("numIndex"));
         }
         $("#type").val(type);
-        $("#parentId").val(docId); */
-        $("#titleIndex").val(0);
-        $("#title").val("1111");
-        $("#contextDesc").val();
+        $("#parentId").val(docId); 
+        
+        attIdlabel="${doc.id}"  attTypelabel="${doc.type }" 
+								attTitleIndex="${doc.titleIndex }" attOrderIndex="${doc.orderIndex }" attTitle="${doc.title }" attIsShow="${doc.isShow }"
+        
+        */
+        $("#titleIndex").val($(target).parents("div").attr("attTitleIndex"));
+        $("#orderIndex").val($(target).parents("div").attr("attOrderIndex"));
+        $("#title").val($(target).parents("div").attr("attTitle"));
+        $("#modiId").val($(target).parents("div").attr("attIdlabel"));
+        
+        $.each($("input[name='selectType']"),function(a,b){
+        	if($(b).val()==$(target).parents("div").attr("attTypelabel")){
+        		$(b).attr("disabled",false);
+        		$(b).prop("checked",true);
+        	}else{
+        		$(b).attr("disabled",true);
+        	}
+        });
+        $.each($("input[name='isShow']"),function(a,b){
+        	if($(b).val()==$(target).parents("div").attr("attIsShow")){
+        		$(b).prop("checked",true);
+        	}
+        });
+        
+        $("#contextDesc").val($(target).parents("div").attr("attDesc"));
+        
         $("#modiBtn").show();
         $("#agreeBtn").hide();
         $("#bqTip").show();
@@ -241,18 +326,25 @@
 	
 	
 	function modi(){
-		/* $.ajax({
+		$.ajax({
 			url:"updateJuan",
+			type:"post",
 			data:{
-				id:$("#parentId").val(),
+				id:$("#modiId").val(),
+				titleIndex:$("#titleIndex").val(),
 				title:$("#title").val(),
+				orderIndex:$("#orderIndex").val(),
 				contextDesc:$("#contextDesc").val(),
 				isShow:$("input[name='isShow']:checked").val()
 			},
 			success:function(data){
-				
+				if(data.state==1){
+					location.reload(); 
+				}else{
+					alert(data.message)
+				}
 			}
-		}) */
+		}) 
 	}
 	
 	
@@ -272,5 +364,13 @@
         })
 	}
 	
+	function showIndex(index){
+		var ts = $("label[name='pjuan-"+index+"']");
+		if(ts.length>0){
+			$.each(ts,function(a,b){
+				$(b).show();
+			})
+		}
+	}
 </script>
 </html>
