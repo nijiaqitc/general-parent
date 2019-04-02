@@ -33,7 +33,7 @@ import com.njq.common.util.string.StringUtil;
 import com.njq.yxl.service.YxlColumnService;
 import com.njq.yxl.service.YxlNoteService;
 
-@RequestMapping("note")
+@RequestMapping("admin/note")
 @Controller
 public class NoteManageController {
 

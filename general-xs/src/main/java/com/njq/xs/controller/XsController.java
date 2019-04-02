@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.njq.basis.service.impl.BaseUserService;
+import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocGeneralInfo;
@@ -42,6 +43,7 @@ public class XsController {
     @Resource
     private BaseUserService baseUserService;
     
+    @NeedPwd
     @RequestMapping(value="",method=RequestMethod.GET)
     public String index(Model model){
     	List<TitlethcVO> docList = xsTitleDetailService.queryDocList(0L);
@@ -49,7 +51,7 @@ public class XsController {
     	return "xs/novelIndex";
     }
     
-    
+    @NeedPwd
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="novelList",method=RequestMethod.GET)
     public String novelList(Model model,Long titleId){
@@ -73,6 +75,7 @@ public class XsController {
      * 小说文章阅览
      * @return
      */
+    @NeedPwd
     @RequestMapping(value="novelRead/{titleId}",method=RequestMethod.GET)
     public String novelRead(Model model,@PathVariable(value="titleId") Long titleId){
     	XsTitleDetail title = xsTitleDetailService.queryById(titleId);
@@ -97,8 +100,8 @@ public class XsController {
     	}
     }
     
-    @RequestMapping(value="novelRead/{titleId}",method=RequestMethod.POST)
-    public String novelOp(Model model,@PathVariable(value="titleId") Long titleId){
+    @RequestMapping(value="novelOp/{type}",method=RequestMethod.POST)
+    public String novelOp(Model model,@PathVariable(value="novelOp") String novelOp){
     	
     	return null;
     	

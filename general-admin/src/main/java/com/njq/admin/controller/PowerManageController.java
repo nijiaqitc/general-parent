@@ -25,7 +25,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseChannel;
 import com.njq.common.model.vo.ChannelVO;
 
-@RequestMapping("powerManage")
+@RequestMapping("admin/powerManage")
 @Controller
 public class PowerManageController {
 

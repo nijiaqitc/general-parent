@@ -25,7 +25,7 @@ import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.util.encrypt.Md5Util;
 
-@RequestMapping("userManage")
+@RequestMapping("admin/userManage")
 @Controller
 public class UserManageController {
 

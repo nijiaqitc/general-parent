@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.admin.service.DocChartsService;
 
-@RequestMapping("totalInfo")
+@RequestMapping("admin/totalInfo")
 @Controller
 public class TotalInfoController {
 

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@RequestMapping("persionInfo")
+@RequestMapping("admin/persionInfo")
 @Controller
 public class PersionInfoController {
 

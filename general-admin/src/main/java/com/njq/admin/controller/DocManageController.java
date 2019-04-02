@@ -20,7 +20,7 @@ import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.tbk.service.TbkDocService;
 
-@RequestMapping("docManage")
+@RequestMapping("admin/docManage")
 @Controller
 public class DocManageController {
 

@@ -53,7 +53,7 @@ import com.njq.tbk.service.TbkTypeService;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 
-@RequestMapping("issueDoc")
+@RequestMapping("admin/issueDoc")
 @Controller
 public class IssueDocController {
 

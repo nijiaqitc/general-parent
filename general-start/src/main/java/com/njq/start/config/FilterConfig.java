@@ -2,6 +2,7 @@ package com.njq.start.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.njq.start.filter.ErrorPageInterceptor;
+import com.njq.start.filter.LoginCheckInterceptor;
 import com.njq.start.filter.NeedPwdInterceptor;
 import com.njq.start.filter.ServletInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class FilterConfig extends WebMvcConfigurationSupport {
                 "/error/404", "/error/403", "/error/500", "/error/501");
         registry.addInterceptor(new ServletInterceptor()).addPathPatterns("/**").excludePathPatterns("/test");
         registry.addInterceptor(new NeedPwdInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/totalInfo/*");
     }
 
 

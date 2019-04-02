@@ -43,7 +43,7 @@ import com.njq.file.load.api.model.UpBase64RequestBuilder;
 import com.njq.file.load.api.model.UpFileInfoRequestBuilder;
 import com.njq.tbk.service.TbkPicService;
 
-@RequestMapping("toolsManage")
+@RequestMapping("admin/toolsManage")
 @Controller
 public class ToolController {
 

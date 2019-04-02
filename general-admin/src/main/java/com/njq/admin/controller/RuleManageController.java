@@ -24,7 +24,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseRule;
 import com.njq.common.model.vo.RuleVO;
 
-@RequestMapping("ruleManage")
+@RequestMapping("admin/ruleManage")
 @Controller
 public class RuleManageController {
 

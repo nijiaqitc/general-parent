@@ -22,7 +22,7 @@ import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.TbkType;
 import com.njq.tbk.service.TbkTypeService;
 
-@RequestMapping("typeManage")
+@RequestMapping("admin/typeManage")
 @Controller
 public class TypeManageController {
 

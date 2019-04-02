@@ -21,7 +21,7 @@ import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.BaseCode;
 
-@RequestMapping("dataCode")
+@RequestMapping("admin/dataCode")
 @Controller
 public class DataCodeController {
 

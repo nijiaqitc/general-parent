@@ -30,7 +30,7 @@ import com.njq.xs.service.XsDocGeneralInfoService;
 import com.njq.xs.service.XsDocUserOpService;
 import com.njq.xs.service.XsTitleDetailService;
 
-@RequestMapping("novelManage")
+@RequestMapping("admin/novelManage")
 @Controller
 public class IssueNovelController {
 

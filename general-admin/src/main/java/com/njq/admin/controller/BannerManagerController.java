@@ -32,7 +32,7 @@ import com.njq.file.load.api.model.ByteRequestBuilder;
 import com.njq.file.load.api.model.SaveFileInfo;
 
 @Controller
-@RequestMapping("banner")
+@RequestMapping("admin/banner")
 public class BannerManagerController {
 
     @Resource

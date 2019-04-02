@@ -28,7 +28,7 @@ import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.BaseLog;
 import com.njq.common.util.date.DateUtil;
 
-@RequestMapping("operLog")
+@RequestMapping("admin/operLog")
 @Controller
 public class OperLogController {
 

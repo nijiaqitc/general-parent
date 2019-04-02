@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("accountSafe")
+@RequestMapping("admin/accountSafe")
 @Controller
 public class AccountSafeController {
 
