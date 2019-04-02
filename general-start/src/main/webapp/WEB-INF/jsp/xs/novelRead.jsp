@@ -63,7 +63,7 @@ if (typeof document.onselectstart!="undefined"){
 				<c:if test="${pn.pre==null}">
 					<div class="unbtn">上一章</div>
 				</c:if>
-				<div class="pnbtn"><a href="${path }/xs/novelList?titleId=${title.id}">目录</a></div>
+				<div class="pnbtn"><a href="${path }/xs/novelList?titleId=${title.bookId}">目录</a></div>
 				<c:if test="${pn.next!=null}">
 					<div><a href="${path }/xs/novelRead/${pn.next}">下一章</a></div>
 				</c:if>

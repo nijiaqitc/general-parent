@@ -49,15 +49,15 @@
 							<c:forEach items="${xs.list }" var="menu">
 								<li><a href="${path}/xs/novelRead/${menu.id }">第${menu.orderIndex }章 ${menu.title }</a><span class="icon-lock lockEm"></span></li>
 							</c:forEach>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
-							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li>
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
+<!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
 						</ul>
 					</div>
 				</div>
@@ -65,25 +65,27 @@
 			
 			
 			
-			<div class="hantp">
-				<div align="left" class="tt">
-					<h3>正文·共100章</h3>
-				</div>
-				<div class="zwqy" align="left">
-					<ul class="ttul" >
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-						<li><a href="#">第一章 陨落的天才</a></li>
-					</ul>
-				</div>
-			</div>
+<!-- 			<div class="hantp"> -->
+<!-- 				<div align="left" class="tt"> -->
+<!-- 					<h3>正文·共100章</h3> -->
+<!-- 				</div> -->
+<!-- 				<div class="zwqy" align="left"> -->
+<!-- 					<ul class="ttul" > -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 						<li><a href="#">第一章 陨落的天才</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			
+			
 		</div>
 	</div>
 	<!--     开始：顶部菜单栏-->
