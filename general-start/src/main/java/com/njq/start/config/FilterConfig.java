@@ -29,7 +29,7 @@ public class FilterConfig extends WebMvcConfigurationSupport {
                 "/error/404", "/error/403", "/error/500", "/error/501");
         registry.addInterceptor(new ServletInterceptor()).addPathPatterns("/**").excludePathPatterns("/test");
         registry.addInterceptor(new NeedPwdInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/totalInfo/*");
+        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/admin/**");
     }
 
 

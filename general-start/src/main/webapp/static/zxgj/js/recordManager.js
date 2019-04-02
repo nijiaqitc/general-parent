@@ -14,7 +14,7 @@ function showpwd(num){
 
 function loadFiles(){
 	$.ajax({
-        url:jspath+"/note/queryTypeNameList",
+        url:jspath+"/admin/note/queryTypeNameList",
         type:"post",
         data:{
         	id:$("select").val()
@@ -54,7 +54,7 @@ function addFolderDlg(){
 
 function checkLock(){
 	$.ajax({
-        url:jspath+"/note/lockCheck",
+        url:jspath+"/admin/note/lockCheck",
         type:"post",
         data:{
         	id:$("select").val(),
@@ -76,7 +76,7 @@ function delFolder(){
 		return;
 	}
 	$.ajax({
-        url:jspath+"/note/delFolder",
+        url:jspath+"/admin/note/delFolder",
         type:"post",
         data:{
         	id:$("select").val()
@@ -107,7 +107,7 @@ function saveFold(text){
 		}
 	}		
 	$.ajax({
-        url:jspath+"/note/saveFolder",
+        url:jspath+"/admin/note/saveFolder",
         type:"post",
         data:{
         	folderName:$("#folderName").val(),
@@ -160,7 +160,7 @@ function saveOrUpdate(op){
 		return;
 	}
    $.ajax({
-       url:jspath+"/note/saveStore",
+       url:jspath+"/admin/note/saveStore",
        type:"post",
        data:{
     	   id:tr.dataId,
@@ -192,7 +192,7 @@ function seleTit(target,docId){
 	$(target).addClass("titleActive");
 	$("#curFile").val(docId);
 	$.ajax({
-        url:jspath+"/note/queryTypeRecordList",
+        url:jspath+"/admin/note/queryTypeRecordList",
         type:"post",
         data:{
             id:docId
@@ -266,7 +266,7 @@ function delTr(tar){
 	var opt=function(){
 		var id=$(tar).parents("tr")[0].dataId;		
 		$.ajax({
-			url:jspath+"/note/delStore",
+			url:jspath+"/admin/note/delStore",
 			type:"post",
 			data:{
 				id:id
@@ -294,7 +294,7 @@ function confirmDel(){
 }
 function delNote(){
     $.ajax({
-        url:jspath+"/note/delNote",
+        url:jspath+"/admin/note/delNote",
         type:"post",
         data:{
             docId:$("#cnoteId").val()
@@ -363,7 +363,7 @@ function delRecordType(){
 			return;
 		}
 		$.ajax({
-	        url:jspath+"/note/delRecordType",
+	        url:jspath+"/admin/note/delRecordType",
 	        type:"post",
 	        data:{
 	        	id:id
@@ -386,7 +386,7 @@ function delRecordType(){
 
 function save(name,colums){
     $.ajax({
-        url:jspath+"/note/saveDefine",
+        url:jspath+"/admin/note/saveDefine",
         type:"post",
         data:{
         	name:name,

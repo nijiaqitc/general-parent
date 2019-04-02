@@ -153,7 +153,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/operLog/getLogList",
+				url:"${path}/admin/operLog/getLogList",
 				data:{
 					page:page,
 					size:size,
@@ -188,7 +188,7 @@
 				     form.attr("style","display:none");
 				     form.attr("target","");
 				     form.attr("method","post");
-				     form.attr("action","${path}/operLog/downLoadLog");
+				     form.attr("action","${path}/admin/operLog/downLoadLog");
 				     var input1 = $("<input>");
 			         input1.attr("type", "hidden");
 			         input1.attr("name", "start");

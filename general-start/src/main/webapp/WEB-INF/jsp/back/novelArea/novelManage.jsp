@@ -201,7 +201,7 @@ function save(){
 	showMsg("确认","确认添加？",function(t){
 		if(t){
 			$.ajax({
-				url:"${path}/novelManage/addNovel",
+				url:"${path}/admin/novelManage/addNovel",
 				type:"post",
 				data:$("#novelForm").serialize(),
 				success:function(data){
@@ -224,7 +224,7 @@ function update(){
 	showMsg("确认","确认修改？",function(t){
 		if(t){
 			$.ajax({
-				url:"${path}/novelManage/updateNovel",
+				url:"${path}/admin/novelManage/updateNovel",
 				data:$("#novelForm").serialize(),
 				type:"post",
 				success:function(data){
@@ -241,7 +241,7 @@ function update(){
 
 function editshow(id,isShow){
 	$.ajax({
-		url:"${path}/novelManage/updateShowType",
+		url:"${path}/admin/novelManage/updateShowType",
 		data:{
 			id:id,
 			isShow:isShow

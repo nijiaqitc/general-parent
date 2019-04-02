@@ -44,7 +44,7 @@
 	var myChart = echarts.init(document.getElementById('main'));
 	
 	$.ajax({
-		url:"${path}/totalInfo/queryXlCharts",
+		url:"${path}/admin/totalInfo/queryXlCharts",
 		type:"post",
 		success:function(data){
 			createBarCharts(data);
@@ -131,7 +131,7 @@
 	var xsChart = echarts.init(document.getElementById('xsCharts'));
 	
 	$.ajax({
-		url:"${path}/totalInfo/queryXsCharts",
+		url:"${path}/admin/totalInfo/queryXsCharts",
 		type:"post",
 		success:function(data){
 			createXsCharts(data);

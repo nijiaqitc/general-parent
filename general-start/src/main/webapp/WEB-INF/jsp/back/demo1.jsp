@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="box-content custom_pagination" 
-							option="url:${path}/powerManage/getChannelList,pageShow:[10:20:30]">
+							option="url:${path}/admin/powerManage/getChannelList,pageShow:[10:20:30]">
 							<table class="table">
 								  <thead>
 									  <tr>
@@ -184,7 +184,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/powerManage/getChannelList",
+				url:"${path}/admin/powerManage/getChannelList",
 				data:{
 					page:page,
 					size:size
@@ -261,7 +261,7 @@
 		 */
 		function save(){
 			$.ajax({
-				url:"${path}/powerManage/saveChannel",
+				url:"${path}/admin/powerManage/saveChannel",
 				type:"post",
 				data:$("#channelForm").serialize(),
 				success:function(data){
@@ -280,7 +280,7 @@
 		 */
 		function update(){
 			$.ajax({
-				url:"${path}/powerManage/updateChannel",
+				url:"${path}/admin/powerManage/updateChannel",
 				data:$("#channelForm").serialize(),
 				type:"post",
 				success:function(data){
@@ -324,7 +324,7 @@
 			
 			if(delIds.length>0){
 				$.ajax({
-					url:"${path}/powerManage/delChannel",
+					url:"${path}/admin/powerManage/delChannel",
 					data:{
 						ids:delIds
 					},

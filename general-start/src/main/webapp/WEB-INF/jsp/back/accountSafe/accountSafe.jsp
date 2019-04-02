@@ -83,10 +83,10 @@
 											<td style="width: 100px;font-weight: bolder;" align="center" >登录密码</td><td style="width: 640px;">定期更换密码能保障您账户的安全，但请一定要记住更换后的密码，避免您自己也无法登录，设置登录密码建议有大写、小写、数字。</td><td></td><td  style="width: 50px;" class="modi">已设置</td><td style="width: 80px;" ><a class="modi1" href="${path }/accountSafe/modipwd">修改</a></td>
 										</tr>
 										<tr>
-											<td style="font-weight: bolder;" align="center">手机号码</td><td>站长比较穷没钱发短信，手机号只作为后期通信的选择手段之一。</td><td></td><td class="modi">已设置</td><td><a class="modi1" href="${path }/accountSafe/moditel">修改</a></td>
+											<td style="font-weight: bolder;" align="center">手机号码</td><td>站长比较穷没钱发短信，手机号只作为后期通信的选择手段之一。</td><td></td><td class="modi">已设置</td><td><a class="modi1" href="${path }/admin/accountSafe/moditel">修改</a></td>
 										</tr>
 										<tr>
-											<td style="font-weight: bolder;" align="center">邮箱地址</td><td>目前以邮箱地址为本站的主要通信手段，请绑定一个您常用的邮箱地址，本站不会发送任何广告消息打扰您。</td><td></td><td class="modi" >已设置</td><td><a class="modi1" href="${path }/accountSafe/modiemail">修改</a></td>
+											<td style="font-weight: bolder;" align="center">邮箱地址</td><td>目前以邮箱地址为本站的主要通信手段，请绑定一个您常用的邮箱地址，本站不会发送任何广告消息打扰您。</td><td></td><td class="modi" >已设置</td><td><a class="modi1" href="${path }/admin/accountSafe/modiemail">修改</a></td>
 										</tr>
 										<tr style="border-bottom: 0px;">
 											<td style="font-weight: bolder;" align="center">个人信息</td><td>作为以后提交申请密码找回的准则之一，不做强制实名要求。</td><td></td><td class="unmodi">未设置</td><td><a class="modi1" href="#">设置</a></td>
@@ -107,7 +107,7 @@
 				</div>
 				<div class="modal-body" style="height: 620px;">
 					<div class="step-pane" id="step2" style="margin-top: 20px;">
-						<iframe id="upPicTool" src="${path}/totalInfo/jcrop" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
+						<iframe id="upPicTool" src="${path}/admin/totalInfo/jcrop" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
 					</div>
 				</div>  
 			</div>
@@ -139,7 +139,7 @@
 				$("#picId").val(bbb);
 				$("#picPlace").val(aaa);
 				$.ajax({
-					url:"${path}/accountSafe/upUserPic",
+					url:"${path}/admin/accountSafe/upUserPic",
 		  			type:"post",
 		  			data:{
 		  				picPlace:aaa

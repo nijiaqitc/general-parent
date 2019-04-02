@@ -146,7 +146,7 @@
 		function queryPage(page,size){
 			$("#codeContent").html("");
 			$.ajax({
-				url:"${path}/dataCode/getDataList",
+				url:"${path}/admin/dataCode/getDataList",
 				data:{
 					page:page,
 					size:size
@@ -239,7 +239,7 @@
 			showMsg("确认","确定保存？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/dataCode/saveData",
+						url:"${path}/admin/dataCode/saveData",
 						type:"post",
 						data:$("#codeForm").serialize(),
 						success:function(data){
@@ -261,7 +261,7 @@
 			showMsg("确认","确定保存?",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/dataCode/updateData",
+						url:"${path}/admin/dataCode/updateData",
 						data:$("#codeForm").serialize(),
 						type:"post",
 						success:function(data){
@@ -308,7 +308,7 @@
 				showMsg("确认","确定删除？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/dataCode/delData",
+							url:"${path}/admin/dataCode/delData",
 							data:{
 								ids:delIds
 							},
@@ -373,7 +373,7 @@
 	            $("i", $(this)).removeClass("icon-chevron-up").addClass("icon-chevron-down")
 	        }
 	        $.ajax({
-	        	url:"${path}/dataCode/getCodeList",
+	        	url:"${path}/admin/dataCode/getCodeList",
 	        	data:{
 	        		id:$(this).find("input").val()	
 	        	},

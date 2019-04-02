@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="box-content custom_pagination" 
-							option="url:${path}/powerManage/getChannelList,pageShow:[10:20:30]">
+							option="url:${path}/admin/powerManage/getChannelList,pageShow:[10:20:30]">
 							<table class="table">
 								  <thead>
 									  <tr>
@@ -244,7 +244,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/ruleManage/getRuleList",
+				url:"${path}/admin/ruleManage/getRuleList",
 				data:{
 					page:page,
 					size:size
@@ -318,7 +318,7 @@
 			showMsg("确定","确定保存信息？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/ruleManage/saveRule",
+						url:"${path}/admin/ruleManage/saveRule",
 						type:"post",
 						beforeSend:ajaxBefore(),
 						data:$("#ruleForm").serialize(),
@@ -344,7 +344,7 @@
 			showMsg("确认","确认修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/ruleManage/updateRule",
+						url:"${path}/admin/ruleManage/updateRule",
 						data:$("#ruleForm").serialize(),
 						type:"post",
 						beforeSend:ajaxBefore(),
@@ -392,7 +392,7 @@
 				showMsg("确认","确认修改？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/ruleManage/delRule",
+							url:"${path}/admin/ruleManage/delRule",
 							data:{
 								ids:delIds
 							},
@@ -435,7 +435,7 @@
 				showMsg("确认","确认操作？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/ruleManage/setDefault",
+							url:"${path}/admin/ruleManage/setDefault",
 							data:{
 								ids:delIds
 							},
@@ -531,7 +531,7 @@
 		function showPorManageDialog(ruleId){
 			$("#hideRuleId").val(ruleId);
 			$.ajax({
-				url:"${path}/powerManage/getRuleChannelList",
+				url:"${path}/admin/powerManage/getRuleChannelList",
 				data:{
 					ruleId:ruleId
 				},
@@ -559,7 +559,7 @@
 				ids+=$($("#xiao3 div")[i]).attr("hideId")+","
 			}
 			ids=ids.substr(0,ids.length-1);
-			url="${path}/powerManage/updateRuleChannelConfig";
+			url="${path}/admin/powerManage/updateRuleChannelConfig";
 			data={
 				channelIds:ids,
 				ruleId:$("#hideRuleId").val()

@@ -15,7 +15,7 @@
 			//提交表单
 			$('#submit_btn').click(function(){
 //				window.open('http://localhost:8080/weibo/accountSafe/accountSafe');
-				window.location.href='http://localhost:8080/weibo/accountSafe/accountSafe';
+				window.location.href='http://localhost:8080/weibo/admin/accountSafe/accountSafe';
 				/*show_loading();
 				var myReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/; //邮件正则
 				if($('#email').val() == ''){

@@ -30,7 +30,7 @@
 			<div class="container-fluid">
 				<a id="main-menu-toggle" class="hidden-phone open"><i class="icon-reorder"></i></a>		
 				<div class="row-fluid">
-				<a class="brand span2" href="${path}/totalInfo/backIndex"><span>后台系统</span></a>
+				<a class="brand span2" href="${path}/admin/totalInfo/backIndex"><span>后台系统</span></a>
 				</div>		
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">

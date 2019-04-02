@@ -30,7 +30,7 @@
                     </h2>
                     <div class="barRightDiv">
                         <a href="javascript:void(0)" onclick="applyChannel()"><i class="barRightBtn">应用</i></a>
-                        <a href="${path}/issueDoc/yxlIssueDoc"><i class="icon-plus barRightBtn"></i></a> 
+                        <a href="${path}/admin/issueDoc/yxlIssueDoc"><i class="icon-plus barRightBtn"></i></a> 
                         <a href="javascript:void(0)" onclick="del()"><i class="icon-minus barRightBtn"></i></a> 
                     </div>
                 </div>
@@ -110,8 +110,8 @@
                     }else{
                         str+="否";
                     }
-				    str+="</td><td>"+d.formatCreatedDate+"</td><td><a title='修改' class='btn btn-info'  href='${path}/issueDoc/updateYxlDocPage?docId="+d.id+
-								"'><i  class='icon-edit'></i></a>&nbsp;<a title='预览' class='btn btn-info' href='${path}/issueDoc/yxlDocView?docId="+
+				    str+="</td><td>"+d.formatCreatedDate+"</td><td><a title='修改' class='btn btn-info'  href='${path}/admin/issueDoc/updateYxlDocPage?docId="+d.id+
+								"'><i  class='icon-edit'></i></a>&nbsp;<a title='预览' class='btn btn-info' href='${path}/admin/issueDoc/yxlDocView?docId="+
 								d.docId+"' target='_blank' ><i  class='icon-eye-open'></i></a></td></tr>";
 				})
 				$("#dataBody").html(str);

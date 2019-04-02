@@ -189,7 +189,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/typeManage/getTypeList",
+				url:"${path}/admin/typeManage/getTypeList",
 				data:{
 					page:page,
 					size:size
@@ -251,7 +251,7 @@
 			showMsg("确认","确认添加？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/typeManage/saveType",
+						url:"${path}/admin/typeManage/saveType",
 						type:"post",
 						data:$("#typeForm").serialize(),
 						success:function(data){
@@ -275,7 +275,7 @@
 			showMsg("确认","确认修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/typeManage/updateType",
+						url:"${path}/admin/typeManage/updateType",
 						data:$("#typeForm").serialize(),
 						type:"post",
 						success:function(data){
@@ -320,7 +320,7 @@
 				showMsg("确认","确定删除？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/typeManage/delType",
+							url:"${path}/admin/typeManage/delType",
 							data:{
 								ids:delIds
 							},

@@ -380,7 +380,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/userManage/getUserList",
+				url:"${path}/admin/userManage/getUserList",
 				data:{
 					page:page,
 					size:size,
@@ -460,7 +460,7 @@
 			showMsg("确认","确定保存？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/userManage/saveUser",
+						url:"${path}/admin/userManage/saveUser",
 						type:"post",
 						beforeSend:ajaxBefore(),
 						data:$("#userForm").serialize(),
@@ -486,7 +486,7 @@
 			showMsg("确认","确定修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/userManage/updateUser",
+						url:"${path}/admin/userManage/updateUser",
 						data:$("#userForm").serialize(),
 						type:"post",
 						beforeSend:ajaxBefore(),
@@ -528,7 +528,7 @@
 				showMsg("确认","确定删除？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/userManage/delUser",
+							url:"${path}/admin/userManage/delUser",
 							data:{
 								ids:delIds
 							},
@@ -628,7 +628,7 @@
 			$("#channelBtn").hide();
 			$("#ruleBtn").show();
 			$.ajax({
-				url:"${path}/ruleManage/getUserRuleList",
+				url:"${path}/admin/ruleManage/getUserRuleList",
 				data:{
 					userId:userId
 				},
@@ -654,7 +654,7 @@
 			$("#channelBtn").show();
 			$("#ruleBtn").hide();
 			$.ajax({
-				url:"${path}/powerManage/getUserChannelList",
+				url:"${path}/admin/powerManage/getUserChannelList",
 				data:{
 					userId:userId
 				},
@@ -683,13 +683,13 @@
 			}
 			ids=ids.substr(0,ids.length-1);
 			if(type==1){
-				url="${path}/ruleManage/updateUserRuleConfig";
+				url="${path}/admin/ruleManage/updateUserRuleConfig";
 				data={
 						ruleIds:ids,
 						userId:$("#hideUserId").val()
 					}
 			}else{
-				url="${path}/powerManage/updateUserChannelConfig";
+				url="${path}/admin/powerManage/updateUserChannelConfig";
 				data={
 					channelIds:ids,
 					userId:$("#hideUserId").val()
@@ -727,7 +727,7 @@
 				showMsg("确认","确定重置？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/userManage/resetPwd",
+							url:"${path}/admin/userManage/resetPwd",
 							data:{
 								ids:delIds
 							},

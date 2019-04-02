@@ -14,7 +14,7 @@ function showpwd(num){
 
 function loadFiles(){
 	$.ajax({
-        url:jspath+"/note/queryGenList",
+        url:jspath+"/admin/note/queryGenList",
         type:"post",
         data:{
         	id:$("select").val()
@@ -55,7 +55,7 @@ function addFolderDlg(){
 
 function checkLock(){
 	$.ajax({
-        url:jspath+"/note/lockCheck",
+        url:jspath+"/admin/note/lockCheck",
         type:"post",
         data:{
         	id:$("select").val(),
@@ -77,7 +77,7 @@ function delFolder(){
 		return;
 	}
 	$.ajax({
-        url:jspath+"/note/delFolder",
+        url:jspath+"/admin/note/delFolder",
         type:"post",
         data:{
         	id:$("select").val()
@@ -108,7 +108,7 @@ function saveFold(text){
 		}
 	}		
 	$.ajax({
-        url:jspath+"/note/saveFolder",
+        url:jspath+"/admin/note/saveFolder",
         type:"post",
         data:{
         	folderName:$("#folderName").val(),
@@ -142,7 +142,7 @@ function seleTit(target,docId){
     $("#noteTitled").show();
     $("#noteTitle").hide();
     $.ajax({
-        url:jspath+"/note/readNote",
+        url:jspath+"/admin/note/readNote",
         type:"post",
         data:{
             docId:docId,
@@ -169,7 +169,7 @@ function editNode(){
 }
 function saveOrUpdate(){
    $.ajax({
-       url:jspath+"/note/saveNote",
+       url:jspath+"/admin/note/saveNote",
        type:"post",
        data:{
            id:$("#cnoteId").val(),
@@ -213,7 +213,7 @@ function confirmDel(){
 }
 function delNote(){
     $.ajax({
-        url:jspath+"/note/delNote",
+        url:jspath+"/admin/note/delNote",
         type:"post",
         data:{
             docId:$("#cnoteId").val()
@@ -245,7 +245,7 @@ function createNote(){
 
 function save(){
     $.ajax({
-        url:jspath+"/note/saveNote",
+        url:jspath+"/admin/note/saveNote",
         type:"post",
         data:{
             id:$("#cnoteId").val(),

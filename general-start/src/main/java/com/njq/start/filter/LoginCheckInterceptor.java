@@ -25,7 +25,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		Object sessionId = session.getAttribute("sessionId");
 		if(sessionId==null){
-			response.sendRedirect("/login.jsp");
+			response.sendRedirect("/login");
 			return;
 		}
 	}

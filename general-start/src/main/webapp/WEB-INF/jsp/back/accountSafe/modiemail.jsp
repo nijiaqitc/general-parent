@@ -50,7 +50,7 @@
 	<script type="text/javascript">
 		function sendCode(){
 			$.ajax({
-				url:"${path}/accountSafe/sendCode",
+				url:"${path}/admin/accountSafe/sendCode",
 				data:{
 					type:3
 				},
@@ -88,7 +88,7 @@
 		function toNext(index){
 			if(index==1){
 				$.ajax({
-					url:"${path}/accountSafe/checkCode",
+					url:"${path}/admin/accountSafe/checkCode",
 					data:{
 						code:$("#emailCode").val()
 					},
@@ -114,7 +114,7 @@
 					return
 				}
 				$.ajax({
-					url:"${path}/accountSafe/upEmail",
+					url:"${path}/admin/accountSafe/upEmail",
 					data:{
 						newEmail:$("#input1").val()
 					},

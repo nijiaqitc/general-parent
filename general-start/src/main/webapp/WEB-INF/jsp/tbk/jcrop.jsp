@@ -236,7 +236,7 @@
 			return ;
 		}
   		$.ajax({
-  			url:"${path}/issueDoc/upPic",
+  			url:"${path}/admin/issueDoc/upPic",
   			type:"post",
   			data:{
   				base64Data:$("#mmm canvas")[0].toDataURL("image/png")

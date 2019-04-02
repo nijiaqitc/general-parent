@@ -28,7 +28,7 @@
                         <i class="icon-ambulance leftLogo"></i> tbk文档管理
                     </h2>
                     <div class="barRightDiv">
-                        <a href="${path}/issueDoc/issueDoc" onclick="applyChannel()"><i class="icon-plus barRightBtn"></i></a> 
+                        <a href="${path}/admin/issueDoc/issueDoc" onclick="applyChannel()"><i class="icon-plus barRightBtn"></i></a> 
                         <a href="javascript:void(0)" onclick="del()"><i class="icon-minus barRightBtn"></i></a> 
                     </div>
                 </div>
@@ -81,7 +81,7 @@
 	 */
 	function queryPage(page,size){
 		$.ajax({
-			url:"${path}/docManage/getDocList",
+			url:"${path}/admin/docManage/getDocList",
 			data:{
 				page:page,
 				size:size
@@ -94,7 +94,7 @@
 				var str="";
 				$.each(data.list,function(n,d){
 					str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+
-						"</td><td title='"+d.title+"'>"+d.formatTitle+"</td><td title='"+d.general+"'>"+d.formatGeneral+"</td><td>暂不考虑</td><td>"+d.formatCreatedDate+"</td><td><a title='修改' class='btn btn-info'  href='${path}/issueDoc/upDocPage?docId="+d.id+"'><i  class='icon-edit'></i></a>&nbsp;<a title='预览' class='btn btn-info' href='${path}/doc/docView/"+d.id+"' target='_blank' ><i  class='icon-eye-open'></i></a></td></tr>";
+						"</td><td title='"+d.title+"'>"+d.formatTitle+"</td><td title='"+d.general+"'>"+d.formatGeneral+"</td><td>暂不考虑</td><td>"+d.formatCreatedDate+"</td><td><a title='修改' class='btn btn-info'  href='${path}/admin/issueDoc/upDocPage?docId="+d.id+"'><i  class='icon-edit'></i></a>&nbsp;<a title='预览' class='btn btn-info' href='${path}/doc/docView/"+d.id+"' target='_blank' ><i  class='icon-eye-open'></i></a></td></tr>";
 				})
 				$("#dataBody").html(str);
 				njqpage.totalNum=Number(data.total);
@@ -163,7 +163,7 @@
 			showMsg("确认","确定删除？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/docManage/delDoc",
+						url:"${path}/admin/docManage/delDoc",
 						data:{
 							ids:delIds
 						},

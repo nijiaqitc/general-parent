@@ -90,7 +90,7 @@
 		 */
 		function queryPage(page, size) {
 			$.ajax({
-				url : "${path}/banner/getBannerList",
+				url : "${path}/admin/banner/getBannerList",
 				data : {
 					page : page,
 					size : size
@@ -185,7 +185,7 @@
 				showMsg("确认", msg, function(t) {
 					if (t) {
 						$.ajax({
-							url : "${path}/banner/setPicUseType",
+							url : "${path}/admin/banner/setPicUseType",
 							data : {
 								ids : delIds,
 								isUse : ty

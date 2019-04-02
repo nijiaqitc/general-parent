@@ -132,7 +132,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/loginIndex", method = RequestMethod.GET)
     public String loginIndex() {
-        return "redirect:/totalInfo/backIndex";
+        return "redirect:/admin/totalInfo/backIndex";
     }
 
     /**

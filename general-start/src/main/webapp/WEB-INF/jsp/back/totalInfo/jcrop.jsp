@@ -237,7 +237,7 @@
 			return ;
 		}
   		$.ajax({
-  			url:"${path}/issueDoc/upPic",
+  			url:"${path}/admin/issueDoc/upPic",
   			type:"post",
   			dataType: 'json', 
   			data:{

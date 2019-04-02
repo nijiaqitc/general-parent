@@ -128,7 +128,7 @@
 				</div>
 				<div class="modal-body" style="height: 620px;">
 					<div class="step-pane" id="step2" style="margin-top: 20px;">
-						<iframe id="upPicTool" src="${path}/totalInfo/jcrop" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
+						<iframe id="upPicTool" src="${path}/admin/totalInfo/jcrop" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
 					</div>
 				</div>  
 			</div>
@@ -305,7 +305,7 @@
     			picType=2;
     		}
     		$.ajax({
-    			url:"${path}/issueDoc/releaseDoc",
+    			url:"${path}/admin/issueDoc/releaseDoc",
     			data:{
     				typeId:$("#docType").val(),
     				picId:$("#picId").val(),
@@ -357,7 +357,7 @@
 				return 
 			}
 			$.ajax({
-				url:"${path}/typeManage/saveDocType",
+				url:"${path}/admin/typeManage/saveDocType",
 				data:{
 					typeName:$("#typeName").val(),
 					parentId:$("#parentType").val()

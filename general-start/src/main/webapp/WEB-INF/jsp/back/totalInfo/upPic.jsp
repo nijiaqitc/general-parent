@@ -335,7 +335,7 @@
   			return
   		};
   		$.ajax({
-  			url:"${path}/issueDoc/upPic",
+  			url:"${path}/admin/issueDoc/upPic",
   			type:"post",
   			data:{
   				base64Data:$("#myUpImg").prev().attr("href")

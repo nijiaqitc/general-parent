@@ -133,7 +133,7 @@
 				</div>
 				<div class="modal-body" style="height: 620px;">
 					<div class="step-pane" id="step2" style="margin-top: 20px;">
-						<iframe id="upPicTool" src="${path}/totalInfo/upPic" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
+						<iframe id="upPicTool" src="${path}/admin/totalInfo/upPic" frameborder="no" style="width: 1000px;height: 500px;margin-left: -232px;margin-top: -35px;"></iframe>
 					</div>
 				</div>  
 			</div>
@@ -260,7 +260,7 @@
     			return
     		} */
     		$.ajax({
-    			url:"${path}/issueDoc/updateDoc",
+    			url:"${path}/admin/issueDoc/updateDoc",
     			data:{
     				picId:$("#picId").val(),
     				id:$("#docId").val(),
@@ -309,7 +309,7 @@
 				return 
 			}
 			$.ajax({
-				url:"${path}/typeManage/saveDocType",
+				url:"${path}/admin/typeManage/saveDocType",
 				data:{
 					typeName:$("#typeName").val(),
 					parentId:$("#parentType").val()

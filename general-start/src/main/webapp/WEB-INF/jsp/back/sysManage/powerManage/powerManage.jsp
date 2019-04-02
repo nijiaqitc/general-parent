@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="box-content custom_pagination" 
-							option="url:${path}/powerManage/getChannelList,pageShow:[10:20:30]">
+							option="url:${path}/admin/powerManage/getChannelList,pageShow:[10:20:30]">
 							<table class="table">
 								  <thead>
 									  <tr>
@@ -255,7 +255,7 @@
 		 */
 		function queryPage(page,size){
 			$.ajax({
-				url:"${path}/powerManage/getChannelList",
+				url:"${path}/admin/powerManage/getChannelList",
 				data:{
 					page:page,
 					size:size
@@ -297,7 +297,7 @@
 			$("#myModal").show();
 			$("#backBlackGround").show();
 			$.ajax({
-				url:"${path}/powerManage/getParentsList",
+				url:"${path}/admin/powerManage/getParentsList",
 				type:"post",
 				success:function(data){
 					var str="<option value='0' >---选择父级---</option>";
@@ -320,7 +320,7 @@
 			$("#myModal").show();
 			$("#backBlackGround").show();
 			$.ajax({
-				url:"${path}/powerManage/getParentsList",
+				url:"${path}/admin/powerManage/getParentsList",
 				type:"post",
 				success:function(data){
 					var str="<option value='0' >---选择父级---</option>";
@@ -357,7 +357,7 @@
 			showMsg("确认","确认修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/powerManage/saveChannel",
+						url:"${path}/admin/powerManage/saveChannel",
 						type:"post",
 						data:$("#channelForm").serialize(),
 						success:function(data){
@@ -381,7 +381,7 @@
 			showMsg("确认","确认修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/powerManage/updateChannel",
+						url:"${path}/admin/powerManage/updateChannel",
 						data:$("#channelForm").serialize(),
 						type:"post",
 						success:function(data){
@@ -426,7 +426,7 @@
 				showMsg("确认","确定删除？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/powerManage/delChannel",
+							url:"${path}/admin/powerManage/delChannel",
 							data:{
 								ids:delIds
 							},
@@ -475,7 +475,7 @@
 				showMsg("确认",msg,function(t){
 					if(t){
 						 $.ajax({
-							url:"${path}/powerManage/applyChannel",
+							url:"${path}/admin/powerManage/applyChannel",
 							data:{
 								channelIds:delIds,
 								type:ty
