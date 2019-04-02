@@ -43,7 +43,7 @@ if (typeof document.onselectstart!="undefined"){
 				<div align="center">
 					<div class="topTitleBt">
 						<span style="font-size: 12px;">作者：${userName }</span>
-						<span style="font-size: 12px;">书名：${bookName }</span>
+						<span style="font-size: 12px;margin-left: 14px;">书名：${bookName }</span>
 						<span class="geninfo"><span class="icon-pencil"></span> ${doc.fontNum } 字</span>
 						<span class="geninfo"><span class="icon-time"></span> 
 							<fmt:formatDate value="${doc.createDate}" pattern="yyyy/MM/dd HH:mm" />

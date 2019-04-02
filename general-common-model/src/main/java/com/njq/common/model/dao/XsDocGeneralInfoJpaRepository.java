@@ -23,4 +23,7 @@ public interface XsDocGeneralInfoJpaRepository extends JpaRepository<XsDocGenera
     @Query(value = "update XsDocGeneralInfo set badNum = badNum+1 where id = :id ")
     int updateForAddBadNum(@Param("id") Long id);
 	
+	@Modifying
+    @Query(value = "update XsDocGeneralInfo set fontNum = :num where titleId = :id ")
+	int updateForAddFontNum(@Param("num") Integer num , @Param("id") Long id);
 }

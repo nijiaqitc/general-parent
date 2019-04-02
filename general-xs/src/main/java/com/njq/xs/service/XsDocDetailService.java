@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.model.dao.XsDocGeneralInfoJpaRepository;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
@@ -25,6 +26,8 @@ public class XsDocDetailService {
 	public XsDocGeneralInfoService docGeneralInfoService;
     @Resource
 	public XsTitleDetailService titleService;
+    @Resource
+    public XsDocGeneralInfoJpaRepository xsDocGeneralInfoJpaRepository;
     /**
      * 查询列表（分页）
      * @param paramMap
@@ -108,12 +111,13 @@ public class XsDocDetailService {
 	 */
 	public XsDocDetail updateObject(XsDocDetail detail,String finishStatus, String titleIndex) {
 		XsDocDetail d=docDetailDao.queryTById(detail.getId());
+		XsTitleDetail titleDetail = titleService.queryByDocId(detail.getId());
+//		xsDocGeneralInfoJpaRepository.updateForAddFontNum((detail.getFontNum()),titleDetail.getBookId());
 		d.setTitle(detail.getTitle());
 		d.setDoc(detail.getDoc());
 		d.setFontNum(detail.getFontNum());
 		d.setModiDate(new Timestamp(System.currentTimeMillis()));
 		docDetailDao.update(d);
-		XsTitleDetail titleDetail = titleService.queryByDocId(detail.getId());
 		docGeneralInfoService.updateFontNum(titleDetail.getId(), detail.getFontNum());
 		XsTitleDetail t = new XsTitleDetail();
 		t.setId(titleDetail.getId());
