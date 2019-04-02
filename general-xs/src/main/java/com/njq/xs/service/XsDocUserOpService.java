@@ -26,7 +26,6 @@ public class XsDocUserOpService {
      * @return
      */
     public PageList<XsDocUserOp> queryPageList(Map<String, Object> paramMap, int page, int size) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -36,7 +35,6 @@ public class XsDocUserOpService {
      * @return
      */
     public List<XsDocUserOp> queryList(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -60,7 +58,6 @@ public class XsDocUserOpService {
      * @return
      */
     public int queryCount(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -80,7 +77,6 @@ public class XsDocUserOpService {
      * @return
      */
     public int deleteById(Long ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -90,7 +86,6 @@ public class XsDocUserOpService {
      * @return
      */
     public int deleteByIds(Long[] ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -101,7 +96,6 @@ public class XsDocUserOpService {
      * @return
      */
     public int updateById(Long id, Map<String, Object> map) {
-        // TODO Auto-generated method stub
         return 0;
     }
 

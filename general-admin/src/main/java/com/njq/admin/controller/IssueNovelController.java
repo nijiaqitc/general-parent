@@ -68,7 +68,6 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "editNovelArea", method = RequestMethod.GET)
 	public String editNovelArea(Model model) {
-
 		return "back/novelArea/testEdit";
 	}
 
@@ -124,12 +123,7 @@ public class IssueNovelController {
 	@RequestMapping(value = "/saveNovel", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> saveNovel(XsDocDetail detail, String titleIndex) {
-		if (detail.getId() != null) {
-			XsDocDetail d = docDetailService.updateObject(detail);
-		} else {
-			detail.setCreateDate(new Date());
-			docDetailService.saveObject(detail);
-		}
+		docDetailService.updateObject(detail);
 		return MessageCommon.getSuccessMap();
 	}
 
@@ -153,6 +147,7 @@ public class IssueNovelController {
 			detail.setDocId(docDetail.getId());
 			detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
 			detail.setCreateDate(new Date());
+			detail.setUserId(UserCommon.getUserId());
 			titleService.saveTitle(detail);
 		} else {
 			detail = d;

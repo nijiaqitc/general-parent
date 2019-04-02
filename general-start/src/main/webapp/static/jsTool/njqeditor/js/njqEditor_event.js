@@ -224,6 +224,13 @@
                 var waitDialog = [];
                 for (var tool in tools) {
                     btn = tools[tool];
+                    tools[tool].isEnable = true;
+                	// 是否还需要检测
+                	tools[tool].tempFlag = true;
+                	// 按钮按下状态
+                	tools[tool].btnDownFlag = false;
+                	// 内容是否有改变
+                	tools[tool].valueChanged = false;
                     if (btn.initDialog) {
                         waitDialog.push(1);
                         makeDialog["_" + btn.dlgId](btn, function () {
@@ -3504,13 +3511,7 @@
                 for (var i in styleNodeList) {
                     util.remove(styleNodeList[i]);
                 }
-//				if(editorContext.childNodes.length==1){
-//					if(util.isOutNodeCheck(editorContext.firstChild)){
-//						editorContext.innerHTML=editorContext.firstChild.innerHTML;
-//					}
-//				}
 
-//				var start = new Date().getTime();
                 //第一步将p标签替换成div标签
                 this.changePtoDiv(editorContext);
 
@@ -3735,7 +3736,7 @@
                     }
                 }
                 //把一些回车符等都删除掉
-                decodeNode.innerHTML = decodeNode.innerHTML.replace(/[\r\n\t]/g, constants.EMPTY);
+                decodeNode.innerHTML = decodeNode.innerHTML.replace(/^\s+|\s+$/gm, '').replace(/[\r\n\t]/g, constants.EMPTY);
                 //进行处理先准备(粘贴的头部可能带有style标签)
                 var styleNodeList = util.getElementsByTagName(decodeNode, constants.STYLE);
                 for (var i in styleNodeList) {
@@ -4302,10 +4303,16 @@
                     }
                 }
                 var textList = [];
-                util.forListNode(startNode, endNode, function (node) {
-                    textList.push(node);
-                    return node;
-                }, 3);
+                if (range.collapsed){
+                	if(range.startContainer.nodeType == 1){
+                		textList.push(util.getRangeStartText(range));
+                	}
+                }else{
+                	util.forListNode(startNode, endNode, function (node) {
+                		textList.push(node);
+                		return node;
+                	}, 3);                	
+                }
 
                 var checkNode, node;
                 for (var tool in tools) {
@@ -4319,16 +4326,14 @@
                         // 内容是否有改变
                         tools[tool].valueChanged = false;
                         continue;
-                    } else {
-                        tools[tool].isEnable = true;
-                        // 是否还需要检测
-                        tools[tool].tempFlag = true;
-                        // 按钮按下状态
-                        tools[tool].btnDownFlag = false;
-                        // 内容是否有改变
-                        tools[tool].valueChanged = false;
-                    }
-                    if (tools[tool].isNeedCheck) {
+                    } else if (tools[tool].isNeedCheck) {
+                    	tools[tool].isEnable = true;
+                    	// 是否还需要检测
+                    	tools[tool].tempFlag = true;
+                    	// 按钮按下状态
+                    	tools[tool].btnDownFlag = false;
+                    	// 内容是否有改变
+                    	tools[tool].valueChanged = false;
                         // 是否支持在pre标签中使用
                         if (!tools[tool].inPre) {
                             if (this.checkRuleBase(startNode, tools[tool])) {
@@ -4360,6 +4365,9 @@
                                     break;
                                 }
                                 node = textList[index++];
+                                if(!node){
+                                	break;
+                                }
                             }
                         } else if (tools[tool].checkType.type == "2") {
                             if (rangeTable.table) {

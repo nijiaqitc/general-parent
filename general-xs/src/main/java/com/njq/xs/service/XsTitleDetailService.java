@@ -170,6 +170,12 @@ public class XsTitleDetailService {
         return titleDetailDao.queryTById(id);
 	}
 
+	public XsTitleDetail queryByDocId(Long docId) {
+		ConditionsCommon condition = new ConditionsCommon();
+		condition.addEqParam("docId", docId);
+		return titleDetailDao.queryTByParamForOne(condition);
+	}
+	
 	/**
 	 * 保存标题
 	 * @param title
@@ -397,7 +403,6 @@ public class XsTitleDetailService {
 		info.setTitleId(detail.getId());
 		info.setViewNum(0);
 		docGeneralInfoService.saveObject(info);
-		
 		return detail.getId();
 	}
 	

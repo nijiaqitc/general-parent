@@ -1279,7 +1279,7 @@
          * 删除空占位符 node:需要删除空占位符的节点 range:选区
          */
         removeSpace: function (node, range) {
-            if (!node || node.nodeValue.trim() == constants.EMPTY) {
+            if (!node || node.nodeValue == constants.EMPTY) {
                 return;
             }
             if (this.isElementNode(node)) {
@@ -1584,7 +1584,7 @@
             if (!str) {
                 return true;
             }
-            if (str.trim() == constants.EMPTY) {
+            if (str == constants.EMPTY) {
                 return true;
             }
         },
@@ -1633,9 +1633,9 @@
             }
             var pv;
             if (this.isElementNode(node)) {
-                pv = node.innerHTML.trim();
+                pv = node.innerHTML;
             } else {
-                pv = node.data.trim();
+                pv = node.data;
             }
             if (pv == constants.EMPTY) {
                 return true;
@@ -1659,9 +1659,9 @@
             }
             var hv;
             if (this.isElementNode(node)) {
-                hv = node.innerHTML.trim();
+                hv = node.innerHTML;
             } else {
-                hv = node.data.trim();
+                hv = node.data;
             }
             if (hv == constants.EMPTY || hv == constants.SPACE || hv == "<br>") {
                 return true;
@@ -1685,7 +1685,7 @@
                 var hasText = false;
                 this.forListNode(node.firstChild, node, function (node) {
                     if (!hasText) {
-                        if (node.wholeText.trim().length > 0) {
+                        if (node.wholeText.length > 0) {
                             hasText = true;
                         }
                     }
@@ -1796,7 +1796,7 @@
          * 判断是否是空文本节点 node:判断的节点
          */
         isEmptyTextNode: function (node) {
-            if (node.nodeType == 3 && node.nodeValue.trim() == constants.EMPTY) {
+            if (node.nodeType == 3 && node.nodeValue == constants.EMPTY) {
                 return true;
             }
             return false;
@@ -2531,7 +2531,7 @@
             while (tempNode) {
                 node = tempNode;
                 tempNode = node.previousSibling;
-                if (node.nodeType == 3 && node.data.trim() == constants.EMPTY) {
+                if (node.nodeType == 3 && node.data == constants.EMPTY) {
                     node.parentNode.removeChild(node);
                 }
             }
@@ -2565,6 +2565,13 @@
             } else {
                 return null;
             }
+        },
+        getRangeStartText: function(range){
+        	if (range.startContainer.childNodes.length == range.startOffset) {
+        		return range.startContainer.childNodes[range.startOffset-1];
+        	}else{
+        		return range.startContainer.childNodes[range.startOffset];
+        	}
         }
     };
 

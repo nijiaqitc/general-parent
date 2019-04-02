@@ -11,7 +11,7 @@ body{
 	font-size: 28px;font-weight: 600;
 }
 .contextAare .outDiv .topTitleBt{
-	width: 400px;border-bottom: 1px solid #888;;margin-top: 4px;
+	width: 500px;border-bottom: 1px solid #888;;margin-top: 10px;
 }
 .contextAare .outDiv .topTitleBt .geninfo{
 	font-size: 12px;color: #666;margin-left: 20px;
@@ -30,4 +30,10 @@ body{
 }
 .contextAare .outDiv .bottomArea .uub{
 	color: #ccc;
+}
+body{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 }

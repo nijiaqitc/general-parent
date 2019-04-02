@@ -10,7 +10,7 @@
 <style type="text/css">
 	.titleStyle{
 		float: left;
-		width: 228px;
+		width: 360px;
 		height: 30px;
 		line-height: 30px;
 		padding-left: 38px;

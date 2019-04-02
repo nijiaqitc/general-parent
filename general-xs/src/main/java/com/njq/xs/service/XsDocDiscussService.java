@@ -25,7 +25,6 @@ public class XsDocDiscussService {
      * @return
      */
     public PageList<XsDocDiscuss> queryPageList(Map<String, Object> paramMap, int page, int size) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -35,7 +34,6 @@ public class XsDocDiscussService {
      * @return
      */
     public List<XsDocDiscuss> queryList(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -65,7 +63,6 @@ public class XsDocDiscussService {
      * @return
      */
     public int saveObject(XsDocDiscuss t) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -75,7 +72,6 @@ public class XsDocDiscussService {
      * @return
      */
     public int deleteById(Long ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -85,7 +81,6 @@ public class XsDocDiscussService {
      * @return
      */
     public int deleteByIds(Long[] ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -96,12 +91,7 @@ public class XsDocDiscussService {
      * @return
      */
     public int updateById(Long id, Map<String, Object> map) {
-        // TODO Auto-generated method stub
         return 0;
     }
-
-    
-    
-    
     
 }

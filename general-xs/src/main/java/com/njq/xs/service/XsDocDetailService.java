@@ -8,17 +8,20 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.XsDocDetail;
+import com.njq.common.model.po.XsTitleDetail;
 
 @Service
 public class XsDocDetailService {
 
     @Resource
     private DaoCommon<XsDocDetail> docDetailDao;
-
+    @Resource
+	public XsDocGeneralInfoService docGeneralInfoService;
+    @Resource
+	public XsTitleDetailService titleService;
     /**
      * 查询列表（分页）
      * @param paramMap
@@ -27,7 +30,6 @@ public class XsDocDetailService {
      * @return
      */
     public PageList<XsDocDetail> queryPageList(Map<String, Object> paramMap, int page, int size) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -37,7 +39,6 @@ public class XsDocDetailService {
      * @return
      */
     public List<XsDocDetail> queryList(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -56,7 +57,6 @@ public class XsDocDetailService {
      * @return
      */
     public int queryCount(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -76,7 +76,6 @@ public class XsDocDetailService {
      * @return
      */
     public int deleteById(Long ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -86,7 +85,6 @@ public class XsDocDetailService {
      * @return
      */
     public int deleteByIds(Long[] ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -97,7 +95,6 @@ public class XsDocDetailService {
      * @return
      */
     public int updateById(Long id, Map<String, Object> map) {
-    	
     	return 0;
     }
 
@@ -113,6 +110,8 @@ public class XsDocDetailService {
 		d.setFontNum(detail.getFontNum());
 		d.setModiDate(new Timestamp(System.currentTimeMillis()));
 		docDetailDao.update(d);
+		XsTitleDetail titleDetail = titleService.queryByDocId(detail.getId());
+		docGeneralInfoService.updateFontNum(titleDetail.getId(), detail.getFontNum());
 		return d;
 	}
     

@@ -284,7 +284,7 @@ pre, xmp, plaintext, listing{
 	bottom: 0px;
 }
 .njq_editor_total .editor_full_body{
-	height:100% !important;
+	height:90% !important;
 	overflow-y: auto;
     min-height: 600px;
     z-index: 9998;

@@ -183,16 +183,6 @@ public class XsTitleDesignService {
 	 */
 	public void updateTitleById(XsTitleDesign title) {
 		titleDao.update(title);
-		
-		
-//		Titlethc  =titleDao.queryTById(title.getId());
-//		Message m = titleDao.queryTById(title.getId());
-//		m.setTitle(title.getTitle());
-//		m.setContext(title.getContext());
-//		titleDao.update(m);
-//		//日志记录
-//		logService.saveLog(userId, "修改", "消息表", "对行"+m.getId()+"进行修改");
-		
 	}
 
 	/**

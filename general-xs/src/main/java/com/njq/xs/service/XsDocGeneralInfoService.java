@@ -32,7 +32,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public PageList<XsDocGeneralInfo> queryPageList(Map<String, Object> paramMap, int page, int size) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -42,7 +41,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public List<XsDocGeneralInfo> queryList(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -52,7 +50,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public XsDocGeneralInfo queryById(Long id) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -62,7 +59,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public int queryCount(Map<String, Object> paramMap) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -82,7 +78,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public int deleteById(Long ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -92,7 +87,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public int deleteByIds(Long[] ids) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -103,7 +97,6 @@ public class XsDocGeneralInfoService {
      * @return
      */
     public int updateById(Long id, Map<String, Object> map) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -130,6 +123,12 @@ public class XsDocGeneralInfoService {
     	return 0;
     }
     
+    public void updateFontNum(Long titleId,Integer num) {
+    	ConditionsCommon condition = new ConditionsCommon();
+    	condition.addEqParam("titleId", titleId);
+    	condition.addsetObjectParam("fontNum", num);
+    	docGeneralInfoDao.update(condition);
+    }
     
     /**
      * 根据文章id查询统计数

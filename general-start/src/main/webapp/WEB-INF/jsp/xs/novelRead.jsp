@@ -11,6 +11,26 @@
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/zxgj/css/novelRead.css">
 <link href="${resPath }/common/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript">
+document.oncontextmenu=new Function("event.returnValue=false;");
+document.onselectstart=new Function("event.returnValue=false;");
+var omitformtags=["input", "textarea", "select"];
+omitformtagsomitformtags=omitformtags.join("|");
+function disableselect(e){
+	if (omitformtags.indexOf(e.target.tagName.toLowerCase())==-1){
+		return false;
+	}
+}
+function reEnable(){
+	return true;
+}
+if (typeof document.onselectstart!="undefined"){
+	document.onselectstart=new Function ("return false");
+}else{
+	document.onmousedown=disableselect;
+	document.onmouseup=reEnable;
+}
+</script>
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
@@ -22,8 +42,8 @@
 				<h1 class="topTitle">第${pn.cn.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title }</h1>
 				<div align="center">
 					<div class="topTitleBt">
-						<span class="geninfo"><span class="icon-thumbs-up" style="cursor: pointer;"></span> ${genInfo.goodNum }</span>
-						<span class="geninfo"><span class="icon-thumbs-down" style="cursor: pointer;"></span> ${genInfo.badNum }</span>
+						<span style="font-size: 12px;">作者：${userName }</span>
+						<span style="font-size: 12px;">书名：${bookName }</span>
 						<span class="geninfo"><span class="icon-pencil"></span> ${doc.fontNum } 字</span>
 						<span class="geninfo"><span class="icon-time"></span> 
 							<fmt:formatDate value="${doc.createDate}" pattern="yyyy/MM/dd HH:mm" />

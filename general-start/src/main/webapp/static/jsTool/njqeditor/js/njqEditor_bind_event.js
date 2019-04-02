@@ -128,14 +128,14 @@
 //		aaa.innerHTML="<div><strong><span>11\u200B22</span><lean>111</lean></strong></div>";
 		/*aaa.innerHTML="<div><strong><span>111</span></strong><strong><span>222</span></strong></div>";*/
 		if(njqEditor.userConfig.initText!=null&&njqEditor.userConfig.initText!=""){
-			context.innerHTML=njqEditor.userConfig.initText;			
+			context.innerHTML=njqEditor.userConfig.initText.replace(/^\s+|\s+$/gm, '').replace(/[\r\n\t]/g, "");			
 		}else{
 			context.innerHTML="<div><br></div>";
 		}
 		var userConfig=njqEditor.userConfig;
 		//如果设置了初始内容，那么进行加载
 		if(userConfig.initContent){
-			context.innerHTML=userConfig.initContent;
+			context.innerHTML=userConfig.initContent.replace(/[\f\n\r\t\v]/g, "");
 		}
 		njqEditor.eventListeners._init();
 	})();
