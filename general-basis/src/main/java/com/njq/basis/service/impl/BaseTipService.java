@@ -163,7 +163,8 @@ public class BaseTipService {
     }
 
 
-    public List<LabelNameVO> getAllTips() {
+    @SuppressWarnings("unchecked")
+	public List<LabelNameVO> getAllTips() {
         List<Object[]> listobj = baseTipJpaRepository.queryAllTip();
         if (!CollectionUtils.isEmpty(listobj)) {
             return listobj.stream().map(n -> {
