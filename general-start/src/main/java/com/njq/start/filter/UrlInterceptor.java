@@ -21,7 +21,7 @@ public class UrlInterceptor extends  HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		Object sessionId = session.getAttribute("sessionId");
 		if (sessionId==null) {
-			response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp");
+			response.sendRedirect(request.getServletContext().getContextPath()+"/login");
 //			request.getRequestDispatcher("/loginOrRegister/loginOrRegister").forward(request, response);
 			return false;
 		}else {

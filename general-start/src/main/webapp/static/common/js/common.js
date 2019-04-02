@@ -112,7 +112,7 @@ function loginOut(){
 		type:"get",
 		success:function(data){
 			if(data.state==1){
-				window.location=jspath+"/login.jsp?type=1"
+				window.location=jspath+"/login"
 			}
 		}
 	})
