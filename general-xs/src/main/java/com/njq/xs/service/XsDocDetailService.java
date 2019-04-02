@@ -1,6 +1,7 @@
 package com.njq.xs.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +9,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.model.po.XsDocDetail;
+import com.njq.common.model.po.XsDocGeneralInfo;
 import com.njq.common.model.po.XsTitleDetail;
 
 @Service
@@ -103,7 +106,7 @@ public class XsDocDetailService {
 	 * @param detail
 	 * @return
 	 */
-	public XsDocDetail updateObject(XsDocDetail detail) {
+	public XsDocDetail updateObject(XsDocDetail detail,String finishStatus, String titleIndex) {
 		XsDocDetail d=docDetailDao.queryTById(detail.getId());
 		d.setTitle(detail.getTitle());
 		d.setDoc(detail.getDoc());
@@ -112,9 +115,39 @@ public class XsDocDetailService {
 		docDetailDao.update(d);
 		XsTitleDetail titleDetail = titleService.queryByDocId(detail.getId());
 		docGeneralInfoService.updateFontNum(titleDetail.getId(), detail.getFontNum());
+		XsTitleDetail t = new XsTitleDetail();
+		t.setId(titleDetail.getId());
+		t.setFinishStatus(finishStatus);
+		t.setTitleIndex(titleIndex);
+		titleService.updateTitleById(t);
 		return d;
 	}
     
     
     
+	public XsDocDetail saveDoc(XsTitleDetail detail,Long userId) {
+		XsDocDetail docDetail = new XsDocDetail();
+		docDetail.setCreateDate(new Date());
+		docDetail.setFontNum(0);
+		docDetail.setTitle(detail.getTitle());
+		docDetail.setUserId(userId);
+		this.saveObject(docDetail);
+		
+		detail.setDocId(docDetail.getId());
+		detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
+		detail.setCreateDate(new Date());
+		detail.setUserId(userId);
+		titleService.saveTitle(detail);	
+		
+		XsDocGeneralInfo info = new XsDocGeneralInfo();
+		info.setBadNum(0);
+		info.setGoodNum(0);
+		info.setCreateDate(new Date());
+		info.setFontNum(0);
+		info.setTitleId(detail.getId());
+		info.setViewNum(0);
+		docGeneralInfoService.saveObject(info);
+		return docDetail;
+	}
+	
 }

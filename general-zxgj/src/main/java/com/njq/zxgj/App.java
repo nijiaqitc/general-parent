@@ -1,8 +1,5 @@
 package com.njq.zxgj;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-
 /**
  * Hello world!
  *

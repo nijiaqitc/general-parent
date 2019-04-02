@@ -23,16 +23,13 @@ import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.util.date.DateUtil;
-
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked","deprecation"})
 @Repository
 public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
 	private static final Logger logger = LoggerFactory.getLogger(SqlJpaDdlCommon.class);
     @Autowired
     @PersistenceContext
     private EntityManager sessionFactory;
-    @Autowired
-    private SqlJpaRepository repository;
 
     @Override
     public void test() {
@@ -370,7 +367,7 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
      * @param resultType
      * @return
      */
-    private Query getHqlQuery(String hql, String resultType) {
+	private Query getHqlQuery(String hql, String resultType) {
         Query query = sessionFactory.createQuery(hql);
         //如果传值说明需要返回map结果集
         if (resultType != null) {

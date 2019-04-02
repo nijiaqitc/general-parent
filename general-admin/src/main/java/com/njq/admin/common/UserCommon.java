@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.njq.basis.service.impl.BaseUserService;
 import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.exception.BaseKnownException;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.util.rely.APIUtil;
 
@@ -28,8 +29,9 @@ public class UserCommon {
 		if (session != null) {
 			BaseUser user = (BaseUser) session.getAttribute("user");
 			return user;
+		}else {
+			throw new BaseKnownException("用户尚未登录！");
 		}
-		return null;
 	}
 	
 	/**
@@ -41,7 +43,7 @@ public class UserCommon {
 		if(user!=null){
 			return  getUser().getId();
 		}else{
-			return null;
+			throw new BaseKnownException("用户尚未登录！");
 		}
 	}
 

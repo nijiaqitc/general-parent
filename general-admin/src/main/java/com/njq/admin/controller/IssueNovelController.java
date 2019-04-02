@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.admin.common.UserCommon;
 import com.njq.basis.service.impl.BaseUserService;
-import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.XsDocDetail;
@@ -122,8 +121,8 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "/saveNovel", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> saveNovel(XsDocDetail detail, String titleIndex) {
-		docDetailService.updateObject(detail);
+	public Map<String, Object> saveNovel(XsDocDetail detail,String finishStatus, String titleIndex) {
+		docDetailService.updateObject(detail,finishStatus,titleIndex);
 		return MessageCommon.getSuccessMap();
 	}
 
@@ -138,17 +137,7 @@ public class IssueNovelController {
 		XsTitleDetail d = titleService.queryDetalByOrderIndex(detail);
 		XsDocDetail docDetail;
 		if (d == null) {
-			docDetail = new XsDocDetail();
-			docDetail.setCreateDate(new Date());
-			docDetail.setFontNum(0);
-			docDetail.setTitle(detail.getTitle());
-			docDetail.setUserId(UserCommon.getUserId());
-			docDetailService.saveObject(docDetail);
-			detail.setDocId(docDetail.getId());
-			detail.setFinishStatus(ConstantsCommon.Finish_Status.NO_START);
-			detail.setCreateDate(new Date());
-			detail.setUserId(UserCommon.getUserId());
-			titleService.saveTitle(detail);
+			docDetail = docDetailService.saveDoc(detail, UserCommon.getUserId());
 		} else {
 			detail = d;
 			docDetail = docDetailService.queryById(d.getDocId());

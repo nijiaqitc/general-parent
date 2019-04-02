@@ -10,10 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import com.njq.common.model.dao.BaseTypeNumJpaRepository;
-import com.njq.common.model.dao.BaseUserJpaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
@@ -23,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.email.EmailSender;
+import com.njq.common.model.dao.BaseTypeNumJpaRepository;
 import com.njq.common.model.po.YxlDocSearch;
 
 /**
@@ -53,7 +50,6 @@ public class Test4Controller {
     	System.out.println(list.get(0));
     }
     
-    private Logger logger = LoggerFactory.getLogger(Test4Controller.class);  
     @Value("${spring.mail.host}")
     private String ffff;
     @RequestMapping("tttt5")
@@ -71,7 +67,7 @@ public class Test4Controller {
     private  ThreadPoolTaskExecutor loadPageTaskExecutor;
     @RequestMapping("ttt444")
     public void ttt6() {
-    	List<Callable<String>> tasks = new ArrayList<>();
+//    	List<Callable<String>> tasks = new ArrayList<>();
     	CountDownLatch lanch= new CountDownLatch(7);
     	List<Future<String>> mutexList = new ArrayList<>();
     	mutexList.add(loadPageTaskExecutor.submit(this.getCallable(lanch)));

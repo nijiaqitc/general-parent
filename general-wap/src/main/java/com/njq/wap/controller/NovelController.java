@@ -218,7 +218,8 @@ public class NovelController {
      * @param docId
      * @return
      */
-    @RequestMapping(value = "/readDoc/{docId}", method = RequestMethod.GET)
+    @SuppressWarnings("unlikely-arg-type")
+	@RequestMapping(value = "/readDoc/{docId}", method = RequestMethod.GET)
     public String readDoc(Model model, @PathVariable(value = "docId") Long docId, HttpServletRequest request) {
     	XsTitleDetail title = xsTitleDetailService.queryById(docId);
         XsDocDetail detail = docDetailService.queryById(title.getId());

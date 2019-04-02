@@ -9,7 +9,8 @@ import java.io.Serializable;
  * @date: 2018/10/19
  */
 public class RedPackagePictureInfo implements Serializable {
-    /**
+	private static final long serialVersionUID = 1446617137861978021L;
+	/**
      * 关联标签
      */
     private String relevanceLabel;

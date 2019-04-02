@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +18,14 @@ import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.file.load.api.FileLoadService;
-import com.njq.file.load.api.model.SaveFileInfo;
-import com.njq.file.load.api.model.UpFileInfoRequest;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 
+@SuppressWarnings("unused")
 @RequestMapping("test")
 @Controller
 public class YhWikiController {
-    private String useage = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36";
-    private RequestConfig configtime = RequestConfig.custom().setCircularRedirectsAllowed(true).setSocketTimeout(10000).setConnectTimeout(10000).build();
-    private static CookieStore store;
     @Autowired
     private PageAnalysisPerformer yhWikiPageAnalysis;
     @Resource
@@ -104,7 +98,8 @@ public class YhWikiController {
     }
     
     
-    @Autowired
+    
+	@Autowired
     private CustomAnalysisPerformer customAnalysisPerformer;
     @Autowired
     private BaseTipService baseTipService;

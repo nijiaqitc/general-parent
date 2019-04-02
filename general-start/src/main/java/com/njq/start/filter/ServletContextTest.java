@@ -2,7 +2,6 @@ package com.njq.start.filter;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 //@Component
 public class ServletContextTest implements ApplicationListener<ContextRefreshedEvent> {
 

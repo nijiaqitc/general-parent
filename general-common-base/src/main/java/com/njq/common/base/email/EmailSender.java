@@ -1,8 +1,12 @@
 package com.njq.common.base.email;
 
-import com.njq.common.util.other.CookieUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +16,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import com.njq.common.util.other.CookieUtil;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  * @author: nijiaqi
@@ -24,7 +27,6 @@ import java.util.Map;
  */
 @Component
 public class EmailSender {
-    private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
     private static final String DEFAULT_ENCODING = "utf-8";
     @Autowired
     private JavaMailSender mailSender;

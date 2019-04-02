@@ -91,9 +91,7 @@
     		url:"saveNovel",
     		type:"post",
     		data:{
-    			text:$("#njqEditor_context").html(),
     			title:$("#title").val(),
-    			userId:"",
     			id:$("#docId").val(),
     			doc:$("#njqEditor_context").html(),
     			finishStatus:$("input[name='fin']:checked").val(),

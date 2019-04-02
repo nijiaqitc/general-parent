@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +47,6 @@ import com.njq.tbk.service.TbkPicService;
 @Controller
 public class ToolController {
 
-    private static Logger logger = LoggerFactory.getLogger(ToolController.class);
     @Resource
     public BaseBannerService bannerService;
     @Resource
@@ -139,7 +136,8 @@ public class ToolController {
     	
     }
 
-    @RequestMapping(value = "upTest1", method = RequestMethod.GET)
+    @SuppressWarnings("deprecation")
+	@RequestMapping(value = "upTest1", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> upTest1(String urlString, HttpServletRequest req) {
         DiskFileItemFactory factory = new DiskFileItemFactory();

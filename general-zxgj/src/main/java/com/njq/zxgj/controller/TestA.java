@@ -27,7 +27,7 @@ public class TestA {
 
     @RequestMapping("tsst")
     public String testB() {
-//        testService.queryList();
+        testService.queryList();
 //        System.out.println("BBBBBBBBBBBB");
         return "test";
     }
@@ -38,7 +38,7 @@ public class TestA {
         try {
             List<BaseUser> userList = baseUserJpaRepository.findAll();
             System.out.println(userList);
-//            emailSender.sendCheckCode("583522219@qq.com", "123");
+            emailSender.sendCheckCode("583522219@qq.com", "123");
         } catch (Exception e) {
             System.out.println(e);
         }

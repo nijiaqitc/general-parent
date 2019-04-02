@@ -1,9 +1,5 @@
 package com.njq.admin.controller;
 
-/**
- * 角色管理接口
- */
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

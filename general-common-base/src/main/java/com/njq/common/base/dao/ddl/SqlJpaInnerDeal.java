@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import com.njq.common.base.dao.ConditionsCommon;
-import com.njq.common.util.string.StringUtil;
 
 public class SqlJpaInnerDeal {
 

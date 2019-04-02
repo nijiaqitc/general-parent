@@ -13,7 +13,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @date: 2018/9/20
  */
 public class RedPackageDefaultImageInfo implements Serializable {
-    /**
+	private static final long serialVersionUID = -3040436693665537969L;
+	/**
      * 业态
      */
     private List<YHSeller> yhSellerList;

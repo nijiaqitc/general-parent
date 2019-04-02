@@ -13,6 +13,7 @@ import com.njq.yxl.cache.YxlDocListCacheReader;
 @Controller
 public class Test3Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Test3Controller.class);
+	@SuppressWarnings("rawtypes")
 	@Autowired
     protected RedisTemplate redisTemplate;
 	
