@@ -12,6 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>正文</title>
 <jsp:include page="${path}/commonTopLink"></jsp:include>
+<jsp:include page="${path}/head"></jsp:include>
 <!-- 自定义分页 -->
 <link href="${resPath }/jsTool/customPage/customPage.css" rel="stylesheet" />
 </head>
@@ -69,7 +70,7 @@
 		<!-- 通用底部 -->
 		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
-
+	<jsp:include page="${path}/foot"></jsp:include>
 	<jsp:include page="${path}/commonBottomLink"></jsp:include>
 	<script src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script src="${resPath }/common/js/publicJs.js"></script>

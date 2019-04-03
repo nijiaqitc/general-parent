@@ -22,7 +22,7 @@
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${path}/left"></jsp:include> 
+			<jsp:include page="${path}/left"></jsp:include> 
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" >

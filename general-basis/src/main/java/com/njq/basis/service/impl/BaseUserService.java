@@ -166,7 +166,7 @@ public class BaseUserService {
 		if(StringUtils.isNotBlank(code.getValue())){
 			ConditionsCommon cc=new ConditionsCommon();
 			cc.addInParam("id", ids);
-			cc.addsetStringParam("pwd",code.getValue());
+			cc.addsetObjectParam("pwd",code.getValue());
 			userDao.update(cc);
 			//日志记录
 			logService.saveLog(userId, "重置密码", "用户表", "对用户ids"+StringUtil.LongToString(ids)+"进行密码重置");
@@ -186,7 +186,7 @@ public class BaseUserService {
 	public void updatePwd(String pwd, Long userId, Map<String, Object> map) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("id", userId);
-		cc.addsetStringParam("pwd",Md5Util.MD5(pwd));
+		cc.addsetObjectParam("pwd",Md5Util.MD5(pwd));
 		userDao.update(cc);
 		//日志记录
 		logService.saveLog(userId, "修改密码", "用户表", "对用户id"+userId+"进行密码修改");
@@ -202,7 +202,7 @@ public class BaseUserService {
 	public void updateTel(String tel, Long userId, Map<String, Object> map) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("id", userId);
-		cc.addsetStringParam("tel",tel);
+		cc.addsetObjectParam("tel",tel);
 		userDao.update(cc);
 		//日志记录
 		logService.saveLog(userId, "修改手机号", "用户表", "对用户id"+userId+"进行手机号修改");
@@ -219,7 +219,7 @@ public class BaseUserService {
 	public void updateEmail(String email, Long userId, Map<String, Object> map) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("id", userId);
-		cc.addsetStringParam("email",email);
+		cc.addsetObjectParam("email",email);
 		userDao.update(cc);
 		//日志记录
 		logService.saveLog(userId, "修改邮箱", "用户表", "对用户id"+userId+"进行邮箱修改");
@@ -235,7 +235,7 @@ public class BaseUserService {
 	public void updatePic(String picPlace, Long userId, Map<String, Object> map) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("id", userId);
-		cc.addsetStringParam("picPlace",picPlace);
+		cc.addsetObjectParam("picPlace",picPlace);
 		userDao.update(cc);
 		//日志记录
 		logService.saveLog(userId, "修改邮箱", "用户表", "对用户id"+userId+"进行头像修改");

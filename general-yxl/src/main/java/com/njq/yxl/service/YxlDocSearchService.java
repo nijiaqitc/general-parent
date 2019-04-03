@@ -275,9 +275,9 @@ public class YxlDocSearchService {
         ConditionsCommon cc=new ConditionsCommon();
         cc.addInParam("id", ids);
         if(ConstantsCommon.Use_Type.USED.equals(isShow)){
-            cc.addsetStringParam("isShow",ConstantsCommon.Use_Type.USED);            
+            cc.addsetObjectParam("isShow",ConstantsCommon.Use_Type.USED);            
         }else{
-            cc.addsetStringParam("isShow",ConstantsCommon.Use_Type.UN_USE);
+            cc.addsetObjectParam("isShow",ConstantsCommon.Use_Type.UN_USE);
         }
         return yxlDocSearchDao.update(cc);
     }

@@ -10,7 +10,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 	<style type="text/css">
 		.btn_red{
 			width: 120px;
@@ -47,6 +46,70 @@
     		font-size: 14px;
 		}
 	</style>
+</head>
+<body>
+	<!-- start:公共页，存放公共框 -->
+	<jsp:include page="${path}/publicJsp"></jsp:include>
+	<!-- end:公共页，存放公共框 -->
+	<!-- start: 顶部菜单 -->
+	<jsp:include page="../public/top.jsp"></jsp:include>
+	<!-- end: 顶部菜单 -->
+	<div class="container-fluid-full">
+		<div class="row-fluid">
+			<!-- start: 左边菜单 -->
+<!-- 			<jsp:include page="${path}/left"></jsp:include> 
+			<!-- end: 左边菜单 -->
+			<!-- start: 正文 -->
+			<div id="content" class="span10" >
+				<div class="span3 smallstat box mobileHalf" style="width: 900px;height: 700px;">
+					<div align="center" style="font-size: 30px;font-weight: bolder;margin-top: 30px;">手机号码</div>
+					<div style="margin-top: 50px;">
+						<div id="MyWizard" class="wizard">
+							<ul class="steps">
+								<li data-target="#step1" class="active" style="padding-left: 120px;width: 90px;"><span class="badge badge-info" style="width: 120px;background-color: #ddf3ff;">获取验证</span></li>
+								<li data-target="#step2" style="padding-left: 120px;"><span class="badge" style="width: 120px;">替换手机</span></li>
+								<li data-target="#step3" style="padding-left: 120px;width: 220px;"><span class="badge" style="width: 120px;" >操作完成</span></li>
+							</ul>
+							<!-- <div class="actions">
+								<button type="button" class="btn btn-prev"> <i class="icon-arrow-left"></i> Prev</button>
+								<button type="button" class="btn btn-success btn-next" data-last="Finish">Next <i class="icon-arrow-right"></i></button>
+							</div> -->
+						</div>
+					</div>
+					<div id="checkCoke" align="center" style="margin-top: 40px;">
+						邮箱验证码：
+						<input id="emailCode" type="text" style="margin-top: 10px;height: 30px;" >
+						<button class="btn_red" id="sendVerifyCode" type="button" onclick="countdown()">获取验证码</button>
+						<div id="codeError" style="font-size: 12px;color: red;margin-left: -150px;display: none;">*验证码错误，请重新输入!</div>
+						<div><button class="btn_red" type="button" onclick="toNext(1)" style="width: 450px;margin-left: 0px;margin-top: 10px;">下一步</button></div>
+					</div>
+					
+					<div id="modiPwd" align="center" style="display: none;margin-top: 60px;">
+						 <div class="step-pane active" id="step2" align="center">
+								<form class="form-horizontal">
+									<fieldset>	
+								  		<div class="control-group" style="margin-top: 30px;">
+											<label class="control-label" for="input2" style="width: 280px;">新手机号：</label>
+											<div class="controls">
+									  			<input type="text" id="input2" maxlength="16" style="width: 350px;margin-left: -210px;">
+											</div>
+								  		</div>
+								  		<div id="pwdError" style="font-size: 12px;color: red;margin-left: -150px;display: none;"></div>
+								  		<div><button class="btn_red" type="button" onclick="toNext(2)" style="width: 450px;margin-left: 0px;margin-top: 10px;">下一步</button></div>
+									</fieldset>
+								</form>
+							</div>
+					</div>
+					<div id="lastStep" style="display: none;" align="center">
+						<div style="font-size: 20px;margin-top: 100px;">恭喜，您的账号修改完成！请<a href="javascript:void(0)" style="font-size: 24px;color: red;" onclick="loginOut()">重新登录</a>进行数据更新</div>
+					</div>
+				</div>
+			</div>
+			<!-- end: 正文 -->
+		</div>
+		<jsp:include page="${path}/boom"></jsp:include>
+	</div>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
 		function sendCode(){
 			$.ajax({
@@ -136,71 +199,5 @@
 			
 		}
 	</script>
-	
-	
-	
-</head>
-<body>
-	<!-- start:公共页，存放公共框 -->
-	<jsp:include page="${path}/publicJsp"></jsp:include>
-	<!-- end:公共页，存放公共框 -->
-	<!-- start: 顶部菜单 -->
-	<jsp:include page="../public/top.jsp"></jsp:include>
-	<!-- end: 顶部菜单 -->
-	<div class="container-fluid-full">
-		<div class="row-fluid">
-			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${path}/left"></jsp:include> 
-			<!-- end: 左边菜单 -->
-			<!-- start: 正文 -->
-			<div id="content" class="span10" >
-				<div class="span3 smallstat box mobileHalf" style="width: 900px;height: 700px;">
-					<div align="center" style="font-size: 30px;font-weight: bolder;margin-top: 30px;">手机号码</div>
-					<div style="margin-top: 50px;">
-						<div id="MyWizard" class="wizard">
-							<ul class="steps">
-								<li data-target="#step1" class="active" style="padding-left: 120px;width: 90px;"><span class="badge badge-info" style="width: 120px;background-color: #ddf3ff;">获取验证</span></li>
-								<li data-target="#step2" style="padding-left: 120px;"><span class="badge" style="width: 120px;">替换手机</span></li>
-								<li data-target="#step3" style="padding-left: 120px;width: 220px;"><span class="badge" style="width: 120px;" >操作完成</span></li>
-							</ul>
-							<!-- <div class="actions">
-								<button type="button" class="btn btn-prev"> <i class="icon-arrow-left"></i> Prev</button>
-								<button type="button" class="btn btn-success btn-next" data-last="Finish">Next <i class="icon-arrow-right"></i></button>
-							</div> -->
-						</div>
-					</div>
-					<div id="checkCoke" align="center" style="margin-top: 40px;">
-						邮箱验证码：
-						<input id="emailCode" type="text" style="margin-top: 10px;height: 30px;" >
-						<button class="btn_red" id="sendVerifyCode" type="button" onclick="countdown()">获取验证码</button>
-						<div id="codeError" style="font-size: 12px;color: red;margin-left: -150px;display: none;">*验证码错误，请重新输入!</div>
-						<div><button class="btn_red" type="button" onclick="toNext(1)" style="width: 450px;margin-left: 0px;margin-top: 10px;">下一步</button></div>
-					</div>
-					
-					<div id="modiPwd" align="center" style="display: none;margin-top: 60px;">
-						 <div class="step-pane active" id="step2" align="center">
-								<form class="form-horizontal">
-									<fieldset>	
-								  		<div class="control-group" style="margin-top: 30px;">
-											<label class="control-label" for="input2" style="width: 280px;">新手机号：</label>
-											<div class="controls">
-									  			<input type="text" id="input2" maxlength="16" style="width: 350px;margin-left: -210px;">
-											</div>
-								  		</div>
-								  		<div id="pwdError" style="font-size: 12px;color: red;margin-left: -150px;display: none;"></div>
-								  		<div><button class="btn_red" type="button" onclick="toNext(2)" style="width: 450px;margin-left: 0px;margin-top: 10px;">下一步</button></div>
-									</fieldset>
-								</form>
-							</div>
-					</div>
-					<div id="lastStep" style="display: none;" align="center">
-						<div style="font-size: 20px;margin-top: 100px;">恭喜，您的账号修改完成！请<a href="javascript:void(0)" style="font-size: 24px;color: red;" onclick="loginOut()">重新登录</a>进行数据更新</div>
-					</div>
-				</div>
-			</div>
-			<!-- end: 正文 -->
-		</div>
-		<jsp:include page="${path}/boom"></jsp:include>
-	</div>
 </body>
 </html>

@@ -130,7 +130,7 @@
 					    </div>
 					</div>
 					<div style="height:100%;overflow: auto;">
-					   <div style="width: 100%;height:724px;outline:none;background-color: white;font-size: 24px;text-indent: 24px;" id="noteContext"></div>
+					   <div style="width: 100%;height:724px;outline:none;background-color: white;font-size: 16px;text-indent: 24px;" id="noteContext"></div>
 					   <div id="njqEditorDiv" modelStyle="styleSeven" env="2"></div>
 					</div>
 			    </div>

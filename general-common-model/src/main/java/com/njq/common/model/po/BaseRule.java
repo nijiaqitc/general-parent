@@ -46,7 +46,7 @@ public class BaseRule implements Serializable {
 	@Column(name="del_date")
 	private Date delDate;
 
-	@Column(name="isDefault")
+	@Column(name="is_default")
 	private Integer isDefault;
 
 	@Column(name="modi_by")

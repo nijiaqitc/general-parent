@@ -245,7 +245,7 @@
   			},
   			success:function(data){
   				if(data.state==1){
-  					$("#hidePlace").val("${imgPath}"+data.place);
+  					$("#hidePlace").val(data.place);
   					$("#hideId").val(data.id);
   					$(".close").trigger("click");
   					parent.closeDialog();

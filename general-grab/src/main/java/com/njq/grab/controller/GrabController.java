@@ -24,6 +24,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
+import com.njq.basis.service.impl.UpFileService;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.base.other.MessageCommon;
@@ -51,6 +52,8 @@ public class GrabController {
     private BaseTipService baseTipService;
     @Resource
     private BaseTypeService baseTypeService;
+    @Autowired
+    private UpFileService upFileService;
     
     @NeedPwd
     @RequestMapping("")
@@ -379,6 +382,12 @@ public class GrabController {
     		return baseTitleService.getTitleByTipName(tipName);
     	}
     	return Collections.EMPTY_LIST;
+    }
+    
+    @RequestMapping(value = "editPicUp", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> editPicUp(HttpServletRequest req) {
+    	return upFileService.upEditPic(req);
     }
     
     

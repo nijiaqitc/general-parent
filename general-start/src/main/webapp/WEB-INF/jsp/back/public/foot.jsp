@@ -42,3 +42,6 @@
 <script src="${resPath }/back/js/core.min.js"></script>	
 <script src="${resPath }/back/js/charts.min.js"></script>	
 <script src="${resPath }/back/js/custom.min.js"></script>
+<!-- jqueryvalide验证 -->
+<script src="${resPath }/back/js/jquery.validate.min.js"></script>
+<script src="${resPath }/back/js/jqueryValidateExtend.js"></script>

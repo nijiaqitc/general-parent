@@ -10,7 +10,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -39,6 +38,7 @@
 			<!-- end: 正文 -->
 		</div>
 		<jsp:include page="${path}/boom"></jsp:include>
+		<jsp:include page="${path}/foot"></jsp:include>
 	</div>
 </body>
 </html>

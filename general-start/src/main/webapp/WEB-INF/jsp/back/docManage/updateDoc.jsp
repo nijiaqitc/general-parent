@@ -12,8 +12,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>发布文章</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
-	
 	<script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="${resPath }/chajian/uedit/lang/zh-cn/zh-cn.js"></script>
@@ -144,6 +142,7 @@
 		</div>
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
     	var ue = UE.getEditor('editor');
     	function inputfocuse(){

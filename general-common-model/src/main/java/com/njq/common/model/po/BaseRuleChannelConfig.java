@@ -36,7 +36,7 @@ public class BaseRuleChannelConfig implements Serializable {
 	@Column(name="create_date")
 	private Date createDate;
 
-	@Column(name="createBy")
+	@Column(name="create_by")
 	private Long createBy;
 
 	@Temporal(TemporalType.DATE)

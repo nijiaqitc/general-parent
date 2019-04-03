@@ -3394,6 +3394,10 @@
                 var parentNode;
                 var flag = false, beforeNode, divNode, customRange, exNode;
                 util.forListNode(cnode, enode, function (node) {
+                	// 去除一些不知名的标签
+                    if (node.nodeType==1&&util.indexOf(sysConfig.childIncludeNode, node.tagName) == -1) {
+                        return service.delUnNeedNode(node);
+                    }
                     //从word中复制过来的图片标签
                     if (node.tagName == "V:IMAGEDATA") {
                         var img = util.createCustomNode(constants.IMG);
@@ -3511,7 +3515,7 @@
                 for (var i in styleNodeList) {
                     util.remove(styleNodeList[i]);
                 }
-
+                
                 //第一步将p标签替换成div标签
                 this.changePtoDiv(editorContext);
 

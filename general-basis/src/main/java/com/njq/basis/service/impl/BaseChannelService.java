@@ -211,7 +211,7 @@ public class BaseChannelService  {
 	public void updateUserChannelConfig(Long[] channelId, Long userId,
 			Map<String, Object> paramMap) {
 		ConditionsCommon cc=new ConditionsCommon();
-		cc.addsetStringParam("status", ConstantsCommon.Del_Status.NO+"");
+		cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
 		cc.addEqParam("userId", userId);
 		//先删除用户所有的角色
 		userChannelConfigDao.update(cc);
@@ -243,7 +243,7 @@ public class BaseChannelService  {
 	public void updateRuleChannelConfig(Long[] channelId,Long userId, Long ruleId,
 			Map<String, Object> paramMap) {
 		ConditionsCommon cc=new ConditionsCommon();
-		cc.addsetStringParam("status", ConstantsCommon.Del_Status.NO+"");
+		cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
 		cc.addEqParam("ruleId", ruleId);
 		//先删除角色所有的权限
 		ruleChannelConfigDao.update(cc);
@@ -254,10 +254,10 @@ public class BaseChannelService  {
 			BaseRuleChannelConfig config=new BaseRuleChannelConfig();
 			config.setCreateBy(userId);
 			config.setCreateDate(new Date());
-			config.setDelDate(null);
 			config.setModiBy(userId);
 			config.setChannelId(id);
 			config.setRuleId(ruleId);
+			config.setStatus(ConstantsCommon.Common_Value.C_ONE);
 			ruleChannelConfigDao.save(config);
 		}
 		//日志记录
@@ -343,7 +343,7 @@ public class BaseChannelService  {
 			paramMap.put("message", "有权限正在被使用，请解除权限后再进行操作！");
 		}else{
 			ConditionsCommon cc1=new ConditionsCommon();
-			cc1.addsetStringParam("apply", type);
+			cc1.addsetObjectParam("apply", Integer.parseInt(type));
 			cc1.addInParam("id", channelId);
 			channelDao.update(cc1);
 			//日志记录

@@ -3,10 +3,14 @@
  */
 package com.njq.common.base.dao;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.druid.util.StringUtils;
+import com.njq.common.exception.BaseKnownException;
 
 public class ConditionsCommon {
 	
@@ -58,6 +62,16 @@ public class ConditionsCommon {
 	 * author njq
 	 */
 	public void addInParam(String columName, Object value){
+		if(value.getClass().isArray()) {
+		    List<Object> ll = new ArrayList<Object>();
+		    if(Array.getLength(value)==0) {
+		    	throw new BaseKnownException("in参数有误！");
+		    }
+		    for (int i = 0; i < Array.getLength(value); i++) {
+		    	ll.add(Array.get(value, i));
+		    }
+		    value=ll;
+		}
 		paramMap.put(columName+","+ConstantsCommon.Sql_Sign.IN, value);
 	}
 	

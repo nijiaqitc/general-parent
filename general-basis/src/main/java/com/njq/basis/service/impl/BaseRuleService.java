@@ -3,9 +3,11 @@ package com.njq.basis.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.njq.common.base.dao.ConditionsCommon;
@@ -16,6 +18,7 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseRule;
 import com.njq.common.model.po.BaseUserRuleConfig;
 import com.njq.common.model.vo.RuleVO;
+import com.njq.common.model.vo.SysRuleVO;
 import com.njq.common.util.string.StringUtil;
 @SuppressWarnings("unchecked")
 @Service
@@ -35,11 +38,20 @@ public class BaseRuleService {
 	 * @param size
 	 * @return
 	 */
-	public PageList<BaseRule> queryAllRule(Map<String, Object> paramMap, int page , int size) {
+	public PageList<SysRuleVO> queryAllRule(Map<String, Object> paramMap, int page , int size) {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
 		cc.addEqParam("status", ConstantsCommon.Del_Status.YES);
-		return ruleDao.queryForPage(cc);
+		PageList<BaseRule> pg = ruleDao.queryForPage(cc);
+		List<SysRuleVO> vlist = pg.getList().stream().map(n->{
+			SysRuleVO vo = new SysRuleVO();
+			BeanUtils.copyProperties(n, vo);
+			return vo;
+		}).collect(Collectors.toList());
+		PageList<SysRuleVO> vpg = new PageList<>();
+		vpg.setList(vlist);
+		vpg.setTotal(pg.getTotal());
+		return vpg;
 	}
 
 	/**
@@ -139,7 +151,7 @@ public class BaseRuleService {
 	public void updateUserRuleConfig(Long[] ruleId, Long userId,
 			Map<String, Object> paramMap) {
 		ConditionsCommon cc=new ConditionsCommon();
-		cc.addsetStringParam("status", ConstantsCommon.Del_Status.NO+"");
+		cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
 		cc.addEqParam("userId", userId);
 		//先删除用户所有的角色
 		userRuleConfigDao.update(cc);
@@ -153,6 +165,7 @@ public class BaseRuleService {
 			config.setModiBy(userId);
 			config.setRuleId(id);
 			config.setUserId(userId);
+			config.setStatus(ConstantsCommon.Common_Value.C_ONE);
 			userRuleConfigDao.save(config);
 		}
 		//日志记录
@@ -168,14 +181,14 @@ public class BaseRuleService {
 	 */
 	public void updateSetDefault(Long[] ids,Long userId,Map<String, Object> map) {
 		ConditionsCommon cc1=new ConditionsCommon();
-		cc1.addsetStringParam("isDefault", "0");
+		cc1.addsetObjectParam("isDefault", 0);
 		ruleDao.update(cc1);
 		ConditionsCommon cc=new ConditionsCommon();
-		cc.addsetStringParam("isDefault", "1");
-		cc.addInParam("id", ids);
+		cc.addsetObjectParam("isDefault", 1);
+		cc.addEqParam("id", ids[0]); 
 		ruleDao.update(cc);
 		//日志记录
-		logService.saveLog(userId, "新增", "角色表", "对行"+StringUtil.LongToString(ids)+"设为默认角色");
+		logService.saveLog(userId, "修改", "角色表", "对行"+StringUtil.LongToString(ids)+"设为默认角色");
 		MessageCommon.getSuccessMap(map);
 	}
 

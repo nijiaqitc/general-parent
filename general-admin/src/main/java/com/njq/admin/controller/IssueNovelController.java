@@ -54,7 +54,7 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "novelPage", method = RequestMethod.GET)
 	public String jumpToPage(Model model) {
-		List<TitlethcVO> list = titleService.queryDocList(0L);
+		List<TitlethcVO> list = titleService.queryDocList(0L,false);
 		model.addAttribute("list", list);
 		return "back/novelArea/novelManage";
 	}

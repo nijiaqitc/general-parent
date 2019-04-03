@@ -48,7 +48,6 @@ public class NoteManageController {
 	 * @param model
 	 * @return
 	 */
-	@NeedPwd
 	@RequestMapping(value = "noteManage", method = RequestMethod.GET)
 	public String jumpToPage(Model model) {
 		List<YxlNoteGeneral> gList = yxlNoteService.queryTitleList();
@@ -62,7 +61,6 @@ public class NoteManageController {
 	 * @param id
 	 * @return
 	 */
-	@NeedPwd
 	@RequestMapping(value = "queryGenList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<YxlNoteGeneral> queryGenList(Long id) {

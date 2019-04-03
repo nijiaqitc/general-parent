@@ -11,7 +11,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -23,7 +22,7 @@
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${path}/left"></jsp:include> 
+			<jsp:include page="${path}/left"></jsp:include> 
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" >
@@ -120,7 +119,7 @@
 		<!--end:遮罩层-->
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
-	
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			njqpage.makePage({

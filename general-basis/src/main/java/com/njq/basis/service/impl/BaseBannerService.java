@@ -111,7 +111,7 @@ public class BaseBannerService {
      */
     public int updateBannerApplyStatus(Long[] ids, String isUse) {
         ConditionsCommon cc=new ConditionsCommon();
-        cc.addsetStringParam("isUse", isUse);
+        cc.addsetObjectParam("isUse", isUse);
         cc.addInParam("id", ids);
         return bannerDao.update(cc);
     }

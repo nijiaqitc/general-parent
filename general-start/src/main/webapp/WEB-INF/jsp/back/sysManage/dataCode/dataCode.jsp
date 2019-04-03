@@ -10,7 +10,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -22,7 +21,7 @@
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${path}/left"></jsp:include> -->
+			<jsp:include page="${path}/left"></jsp:include>
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" >
@@ -73,7 +72,7 @@
 					  		<div class="control-group">
 								<label class="control-label" for="input2">描述：</label>
 								<div class="controls">
-						  			<textarea id="codeDesc" name="desc"  style="height: 98px;"></textarea>
+						  			<textarea id="codeDesc" name="columDesc"  style="height: 98px;"></textarea>
 								</div>
 					  		</div>
 						</fieldset>
@@ -97,6 +96,7 @@
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
 	
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
 		var page=0;
 		var size=3;
@@ -164,8 +164,8 @@
 							str += d.value;
 						}
 						str += "</td><td class='center'>";
-						if(d.desc != null){
-							str +=d.desc;
+						if(d.columDesc != null){
+							str +=d.columDesc;
 						}
 						str +="</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 						
@@ -386,8 +386,8 @@
 							str+=d.value;
 						}
 						str+="</td><td class='center'>";
-						if(d.desc != null){
-							str += d.desc; 
+						if(d.columDesc != null){
+							str += d.columDesc; 
 						}
 						str +="</td><td><a class='btn btn-info' onclick='showDialogForUpdate(this)' href='javascript:void(0)'><i  class='icon-edit'></i></a></td></tr>";
 					})

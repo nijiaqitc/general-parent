@@ -3,6 +3,7 @@ package com.njq.common.base.dao.ddl;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -324,8 +325,8 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
     public int delT(Long[] ids, String className) {
         ConditionsCommon cc = new ConditionsCommon();
         cc.addInParam("id", ids);
-        cc.addsetStringParam("status", ConstantsCommon.Del_Status.NO + "");
-        cc.addsetStringParam("delDate", DateUtil.getNowTimeForTimestamp().toString());
+        cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
+        cc.addsetObjectParam("delDate",new Date());
         cc.setClassName(className);
         return update(cc);
     }
@@ -354,8 +355,8 @@ public class SqlJpaDdlCommon<T> implements DdlInterface<T> {
     public int delT(Long[] ids, String colum, String className) {
         ConditionsCommon cc = new ConditionsCommon();
         cc.addInParam(colum, ids);
-        cc.addsetStringParam("status", ConstantsCommon.Del_Status.NO + "");
-        cc.addsetStringParam("delDate", DateUtil.getNowTimeForTimestamp().toString());
+        cc.addsetObjectParam("status", ConstantsCommon.Del_Status.NO);
+        cc.addsetObjectParam("delDate", new Date());
         cc.setClassName(className);
         return update(cc);
     }

@@ -10,7 +10,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -22,7 +21,7 @@
 	<div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: 左边菜单 -->
-<!-- 			<jsp:include page="${path}/left"></jsp:include> -->
+			<jsp:include page="${path}/left"></jsp:include>
 			<!-- end: 左边菜单 -->
 			<!-- start: 正文 -->
 			<div id="content" class="span10" >
@@ -99,7 +98,7 @@
 					  		<div class="control-group">
 								<label class="control-label" for="input2">描述：</label>
 								<div class="controls">
-						  			<textarea id="ruleDesc" name="desc"  style="height: 98px;width: 180px;"></textarea>
+						  			<textarea id="ruleDesc" name="columDesc"  style="height: 98px;width: 180px;"></textarea>
 								</div>
 					  		</div>
 						</fieldset>
@@ -176,6 +175,7 @@
 			<div style="height: 10px;clear: both;background: #fff;"></div>
 		</div>
 	</div>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<!-- end:左右分栏框，用于角色管理 -->
 	<script type="text/javascript">
 		$(document).ready(function(){

@@ -11,7 +11,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<jsp:include page="${path}/foot"></jsp:include>
 	<style type="text/css">
 		tr{
 		    height: 100px;
@@ -80,7 +79,7 @@
 								<div>
 									<table align="center" style="width: 100%;">
 										<tr>
-											<td style="width: 100px;font-weight: bolder;" align="center" >登录密码</td><td style="width: 640px;">定期更换密码能保障您账户的安全，但请一定要记住更换后的密码，避免您自己也无法登录，设置登录密码建议有大写、小写、数字。</td><td></td><td  style="width: 50px;" class="modi">已设置</td><td style="width: 80px;" ><a class="modi1" href="${path }/accountSafe/modipwd">修改</a></td>
+											<td style="width: 100px;font-weight: bolder;" align="center" >登录密码</td><td style="width: 640px;">定期更换密码能保障您账户的安全，但请一定要记住更换后的密码，避免您自己也无法登录，设置登录密码建议有大写、小写、数字。</td><td></td><td  style="width: 50px;" class="modi">已设置</td><td style="width: 80px;" ><a class="modi1" href="${path }/admin/accountSafe/modipwd">修改</a></td>
 										</tr>
 										<tr>
 											<td style="font-weight: bolder;" align="center">手机号码</td><td>站长比较穷没钱发短信，手机号只作为后期通信的选择手段之一。</td><td></td><td class="modi">已设置</td><td><a class="modi1" href="${path }/admin/accountSafe/moditel">修改</a></td>
@@ -118,7 +117,7 @@
 		</div>
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
-	
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script type="text/javascript">
 		/**
 		 * 显示上传图片

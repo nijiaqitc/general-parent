@@ -136,10 +136,13 @@ public class XsTitleDetailService {
      * @param parentId
      * @return
      */
-    public List<TitlethcVO> queryDocList(Long parentId){
+    public List<TitlethcVO> queryDocList(Long parentId,boolean sourceType){
         ConditionsCommon cc=new ConditionsCommon();
         cc.addNotEqParam("id", 0L);
         cc.addEqParam("parentId", parentId);
+        if(sourceType) {
+        	cc.addEqParam("isShow", ConstantsCommon.Finish_Status.STARTING);        	
+        }
         cc.addSetOrderColum("id", "asc");
         List<XsTitleDetail> queryList=titleDetailDao.queryForListNoPage(cc);
         List<TitlethcVO> voList=new ArrayList<TitlethcVO>();
@@ -218,11 +221,11 @@ public class XsTitleDetailService {
 		titleDetailDao.delTRealById(id);		
 	}
 
-	public List<XsListVO> queryAllTitleGroupJuan(Long bookId){
+	public List<XsListVO> queryAllTitleGroupJuan(Long bookId,boolean isShow){
 		List<XsListVO> voList = new ArrayList<>();
-		List<XsTitleDetail> juanList = this.queryJuanList(bookId,2,null);
+		List<XsTitleDetail> juanList = this.queryJuanList(bookId,2,null,isShow);
 		for (int i = 0; i < juanList.size(); i++) {
-			List<XsTitleDetail> menuList = this.queryJuanList(null,3,juanList.get(i).getId());
+			List<XsTitleDetail> menuList = this.queryJuanList(null,3,juanList.get(i).getId(),isShow);
 			XsTitleDetail detail = juanList.get(i); 
 			XsListVO vo = new XsListVO();
 			vo.setJuanDetail(detail);
@@ -235,7 +238,7 @@ public class XsTitleDetailService {
 	}
 	
 	
-	public List<XsTitleDetail> queryJuanList(Long bookId , Integer type,Long pId){
+	public List<XsTitleDetail> queryJuanList(Long bookId , Integer type,Long pId,boolean isShow){
 		ConditionsCommon condition = new ConditionsCommon();
 		if(bookId != null) {
 			condition.addEqParam("bookId", bookId);			
@@ -245,6 +248,9 @@ public class XsTitleDetailService {
 		}
 		if(pId != null) {
 			condition.addEqParam("parentId", pId);
+		}
+		if(isShow) {
+			condition.addEqParam("isShow", ConstantsCommon.Finish_Status.STARTING);     
 		}
 		condition.addSetOrderColum("id", "asc");
 		return titleDetailDao.queryColumnForList(condition);
@@ -324,7 +330,7 @@ public class XsTitleDetailService {
     public void updateShowType(Long id, String isShow) {
         ConditionsCommon cc=new ConditionsCommon();
         cc.addEqParam("id", id);
-        cc.addsetStringParam("isShow", isShow);
+        cc.addsetObjectParam("isShow", isShow);
         titleDetailDao.update(cc);
     }
 

@@ -1,5 +1,7 @@
 package com.njq.yxl.controller;
 
+import com.njq.basis.service.impl.BaseChannelService;
+import com.njq.basis.service.impl.BaseUserService;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.base.other.TokenCheck;
 import com.njq.common.model.po.BaseUser;
@@ -24,6 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: nijiaqi
@@ -37,7 +40,10 @@ public class PersonalController {
     private YxlDocSearchService yxlDocSearchService;
     @Resource
     public YxlNoteService yxlNoteService;
-
+    @Resource
+    private BaseUserService userService;
+    @Resource
+    private BaseChannelService channelService;
     /**
      * 跳转到发表yxl文章页面
      *
@@ -137,11 +143,22 @@ public class PersonalController {
     }
 
     @RequestMapping(value = "setPwd", method = RequestMethod.POST)
-    public String setPwd(@RequestParam String token ,@RequestParam String jumpurl){
+    public String setPwd(@RequestParam String token ,@RequestParam String jumpurl, HttpServletRequest request){
         if(!TokenCheck.checkToken(token)){
             return "请设置正确的密码！";
         }
         CookieUtil.addCookie("loginFlag", "true");
+        BaseUser user =  userService.queryUserById(2L);
+        HttpSession session = request.getSession();
+        // 在session中填充sessionId,唯一
+        session.setAttribute("sessionId", request.getSession().getId());
+        // 在session中填充用户信息
+        session.setAttribute("user", user);
+        Map<String, Object> channelMap = channelService.queryUserChannel(user.getId());
+        // 在session中填充角色
+        session.setAttribute("powerList", channelMap.get("children"));
+        session.setAttribute("power", channelMap.get("power"));
+        session.setAttribute("powerMap", channelMap.get("powerMap"));
         return "redirect:"+jumpurl;
     }
 

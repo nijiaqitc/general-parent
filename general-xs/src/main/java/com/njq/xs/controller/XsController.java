@@ -46,7 +46,7 @@ public class XsController {
     @NeedPwd
     @RequestMapping(value="",method=RequestMethod.GET)
     public String index(Model model){
-    	List<TitlethcVO> docList = xsTitleDetailService.queryDocList(0L);
+    	List<TitlethcVO> docList = xsTitleDetailService.queryDocList(0L,true);
     	model.addAttribute("docList", docList);	
     	return "xs/novelIndex";
     }
@@ -65,7 +65,7 @@ public class XsController {
         model.addAttribute("discussCount", xsDocDiscussService.queryCount(paramMap));
         XsDocGeneralInfo info = xsDocGeneralInfoService.queryByTitleId(docInfo.getId());
         model.addAttribute("generalInfo", info);
-        List<XsListVO> xsList =  xsTitleDetailService.queryAllTitleGroupJuan(titleId);
+        List<XsListVO> xsList =  xsTitleDetailService.queryAllTitleGroupJuan(titleId,true);
         model.addAttribute("xsList", xsList);
         return "xs/novelList";
     }

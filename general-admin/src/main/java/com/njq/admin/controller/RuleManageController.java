@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.admin.common.UserCommon;
 import com.njq.basis.service.impl.BaseRuleService;
+import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.BaseRule;
 import com.njq.common.model.vo.RuleVO;
+import com.njq.common.model.vo.SysRuleVO;
 
 @RequestMapping("admin/ruleManage")
 @Controller
@@ -50,12 +52,12 @@ public class RuleManageController {
 	 * @return 2015-12-11 author njq
 	 */
 	@RequestMapping(value = "getRuleList", method = RequestMethod.GET)
-	public @ResponseBody PageList<BaseRule> getRuleList(Model model,
+	public @ResponseBody PageList<SysRuleVO> getRuleList(Model model,
 			@RequestParam(required = false, defaultValue = "-1") int page,
 			@RequestParam(required = false, defaultValue = "-1") int size) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 获取角色的分页列表
-		PageList<BaseRule> ruleList = ruleService.queryAllRule(map, page, size);
+		PageList<SysRuleVO> ruleList = ruleService.queryAllRule(map, page, size);
 		return ruleList;
 	}
 
@@ -139,6 +141,7 @@ public class RuleManageController {
 		rule.setChannelId(UserCommon.getUserId());
 		rule.setCreateBy(UserCommon.getUserId());
 		rule.setModiBy(UserCommon.getUserId());
+		rule.setStatus(ConstantsCommon.Common_Value.C_ONE);
 		rule.setCreateDate(new Date());
 		// 对栏目进行保存
 		ruleService.saveRule(rule, UserCommon.getUserId(), map);
