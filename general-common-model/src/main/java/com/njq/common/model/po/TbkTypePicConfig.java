@@ -46,13 +46,13 @@ public class TbkTypePicConfig implements Serializable {
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
-	@Column(name="picId")
+	@Column(name="pic_id")
 	private Long picId;
 
 	@Column(name="status")
 	private Integer status;
 
-	@Column(name="typeId")
+	@Column(name="type_id")
 	private Long typeId;
 
 	// Constructors

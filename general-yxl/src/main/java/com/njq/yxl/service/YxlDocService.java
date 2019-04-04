@@ -131,13 +131,19 @@ public class YxlDocService {
      * @return
      */
     public int deleteByIds(Long[] ids) {
-        ConditionsCommon cc=new ConditionsCommon();
-        cc.addInParam("docId", ids);
-        yxlDocSearchDao.deleteBycc(cc);
-        ConditionsCommon ccon=new ConditionsCommon();
-        ccon.addInParam("docId", ids);
-        yxlDocTipConfigDao.deleteBycc(ccon);
-        return yxlDocDao.delT(ids);
+    	for(int i = 0 ;i<ids.length;i++) {
+    		YxlDocSearch search =  yxlDocSearchDao.queryTById(ids[i]);
+    		ConditionsCommon cc=new ConditionsCommon();
+    		cc.addEqParam("docId", search.getDocId());
+    		yxlDocSearchDao.deleteBycc(cc);
+    		
+    		ConditionsCommon ccon=new ConditionsCommon();
+    		ccon.addEqParam("docId", search.getDocId());
+    		yxlDocTipConfigDao.deleteBycc(ccon);
+    		
+    		yxlDocDao.delTRealById(search.getDocId());
+    	}
+        return 0;
     }
 
     /**

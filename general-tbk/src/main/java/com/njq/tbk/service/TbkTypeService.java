@@ -134,7 +134,7 @@ public class TbkTypeService {
 	 * @param map
 	 */
 	public void updateTbktypeById(TbkType type,Long userId, Map<String, Object> map) {
-		if(queryTbktypeByNameAndId(type.getName(),userId,type.getId())>0){
+		if(queryTbktypeByNameAndId(type.getName(),userId,type.getId())<=0){
 			TbkType ty= tbktypeDao.queryTById(type.getId());
 			ty.setColumDesc(type.getColumDesc());
 			ty.setName(type.getName());

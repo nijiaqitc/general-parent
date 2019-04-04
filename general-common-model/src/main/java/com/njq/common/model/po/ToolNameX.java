@@ -37,7 +37,7 @@ public class ToolNameX implements Serializable {
 	@Column(name="del_date")
 	private Date delDate;
 
-	@Column(name="isNoNeed")
+	@Column(name="is_no_need")
 	private String isNoNeed;
 
 	@Column(name="modi_by")

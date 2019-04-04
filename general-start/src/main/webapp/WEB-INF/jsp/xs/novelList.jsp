@@ -29,7 +29,14 @@
 				</div>
 			</div>
 			<div class="rightpart" align="right">
-				<div class="numfen">共 ${generalInfo.fontNum } 字</div>
+				<div class="numfen">共 
+					<c:if test="${generalInfo.fontNum >= 10000 }">
+						${ generalInfo.fontNum/10000 }万字
+					</c:if>
+					<c:if test="${generalInfo.fontNum < 10000 }">
+						${generalInfo.fontNum } 字						
+					</c:if>
+				</div>
 				<div class="plxl">${discussCount } 人评价</div>
 				<div class="thi"></div>
 				<div>

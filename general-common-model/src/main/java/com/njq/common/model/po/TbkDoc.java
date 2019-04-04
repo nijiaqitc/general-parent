@@ -72,7 +72,7 @@ public class TbkDoc implements Serializable {
 	@Column(name="title")
 	private String title;
 
-	@Column(name="userId")
+	@Column(name="user_id")
 	private Long userId;
 
 	// Constructors

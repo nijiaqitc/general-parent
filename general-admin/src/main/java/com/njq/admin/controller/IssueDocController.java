@@ -163,12 +163,12 @@ public class IssueDocController {
         /*
          * 判断用户在1分钟内是否已经发表过文章了，如果发表过了那么不支持发表 避免系统被爆
          */
-        if (RedisCommon.getString("doc" + UserCommon.getUserId()) != null) {
-            MessageCommon.getFalseMap(map, "不好意思不能在1分钟内连续发表文章！");
-            return map;
-        } else {
-            RedisCommon.setString("doc" + UserCommon.getUserId(), doc.getTitle(), 1L);
-        }
+//        if (RedisCommon.getString("doc" + UserCommon.getUserId()) != null) {
+//            MessageCommon.getFalseMap(map, "不好意思不能在1分钟内连续发表文章！");
+//            return map;
+//        } else {
+//            RedisCommon.setString("doc" + UserCommon.getUserId(), doc.getTitle(), 1L);
+//        }
         if (errors.hasErrors()) {
             for (FieldError file : errors.getFieldErrors()) {
                 map.put("message", file.getField() + file.getDefaultMessage());

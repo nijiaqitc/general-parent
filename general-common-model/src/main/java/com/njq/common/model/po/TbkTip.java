@@ -40,7 +40,7 @@ public class TbkTip implements Serializable {
 	@Column(name="del_date")
 	private Date delDate;
 
-	@Column(name="inTurn")
+	@Column(name="in_turn")
 	private Long inTurn;
 
 	@Column(name="modi_by")

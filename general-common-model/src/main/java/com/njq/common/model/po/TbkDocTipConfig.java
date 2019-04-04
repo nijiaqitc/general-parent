@@ -40,10 +40,10 @@ public class TbkDocTipConfig implements Serializable {
 	@Column(name="del_date")
 	private Date delDate;
 
-	@Column(name="docId")
+	@Column(name="doc_id")
 	private Long docId;
 
-	@Column(name="inTurn")
+	@Column(name="in_turn")
 	private Long inTurn;
 
 	@Column(name="modi_by")
@@ -55,7 +55,7 @@ public class TbkDocTipConfig implements Serializable {
 	@Column(name="status")
 	private Integer status;
 
-	@Column(name="tipId")
+	@Column(name="tip_id")
 	private Long tipId;
 
 	// Constructors

@@ -40,7 +40,7 @@ public class TbkDocPicConfig implements Serializable {
 	@Column(name="del_date")
 	private Date delDate;
 
-	@Column(name="docId")
+	@Column(name="doc_id")
 	private Long docId;
 
 	@Column(name="modi_by")
@@ -49,7 +49,7 @@ public class TbkDocPicConfig implements Serializable {
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 
-	@Column(name="picId")
+	@Column(name="pic_id")
 	private Long picId;
 
 	@Column(name="status")
