@@ -138,6 +138,7 @@ public class TbkDocService {
         docpic.setCreateBy(userId);
         docpic.setModiBy(userId);
         docpic.setCreateDate(new Date());
+        docpic.setStatus(ConstantsCommon.Common_Value.C_ONE);
         //保存文章图片关联内容
         tbkdocpicconfigDao.save(docpic);
         TbkTypeDocConfig typedoc = new TbkTypeDocConfig();
@@ -146,6 +147,7 @@ public class TbkDocService {
         typedoc.setCreateBy(userId);
         typedoc.setModiBy(userId);
         typedoc.setCreateDate(new Date());
+        typedoc.setStatus(ConstantsCommon.Common_Value.C_ONE);
         tbktypedocconfigDao.save(typedoc);
         for (String tipName : tips) {
             if (tipName == null || "".equals(tipName)) {
@@ -167,6 +169,7 @@ public class TbkDocService {
             config.setCreateBy(userId);
             config.setModiBy(userId);
             config.setCreateDate(new Date());
+            config.setStatus(ConstantsCommon.Common_Value.C_ONE);
             tbkdoctipconfigDao.save(config);
         }
         //日志记录

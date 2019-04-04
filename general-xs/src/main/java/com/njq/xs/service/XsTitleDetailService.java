@@ -225,7 +225,7 @@ public class XsTitleDetailService {
 		List<XsListVO> voList = new ArrayList<>();
 		List<XsTitleDetail> juanList = this.queryJuanList(bookId,2,null,isShow);
 		for (int i = 0; i < juanList.size(); i++) {
-			List<XsTitleDetail> menuList = this.queryJuanList(null,3,juanList.get(i).getId(),isShow);
+			List<XsTitleDetail> menuList = this.queryJuanList(null,5,juanList.get(i).getId(),isShow);
 			XsTitleDetail detail = juanList.get(i); 
 			XsListVO vo = new XsListVO();
 			vo.setJuanDetail(detail);
@@ -243,8 +243,11 @@ public class XsTitleDetailService {
 		if(bookId != null) {
 			condition.addEqParam("bookId", bookId);			
 		}
-		if(type != null) {
-			condition.addEqParam("type", type);			
+		if(type == 2) {
+			condition.addEqParam("type", type);		
+		}
+		if(type == 5) {			
+			condition.addInParam("type", new Integer[]{3,4});
 		}
 		if(pId != null) {
 			condition.addEqParam("parentId", pId);

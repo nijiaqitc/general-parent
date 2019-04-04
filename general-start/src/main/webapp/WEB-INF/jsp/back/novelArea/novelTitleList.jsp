@@ -105,9 +105,14 @@
 								attTitleIndex="${doc.titleIndex }" attOrderIndex="${doc.orderIndex }" 
 								attTitle="${doc.title }" attIsShow="${doc.isShow }" attDesc="${doc.contextDesc }"  >
 							 <a href="novelView?docId=${doc.id }" 
-							     <c:if test="${doc.finishStatus==0}">style="color:green;" title="未开始"</c:if>
-							     <c:if test="${doc.finishStatus==1}">style="color:red;" title="编写中"</c:if>
-							     <c:if test="${doc.finishStatus==2}">style="color:black;" title="已完成"</c:if>
+							 	<c:if test="${doc.type==4 }">
+							 		style="color:#cc9f10;" title="非章节"
+							 	</c:if>
+							 	<c:if test="${doc.type==3 }">
+								     <c:if test="${doc.finishStatus==0}">style="color:green;" title="未开始"</c:if>
+								     <c:if test="${doc.finishStatus==1}">style="color:red;" title="编写中"</c:if>
+								     <c:if test="${doc.finishStatus==2}">style="color:black;" title="已完成"</c:if>
+							 	</c:if>
 							 >第${doc.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title}</a>
 							 <a  href="javascript:void(0)"  title="修改标题信息"    onclick="modiShow(this)" style="float: left;">
                                  <i class="icon-edit"  style="line-height: 20px;margin-right: 4px;margin-left: 10px;"></i>
@@ -166,7 +171,7 @@
 								    </div>
 							</div>
 							<div style="padding: 4px;">
-								标题：<input id="title" type="text" style="width: 250px;background: #fff;" name="title">
+								标题：<input id="title" type="text" style="width: 250px;background: #fff;" autocomplete="off" name="title">
 							</div>
 							<div style="padding: 4px;">
 								<div style="font-size: 12px;color: red;margin-left: 40px;">
@@ -244,6 +249,7 @@
 	}
 	
 	function saveInfo(){
+		$("#type").val($("input[name='selectType']:checked").val());
 		if($("input[name='selectType']:checked").val() != 2){
             $("#titleForm").submit();
             return;

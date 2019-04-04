@@ -1979,13 +1979,21 @@
                     resetRange.setStartBefore(stMark);
                     stMark.remove();
                 }else{
-                	resetRange.setStart(stText, stOffset);
+                	if(stText){
+                		resetRange.setStart(stText, stOffset);                		
+                	}else{
+                		resetRange.setStart(range.startContainer, range.startOffset);
+                	}
                 }
                 if (lflag) {
                     resetRange.setEndAfter(enMark);
                     enMark.remove();
                 }else{
-                	resetRange.setEnd(endText,endOffset);
+                	if(endText){
+                		resetRange.setEnd(endText,endOffset);                		
+                	}else{
+                		resetRange.setEnd(range.endContainer,range.endOffset);
+                	}
                 }
             },
             clearDecodefun: function () {

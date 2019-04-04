@@ -39,7 +39,10 @@ if (typeof document.onselectstart!="undefined"){
     <div class="contextAare" align="center" >
 		<div class="menu-box outDiv" align="center" >
 			<div>
-				<h1 class="topTitle">第${pn.cn.titleIndex}章&nbsp;&nbsp;&nbsp;&nbsp;${doc.title }</h1>
+				<h1 class="topTitle">
+					<c:if test="${title.type == 3 }">第${pn.cn.titleIndex}章</c:if>    
+					&nbsp;&nbsp;&nbsp;&nbsp;${doc.title }
+				</h1>
 				<div align="center">
 					<div class="topTitleBt">
 						<span style="font-size: 12px;">作者：${userName }</span>
