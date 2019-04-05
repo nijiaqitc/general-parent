@@ -100,6 +100,19 @@ public class GjHomeController {
     }
 
 
+    @RequestMapping(value = "getShowNBannerList", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getShowNBannerList() {
+        Map<String, Object> m = new HashMap<String, Object>();
+        List<BaseBanner> bannerList = bannerCacheReader.getNbanner();
+        for (BaseBanner b : bannerList) {
+            b.setPicPlace(b.getPicPlace());
+        }
+        m.put("bannerList", bannerList);
+        MessageCommon.getSuccessMap(m);
+        return m;
+    }
+    
     /**
      * 跳转到关于我们
      *

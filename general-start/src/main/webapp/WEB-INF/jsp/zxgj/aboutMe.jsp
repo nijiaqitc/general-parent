@@ -11,7 +11,7 @@
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
-	<jsp:include page="top.jsp"></jsp:include>
+	<jsp:include page="top1.jsp"></jsp:include>
 	<!--     结束：顶部菜单栏 -->
 	<!--     开始：banner区域 -->
 	<div class="banner">
@@ -111,7 +111,7 @@
 	<!--     结束：顶部菜单栏 -->
 	<script src="${resPath }/jquery/jquery.min.js"
 		type="text/javascript"></script>
-	<script src="${resPath }/zxgj/js/index.js" type="text/javascript"></script>
+	<script src="${resPath }/zxgj/js/index2.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/aboutMe.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
 </body>

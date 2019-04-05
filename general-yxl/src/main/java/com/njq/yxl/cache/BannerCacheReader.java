@@ -28,4 +28,12 @@ public class BannerCacheReader extends GenericValueCacheManager<String,List<Base
     protected List<BaseBanner> createObject(String id) {
         return baseBannerService.queryList();
     }
+    
+    
+    public List<BaseBanner> getNbanner(){
+    	return baseBannerService.queryList2();
+    }
+    
+    
+    
 }

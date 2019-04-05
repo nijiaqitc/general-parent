@@ -42,6 +42,14 @@ public class BaseBannerService {
         return bannerDao.queryForListNoPage(cc);
     }
 
+    
+    public List<BaseBanner> queryList2() {
+        ConditionsCommon cc=new ConditionsCommon();
+        cc.addEqParam("isUse", "2");
+        return bannerDao.queryForListNoPage(cc);
+    }
+    
+    
     /**
      * 根据id查询对象
      * @param id

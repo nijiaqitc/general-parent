@@ -17,12 +17,6 @@
                     </a>
                 </li>
                 <li class="nagivationMenuContext">
-                    <a href="${path }/editor">
-                        <div class="topFontStyle">富编辑器</div>
-                        <div class="nagivationBottom" ></div> 
-                    </a>
-                </li>
-                <li class="nagivationMenuContext">
                     <a href="${path }/tools">
                         <div class="topFontStyle">工具列表</div>
                         <div class="nagivationBottom"></div>

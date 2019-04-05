@@ -104,7 +104,7 @@ public class BannerManagerController {
     					.ofData(entry.getValue().getBytes())
     					.ofDebugFlag(TokenCheck.debugType())
     					.build());
-    			if (saveFileInfo.getFileNewName() != null) {
+    			if (saveFileInfo.getResultPair().getLeft()&&saveFileInfo.getFileNewName() != null) {
                     BaseBanner banner = new BaseBanner();
                     banner.setCreateDate(new Date());
                     banner.setIsUse(ConstantsCommon.Use_Type.UN_USE);
@@ -112,6 +112,8 @@ public class BannerManagerController {
                     banner.setName(saveFileInfo.getFileNewName());
                     bannerService.saveObject(banner);
                     MessageCommon.getSuccessMap(resultMap);
+                }else {
+                	MessageCommon.getFalseMap(resultMap, saveFileInfo.getResultPair().getRight());
                 }
 			} catch (Exception e) {
 				e.printStackTrace();
