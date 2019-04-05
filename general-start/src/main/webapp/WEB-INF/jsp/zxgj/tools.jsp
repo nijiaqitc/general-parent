@@ -96,5 +96,11 @@
     <script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
     <script src="${resPath }/zxgj/js/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$(".nagivationBottomSelect").removeClass("nagivationBottomSelect");
+			$($(".nagivationBottom")[1]).addClass("nagivationBottomSelect");
+		})
+	</script>
 </body>
 </html>

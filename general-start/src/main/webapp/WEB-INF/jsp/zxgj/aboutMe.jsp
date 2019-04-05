@@ -114,5 +114,11 @@
 	<script src="${resPath }/zxgj/js/index2.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/aboutMe.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".nagivationBottomSelect").removeClass("nagivationBottomSelect");
+			$($(".nagivationBottom")[3]).addClass("nagivationBottomSelect");
+		})
+	</script>
 </body>
 </html>
