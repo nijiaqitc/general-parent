@@ -266,4 +266,17 @@ public class AllToolsController {
     public String sfzts(HttpServletRequest request,Model model){
     	return "zxgj/tools/developing";
     }
+    
+    /**
+     * 自定义格式化
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="customHtmlDecode",method=RequestMethod.GET)
+    public String customHtmlDecode(HttpServletRequest request,Model model){
+    	return "zxgj/tools/customhtmlDecode";
+    }
+    
+    
 }

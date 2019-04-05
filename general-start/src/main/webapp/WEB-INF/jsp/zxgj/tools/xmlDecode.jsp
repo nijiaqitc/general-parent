@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>xml格式化</title>
+<title>自定义html格式化</title>
 <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png" />
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/zxgj/css/tools.css">
@@ -23,7 +23,7 @@
 </head>
 <body>
     <!--     开始：顶部菜单栏-->
-    <jsp:include page="../top.jsp"></jsp:include>
+    <jsp:include page="../top1.jsp"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：顶部菜单栏 -->
     <!-- 中间正文公用部分 -->
@@ -57,6 +57,11 @@
     		var resultXml = formatXml($("#text1").val());
     		$("#text2").val(resultXml);
     	}
+    	
+    	$(document).ready(function(){
+			$(".nagivationBottomSelect").removeClass("nagivationBottomSelect");
+			$($(".nagivationBottom")[1]).addClass("nagivationBottomSelect");
+		})
     </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>cipherlock加密</title>
+<title>xml格式化</title>
 <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png" />
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/zxgj/css/tools.css">
@@ -29,16 +29,14 @@
     <!-- 中间正文公用部分 -->
     <div class="contextArea" align="center">
     	<div style="font-size: 12px;background-color: #c0d9ef;overflow: auto;">
-    		<div style="margin-left: 10px;float: left;">当前位置：加密工具>>cipherlock加密</div>
+    		<div style="margin-left: 10px;float: left;">当前位置：加密工具>>自定义html格式化</div>
     	</div>
 		<div align="center" style="width: 1000px;overflow: auto;margin-top: 20px;clear: both;">
 			<div style="float: left;">
 				<textarea style="width: 400px;height: 480px;resize:vertical;outline: none;" id="text1" ></textarea>
 			</div>
 			<div style="float: left;height: 480px;"> 
-				<div class="btnStyle" style="margin-left: 50px;margin-top: 200px;" onclick="jiami()">加密</div>
-				<div style="margin-left: 4px;margin-top:10px;">密码：<input type="text" id="desckey" style="width: 100px;"></div>
-				<div class="btnStyle" style="margin-left: 50px;margin-top: 40px;" onclick="jiemi()">解密</div>
+				<div class="btnStyle" style="margin-left: 50px;margin-top: 200px;" onclick="decode()">格式化</div>
 			</div>
 			<div style="float: right: ;">
 				<textarea style="width: 400px;height: 480px;resize:vertical;outline: none;" id="text2" readonly="readonly"></textarea>
@@ -53,22 +51,14 @@
     
     <script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
-    <script src="${resPath }/zxgj/js/tools/cipherlock.js" type="text/javascript"></script>
+    <script src="${resPath }/zxgj/js/tools/xmlDecode.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
+
     <script type="text/javascript">
-    	function jiami(){
-    		if($("#text1").val()==""){
-    			return
-    		}
-    		var lockst=encrypt($("#text1").val(),$("#desckey").val());
-    		$("#text2").val(lockst);
-    	}
-    	
-    	function jiemi(){
-    		if($("#text1").val()==""){
-                return
-            }
-            var lockst=decrypt($("#text1").val(),$("#desckey").val());
-            $("#text2").val(lockst);
+    	function decode(){
+    		var cd = new CustomDecoder();
+    		cd.str = $("#text1").val();
+    		$("#text2").val(cd.decode());
     	}
     	
     	$(document).ready(function(){

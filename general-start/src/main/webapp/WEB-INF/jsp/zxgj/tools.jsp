@@ -27,7 +27,7 @@
 		          <div class="btn"><a href="${path }/tools/sqlDecode">SQL格式化</a></div>
 		          <div class="btn"><a href="${path }/tools/cssDecode">CSS格式化</a></div>
 		          <div class="btn"><a href="${path }/tools/xmlDecode">XML格式化</a></div>
-		          <div class="btn"></div>
+		          <div class="btn"><a href="${path }/tools/customHtmlDecode">自定义格式化</a></div>
 		          <div class="btn"></div>
 		          <div class="btn"></div>
 		          <div class="btn"></div>

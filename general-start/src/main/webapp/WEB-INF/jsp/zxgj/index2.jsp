@@ -54,7 +54,7 @@
 		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord "><a href="${path }/tools/sqlDecode">SQL格式化</a></div></div>
 		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord "><a href="${path }/tools/cssDecode">CSS格式化</a></div></div>
 		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord "><a href="${path }/tools/xmlDecode">XML格式化</a></div></div>
-		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord ">暂无</div></div>
+		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord "><a href="${path }/tools/customHtmlDecode">自定义格式化</a></div></div>
 		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord ">暂无</div></div>
 		           <div class="toolsBtn3 btnWord"><div class="toolsBtn4 btnWord ">暂无</div></div>
 		       </div>

@@ -23,7 +23,7 @@
 </head>
 <body>
     <!--     开始：顶部菜单栏-->
-    <jsp:include page="../top.jsp"></jsp:include>
+    <jsp:include page="../top1.jsp"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：顶部菜单栏 -->
     <!-- 中间正文公用部分 -->
@@ -118,6 +118,12 @@
 
 //     	    the.beautify_in_progress = false;
     	}
+    	
+    	
+    	$(document).ready(function(){
+			$(".nagivationBottomSelect").removeClass("nagivationBottomSelect");
+			$($(".nagivationBottom")[1]).addClass("nagivationBottomSelect");
+		})
     </script>
 </body>
 </html>
