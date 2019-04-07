@@ -321,7 +321,7 @@ public class XsTitleDetailService {
     public XsTitleDetail queryDetalByOrderIndex(XsTitleDetail dd) {
         ConditionsCommon cc=new ConditionsCommon();
         cc.addEqParam("title", dd.getTitle());
-        cc.addEqParam("orderIndex", dd.getOrderIndex());
+        cc.addEqParam("titleIndex", dd.getTitleIndex());
         return titleDetailDao.queryTByParamForOne(cc);
     }
 
