@@ -121,7 +121,7 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "/saveNovel", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> saveNovel(XsDocDetail detail,String finishStatus, String titleIndex) {
+	public Map<String, Object> saveNovel(XsDocDetail detail,String finishStatus, Integer titleIndex) {
 		docDetailService.updateObject(detail,finishStatus,titleIndex);
 		return MessageCommon.getSuccessMap();
 	}
@@ -242,7 +242,7 @@ public class IssueNovelController {
 	 */
 	@RequestMapping(value = "/updateJuan", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateJuan(Long id,String titleIndex, String title,Integer orderIndex, String contextDesc, String isShow) {
+	public Map<String, Object> updateJuan(Long id,Integer titleIndex, String title,Integer orderIndex, String contextDesc, String isShow) {
 		XsTitleDetail de = new XsTitleDetail();
 		de.setId(id);
 		de.setTitle(title);

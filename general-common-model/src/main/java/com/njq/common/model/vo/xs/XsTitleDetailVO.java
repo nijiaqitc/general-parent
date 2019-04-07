@@ -29,7 +29,7 @@ public class XsTitleDetailVO implements Serializable{
 
 	private String title;
 
-	private String titleIndex;
+	private Integer titleIndex;
 
 	private Integer type;
 
@@ -119,14 +119,6 @@ public class XsTitleDetailVO implements Serializable{
 		this.title = title;
 	}
 
-	public String getTitleIndex() {
-		return titleIndex;
-	}
-
-	public void setTitleIndex(String titleIndex) {
-		this.titleIndex = titleIndex;
-	}
-
 	public Integer getType() {
 		return type;
 	}
@@ -170,8 +162,12 @@ public class XsTitleDetailVO implements Serializable{
 		return "待处理";
 	}
 
-	
-	
-	
+	public Integer getTitleIndex() {
+		return titleIndex;
+	}
+
+	public void setTitleIndex(Integer titleIndex) {
+		this.titleIndex = titleIndex;
+	}
 	
 }

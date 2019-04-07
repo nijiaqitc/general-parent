@@ -117,7 +117,7 @@ public class XsDocDetailService {
 	 * @param detail
 	 * @return
 	 */
-	public XsDocDetail updateObject(XsDocDetail detail,String finishStatus, String titleIndex) {
+	public XsDocDetail updateObject(XsDocDetail detail,String finishStatus, Integer titleIndex) {
 		String lockKey = StringUtil2.format("updateXsDocId-{0}", detail.getId());
 		XsDocDetail d=docDetailDao.queryTById(detail.getId());
 		try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)){

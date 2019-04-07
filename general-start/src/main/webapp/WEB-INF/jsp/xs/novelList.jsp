@@ -54,7 +54,7 @@
 					<div class="zwqy" align="left">
 						<ul class="ttul" >
 							<c:forEach items="${xs.list }" var="menu">
-								<li><a href="${path}/xs/novelRead/${menu.id }">第${menu.orderIndex }章 ${menu.title }</a><span class="icon-lock lockEm"></span></li>
+								<li><a href="${path}/xs/novelRead/${menu.id }">第${menu.titleIndex }章 ${menu.title }</a><span class="icon-lock lockEm"></span></li>
 							</c:forEach>
 <!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->
 <!-- 							<li><a href="#">第一章 陨落的天才</a><span class="icon-lock lockEm"></span></li> -->

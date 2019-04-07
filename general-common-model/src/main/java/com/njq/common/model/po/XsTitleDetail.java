@@ -61,7 +61,7 @@ public class XsTitleDetail implements Serializable {
 	private String title;
 
 	@Column(name="title_index")
-	private String titleIndex;
+	private Integer titleIndex;
 
 	@Column(name="type")
 	private Integer type;
@@ -77,7 +77,7 @@ public class XsTitleDetail implements Serializable {
 
 
     public XsTitleDetail(Long id, Long bookId, String contextDesc, Date createDate, String finishStatus, String isShow,
-			Long docId, Timestamp modiDate, Integer orderIndex, Long parentId, String title, String titleIndex,
+			Long docId, Timestamp modiDate, Integer orderIndex, Long parentId, String title, Integer titleIndex,
 			Integer type) {
 		super();
 		this.id = id;
@@ -147,15 +147,16 @@ public class XsTitleDetail implements Serializable {
         this.isShow = isShow;
     }
 
-    public String getTitleIndex() {
+    public Integer getTitleIndex() {
         return this.titleIndex;
     }
 
-    public void setTitleIndex(String titleIndex) {
-        this.titleIndex = titleIndex;
-    }
+    public void setTitleIndex(Integer titleIndex) {
+		this.titleIndex = titleIndex;
+	}
 
-    public Integer getOrderIndex() {
+
+	public Integer getOrderIndex() {
         return this.orderIndex;
     }
 
