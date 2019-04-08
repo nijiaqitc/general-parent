@@ -36,6 +36,9 @@
                 </div>
                 <div id="genList"></div>
             </div>
+            <div style="display:block;width: 210px;float:left;">
+            	<br>
+			</div>
             <div class="rightContextArea" align="left">
                 <div class="emptyShow">请选择标签进行查看...</div>
                 <div align="left" class="outdiv" style="display: none;">

@@ -169,4 +169,9 @@ public class CommonController {
 		return "back/public/commonBottomLink";
 	}
 
+	
+	@RequestMapping("test11")
+	public String test11() {
+		return "test";
+	}
 }
