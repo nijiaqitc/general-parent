@@ -98,6 +98,11 @@ public class BannerManagerController {
     	Map<String, MultipartFile> mms =  ((MultipartHttpServletRequest) req).getFileMap();
     	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
     		try {
+    			fileLoadService.delBannerFile(ByteRequestBuilder.aByteRequest()
+    					.ofType(ChannelType.SBANNER)
+    					.ofName(entry.getValue().getOriginalFilename())
+    					.ofDebugFlag(TokenCheck.debugType())
+    					.build());
     			SaveFileInfo saveFileInfo = fileLoadService.upBannerByteFile(ByteRequestBuilder.aByteRequest()
     					.ofType(ChannelType.SBANNER)
     					.ofName(entry.getValue().getOriginalFilename())
