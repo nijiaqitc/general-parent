@@ -6072,26 +6072,40 @@
             // 处理tab事件
             tabKeyClick: function (e) {
                 var range = this.getRange();
-                
-                var span = util.createCustomNode(constants.SPAN);
-                span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
                 if (!range.collapsed) {
-                	
                 	var foutNode = util.getOutParentNode(range.startContainer);
                 	var loutNode = util.getOutParentNode(range.endContainer);
                 	if(foutNode != loutNode){
-                		
+                		this.batchTab(foutNode,loutNode);
+                		e.preventDefault();
+                		return;
                 	}else{
                 		util.rangeAreaDele(range);                		
                 	}
-                	
                 }
+                var span = util.createCustomNode(constants.SPAN);
+                span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
                 var textNode = span.firstChild;
                 this.insertNode(range, textNode);
                 this.setRangeAfter(textNode);
                 e.preventDefault();
             },
-            
+            batchTab:function(fnode,lnode){
+            	var tnode = fnode;
+            	while(tnode){
+            		this.appendOutFirst(tnode);
+            		if(tnode != lnode){            			
+            			tnode = tnode.nextElementSibling;
+            		}else{
+            			tnode = null;
+            		}
+            	}
+            },
+            appendOutFirst:function(tnode){
+            	var span = util.createCustomNode(constants.SPAN);
+            	span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        		util.insertBefore(span.firstChild,tnode.firstChild);
+            },
 // -------------------------------------------针对选区的操作开始（本来针对选区的这部分放在util中，但选区是动态的，不好控制就放在服务中了）-----------------------------------
             // 获取选区
             getRange: function () {
