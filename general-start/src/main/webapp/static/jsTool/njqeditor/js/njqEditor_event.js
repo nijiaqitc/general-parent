@@ -6058,19 +6058,11 @@
                     resetRange = util.cutDiv(null, this.getRange());
                 }
                 exNode = resetRange.startContainer;
-                // if (exNode.offsetParent == ids.editorBody.offsetParent) {
-                //     // 编辑区高度+编辑区到顶部的距离+编辑区滚动高度=滚动条底部到顶部的距离
-                //     var scrollBotTopHeight = ids.editorBody.clientHeight + ids.editorBody.offsetTop + ids.editorBody.scrollTop;
-                //     // 所处标签到顶部的距离+所处标签的高度=所处标签的底部到顶部的距离
-                //     var nodeHeight = exNode.offsetTop + exNode.clientHeight;
-                //     if (nodeHeight > scrollBotTopHeight) {
-                //         ids.editorBody.scrollTop = nodeHeight - ids.editorBody.clientHeight - ids.editorBody.offsetTop;
-                //     }
-                // }
-                if (exNode.offsetTop > ids.editorContext.offsetHeight) {
-                    ids.editorContext.scrollTop = (exNode.offsetTop - ids.editorContext.offsetHeight + exNode.offsetHeight);
+                if(window.getComputedStyle(ids.editorEditorDiv,null).height==window.getComputedStyle(ids.editorBody,null).height){
+                	ids.editorContext.scrollTop +=exNode.offsetHeight;
+                }else{
+                	ids.editorBody.scrollTop +=exNode.offsetHeight;
                 }
-
                 e.preventDefault();
             },
             // 处理tab事件
