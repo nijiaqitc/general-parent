@@ -225,12 +225,12 @@
                 for (var tool in tools) {
                     btn = tools[tool];
                     tools[tool].isEnable = true;
-                	// 是否还需要检测
-                	tools[tool].tempFlag = true;
-                	// 按钮按下状态
-                	tools[tool].btnDownFlag = false;
-                	// 内容是否有改变
-                	tools[tool].valueChanged = false;
+                    // 是否还需要检测
+                    tools[tool].tempFlag = true;
+                    // 按钮按下状态
+                    tools[tool].btnDownFlag = false;
+                    // 内容是否有改变
+                    tools[tool].valueChanged = false;
                     if (btn.initDialog) {
                         waitDialog.push(1);
                         makeDialog["_" + btn.dlgId](btn, function () {
@@ -1946,7 +1946,7 @@
             clearDecode: function () {
                 var range = this.getRange();
                 var fflag = false, lflag = false;
-                var stText,stOffset,endText,endOffset;
+                var stText, stOffset, endText, endOffset;
                 if (!range.collapsed) {
                     // 设定开始选区
                     if (util.isElementNode(range.startContainer) && range.startOffset == 0
@@ -1954,23 +1954,23 @@
                         util.insertBefore(stMark, util.getMinNode(range.startContainer));
                         fflag = true;
                     }
-                    if(util.isTextNode(range.startContainer)){
-                    	stText=range.startContainer;
-                    	stOffset=range.startOffset;
+                    if (util.isTextNode(range.startContainer)) {
+                        stText = range.startContainer;
+                        stOffset = range.startOffset;
                     }
                     // 设定结束选区
-                    if (util.isElementNode(range.endContainer) &&range.endContainer.childNodes.length > 0
-                    	&&range.endOffset == range.endContainer.childNodes.length) {
+                    if (util.isElementNode(range.endContainer) && range.endContainer.childNodes.length > 0
+                        && range.endOffset == range.endContainer.childNodes.length) {
                         util.insertAfter(enMark, util.getMinLastNode(range.endContainer));
                         lflag = true;
                     }
-                    if(util.isTextNode(range.endContainer)){
-                    	endText=range.endContainer;
-                    	endOffset=range.endOffset;
+                    if (util.isTextNode(range.endContainer)) {
+                        endText = range.endContainer;
+                        endOffset = range.endOffset;
                     }
-                }else{
-                	stText=endText=range.startContainer;
-                	stOffset=endOffset=range.startOffset;
+                } else {
+                    stText = endText = range.startContainer;
+                    stOffset = endOffset = range.startOffset;
                 }
                 var parentArray = util.getOutNode(range);
                 util.forListNode(parentArray[0], parentArray[parentArray.length - 1], this.clearDecodefun(), 1);
@@ -1978,22 +1978,22 @@
                 if (fflag) {
                     resetRange.setStartBefore(stMark);
                     stMark.remove();
-                }else{
-                	if(stText){
-                		resetRange.setStart(stText, stOffset);                		
-                	}else{
-                		resetRange.setStart(range.startContainer, range.startOffset);
-                	}
+                } else {
+                    if (stText) {
+                        resetRange.setStart(stText, stOffset);
+                    } else {
+                        resetRange.setStart(range.startContainer, range.startOffset);
+                    }
                 }
                 if (lflag) {
                     resetRange.setEndAfter(enMark);
                     enMark.remove();
-                }else{
-                	if(endText){
-                		resetRange.setEnd(endText,endOffset);                		
-                	}else{
-                		resetRange.setEnd(range.endContainer,range.endOffset);
-                	}
+                } else {
+                    if (endText) {
+                        resetRange.setEnd(endText, endOffset);
+                    } else {
+                        resetRange.setEnd(range.endContainer, range.endOffset);
+                    }
                 }
             },
             clearDecodefun: function () {
@@ -2037,7 +2037,7 @@
                         var t = util.extractContents(range);
                         var t1 = util.createTextNode(t.textContent);
                         this.insertNode(range, t1);
-                        util.deleteAllChildrenEmptyNodes(t1.previousSibling,true);
+                        util.deleteAllChildrenEmptyNodes(t1.previousSibling, true);
                         t2 = this.charTranfun(type)(t1);
                     }
                     resetRange.setStart(t2, 0);
@@ -2050,8 +2050,8 @@
                         var t = util.extractContents(tempRange);
                         var textNode = util.createTextNode(t.textContent);
                         util.insertAfter(textNode, startNode);
-                        util.deleteAllChildrenEmptyNodes(textNode.previousSibling,true);
-                        util.deleteAllChildrenEmptyNodes(textNode.nextSibling,true);
+                        util.deleteAllChildrenEmptyNodes(textNode.previousSibling, true);
+                        util.deleteAllChildrenEmptyNodes(textNode.nextSibling, true);
                         startNode = textNode;
                     }
                     if (endNode.nodeType == 3 && range.endOffset != endNode.nodeValue.length) {
@@ -2060,8 +2060,8 @@
                         var t = util.extractContents(tempRange);
                         var textNode = util.createTextNode(t.textContent);
                         util.insertBefore(textNode, endNode);
-                        util.deleteAllChildrenEmptyNodes(textNode.previousSibling,true);
-                        util.deleteAllChildrenEmptyNodes(textNode.nextSibling,true);
+                        util.deleteAllChildrenEmptyNodes(textNode.previousSibling, true);
+                        util.deleteAllChildrenEmptyNodes(textNode.nextSibling, true);
                         endNode = textNode;
                     }
                     this.addBookMark(startNode, endNode);
@@ -3402,8 +3402,8 @@
                 var parentNode;
                 var flag = false, beforeNode, divNode, customRange, exNode;
                 util.forListNode(cnode, enode, function (node) {
-                	// 去除一些不知名的标签
-                    if (node.nodeType==1&&util.indexOf(sysConfig.childIncludeNode, node.tagName) == -1) {
+                    // 去除一些不知名的标签
+                    if (node.nodeType == 1 && util.indexOf(sysConfig.childIncludeNode, node.tagName) == -1) {
                         return service.delUnNeedNode(node);
                     }
                     //从word中复制过来的图片标签
@@ -3523,7 +3523,7 @@
                 for (var i in styleNodeList) {
                     util.remove(styleNodeList[i]);
                 }
-                
+
                 //第一步将p标签替换成div标签
                 this.changePtoDiv(editorContext);
 
@@ -3815,7 +3815,7 @@
                             customRange.setEndAfter(liNode);
                             var exNode = util.extractContents(customRange);
                             util.insertAfter(exNode, liNode);
-                            util.deleteAllChildrenEmptyNodes(exNode.previousSibling,true);
+                            util.deleteAllChildrenEmptyNodes(exNode.previousSibling, true);
                         }
                         //如果开始标签在li里面，那么将第一个li进行合并
                         if (decodeNode.firstChild.childNodes.length == 1 &&
@@ -4315,15 +4315,15 @@
                     }
                 }
                 var textList = [];
-                if (range.collapsed){
-                	if(range.startContainer.nodeType == 1){
-                		textList.push(util.getRangeStartText(range));
-                	}
-                }else{
-                	util.forListNode(startNode, endNode, function (node) {
-                		textList.push(node);
-                		return node;
-                	}, 3);                	
+                if (range.collapsed) {
+                    if (range.startContainer.nodeType == 1) {
+                        textList.push(util.getRangeStartText(range));
+                    }
+                } else {
+                    util.forListNode(startNode, endNode, function (node) {
+                        textList.push(node);
+                        return node;
+                    }, 3);
                 }
 
                 var checkNode, node;
@@ -4339,13 +4339,13 @@
                         tools[tool].valueChanged = false;
                         continue;
                     } else if (tools[tool].isNeedCheck) {
-                    	tools[tool].isEnable = true;
-                    	// 是否还需要检测
-                    	tools[tool].tempFlag = true;
-                    	// 按钮按下状态
-                    	tools[tool].btnDownFlag = false;
-                    	// 内容是否有改变
-                    	tools[tool].valueChanged = false;
+                        tools[tool].isEnable = true;
+                        // 是否还需要检测
+                        tools[tool].tempFlag = true;
+                        // 按钮按下状态
+                        tools[tool].btnDownFlag = false;
+                        // 内容是否有改变
+                        tools[tool].valueChanged = false;
                         // 是否支持在pre标签中使用
                         if (!tools[tool].inPre) {
                             if (this.checkRuleBase(startNode, tools[tool])) {
@@ -4377,8 +4377,8 @@
                                     break;
                                 }
                                 node = textList[index++];
-                                if(!node){
-                                	break;
+                                if (!node) {
+                                    break;
                                 }
                             }
                         } else if (tools[tool].checkType.type == "2") {
@@ -6058,30 +6058,34 @@
                     resetRange = util.cutDiv(null, this.getRange());
                 }
                 exNode = resetRange.startContainer;
-                if (exNode.offsetParent == ids.editorBody.offsetParent) {
-                    // 编辑区高度+编辑区到顶部的距离+编辑区滚动高度=滚动条底部到顶部的距离
-                    var scrollBotTopHeight = ids.editorBody.clientHeight + ids.editorBody.offsetTop + ids.editorBody.scrollTop;
-                    // 所处标签到顶部的距离+所处标签的高度=所处标签的底部到顶部的距离
-                    var nodeHeight = exNode.offsetTop + exNode.clientHeight;
-                    if (nodeHeight > scrollBotTopHeight) {
-                        ids.editorBody.scrollTop = nodeHeight - ids.editorBody.clientHeight - ids.editorBody.offsetTop;
-                    }
+                // if (exNode.offsetParent == ids.editorBody.offsetParent) {
+                //     // 编辑区高度+编辑区到顶部的距离+编辑区滚动高度=滚动条底部到顶部的距离
+                //     var scrollBotTopHeight = ids.editorBody.clientHeight + ids.editorBody.offsetTop + ids.editorBody.scrollTop;
+                //     // 所处标签到顶部的距离+所处标签的高度=所处标签的底部到顶部的距离
+                //     var nodeHeight = exNode.offsetTop + exNode.clientHeight;
+                //     if (nodeHeight > scrollBotTopHeight) {
+                //         ids.editorBody.scrollTop = nodeHeight - ids.editorBody.clientHeight - ids.editorBody.offsetTop;
+                //     }
+                // }
+                if (exNode.offsetTop > ids.editorContext.offsetHeight) {
+                    ids.editorContext.scrollTop = (exNode.offsetTop - ids.editorContext.offsetHeight);
                 }
+
                 e.preventDefault();
             },
             // 处理tab事件
             tabKeyClick: function (e) {
                 var range = this.getRange();
                 if (!range.collapsed) {
-                	var foutNode = util.getOutParentNode(range.startContainer);
-                	var loutNode = util.getOutParentNode(range.endContainer);
-                	if(foutNode != loutNode){
-                		this.batchTab(foutNode,loutNode);
-                		e.preventDefault();
-                		return;
-                	}else{
-                		util.rangeAreaDele(range);                		
-                	}
+                    var foutNode = util.getOutParentNode(range.startContainer);
+                    var loutNode = util.getOutParentNode(range.endContainer);
+                    if (foutNode != loutNode) {
+                        this.batchTab(foutNode, loutNode);
+                        e.preventDefault();
+                        return;
+                    } else {
+                        util.rangeAreaDele(range);
+                    }
                 }
                 var span = util.createCustomNode(constants.SPAN);
                 span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -6090,21 +6094,21 @@
                 this.setRangeAfter(textNode);
                 e.preventDefault();
             },
-            batchTab:function(fnode,lnode){
-            	var tnode = fnode;
-            	while(tnode){
-            		this.appendOutFirst(tnode);
-            		if(tnode != lnode){            			
-            			tnode = tnode.nextElementSibling;
-            		}else{
-            			tnode = null;
-            		}
-            	}
+            batchTab: function (fnode, lnode) {
+                var tnode = fnode;
+                while (tnode) {
+                    this.appendOutFirst(tnode);
+                    if (tnode != lnode) {
+                        tnode = tnode.nextElementSibling;
+                    } else {
+                        tnode = null;
+                    }
+                }
             },
-            appendOutFirst:function(tnode){
-            	var span = util.createCustomNode(constants.SPAN);
-            	span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
-        		util.insertBefore(span.firstChild,tnode.firstChild);
+            appendOutFirst: function (tnode) {
+                var span = util.createCustomNode(constants.SPAN);
+                span.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+                util.insertBefore(span.firstChild, tnode.firstChild);
             },
 // -------------------------------------------针对选区的操作开始（本来针对选区的这部分放在util中，但选区是动态的，不好控制就放在服务中了）-----------------------------------
             // 获取选区
@@ -6883,8 +6887,8 @@
 //                    return;
 //                }
 //            }
-            
-            
+
+
 //			if(!/^http/g.test(userConfig.wordUrl)){
 //				fn("上传文章失败，请检查上传文章地址！","saveFalse");
 //				return;
