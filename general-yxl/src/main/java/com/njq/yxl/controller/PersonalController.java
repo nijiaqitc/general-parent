@@ -11,6 +11,7 @@ import com.njq.common.model.po.YxlFolder;
 import com.njq.common.model.po.YxlTip;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.util.encrypt.Md5Util;
+import com.njq.common.util.other.CookieExpire;
 import com.njq.common.util.other.CookieUtil;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
@@ -96,8 +97,6 @@ public class PersonalController {
 
     /**
      * 进行笔记管理后门
-     *
-     * @param token
      * @param request
      * @param model
      * @return
@@ -147,7 +146,8 @@ public class PersonalController {
         if(!TokenCheck.checkToken(token)){
             return "请设置正确的密码！";
         }
-        CookieUtil.addCookie("loginFlag", "true");
+        //保存1小时
+        CookieUtil.addCookie("loginFlag", "true",CookieExpire.SIXTY);
         BaseUser user =  userService.queryUserById(2L);
         HttpSession session = request.getSession();
         // 在session中填充sessionId,唯一
