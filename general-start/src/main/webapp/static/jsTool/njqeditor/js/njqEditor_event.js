@@ -6068,7 +6068,7 @@
                 //     }
                 // }
                 if (exNode.offsetTop > ids.editorContext.offsetHeight) {
-                    ids.editorContext.scrollTop = (exNode.offsetTop - ids.editorContext.offsetHeight);
+                    ids.editorContext.scrollTop = (exNode.offsetTop - ids.editorContext.offsetHeight + exNode.offsetHeight);
                 }
 
                 e.preventDefault();
