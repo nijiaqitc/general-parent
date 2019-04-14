@@ -47,6 +47,8 @@ import com.njq.common.model.po.YxlDocTipConfig;
 import com.njq.common.model.po.YxlFolder;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
+import com.njq.common.model.po.YxlStudyAnswer;
+import com.njq.common.model.po.YxlStudyTitle;
 import com.njq.common.model.po.YxlTip;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.model.po.YxlTypeName;
@@ -305,6 +307,16 @@ public class DaoBeanConfig {
         return new DaoCommon<YxlColumnStore>(YxlColumnStore.class);
     }
 
+    @Bean
+    public DaoCommon<YxlStudyTitle> yxlStudyTitleDao() {
+        return new DaoCommon<YxlStudyTitle>(YxlStudyTitle.class);
+    }
+
+    @Bean
+    public DaoCommon<YxlStudyAnswer> yxlStudyAnswerDao() {
+        return new DaoCommon<YxlStudyAnswer>(YxlStudyAnswer.class);
+    }
+    
     //	<!-- 系列文章结束 -->
 //	<!-- 	视图对象开始 -->
     @Bean
