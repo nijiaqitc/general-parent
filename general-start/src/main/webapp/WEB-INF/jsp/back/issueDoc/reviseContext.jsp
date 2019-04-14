@@ -243,7 +243,7 @@
 				url:"${path}/admin/studyManage/queryInfo",
 				type:"post",
 				data:{
-					id:$(e).parents("tr").children()[1]).html()
+					id:$(e).parents("tr").children()[1].html()
 				},
 				async:false,
 				success:function(data){
