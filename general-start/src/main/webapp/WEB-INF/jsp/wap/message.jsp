@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"  "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html>
 <head>
@@ -19,6 +20,7 @@
 	height: 36px;
 	line-height: 36px;
 	margin-top: 20px;
+	text-align: center;
 }
 </style>
 </head>
@@ -29,13 +31,40 @@
 	
 	<!-- 	正文部分开始 -->
 	<div class="textContext">
-		<div style="margin-top: 50px;">
+		<div style="margin-top: 50px;overflow: auto;">
 			<div align="center" >
 				<a class="menu-box boxa"  href="${path}/wap/toSelectName">取名器</a>
 				<a class="menu-box boxa"  href="${path}/feel/jump">心情录入</a>
 				<a class="menu-box boxa"  href="${path}/wap/zjJump">章节设定</a>
 			</div>
 		</div>	
+		
+		<div style="clear: both;margin-top: 20px;">
+			<div style="width: 1150px;padding-left: 24px;" align="left">
+				简答题<input type="radio" name="titleType" checked="checked" value="1">
+				选择题<input type="radio" name="titleType" value="2">
+				编写题<input type="radio" name="titleType" value="3">
+			</div>
+			<div style="width: 1150px;padding-left: 24px;" align="left">
+				乱序：<input type="checkbox" id="needRange">
+				标题：<input type="checkbox" id="showTitle">
+			</div>
+			<div class="cengen">
+				<div class="hantp">
+					<c:forEach items="${typeList }" var="type">
+						<a class="menu-box boxa" style="width: 140px;" href="javascript:void(0)" onclick="loadInfo(${type.id})" >
+							<div class="titleArea">${type.name }</div>
+						</a>
+					</c:forEach>
+					<a class="menu-box boxa" href="javascript:void(0)" onclick="loadInfo()" >
+						<div class="titleArea">全部</div>
+					</a>
+					<a class="menu-box boxa" href="javascript:void(0)" onclick="loadInfo(null,true)" >
+						<div class="titleArea">待复习</div>
+					</a>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- 	正文部分结束 -->
 
@@ -43,5 +72,23 @@
 	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
+	<script type="text/javascript">
+		function loadInfo(typeId,flag){
+			var  url = "/wapStudy/subject?titleType="+$("input[name='titleType']:checked").val();
+			if($("#needRange").prop("checked")){
+				url+="&needRange=1"
+			}
+			if($("#showTitle").prop("checked")){
+				url+="&showTitle=1"
+			}
+			if(typeId){
+				url+="&typeId="+typeId
+			}
+			if(flag){
+				url+="&needStudy=1"
+			}
+			window.location.href = url;
+		}
+	</script>
 </body>
 </html>

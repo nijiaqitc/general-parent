@@ -22,6 +22,7 @@ import com.njq.common.model.vo.AnswerVO;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
 
+@SuppressWarnings("unchecked")
 @Service
 public class YxlStudyService {
 
@@ -47,13 +48,6 @@ public class YxlStudyService {
 		vpg.setTotal(titlePage.getTotal());
 		return vpg;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	public YxlStudyVO getStudyInfo(Long id) {
 		YxlStudyVO vo = new YxlStudyVO();
@@ -107,19 +101,99 @@ public class YxlStudyService {
 		cc.addEqParam("titleId", t.getId());
 		yxlStudyAnswerDao.deleteBycc(cc);
 		
-//		YxlStudyAnswer a = new YxlStudyAnswer();
-//		a.setAnswer(answer);
-//		a.setColumDesc(columDesc);
-//		a.setCreateDate(new Date());
-//		a.setTitleId(t.getId());
-//		yxlStudyAnswerDao.updateByPrimaryKeySelective(a);
+		YxlStudyAnswer a = new YxlStudyAnswer();
+		a.setAnswer(answer);
+		a.setColumDesc(columDesc);
+		a.setCreateDate(new Date());
+		a.setTitleId(t.getId());
+		yxlStudyAnswerDao.save(a);
 	}
+	
+	
+	
+	
+	
+	public List<YxlStudyTitleVO> queryTitleList(String typeId,String titleType){
+		ConditionsCommon cc=new ConditionsCommon();
+		cc.addEqParam("typeId", typeId);
+		cc.addEqParam("titleType", titleType);
+		List<YxlStudyTitle> titlePage = yxlStudyTitleDao.queryColumnForList(cc);
+		if(CollectionUtils.isEmpty(titlePage)) {
+			return Collections.EMPTY_LIST;
+		}
+		return titlePage.stream().map(n->{
+			YxlStudyTitleVO vo = new YxlStudyTitleVO();
+			BeanUtils.copyProperties(n, vo);
+			return vo;
+		}).collect(Collectors.toList());
+	}
+	
+	public List<YxlStudyTitleVO> queryRandomTitleList(String typeId,String titleType){
+		List<YxlStudyTitleVO> list = this.queryTitleList(typeId, titleType);
+		Collections.shuffle(list);
+		return list;
+	}
+	
+	
+	
+	public List<YxlStudyVO> queryStudyInfoList(Long typeId,String titleType,Boolean needStudy){
+		ConditionsCommon cc=new ConditionsCommon();
+		if(typeId != null) {
+			cc.addEqParam("typeId", typeId);
+		}
+		cc.addEqParam("titleType", titleType);
+		if(needStudy) {
+			cc.addEqParam("isNeedStudy", needStudy);			
+		}
+		List<YxlStudyTitle> titlePage = yxlStudyTitleDao.queryColumnForList(cc);
+		if(CollectionUtils.isEmpty(titlePage)) {
+			return Collections.EMPTY_LIST;
+		}
+		return titlePage.stream().map(n->{
+			YxlStudyVO vo = new YxlStudyVO();
+			BeanUtils.copyProperties(n, vo);
+			ConditionsCommon condition=new ConditionsCommon();
+			condition.addEqParam("titleId", n.getId());
+			List<YxlStudyAnswer> answerList = yxlStudyAnswerDao.queryColumnForList(condition);
+			vo.setAnswerList(
+			answerList.stream().map(m->{
+				AnswerVO v = new AnswerVO();
+				v.setAnswer(m.getAnswer());
+				v.setColumDesc(m.getColumDesc());
+				return v;
+			}).collect(Collectors.toList()));
+			return vo;
+		}).collect(Collectors.toList());
+	}
+	
+	public void updateToNeedStudy(Long id,Boolean type) {
+		YxlStudyTitle t = new YxlStudyTitle();
+		t.setId(id);
+		t.setIsNeedStudy(type);
+		yxlStudyTitleDao.updateByPrimaryKeySelective(t);
+	}
+	
+	public List<YxlStudyVO> queryRandomStudyInfoList(Long typeId,String titleType,Boolean needStudy){
+		List<YxlStudyVO> list = this.queryStudyInfoList(typeId, titleType,needStudy);
+		Collections.shuffle(list);
+		return list;
+	}
+	
 	
 	public List<YxlType> queryTypeList(){
 		ConditionsCommon condition = new ConditionsCommon();
 		condition.addEqParam("parentId", 81L);
 		return yxlTypeDao.queryColumnForList(condition);
 	}
+	
+	public YxlType getTypeById(Long id) {
+		return yxlTypeDao.queryTById(id);
+	}
+	
+	
+	
+	
+	
 	
 	
 }

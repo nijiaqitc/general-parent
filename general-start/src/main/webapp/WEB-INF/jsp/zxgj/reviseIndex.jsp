@@ -50,6 +50,9 @@
 				<a href="javascript:void(0)" onclick="loadInfo()" >
 					<div class="titleArea">全部</div>
 				</a>
+				<a class="menu-box boxa" href="javascript:void(0)" onclick="loadInfo(null,true)" >
+					<div class="titleArea">待复习</div>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -59,7 +62,7 @@
 	<script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		function loadInfo(typeId){
+		function loadInfo(typeId,flag){
 			var  url = "study/subject?titleType="+$("input[name='titleType']:checked").val();
 			if($("#needRange").prop("checked")){
 				url+="&needRange=1"
@@ -70,7 +73,9 @@
 			if(typeId){
 				url+="&typeId="+typeId
 			}
-			
+			if(flag){
+				url+="&needStudy=1"
+			}
 			window.location.href = url;
 		}
 	

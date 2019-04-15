@@ -21,7 +21,7 @@
 		<div class="menu-box" style="height: auto;line-height: 30px;padding-left: 10px;">
 			<c:forEach items="${grabList}" var="grab" varStatus="index2" >
 				<div class="adocDiv2" style="clear: both;overflow: auto;">
-					<span style="float: left;">${index2.index }</span>
+					<span style="float: left;">${index2.index+1 }、</span>
 					<a href="<c:if test="${grab.docId==null }">javascript:void(0)</c:if>
 						<c:if test="${grab.docId!=null }">${path}/wap/grab/${grab.docId }</c:if>">
 						<div class="adocDiv6" style="max-width: 80%;">${grab.title }</div>

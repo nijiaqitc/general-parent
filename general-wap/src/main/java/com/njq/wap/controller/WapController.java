@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.basis.service.impl.BaseUserService;
+import com.njq.basis.service.impl.YxlStudyService;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.TbkDoc;
@@ -29,6 +30,7 @@ import com.njq.common.model.po.TbkType;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
+import com.njq.common.model.po.YxlType;
 import com.njq.common.model.vo.TbkRecommendDocVO;
 import com.njq.common.util.string.StringUtil;
 import com.njq.tbk.service.TbkDocService;
@@ -65,6 +67,8 @@ public class WapController {
     private YxlDocService yxlDocService;
     @Resource
     private YxlNoteService yxlNoteService;
+    @Resource
+	private YxlStudyService yxlStudyService;
     
     /**
      * 跳转到首页
@@ -113,7 +117,9 @@ public class WapController {
      * @return
      */
     @RequestMapping(value = "/toMessage", method = RequestMethod.GET)
-    public String toMessage() {
+    public String toMessage(Model model) {
+    	List<YxlType>  list = yxlStudyService.queryTypeList();
+		model.addAttribute("typeList", list);
         return "wap/message";
     }
 

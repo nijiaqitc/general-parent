@@ -27,16 +27,18 @@
         <div class="contextArea">
         	<h2 style="font-size: 24px;">${titleTypeInfo.name }</h2>
         	<c:forEach items="${studyList }" var="info" varStatus="status">
-        		<div style = "margin-top: 20px;">
-        			<div align="left" style="font-size: 20px;">
+        		<div style = "margin-top: 20px;overflow: auto;">
+        			<div align="left" style="font-size: 20px;float: left;">
         				<strong>
 	        				${status.index+1 }、${info.title }
         				</strong>
         			</div>
         			<div style="float: right;">
-						<span onclick="showAnswer(this)"   style="cursor: pointer;" >
-							<i class='icon-eye-open starcl'></i>
-						</span>
+        				<c:if test="${showTitle == true }">
+	        				<span onclick="showAnswer(this)"   style="cursor: pointer;" >
+								<i class='icon-eye-open starcl'></i>
+							</span>
+        				</c:if> 
 						<span onclick="setValue('${info.id }',this)"  
 							style="cursor: pointer;
 							 <c:if test="${info.isNeedStudy == true}"> color: red; </c:if> " >
