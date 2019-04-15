@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>主页</title>
+<title>知识复习</title>
 <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png" />
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"  />
