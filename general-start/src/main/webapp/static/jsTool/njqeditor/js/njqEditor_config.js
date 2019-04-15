@@ -332,7 +332,7 @@
 				top : true,// 是否展示上部的计算字数块，前提是isShow为true， true：展示上部的计数块 false 不展示上部的计数块
 				bottom : true// 是否展示底部的计算字数块，前提是isShow为true， true：展示底部的计数块 false 不展示底部的计数块
 			},
-			initHeight : 300,// 初始化编辑器编写区域高度,不设置高度，默认为600
+			initHeight : 200,// 初始化编辑器编写区域高度,不设置高度，默认为600
 			autoHeight : false,// 是否自动长高,默认true，若为true那么将不设置编写区域高度
 			initShow : true,// 初始化后是否显示，默认true ，若为true则显示，false不显示
 			isToolScrollTop : false,// 工具条到达顶部时，是否需要置顶，true:是 false:否(不建议开启，有卡顿现象)

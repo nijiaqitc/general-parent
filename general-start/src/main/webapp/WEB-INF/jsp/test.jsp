@@ -14,5 +14,12 @@ test
 <div align="left" contenteditable="true" spellcheck="false" style="min-width: 200px;min-height: 200px;">
 				    
 </div>
+
+<div>
+	<iframe src="./test2.jsp" frameborder="no" style="width: 400px;height: 255px;"></iframe>
+</div>
+<div>
+	<iframe src="./test2.jsp" frameborder="no" style="width: 400px;height: 255px;"></iframe>
+</div>
 </body>
 </html>

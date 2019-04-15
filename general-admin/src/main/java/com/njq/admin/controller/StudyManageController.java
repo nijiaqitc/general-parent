@@ -60,5 +60,9 @@ public class StudyManageController {
 		return yxlStudyService.getStudyInfo(id);
 	}
 	
+	@RequestMapping("loadEditor")
+	public String loadEditor() {
+		return "back/issueDoc/reviseEditor";
+	}
 	
 }

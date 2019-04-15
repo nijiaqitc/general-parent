@@ -11,7 +11,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
-	<link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleTwo.css"  rel="stylesheet">
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -70,7 +69,7 @@
 				<button type="button" onclick="closeDialog()" class="close" data-dismiss="modal">×</button>
 				<h3 id="dialogTitleName"></h3>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="max-height: fit-content;">
 				<div class="step-pane" id="step2" style="margin-top: 20px;">
 					<form class="form-horizontal" id="studyForm" />
 						<fieldset>	
@@ -78,7 +77,7 @@
 								<div class="control-group">
 									<label  class="control-label" for="input1">父类：</label>
 									<div style="margin-left: 180px;">
-										<select id="typeId" name="typeId" style="width: 420px;">
+										<select id="typeId" name="typeId" style="width: 390px;">
 											<c:forEach items="${typeList }" var="type">
 												<option value="${type.id }">${type.name }</option>
 											</c:forEach>
@@ -90,7 +89,7 @@
 								<input type="hidden" id="id" name="id" >
 								<label  class="control-label">题目：</label>
 								<div class="controls">
-						  			<textarea id="title" name="title"  style="height: 30px;width: 420px;resize: auto;"></textarea>
+						  			<textarea id="title" name="title"  style="height: 30px;width: 390px;resize: auto;"></textarea>
 								</div>
 					  		</div>
 					  		<div class="control-group" style="line-height: 30px;">
@@ -107,15 +106,15 @@
 					  		<div class="control-group">
 								<label class="control-label">答案：</label>
 								<div class="controls" style="width: 420px;">
-									<div id="njqEditorDiv" modelStyle="styleTwo" env="4" ></div>
+									<iframe src="${path}/admin/studyManage/loadEditor" frameborder="no" style="width: 400px;height: 255px;"></iframe>
 									<input type="hidden" id="answer" name="answer">
-<!-- 						  			<textarea   style="height: 200px;width: 420px;resize: auto;"></textarea> -->
 								</div>
 					  		</div>
 					  		<div class="control-group">
 								<label class="control-label">备注：</label>
 								<div class="controls">
-						  			<textarea id="columDesc" name="columDesc"  style="height: 78px;width: 420px;resize: auto;"></textarea>
+									<iframe src="${path}/admin/studyManage/loadEditor" frameborder="no" style="width: 400px;height: 255px;"></iframe>
+									<input type="hidden" id="columDesc" name="columDesc">
 								</div>
 					  		</div>
 						</fieldset>
@@ -139,8 +138,6 @@
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
 	<jsp:include page="${path}/foot"></jsp:include>
-	<!--     加载用户自定义配置 -->
-    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			njqpage.makePage({
@@ -290,7 +287,8 @@
 			if(!$("#studyForm").valid()){
 				return;
 			}
-			$("#answer").val(njq.getContent());
+			$("#answer").val(window.frames[0].njq.getContent());
+			$("#columDesc").val(window.frames[1].njq.getContent());
 			showMsg("确认","确认添加？",function(t){
 				if(t){
 					$.ajax({

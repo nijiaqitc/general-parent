@@ -86,4 +86,17 @@ public class Test2Controller {
 		}
 		return "freetest";
 	}
+	
+	
+	
+	
+	@RequestMapping("ffff5")
+	public String ffff5(){
+		return "test1";
+	}
+	
+	@RequestMapping("ffff6")
+	public String ffff6(){
+		return "test2";
+	}
 }
