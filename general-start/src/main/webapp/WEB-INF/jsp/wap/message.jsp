@@ -22,6 +22,9 @@
 	margin-top: 20px;
 	text-align: center;
 }
+.cengen{
+	overflow: auto;
+}
 </style>
 </head>
 <body>
@@ -31,21 +34,14 @@
 	
 	<!-- 	正文部分开始 -->
 	<div class="textContext">
-		<div style="margin-top: 50px;overflow: auto;">
-			<div align="center" >
-				<a class="menu-box boxa"  href="${path}/wap/toSelectName">取名器</a>
-				<a class="menu-box boxa"  href="${path}/feel/jump">心情录入</a>
-				<a class="menu-box boxa"  href="${path}/wap/zjJump">章节设定</a>
-			</div>
-		</div>	
-		
-		<div style="clear: both;margin-top: 20px;">
-			<div style="width: 1150px;padding-left: 24px;" align="left">
+		<div style="clear: both;margin-top: 50px;">
+			<div style="margin-left: 24px;">复习工具</div>
+			<div style="border-left: 1px dashed;border-top: 1px dashed;padding: 4px 24px;" align="left">
 				简答题<input type="radio" name="titleType" checked="checked" value="1">
 				选择题<input type="radio" name="titleType" value="2">
 				编写题<input type="radio" name="titleType" value="3">
 			</div>
-			<div style="width: 1150px;padding-left: 24px;" align="left">
+			<div style="padding: 4px 4px;margin-left: 24px;" align="left">
 				乱序：<input type="checkbox" id="needRange">
 				标题：<input type="checkbox" id="showTitle">
 			</div>
@@ -63,6 +59,24 @@
 						<div class="titleArea">待复习</div>
 					</a>
 				</div>
+			</div>
+			<div style="border-bottom: 1px dashed;border-right: 1px dashed;">
+				<br>
+			</div>
+		</div>
+		
+		<div style="margin-top: 50px;overflow: auto;">
+			<div style="margin-left: 24px;">自定义工具</div>
+			<div style="border-top: 1px dashed;border-left: 1px dashed;">
+				<br>
+			</div>
+			<div align="center" style="overflow: auto;">
+				<a class="menu-box boxa"  href="${path}/wap/toSelectName">取名器</a>
+				<a class="menu-box boxa"  href="${path}/feel/jump">心情录入</a>
+				<a class="menu-box boxa"  href="${path}/wap/zjJump">章节设定</a>
+			</div>
+			<div style="border-bottom: 1px dashed;border-right: 1px dashed;">
+				<br>
 			</div>
 		</div>
 	</div>
