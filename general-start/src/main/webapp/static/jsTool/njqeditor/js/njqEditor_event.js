@@ -237,16 +237,22 @@
                             //初始化弹框加载完成后才能用，否则有bug
                             waitDialog.pop();
                             if (waitDialog.length == 0) {
-                                editorContext.setAttribute("contenteditable", true);
-                                resetRange = util.initRange(editorContext);
-                                njqEditor.sysConfig.initFinshFlag = true;
-                                njqEditor.sysConfig.finishEvent();
-                                service.resetBtnStatus();
-                                allEvents._wordCountReckon();
-                                service.loadClass();
+                            	loadJsSuccess();
                             }
                         });
                     }
+                }
+                if (waitDialog.length == 0) {
+                	loadJsSuccess();
+                }
+                function loadJsSuccess(){
+                	editorContext.setAttribute("contenteditable", true);
+                    resetRange = util.initRange(editorContext);
+                    njqEditor.sysConfig.initFinshFlag = true;
+                    njqEditor.sysConfig.finishEvent();
+                    service.resetBtnStatus();
+                    allEvents._wordCountReckon();
+                    service.loadClass();
                 }
             },
             // 所有事件绑定执行方法
@@ -5702,7 +5708,9 @@
                 var sNode = range.startContainer;
                 var eNode = range.endContainer;
                 // 分两种处理场景，1：新建标签，内部是一个空文本节点 2：内部不是空的
-                if (util.isElementNode(sNode) && sNode.childNodes.length == 1 && sNode.firstChild.data == constants.SPACE) {
+                if (util.isElementNode(sNode) && sNode.childNodes.length == 1 
+                		&& ((util.isElementNode(sNode.firstChild) && sNode.firstChild.tagName == constants.BR)
+                		|| (util.isTextNode(sNode.firstChild) && sNode.firstChild.data == constants.SPACE))) {
                     var pNode = util.getSpecalParentNode(name, sNode, styleName, styleValue);
                     if (styleName) {
                         if (pNode.getAttribute("style").split(";").length > 2) {

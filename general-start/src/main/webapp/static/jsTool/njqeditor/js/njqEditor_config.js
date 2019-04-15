@@ -113,8 +113,7 @@
 		}
 	}
 
-	var editorDiv = njqEditor.editorNode = document
-			.getElementById(njqEditor.sysConfig.ids.editorDiv);
+	var editorDiv = njqEditor.editorNode = document.getElementById(njqEditor.sysConfig.ids.editorDiv);
 	var env = editorDiv.getAttribute("env");
 	// 根据不同的使用场景使用不同的用户配置
 	if (env == 1) {
@@ -310,6 +309,47 @@
 						"njqEditor_dataCode", "njqEditor_docModel",
 						"njqEditor_cutLine", "njqEditor_monthDay",
 						"njqEditor_dayTime", "njqEditor_expression" ]
+		}
+		// ------------------------------------------------------------------------------------------
+	} else if (env == 4) {
+		/*-------------------------------------配置使用场景为3的配置-----------------------------------------------------*/
+		// 用户自定义配置
+		njqEditor.userConfig = {
+			url : "/static/jsTool/njqeditor/",// 项目路径
+			pic : {
+				enable:true,//是否允许上传
+				picSrc : "/grab/editPicUp",// 图片上传地址
+				upType : 2,// 上传方式，1：上传图片为临时图片，最后保存同文字一起上传到服务，2：上传图片立马传入到服务器，3:不上传图片
+				ignoreSrc : "http://www.njqityun.com|http://image.njqityun.com",// 忽略的url地址，使用|进行多网址分隔，不想用忽略地址直接用“/”即可，比如引用本网站静态资源库的图片，但地址不同，不想上传这些地址是配置
+				maxWidth:550//图片最大宽度限制
+			},
+			wordUrl : "editToSave",// 内容上传地址
+			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
+			indentValue : "24px",// 段落缩进位数
+			wordCount : {
+				isShow : false,// 是否使用计算字数功能 true：是 ，false：不展示
+				top : true,// 是否展示上部的计算字数块，前提是isShow为true， true：展示上部的计数块 false 不展示上部的计数块
+				bottom : true// 是否展示底部的计算字数块，前提是isShow为true， true：展示底部的计数块 false 不展示底部的计数块
+			},
+			initHeight : 300,// 初始化编辑器编写区域高度,不设置高度，默认为600
+			autoHeight : false,// 是否自动长高,默认true，若为true那么将不设置编写区域高度
+			initShow : true,// 初始化后是否显示，默认true ，若为true则显示，false不显示
+			isToolScrollTop : false,// 工具条到达顶部时，是否需要置顶，true:是 false:否(不建议开启，有卡顿现象)
+			saveWord : {
+				enable:true,//是否允许上传
+				saveType : 1,// 保存类型，1:直接整个文档上传 2:将文档拆分成2部分，一部分为样式，一部分为文本
+				breakType : 2,// 分离样式类型，1:不带标签<div>11</div> （适合前台进行组合 2:带标签 <div labelIndex="0,0,1">11</div> 样式表0,0,0=color:red; （适合后台进行组合）
+				isTranClass:false,//是否需要将css转换成class
+				tranClassName:["aaa.css"],//转化样式文件名
+				afterSaveDealType : 2,// 保存后处理方式，1：清空当前文档 2：不处理
+				textName:"text",//保存内容的参数名
+				cssName:"css",//保存样式的参数名
+				isNeedTimes:true,//是否需要时间轴，不要是进行页面防并发
+				timestamp:"timestamp"//时间轴变量名
+			},
+			// 所使用的按钮
+			useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode" ]
 		}
 		// ------------------------------------------------------------------------------------------
 	} else {

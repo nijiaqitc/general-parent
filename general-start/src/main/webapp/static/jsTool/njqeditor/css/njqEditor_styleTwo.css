@@ -9,7 +9,7 @@
 }
 /* ----------------------总样式结束---------------------- */
 /* ----------------------针对一些特殊标签开始---------------------- */
-.njq_editor_total ol,ul{
+.njq_editor_total ol,.njq_editor_total ul{
     margin: 0;
 }
 .njq_editor_total table{
@@ -27,7 +27,7 @@
     word-wrap: break-word;
     cursor: text;
 }
-.njq_editor_total td,th{
+.njq_editor_total td,.njq_editor_total th{
     width: 84px;
     vertical-align: top;
     display: table-cell;

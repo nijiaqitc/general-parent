@@ -11,6 +11,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
+	<link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleTwo.css"  rel="stylesheet">
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -64,7 +65,7 @@
 			<!-- end: 正文 -->
 		</div>
 		<!-- start:弹出框 -->
-		<div class="modal hide fade in" id="myModal" aria-hidden="false" style="display: none;width: 740px;">
+		<div class="modal hide fade in" id="myModal" aria-hidden="false" style="display: none;width: 740px;max-height: 550px;overflow: auto;">
 			<div class="modal-header">
 				<button type="button" onclick="closeDialog()" class="close" data-dismiss="modal">×</button>
 				<h3 id="dialogTitleName"></h3>
@@ -105,8 +106,10 @@
 					  		</div>
 					  		<div class="control-group">
 								<label class="control-label">答案：</label>
-								<div class="controls">
-						  			<textarea id="answer" name="answer"  style="height: 200px;width: 420px;resize: auto;"></textarea>
+								<div class="controls" style="width: 420px;">
+									<div id="njqEditorDiv" modelStyle="styleTwo" env="4" ></div>
+									<input type="hidden" id="answer" name="answer">
+<!-- 						  			<textarea   style="height: 200px;width: 420px;resize: auto;"></textarea> -->
 								</div>
 					  		</div>
 					  		<div class="control-group">
@@ -136,6 +139,8 @@
 		<jsp:include page="${path}/boom"></jsp:include>
 	</div>
 	<jsp:include page="${path}/foot"></jsp:include>
+	<!--     加载用户自定义配置 -->
+    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			njqpage.makePage({
@@ -285,6 +290,7 @@
 			if(!$("#studyForm").valid()){
 				return;
 			}
+			$("#answer").val(njq.getContent());
 			showMsg("确认","确认添加？",function(t){
 				if(t){
 					$.ajax({
