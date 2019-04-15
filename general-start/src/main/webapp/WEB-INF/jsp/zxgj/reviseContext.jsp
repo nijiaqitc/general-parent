@@ -28,12 +28,12 @@
         	<h2 style="font-size: 24px;">${titleTypeInfo.name }</h2>
         	<c:forEach items="${studyList }" var="info" varStatus="status">
         		<div style = "margin-top: 20px;overflow: auto;">
-        			<div align="left" style="font-size: 20px;float: left;">
+        			<div align="left" style="font-size: 20px;float: left;height: 28px;">
         				<strong>
 	        				${status.index+1 }、${info.title }
         				</strong>
         			</div>
-        			<div style="float: right;">
+        			<div style="float: right;padding-top: 8px;">
         				<c:if test="${showTitle == true }">
 	        				<span onclick="showAnswer(this)"   style="cursor: pointer;" >
 								<i class='icon-eye-open starcl'></i>
