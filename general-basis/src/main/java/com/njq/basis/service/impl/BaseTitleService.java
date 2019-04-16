@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ import com.njq.common.util.string.StringUtil2;
 
 @Service
 public class BaseTitleService {
+	private static final Logger logger = LoggerFactory.getLogger(BaseTitleService.class);
     @Resource
     private DaoCommon<BaseTitleLoading> baseTitleLoadingDao;
     private Map<TitleType, SaveTitlePerformer> saveMap;
@@ -152,6 +155,9 @@ public class BaseTitleService {
                 loading.setLoaded(ConstantsCommon.Use_Type.UN_USE);
                 loading.setDocIdSource(request.getMenu().getDocId());
                 baseTitleLoadingDao.save(loading);
+                logger.info("入库完成"+request.getMenu().getName()+"###"+request.getMenu().getValue());
+            }else {
+            	logger.info("已入库，重复录入"+request.getMenu().getName()+"###"+request.getMenu().getValue());
             }
             return tt;
         } catch (InterruptedException e) {
