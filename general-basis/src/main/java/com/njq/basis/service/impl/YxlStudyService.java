@@ -192,7 +192,14 @@ public class YxlStudyService {
 	
 	
 	
-	
+	public void deleteSubject(Long[] ids) {
+		ConditionsCommon condition = new ConditionsCommon();
+		condition.addInParam("id", ids);
+		yxlStudyTitleDao.deleteBycc(condition);
+		condition = new ConditionsCommon();
+		condition.addInParam("titleId", ids);
+		yxlStudyAnswerDao.deleteBycc(condition);
+	}
 	
 	
 	

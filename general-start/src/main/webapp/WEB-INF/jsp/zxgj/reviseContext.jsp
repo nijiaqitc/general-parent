@@ -19,6 +19,12 @@
 		    margin-top: 20px;
 		    text-indent: 24px;
        }
+       .refcls{
+       		font-size: 12px;
+		    margin-top: 20px;
+		    border-top: 1px dashed #aaa;
+		    text-indent: 0px;
+       }
     </style>
 </head>
 <body>
@@ -49,7 +55,14 @@
        			
         		<div  class="textStx" <c:if test="${showTitle == true }"> style="display: none;" </c:if>>
         			<c:forEach items="${info.answerList }" var="an">
-	        			${an.answer }
+						<div>
+		        			${an.answer }
+						</div>
+						<c:if test="${an.columDesc != '' }">
+			        		<div class="refcls">
+			        			${an.columDesc }
+			        		</div>
+						</c:if>
         			</c:forEach>
         		</div>
         	</c:forEach>

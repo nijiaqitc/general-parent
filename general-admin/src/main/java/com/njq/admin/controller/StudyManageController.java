@@ -65,4 +65,12 @@ public class StudyManageController {
 		return "back/issueDoc/reviseEditor";
 	}
 	
+	@ResponseBody
+	@RequestMapping("delSubject")
+	public Map<String, Object> delSubject(Long[] ids){
+		if(ids != null && ids.length > 0) {
+			yxlStudyService.deleteSubject(ids);			
+		}
+		return MessageCommon.getSuccessMap();
+	}
 }

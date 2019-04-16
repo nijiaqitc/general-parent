@@ -32,7 +32,7 @@
 							<h2><i class="icon-align-justify"></i><span class="break"></span>复习内容</h2>
 							<div class="box-icon">
 								<a href="javascript:void(0)"  onclick="showDialogForSave()" ><i class="icon-plus"></i></a>
-								<!-- <a href="javascript:void(0)"  onclick="del()" ><i class="icon-minus"></i></a> -->
+								<a href="javascript:void(0)"  onclick="del()" ><i class="icon-minus"></i></a>
 							</div>
 						</div>
 						<div class="box-content custom_pagination"  >
@@ -237,29 +237,30 @@
 		 * 修改显示弹出框
 		 */
 		function showDialogForUpdate(e){
-			$("#saveButton").hide();
-			$("#updateButton").show();
 			$("#dialogTitleName").html("修改");
-			
+			$("#saveButton").show();
+			$("#updateButton").hide();
 			$.ajax({
 				url:"${path}/admin/studyManage/queryInfo",
 				type:"post",
 				data:{
-					id:$(e).parents("tr").children()[1].html()
+					id:$(e).parents("tr").children()[1].innerHTML
 				},
 				async:false,
 				success:function(data){
 					if(data != null){
-			 			$("#id").val(data.titleId);
+			 			$("#id").val(data.id);
 			 			$("#title").val(data.title);
-			 			$("#columDesc").val(data.columDesc);
 			 			$.each($("input[name='titleType']"),function(a,b){
 			 				if($(b).val()==data.titleType){
 			 					$(b).click();
 			 				}
 			 			}); 
 			 			$("#typeId").val(data.typeId);
-			 			$("#answer").val(data.answer);
+			 			$("#answer").val(data.answerList[0].answer);
+			 			$("#columDesc").val(data.answerList[0].columDesc);
+			 			window.frames[0].njq.setContent(data.answerList[0].answer);
+			 			window.frames[1].njq.setContent(data.answerList[0].columDesc);
 					}
 				}
 			})
@@ -351,7 +352,7 @@
 			var checkList=$("#dataBody").find(".icon-check");
 			var delIds="";
 			if(checkList.size()==0){
-				showSureMessage("提示","请先选择要删除的类型");
+				showSureMessage("提示","请先选择要删除的数据");
 				return ;
 			}else{
 				for(var i=0;i<checkList.length;i++){
@@ -363,7 +364,7 @@
 				showMsg("确认","确定删除？",function(t){
 					if(t){
 						$.ajax({
-							url:"${path}/admin/typeManage/delType",
+							url:"${path}/admin/studyManage/delSubject",
 							data:{
 								ids:delIds
 							},
