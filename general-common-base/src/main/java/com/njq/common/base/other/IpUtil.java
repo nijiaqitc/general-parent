@@ -13,7 +13,9 @@ public class IpUtil {
         Enumeration enu = request.getHeaderNames();
         while (enu.hasMoreElements()) {
             String name = (String) enu.nextElement();
-            if (name.equalsIgnoreCase("X-Real_IP")) {
+            if(name.equalsIgnoreCase("X-Real-IP")) {
+            	ip = request.getHeader(name);
+            }else if (name.equalsIgnoreCase("X-Real_IP")) {
                 ip = request.getHeader(name);
             } else if (name.equalsIgnoreCase("X-Forwarded-For")) {
                 ip = request.getHeader(name);
