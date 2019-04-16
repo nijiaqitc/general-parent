@@ -71,7 +71,7 @@ public class BaseTitleService {
         if (StringUtil.IsNotEmpty(loaded)) {
         	condition.addEqParam("loaded", loaded);        	
         }
-        condition.addLtParam("tryNum", 4);
+        condition.addLtParam("tryNum", 6);
         condition.addPageParam(1, 500);
         List<BaseTitleLoading> loadingList = baseTitleLoadingDao.queryColumnForList(condition);
         return loadingList;
@@ -219,6 +219,14 @@ public class BaseTitleService {
         saveMap.get(TitleType.GRAB_TITLE).updateTitleOnLoadSuccess(docId, id);
     }
 
+    public void updateLoadFailed(Long id) {
+    	ConditionsCommon condition = new ConditionsCommon();
+        condition.addsetObjectParam("loaded", Use_Type.FAILED);
+        condition.addEqParam("titleId", id);
+        condition.addEqParam("loaded", Use_Type.UN_USE);
+        baseTitleLoadingDao.update(condition);
+    }
+    
     public void updateStarTitle(Long docId, Boolean isStar) {
         ConditionsCommon condition = new ConditionsCommon();
         condition.addsetObjectParam("starTab", isStar);

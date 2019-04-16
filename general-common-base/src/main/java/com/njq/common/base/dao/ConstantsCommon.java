@@ -244,6 +244,8 @@ public class ConstantsCommon {
          * 使用
          */
         public static final String USED = "1";
+        
+        public static final String FAILED = "2";
 
     }
 

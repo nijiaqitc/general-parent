@@ -18,6 +18,7 @@ import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.basis.service.impl.BaseTypeService;
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
 import com.njq.common.base.dao.DaoCommon;
@@ -25,6 +26,7 @@ import com.njq.common.base.request.SaveTitleRequestBuilder;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.enumreg.title.TitleType;
 import com.njq.common.exception.BaseKnownException;
+import com.njq.common.model.dao.BaseTitleLoadingJpaRepository;
 import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.po.BaseTipConfig;
 import com.njq.common.model.po.BaseTitle;
@@ -64,11 +66,14 @@ public class GrabService {
     private DaoCommon<BaseTitleGrab> baseTitleGrabDao;
     @Resource
     private BaseFileService baseFileService;
-
+    @Resource
+    private BaseTitleLoadingJpaRepository baseTitleLoadingJpaRepository;
+    
     public void loadPageJobTask() {
         List<BaseTitleLoading> list = baseTitleService.getLoadedTitle(null,"0");
         Semaphore semaphore = new Semaphore(10,true);
         list.parallelStream().forEach(n -> {
+        	SpringContextUtil.getBean(GrabService.class).updateToAddNum(n.getId());
             loadPageTaskExecutor.submit(() -> {
                 try {
                     semaphore.acquire();
@@ -350,5 +355,14 @@ public class GrabService {
                 }
             }
         }
+    }
+    
+    
+    public void updateToAddNum(Long id) {
+    	baseTitleLoadingJpaRepository.updateForAddNum(id);
+    	BaseTitleLoading loading =  baseTitleService.getLoadingById(id);
+    	if(loading.getTryNum()>=5) {
+    		baseTitleService.updateLoadFailed(loading.getTitleId());    		
+    	}
     }
 }
