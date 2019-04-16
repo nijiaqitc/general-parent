@@ -41,18 +41,25 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final BaseTipService baseTipService; 
     private final GrabDocSaveOperation grabDocSaveOperation;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
-
+    private final CnblogsMenuLoadPerformer cnblogsLoadOnePerformer;
+    private final CnblogsMenuLoadPerformer cnblogsLoadTwoPerformer;
+    
+    
+    
     @Autowired
     public CnblogsPageAnalysisPerformerImpl(BaseTitleService baseTitleService,
                                             SaveTitlePerformer grabSaveTitlePerformer,
                                             BaseFileService baseFileService, GrabDocSaveOperation grabDocSaveOperation, 
-                                            GrabDocUpdateOperation grabDocUpdateOperation,BaseTipService baseTipService) {
+                                            GrabDocUpdateOperation grabDocUpdateOperation,BaseTipService baseTipService,
+                                            CnblogsMenuLoadPerformer cnblogsLoadOnePerformer,CnblogsMenuLoadPerformer cnblogsLoadTwoPerformer) {
         this.baseTitleService = baseTitleService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.baseFileService = baseFileService;
         this.grabDocSaveOperation = grabDocSaveOperation;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
         this.baseTipService = baseTipService;
+        this.cnblogsLoadOnePerformer = cnblogsLoadOnePerformer;
+        this.cnblogsLoadTwoPerformer = cnblogsLoadTwoPerformer;
     }
 
     @Override
@@ -76,34 +83,21 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .getDoc(url);
         Elements els = doc.getElementsByClass("catListPostArchive");
         if (!els.isEmpty()) {
-            loadMenu(els.get(0), typeId);
+        	cnblogsLoadOnePerformer.loadMenu(els.get(0), typeId);
         } else {
+        	//第一版的菜单加载
             Element element = doc.getElementById("sidebar_postcategory");
-            if (element == null) {
-                throw new BaseKnownException("找不到加载的标签");
+            if (element != null) {
+            	cnblogsLoadOnePerformer.loadMenu(element, typeId);
             }
-            loadMenu(element, typeId);
+            //第二版的菜单加载
+            Element et = doc.getElementById("sidebar_categories");
+            if(et != null) {
+            	cnblogsLoadTwoPerformer.loadMenu(et, typeId);
+            }else {            	
+            	throw new BaseKnownException("找不到加载的标签");
+            }
         }
-    }
-
-    private void loadMenu(Element element, Long typeId) {
-        Elements elements = element.getElementsByTag("a");
-        elements.parallelStream().forEach(n -> {
-            Elements ss = HtmlGrabUtil
-                    .build(ChannelType.CNBLOGS.getValue())
-                    .getDoc(n.attr("href"))
-                    .getElementsByClass("entrylistItemTitle");
-            ss.forEach(f -> {
-                LeftMenu menu = new LeftMenu();
-                menu.setName(f.html());
-                String href = f.attr("href");
-                menu.setValue(href);
-                String[] urlspl = href.split("/");
-                menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
-                CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-                impl.saveTitle(menu, typeId);
-            });
-        });
     }
 
     public void saveTitle(LeftMenu menu, Long typeId) {

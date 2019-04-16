@@ -63,6 +63,10 @@
             </tr>
         </c:forEach>
     </table>
+    	参考：当前load地址
+    <c:forEach items="${infoList }" var="in">
+    	<div style="margin-top: 20px;">${in.menuUrl }</div>
+    </c:forEach>
 </div>
 
 
