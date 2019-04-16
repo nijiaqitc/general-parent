@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>empty page</title>
     <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png"/>
 </head>
 <body>

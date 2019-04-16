@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title></title>
+    <title>404</title>
     <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png"/>
     <link rel="stylesheet" href="${resPath }/zxgj/js/prettify.css"/>
     <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
