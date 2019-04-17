@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.njq.basis.service.cache.YxlTypeCacheManager;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
@@ -21,6 +22,7 @@ import com.njq.common.model.po.YxlType;
 import com.njq.common.model.vo.AnswerVO;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
+import com.njq.common.util.string.StringUtil;
 
 @SuppressWarnings("unchecked")
 @Service
@@ -32,15 +34,32 @@ public class YxlStudyService {
     private DaoCommon<YxlStudyAnswer> yxlStudyAnswerDao;
 	@Resource
     private DaoCommon<YxlType> yxlTypeDao;
+	@Resource
+	private YxlTypeCacheManager yxlTypeCacheManager;
 	
-	
-	public PageList<YxlStudyTitleVO> queryTitlePage(int page , int size){
+	public PageList<YxlStudyTitleVO> queryTitlePage(int page , int size,Long stTypeId,String stTitleType,String searchValue,Integer stSure){
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addPageParam(page, size);
+		cc.addEqParam("titleType", stTitleType);
+		if(stSure != 0) {
+			if(stSure == 1) {
+				cc.addEqParam("sure", true);			
+			}else {
+				cc.addEqParam("sure", false);
+			}			
+		}
+		if(stTypeId > 0 ) {
+			cc.addEqParam("typeId", stTypeId);			
+		}
+		if(!StringUtil.isEmpty(searchValue)) {
+			cc.addColumMoreLikeParam("title", searchValue);			
+		}
+		cc.addSetOrderColum("id", "desc");
 		PageList<YxlStudyTitle> titlePage = yxlStudyTitleDao.queryForPage(cc);
 		List<YxlStudyTitleVO> voList = titlePage.getList().stream().map(n->{
 			YxlStudyTitleVO vo = new YxlStudyTitleVO();
 			BeanUtils.copyProperties(n, vo);
+			vo.setTypeName(yxlTypeCacheManager.get(n.getTypeId()).getName());
 			return vo;
 		}).collect(Collectors.toList());
 		PageList<YxlStudyTitleVO> vpg = new PageList<>();
@@ -70,13 +89,14 @@ public class YxlStudyService {
 	}
 	
 	
-	public void addInfo(String title,String titleType,Long typeId ,String answer,String columDesc) {
+	public void addInfo(String title,String titleType,Long typeId ,String answer,String columDesc,Boolean sure) {
 		YxlStudyTitle t = new YxlStudyTitle();
 		t.setCreateDate(new Date());
 		t.setIsNeedStudy(false);
 		t.setTitle(title);
 		t.setTitleType(titleType);
 		t.setTypeId(typeId);
+		t.setSure(sure);
 		yxlStudyTitleDao.save(t);
 		
 		YxlStudyAnswer a = new YxlStudyAnswer();
@@ -88,7 +108,7 @@ public class YxlStudyService {
 	}
 	
 	
-	public void updateInfo(Long id , String title,String titleType,Long typeId ,String answer,String columDesc) {
+	public void updateInfo(Long id , String title,String titleType,Long typeId ,String answer,String columDesc,Boolean sure) {
 		YxlStudyTitle t = new YxlStudyTitle();
 		t.setId(id);
 		t.setCreateDate(new Date());
@@ -96,6 +116,7 @@ public class YxlStudyService {
 		t.setTitle(title);
 		t.setTitleType(titleType);
 		t.setTypeId(typeId);
+		t.setSure(sure);
 		yxlStudyTitleDao.updateByPrimaryKeySelective(t);
 		ConditionsCommon cc = new ConditionsCommon();
 		cc.addEqParam("titleId", t.getId());
@@ -117,6 +138,7 @@ public class YxlStudyService {
 		ConditionsCommon cc=new ConditionsCommon();
 		cc.addEqParam("typeId", typeId);
 		cc.addEqParam("titleType", titleType);
+		cc.addSetOrderColum("id", "desc");
 		List<YxlStudyTitle> titlePage = yxlStudyTitleDao.queryColumnForList(cc);
 		if(CollectionUtils.isEmpty(titlePage)) {
 			return Collections.EMPTY_LIST;

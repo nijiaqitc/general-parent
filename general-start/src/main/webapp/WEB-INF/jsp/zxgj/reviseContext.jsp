@@ -33,24 +33,24 @@
         <div class="contextArea">
         	<h2 style="font-size: 24px;">${titleTypeInfo.name }</h2>
         	<c:forEach items="${studyList }" var="info" varStatus="status">
-        		<div style = "margin-top: 20px;overflow: auto;">
+        		<div style = "margin-top: 10px;overflow: auto;">
         			<div align="left" style="font-size: 20px;float: left;height: 28px;">
         				<strong>
-	        				${status.index+1 }、${info.title }
+	        				${status.index+1 }、
+							<span onclick="setValue('${info.id }',this)"  
+								style="cursor: pointer;
+								 <c:if test="${info.isNeedStudy == true}"> color: red; </c:if> " >
+		        				${info.title }
+							</span>	        				
         				</strong>
         			</div>
-        			<div style="float: right;padding-top: 8px;">
-        				<c:if test="${showTitle == true }">
-	        				<span onclick="showAnswer(this)"   style="cursor: pointer;" >
-								<i class='icon-eye-open starcl'></i>
-							</span>
-        				</c:if> 
-						<span onclick="setValue('${info.id }',this)"  
-							style="cursor: pointer;
-							 <c:if test="${info.isNeedStudy == true}"> color: red; </c:if> " >
-							<i class='icon-star starcl'></i>
-						</span>
-        			</div>
+       				<c:if test="${showTitle == true }">
+	        			<div style="float: right;padding-top: 8px;">
+		        				<span onclick="showAnswer(this)"   style="cursor: pointer;" >
+									<i class='icon-eye-open starcl'></i>
+								</span>
+	        			</div>
+       				</c:if> 
         		</div>
        			
         		<div  class="textStx" <c:if test="${showTitle == true }"> style="display: none;" </c:if>>
@@ -58,7 +58,7 @@
 						<div>
 		        			${an.answer }
 						</div>
-						<c:if test="${an.columDesc != '' }">
+						<c:if test="${an.columDesc !=null&&an.columDesc != '' }">
 			        		<div class="refcls">
 			        			${an.columDesc }
 			        		</div>

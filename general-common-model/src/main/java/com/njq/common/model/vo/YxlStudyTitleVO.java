@@ -15,6 +15,10 @@ public class YxlStudyTitleVO implements Serializable{
 
 	private Long typeId;
 
+	private String typeName;
+	
+	private Boolean sure;
+	
 	public Long getId() {
 		return id;
 	}
@@ -53,6 +57,22 @@ public class YxlStudyTitleVO implements Serializable{
 
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public Boolean getSure() {
+		return sure;
+	}
+
+	public void setSure(Boolean sure) {
+		this.sure = sure;
 	}
 
 	

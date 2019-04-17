@@ -130,6 +130,7 @@
 			},
 			wordUrl : "/",// 内容上传地址
 			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			parseTextType:1,//粘贴文本方式，1：带格式粘贴  2：无格式粘贴
 			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
 			indentValue : "24px",// 段落缩进位数
 			wordCount : {
@@ -195,6 +196,7 @@
 			},
 			wordUrl : "/",// 内容上传地址
 			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			parseTextType:1,//粘贴文本方式，1：带格式粘贴  2：无格式粘贴
 			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
 			indentValue : "24px",// 段落缩进位数
 			wordCount : {
@@ -260,6 +262,7 @@
 			},
 			wordUrl : "editToSave",// 内容上传地址
 			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			parseTextType:1,//粘贴文本方式，1：带格式粘贴  2：无格式粘贴
 			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
 			indentValue : "24px",// 段落缩进位数
 			wordCount : {
@@ -325,6 +328,7 @@
 			},
 			wordUrl : "editToSave",// 内容上传地址
 			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			parseTextType:2,//粘贴文本方式，1：带格式粘贴  2：无格式粘贴
 			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
 			indentValue : "24px",// 段落缩进位数
 			wordCount : {
@@ -349,7 +353,7 @@
 				timestamp:"timestamp"//时间轴变量名
 			},
 			// 所使用的按钮
-			useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode" ]
+			useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode","njqEditor_addHref" ]
 		}
 		// ------------------------------------------------------------------------------------------
 	} else {
@@ -366,6 +370,7 @@
 			},
 			wordUrl : "/yxl/saveKnowledge",// 内容上传地址
 			parsePicType : 1,// 粘贴图片的方式，1:抓取并上传到服务器，2:不上传图片，使用网络地址
+			parseTextType:1,//粘贴文本方式，1：带格式粘贴  2：无格式粘贴
 			initContent : "",// 默认编辑器初始文本，如果不需要，直接设置为""即可
 			indentValue : "24px",// 段落缩进位数
 			wordCount : {

@@ -13,7 +13,7 @@
        .textStx{
        		font-size: 16px;
        	    clear: both;
-		    margin-top: 20px;
+		    margin-top: 10px;
 		    text-indent: 24px;
        }
        .refcls{
@@ -34,31 +34,30 @@
 		<div class="menu-box" align="left">
 			<h2 style="font-size: 24px;">${titleTypeInfo.name }</h2>
         	<c:forEach items="${studyList }" var="info" varStatus="status">
-        		<div style = "margin-top: 20px;overflow: auto;">
-        			<div align="left" style="font-size: 20px;float: left;">
+        		<div style = "margin-top: 10px;overflow: auto;">
+        			<div align="left" style="font-size: 20px;float: left;padding: 0px 10px;">
         				<strong>
-	        				${status.index+1 }、${info.title }
+	        				${status.index+1 }、
+	        				<span onclick="setValue('${info.id }',this)" style="cursor: pointer;margin-right: 20px;
+								 <c:if test="${info.isNeedStudy == true}"> color: red; </c:if> " >
+		        				${info.title }
+							</span>
         				</strong>
         			</div>
-        			<div style="float: right;">
-        				<c:if test="${showTitle == true }">
+       				<c:if test="${showTitle == true }">
+	        			<div style="float: right;">
 							<span onclick="showAnswer(this)"   style="cursor: pointer;" >
 								<i class='icon-eye-open starcl'></i>
 							</span>
-        				</c:if>
-						<span onclick="setValue('${info.id }',this)"  
-							style="cursor: pointer;margin-right: 20px;
-							 <c:if test="${info.isNeedStudy == true}"> color: red; </c:if> " >
-							<i class='icon-star starcl'></i>
-						</span>
-        			</div>
+	        			</div>
+       				</c:if>
         		</div>
         		<div  class="textStx"  style="padding: 0px 20px;text-align: justify;<c:if test="${showTitle == true }"> display: none; </c:if>" >
         			<c:forEach items="${info.answerList }" var="an">
-        				<div>
+        				<div style="font-size: .9rem;font-family: auto;">
 		        			${an.answer }
         				</div>
-        				<c:if test="${an.columDesc != '' }">
+        				<c:if test="${an.columDesc !=null&&an.columDesc != '' }">
 			        		<div class="refcls">
 			        			${an.columDesc }
 			        		</div>

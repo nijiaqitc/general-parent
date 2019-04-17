@@ -11,6 +11,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>正文</title>
 	<jsp:include page="${path}/head"></jsp:include>
+	<style type="text/css">
+		.searchBtn{
+			width: 42px;border: 1px solid #ddd;text-decoration: none;margin: 0px 3px;padding: 5px 6px;font-size: 14px;color: #383e4b;
+		}
+	</style>
 </head>
 <body>
 	<!-- start:公共页，存放公共框 -->
@@ -36,12 +41,37 @@
 							</div>
 						</div>
 						<div class="box-content custom_pagination"  >
+							<div style="width: 100%;height: 50px;background-color: #eee;">
+								<div style="float: right;">
+									<select id="st_typeId" style="width: 160px;margin-top: 10px;">
+										<option value="0">可选择类型</option>
+										<c:forEach items="${typeList }" var="type">
+											<option value="${type.id }">${type.name }</option>
+										</c:forEach>
+									</select>
+									简答题
+									<input type="radio" name="st_titleType" value="1" checked="checked">
+									选择题
+									<input type="radio" name="st_titleType" value="2">
+									编写题
+									<input type="radio" name="st_titleType" value="3">
+									<select id="st_sure" name="st_sure" style="width: 80px;margin-top: 10px;">
+										<option value="0">全部</option>
+										<option value="1">确认</option>
+										<option value="2">未确认</option>
+									</select>
+									<input type="hidden" id="hideValue" >
+									<input id="st_searchValue" name="st_searchValue" type="text" style="margin-top: 10px;">
+									<a href="javascript:void(0)" type="button" id="searchId" name="searchId"  onclick="searchPage()" class="searchBtn" >确定</a>						
+								</div>
+							</div>
 							<table class="table">
 								  <thead>
 									  <tr>
 									  	  <th style="width: 15px;"><i id="topCheck" class="icon-check-empty" onclick="checkAllOrNot(this)" ></i></th>
 										  <th style="width: 20px;">ID</th>
-										  <th style="width: 80%;">标题</th>
+										  <th style="width: 65%;">标题</th>
+										  <th>分类</th>
 										  <th>类型</th>
 										  <th style="width: 30px;">操作</th>                                         
 									  </tr>
@@ -77,11 +107,12 @@
 								<div class="control-group">
 									<label  class="control-label" for="input1">父类：</label>
 									<div style="margin-left: 180px;">
-										<select id="typeId" name="typeId" style="width: 390px;">
+										<select id="typeId" name="typeId" style="width: 330px;">
 											<c:forEach items="${typeList }" var="type">
 												<option value="${type.id }">${type.name }</option>
 											</c:forEach>
 										</select>
+										确认<input type="checkbox" value="1" id="sure" name="sure"  >
 									</div>
 								</div>
 							</c:if>
@@ -89,7 +120,7 @@
 								<input type="hidden" id="id" name="id" >
 								<label  class="control-label">题目：</label>
 								<div class="controls">
-						  			<textarea id="title" name="title"  style="height: 30px;width: 390px;resize: auto;"></textarea>
+						  			<textarea id="title" name="title"  style="height: 30px;width: 378px;resize: auto;"></textarea>
 								</div>
 					  		</div>
 					  		<div class="control-group" style="line-height: 30px;">
@@ -199,6 +230,11 @@
 			}
 		}
 		
+		function searchPage(){
+			$("#hideValue").val($("#searchValue").val());
+			njqpage.makePage({},5);
+		}
+		
 		/**
 		 * 加载表格数据
 		 */
@@ -207,7 +243,11 @@
 				url:"${path}/admin/studyManage/queryTitleList",
 				data:{
 					page:page,
-					size:size
+					size:size,
+					stTypeId:$("#st_typeId").val(),
+					stTitleType:$("input[name='st_titleType']:checked").val(),
+					stSure:$("#st_sure").val(),
+					searchValue:$("#st_searchValue").val()
 				},
 				async:false,
 				type:"get",
@@ -216,7 +256,11 @@
 					ajaxAfter();
 					var str="";
 					$.each(data.list,function(n,d){
-						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td class='center'>"+d.title+"</td><td>";
+						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td ";
+						if(!d.sure){
+							str+=" style='color:#f1591c' ";
+						}
+						str+=" >"+d.title+"</td><td>"+d.typeName+"</td><td>";
 						if(d.titleType == 1){
 							str+="简答题";
 						}else if(d.titleType == 2){
@@ -259,6 +303,9 @@
 			 			$("#typeId").val(data.typeId);
 			 			$("#answer").val(data.answerList[0].answer);
 			 			$("#columDesc").val(data.answerList[0].columDesc);
+			 			if(data.sure){
+			 				$("#sure").click();
+			 			}
 			 			window.frames[0].njq.setContent(data.answerList[0].answer);
 			 			window.frames[1].njq.setContent(data.answerList[0].columDesc);
 					}

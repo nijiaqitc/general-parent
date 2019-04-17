@@ -2,6 +2,8 @@ package com.njq.common.model.vo;
 
 import java.io.Serializable;
 
+import com.njq.common.util.string.StringUtil;
+
 public class AnswerVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -14,7 +16,11 @@ public class AnswerVO implements Serializable{
 		this.answer = answer;
 	}
 	public String getColumDesc() {
-		return columDesc;
+		if(StringUtil.IsNotEmpty(columDesc)) {
+			return columDesc.trim();			
+		}else {
+			return null;
+		}
 	}
 	public void setColumDesc(String columDesc) {
 		this.columDesc = columDesc;

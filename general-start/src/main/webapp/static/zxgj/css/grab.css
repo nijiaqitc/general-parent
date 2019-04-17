@@ -1,21 +1,15 @@
 h1{
     margin: 14px 0px;
 }
-h1+p{
-    text-indent:50px;
-}
+
 h2{
     margin: 10px 0px;
 }
-h2+p{
-    text-indent:50px;
-}
+
 h3{
     margin: 6px 0px;
 }
-h3+p{
-    text-indent:50px;
-}
+
 
 table{
     border-collapse: collapse;

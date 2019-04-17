@@ -3760,6 +3760,9 @@
                 for (var i in styleNodeList) {
                     util.remove(styleNodeList[i]);
                 }
+                if(userConfig.parseTextType == 2){
+                	util.forListNode(decodeNode.firstChild, decodeNode.lastChild, this.clearDecodefun(), 1);
+                }
                 //先将p节点替换成div节点
                 this.changePtoDiv(decodeNode);
             },

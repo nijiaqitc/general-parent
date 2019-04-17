@@ -50,6 +50,9 @@ public class YxlStudyTitle implements Serializable {
 	@Column(name="modi_date")
 	private Timestamp modiDate;
 	
+	@Column(name="sure")
+	private Boolean sure;
+	
 	public YxlStudyTitle() {
 	}
 
@@ -117,4 +120,13 @@ public class YxlStudyTitle implements Serializable {
 		this.modiDate = modiDate;
 	}
 
+	public Boolean getSure() {
+		return sure;
+	}
+
+	public void setSure(Boolean sure) {
+		this.sure = sure;
+	}
+
+	
 }

@@ -21,6 +21,8 @@ public class YxlStudyVO implements Serializable{
 	
 	private Boolean isNeedStudy;
 
+	private Boolean sure;
+	
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +77,14 @@ public class YxlStudyVO implements Serializable{
 
 	public void setIsNeedStudy(Boolean isNeedStudy) {
 		this.isNeedStudy = isNeedStudy;
+	}
+
+	public Boolean getSure() {
+		return sure;
+	}
+
+	public void setSure(Boolean sure) {
+		this.sure = sure;
 	}
 	
 	

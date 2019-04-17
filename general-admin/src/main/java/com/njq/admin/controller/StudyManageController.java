@@ -32,19 +32,23 @@ public class StudyManageController {
 	@ResponseBody
 	@RequestMapping("queryTitleList")
 	public PageList<YxlStudyTitleVO> queryTitleList(Model model,
+			Long stTypeId,String stTitleType,String searchValue,
+			@RequestParam(required = false, defaultValue = "0") Integer stSure,
 			@RequestParam(required = false, defaultValue = "-1") int page,
 			@RequestParam(required = false, defaultValue = "-1") int size){
-		return yxlStudyService.queryTitlePage(page, size);
+		return yxlStudyService.queryTitlePage(page, size,stTypeId,stTitleType,searchValue,stSure);
 	}
 	
 	@ResponseBody
 	@RequestMapping("addOrUpdate")
-	public Map<String, Object> addOrUpdate(Long id, String title,String answer,String titleType,Long typeId,String columDesc) {
+	public Map<String, Object> addOrUpdate(Long id, String title,String answer,
+			String titleType,Long typeId,String columDesc,
+			@RequestParam(required = false , defaultValue = "false")  Boolean sure) {
 		try {
 			if(id == null) {
-				yxlStudyService.addInfo(title, titleType, typeId, answer, columDesc);
+				yxlStudyService.addInfo(title, titleType, typeId, answer, columDesc,sure);
 			}else {
-				yxlStudyService.updateInfo(id, title, titleType, typeId, answer, columDesc);
+				yxlStudyService.updateInfo(id, title, titleType, typeId, answer, columDesc,sure);
 			}
 			
 		} catch (Exception e) {
