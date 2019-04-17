@@ -7,7 +7,7 @@
   <title>知识复习</title>  
   <meta name="keywords" content="${tipString }">
   <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
-  <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/docView.css"  >
+  <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/studyDoc.css"  >
   <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"/>
   <style type="text/css">
        .textStx{
@@ -54,10 +54,10 @@
         		</div>
         		<div  class="textStx"  style="padding: 0px 20px;text-align: justify;<c:if test="${showTitle == true }"> display: none; </c:if>" >
         			<c:forEach items="${info.answerList }" var="an">
-        				<div style="font-size: .9rem;font-family: auto;">
+        				<div>
 		        			${an.answer }
         				</div>
-        				<c:if test="${an.columDesc !=null&&an.columDesc != '' }">
+        				<c:if test="${an.columDesc !=null && an.columDesc != '' }">
 			        		<div class="refcls">
 			        			${an.columDesc }
 			        		</div>

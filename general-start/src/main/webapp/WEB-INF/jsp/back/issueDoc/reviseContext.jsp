@@ -335,8 +335,17 @@
 			if(!$("#studyForm").valid()){
 				return;
 			}
-			$("#answer").val(window.frames[0].njq.getContent());
-			$("#columDesc").val(window.frames[1].njq.getContent());
+			if(window.frames[0].njq.hasText() == ""){
+				$("#answer").val("");			
+			}else{
+				$("#answer").val(window.frames[0].njq.getContent());
+			}
+			if(window.frames[1].njq.hasText() == ""){
+				$("#columDesc").val("");
+			}else{
+				$("#columDesc").val(window.frames[1].njq.getContent());
+			}
+			
 			showMsg("确认","确认添加？",function(t){
 				if(t){
 					$.ajax({

@@ -68,6 +68,14 @@
             getPlainTxt: function () {
                 return service.getPlainTxt();
             },
+            // 是否有文章内容
+            hasText: function() {
+            	if(this.getContentTxt().trim() == ""){
+            		return false;
+            	}else{
+            		return true;
+            	}
+            },
             // 判断是否有内容
             hasContent: function () {
                 if (editorContext.childNodes.length == 1 && editorContext.firstChild.tagName == constants.DIV) {
