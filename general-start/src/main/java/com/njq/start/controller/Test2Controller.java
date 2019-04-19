@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -96,7 +97,9 @@ public class Test2Controller {
 	}
 	
 	@RequestMapping("ffff6")
-	public String ffff6(){
-		return "test2";
+	public String ffff6(Model model,Integer page){
+		model.addAttribute("page", page);
+		model.addAttribute("req", "a=2");
+		return "test3";
 	}
 }
