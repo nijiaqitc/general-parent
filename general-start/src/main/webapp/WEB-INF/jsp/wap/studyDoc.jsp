@@ -22,6 +22,26 @@
 		    border-top: 1px dashed #aaa;
 		    text-indent: 0px;
        }
+       .customPage a{
+	       	background: #fff;
+		    width: 20%;
+		    z-index: 999;
+		    border-bottom: 1px solid #ddd;
+		    transition-duration: .5s;
+		    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+		    margin: 0;
+		    display: block;
+		    float: left;
+		    text-align: center;
+		    height: 30px;
+		    line-height: 30px;
+       }
+       .selectIndex{
+       		background-color: #efefef;
+       }
+       .unablest{
+       		color: #efefef;
+       }
     </style>
 </head> 
 <body>
@@ -31,6 +51,17 @@
 	<jsp:include page="${resPath }/wap/commonwap/loading.jsp"></jsp:include>
 	<!-- 	内容区域开始 -->
 	<div class="textContext" >
+	
+		<!-- <div class="menu-box customPage">
+			<a style="float: left;">|&lt;</a>
+			<a style="float: left;">&lt;</a>
+			<a style="float: left;">第1页</a>
+			<a style="float: left;">&gt;</a>
+			<a style="float: left;">&gt;|</a>
+		</div> -->
+	
+	
+	
 		<div class="menu-box" align="left">
 			<h2 style="font-size: 24px;">${titleTypeInfo.name }</h2>
         	<c:forEach items="${studyList }" var="info" varStatus="status">
@@ -68,12 +99,21 @@
 		</div>
 	</div>
 	<!-- 	内容区域结束 -->
-	
+	<div id="pageDiv"></div>
 	<!-- 	底部通用部分开始 -->
 	<jsp:include page="${resPath }/wap/commonwap/bottom.jsp"></jsp:include>
 	<!-- 	底部通用部分结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
+	<script type="text/javascript" src="${resPath }/jsTool/customPage/wapPage.js"></script>
   	<script type="text/javascript">
+	  	$(document).ready(function(){
+			njqpage.makePage({
+				excId:pageDiv,
+				index:${page},
+				totalNum:${total},
+				req:"${req}"
+			}); 
+		})
 	  	function setValue(titleId,target) {
 	        var type = 1;
 	        if(target.style["color"]=="red"){

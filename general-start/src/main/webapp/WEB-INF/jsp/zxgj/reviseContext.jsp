@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${resPath }/zxgj/css/knowledgeDoc.css">
     <link rel="stylesheet" href="${resPath }/zxgj/css/grab.css">
     <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"/>
+    <link href="${resPath }/jsTool/customPage/customPage.css" rel="stylesheet" />
     <style type="text/css">
        .textStx{
        		font-size: 16px;
@@ -67,6 +68,7 @@
         		</div>
         	</c:forEach>
         </div>
+        <div id="pageDiv"></div>
     </div>
 </div>
 <%-- <div id="csdialog" align="center"
@@ -92,7 +94,16 @@
 <script type="text/javascript" src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
 <script type="text/javascript" src="${resPath }/zxgj/js/grab.js"></script>
 <script type="text/javascript" src="${resPath }/common/js/grabCommon.js"></script>
+<script type="text/javascript" src="${resPath }/jsTool/customPage/paginationst.js"></script>
 <script type="text/javascript">
+	$(document).ready(function(){
+		njqpage.makePage({
+			excId:pageDiv,
+			index:${page},
+			totalNum:${total},
+			req:"${req}"
+		}); 
+	})
     function showhideDialog() {
         if ($("#csdialog").css("top") == "-360px") {
             $("#csdialog").animate({top: '0px'}, "fast");

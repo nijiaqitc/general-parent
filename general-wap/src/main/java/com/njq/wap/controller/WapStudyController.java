@@ -1,6 +1,6 @@
 package com.njq.wap.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.njq.basis.service.impl.YxlStudyService;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.model.vo.YxlStudyVO;
 
 @RequestMapping("wapStudy")
@@ -21,22 +22,28 @@ public class WapStudyController {
 	
 	@RequestMapping("subject")
 	public String page(Model model,Long typeId,String titleType,
+			@RequestParam(required=false,defaultValue="1") Integer page,
+			@RequestParam(required=false,defaultValue="10") Integer size,
 			@RequestParam(required=false,defaultValue="false") Boolean showTitle ,
 			@RequestParam(required=false,defaultValue="false")  Boolean needRange,
 			@RequestParam(required=false,defaultValue="false")  Boolean needStudy) {
-		List<YxlStudyVO>  studyVoList = null;
+		PageList<YxlStudyVO> pag = null;
 		if(needRange) {
-			studyVoList =  yxlStudyService.queryRandomStudyInfoList(typeId, titleType,needStudy);
+			pag = yxlStudyService.queryRandomStudyInfoPage(typeId, titleType, needStudy, page, size);
 		}else {
-			studyVoList = yxlStudyService.queryStudyInfoList(typeId, titleType,needStudy);			
+			pag = yxlStudyService.queryStudyInfoPage(typeId, titleType, needStudy, page, size);
 		}
 		
 		if(typeId != null) {
 			model.addAttribute("titleTypeInfo", yxlStudyService.getTypeById(typeId));
 		}
-		model.addAttribute("studyList", studyVoList);
+		model.addAttribute("studyList", pag.getList());
 		model.addAttribute("showTitle", showTitle);
+		model.addAttribute("page", page);
+		model.addAttribute("total", pag.getTotal());
+		model.addAttribute("req", "typeId="+typeId+"&titleType="+titleType
+				+"&page="+page+"&size="+size+"&showTitle="+showTitle
+				+"&needRange="+needRange+"&needStudy="+needStudy);
 		return "wap/studyDoc";
 	}
-	
 }

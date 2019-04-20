@@ -171,21 +171,7 @@ public class YxlStudyService {
 		if(CollectionUtils.isEmpty(titlePage)) {
 			return Collections.EMPTY_LIST;
 		}
-		return titlePage.stream().map(n->{
-			YxlStudyVO vo = new YxlStudyVO();
-			BeanUtils.copyProperties(n, vo);
-			ConditionsCommon condition=new ConditionsCommon();
-			condition.addEqParam("titleId", n.getId());
-			List<YxlStudyAnswer> answerList = yxlStudyAnswerDao.queryColumnForList(condition);
-			vo.setAnswerList(
-			answerList.stream().map(m->{
-				AnswerVO v = new AnswerVO();
-				v.setAnswer(m.getAnswer());
-				v.setColumDesc(m.getColumDesc());
-				return v;
-			}).collect(Collectors.toList()));
-			return vo;
-		}).collect(Collectors.toList());
+		return  this.convert(titlePage);
 	}
 	
 	public void updateToNeedStudy(Long id,Boolean type) {
@@ -201,6 +187,47 @@ public class YxlStudyService {
 		return list;
 	}
 	
+	
+	public PageList<YxlStudyVO> queryStudyInfoPage(Long typeId,String titleType,Boolean needStudy,Integer page,Integer size){
+		ConditionsCommon cc=new ConditionsCommon();
+		if(typeId != null) {
+			cc.addEqParam("typeId", typeId);
+		}
+		cc.addEqParam("titleType", titleType);
+		if(needStudy) {
+			cc.addEqParam("isNeedStudy", needStudy);			
+		}
+		cc.addPageParam(page, size);
+		PageList<YxlStudyTitle> pglist = yxlStudyTitleDao.queryForPage(cc);
+		PageList<YxlStudyVO> plt = new PageList<YxlStudyVO>();
+		plt.setList(this.convert(pglist.getList()));
+		plt.setTotal(pglist.getTotal());
+		return plt;
+	}
+	
+	public PageList<YxlStudyVO> queryRandomStudyInfoPage(Long typeId,String titleType,Boolean needStudy,Integer page,Integer size){
+		PageList<YxlStudyVO> pg = this.queryStudyInfoPage(typeId, titleType, needStudy, page, size);
+		Collections.shuffle(pg.getList());
+		return pg;
+	}
+	
+	private List<YxlStudyVO> convert(List<YxlStudyTitle> titleList){
+		return titleList.stream().map(n->{
+			YxlStudyVO vo = new YxlStudyVO();
+			BeanUtils.copyProperties(n, vo);
+			ConditionsCommon condition=new ConditionsCommon();
+			condition.addEqParam("titleId", n.getId());
+			List<YxlStudyAnswer> answerList = yxlStudyAnswerDao.queryColumnForList(condition);
+			vo.setAnswerList(
+			answerList.stream().map(m->{
+				AnswerVO v = new AnswerVO();
+				v.setAnswer(m.getAnswer());
+				v.setColumDesc(m.getColumDesc());
+				return v;
+			}).collect(Collectors.toList()));
+			return vo;
+		}).collect(Collectors.toList());
+	}
 	
 	public List<YxlType> queryTypeList(){
 		ConditionsCommon condition = new ConditionsCommon();
