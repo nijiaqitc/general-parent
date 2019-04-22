@@ -13,6 +13,7 @@ import com.njq.common.model.po.YxlType;
 import com.njq.common.util.encrypt.Md5Util;
 import com.njq.common.util.other.CookieExpire;
 import com.njq.common.util.other.CookieUtil;
+import com.njq.yxl.service.YxlColumnService;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 import com.njq.yxl.service.YxlNoteService;
@@ -162,6 +163,13 @@ public class PersonalController {
         return "redirect:"+jumpurl;
     }
 
+    @Resource
+    private YxlColumnService yxlColumnService;
+    @RequestMapping("recover")
+    public void recoverData() {
+//    	yxlColumnService.getData();
+    	yxlColumnService.removeSame();
+    }
 
 
 }

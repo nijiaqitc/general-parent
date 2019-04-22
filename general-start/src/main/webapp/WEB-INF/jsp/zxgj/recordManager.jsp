@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"  />
 <link rel="stylesheet" href="${resPath }/zxgj/css/recordManager.css">
+<link rel="stylesheet" href="${resPath }/jsTool/customPage/customPage.css" />
 </head>
 <body>
     <div id="rightContext" class="rightContextt">
@@ -36,10 +37,12 @@
                 <div id="genList"></div>
             </div>
             <div class="rightContextArea" align="left">
+            	<input id="hideDocId" type="hidden">
             	<input id="curFile" type="hidden">
                 <div class="emptyShow">请选择标签进行查看...</div>
                 <div align="left" class="outdiv" id="tablearea" >
                 </div>
+                <div id="pageDiv"></div>
             </div>
         </div>
         <div style="height: 100px;display: block;"></div>
@@ -88,6 +91,7 @@
 <script type="text/javascript">
 var jspath="${path}"
 </script>
+<script type="text/javascript" src="${resPath }/jsTool/customPage/customPage.js"></script>
 <!--     加载用户自定义配置 -->
 <script type="text/javascript" src="${resPath }/zxgj/js/recordManager.js"></script>
 </html>

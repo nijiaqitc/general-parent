@@ -9,6 +9,7 @@
   <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
   <link rel="stylesheet" type="text/css" href="${resPath }/wap/css/studyDoc.css"  >
   <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="${resPath }/jsTool/customPage/wapPage.css"/>
   <style type="text/css">
        .textStx{
        		font-size: 16px;
@@ -21,26 +22,6 @@
 		    margin-top: 20px;
 		    border-top: 1px dashed #aaa;
 		    text-indent: 0px;
-       }
-       .customPage a{
-	       	background: #fff;
-		    width: 20%;
-		    z-index: 999;
-		    border-bottom: 1px solid #ddd;
-		    transition-duration: .5s;
-		    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-		    margin: 0;
-		    display: block;
-		    float: left;
-		    text-align: center;
-		    height: 30px;
-		    line-height: 30px;
-       }
-       .selectIndex{
-       		background-color: #efefef;
-       }
-       .unablest{
-       		color: #efefef;
        }
     </style>
 </head> 
@@ -111,6 +92,7 @@
 				excId:pageDiv,
 				index:${page},
 				totalNum:${total},
+				size:100,
 				req:"${req}"
 			}); 
 		})

@@ -53,16 +53,25 @@ var njqpage={
 			this.joinParam.select=this.makeHref((this.param.f+" class='selectIndex' "+this.param.d+this.index+this.param.e),this.index);
 		},
 		init:function(config){
-			this.totalNum = config.totalNum;
-			//计算出总共要分多少页
-			this.total=Math.ceil(this.totalNum/this.size);
 			this.excId = config.excId;
-			this.index = config.index;
-			this.param.reqParam=config.req;
+			if(config.index){
+				this.index = config.index;
+			}
+			if(config.size){
+				this.size=config.size;			
+			}
+			if(config.req){
+				this.param.reqParam=config.req;				
+			}
 			if(this.param.reqParam != ""){
 				this.param.f=this.param.a+"?page={0}&"+this.param.reqParam+"'";
 			}else{
 				this.param.f=this.param.a+"?page={0}'";
+			}
+			if(config.totalNum){
+				this.totalNum = config.totalNum;
+				//计算出总共要分多少页
+				this.total=Math.ceil(this.totalNum/this.size);				
 			}
 			this.configParam();
 		},

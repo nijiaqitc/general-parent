@@ -1,7 +1,5 @@
 package com.njq.wap.controller;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,7 @@ public class WapStudyController {
 	@RequestMapping("subject")
 	public String page(Model model,Long typeId,String titleType,
 			@RequestParam(required=false,defaultValue="1") Integer page,
-			@RequestParam(required=false,defaultValue="10") Integer size,
+			@RequestParam(required=false,defaultValue="100") Integer size,
 			@RequestParam(required=false,defaultValue="false") Boolean showTitle ,
 			@RequestParam(required=false,defaultValue="false")  Boolean needRange,
 			@RequestParam(required=false,defaultValue="false")  Boolean needStudy) {
@@ -42,8 +40,7 @@ public class WapStudyController {
 		model.addAttribute("page", page);
 		model.addAttribute("total", pag.getTotal());
 		model.addAttribute("req", "typeId="+typeId+"&titleType="+titleType
-				+"&page="+page+"&size="+size+"&showTitle="+showTitle
-				+"&needRange="+needRange+"&needStudy="+needStudy);
+				+"&showTitle="+showTitle+"&needRange="+needRange+"&needStudy="+needStudy);
 		return "wap/studyDoc";
 	}
 }

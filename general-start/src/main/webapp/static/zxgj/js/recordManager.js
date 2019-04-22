@@ -191,11 +191,22 @@ function seleTit(target,docId){
 	$(".titleActive").removeClass("titleActive");
 	$(target).addClass("titleActive");
 	$("#curFile").val(docId);
+	$("#hideDocId").val(docId);
+	njqpage.makePage({
+		excId:pageDiv,
+		click:loadTableData
+	}); 
+}
+
+function loadTableData(page,size){
 	$.ajax({
         url:jspath+"/admin/note/queryTypeRecordList",
         type:"post",
+        async:false,
         data:{
-            id:docId
+        	page:page,
+			size:size,
+            id:$("#hideDocId").val()
         },
         success:function(data){
         	if(data.state==1){
@@ -243,10 +254,14 @@ function seleTit(target,docId){
         			$("table").append(ctr);
         		}
         		setTableColor();
+        		
+        		njqpage.totalNum=Number(data.total);
         	}
         }
     })
 }
+
+
 function editTr(opt){
 	if(opt.edit){
 		saveOrUpdate(opt);

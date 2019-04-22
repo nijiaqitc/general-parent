@@ -1,7 +1,9 @@
 package com.njq.yxl.service;
 
+import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.YxlColumnDefine;
 import com.njq.common.model.po.YxlColumnStore;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +101,14 @@ public class YxlColumnService {
         return yxlColumnStoreDao.queryForListNoPage(cc);
     }
 
+    public PageList<YxlColumnStore> queryStorePage(Long type,Integer page, Integer size){
+    	ConditionsCommon cc = new ConditionsCommon();
+    	cc.addPageParam(page, size);
+        cc.addEqParam("record_type", type);
+        cc.addSetOrderColum("id", "desc");
+    	return yxlColumnStoreDao.queryForPage(cc);
+    		
+    }
 
     public List<YxlTypeName> queryNameList(Long parentId) {
         ConditionsCommon cc = new ConditionsCommon();
@@ -136,4 +147,44 @@ public class YxlColumnService {
 
     }
 
+    public void getData() {
+    	ConditionsCommon cc = new ConditionsCommon();
+    	cc.addEqParam("recordType", 52L);
+    	List<YxlColumnStore> storeList = yxlColumnStoreDao.queryColumnForList(cc);
+    	for(int i=0;i<storeList.size();i++) {
+    		System.out.println(storeList.get(i).getCol1());
+    		System.out.println(storeList.get(i).getCol1().trim());
+    		YxlColumnService service = SpringContextUtil.getBean(YxlColumnService.class);
+    		service.updateObj(storeList.get(i));
+    	}
+    }
+    
+    
+    public void updateObj(YxlColumnStore store) {
+    	store.setCol1(store.getCol1().trim());
+		store.setCol2(store.getCol2().trim());
+		store.setCreateDate(new Date());
+		yxlColumnStoreDao.updateByPrimaryKeySelective(store);
+    }
+    
+    public void removeSame() {
+    	ConditionsCommon cc = new ConditionsCommon();
+    	cc.addEqParam("recordType", 55L);
+    	List<YxlColumnStore> storeList = yxlColumnStoreDao.queryColumnForList(cc);
+    	Map<String, Long> map=new HashMap<String, Long>();
+    	for (int i = 0; i < storeList.size(); i++) {
+    		if(map.get(storeList.get(i).getCol2()) != null) {
+    			YxlColumnService service = SpringContextUtil.getBean(YxlColumnService.class);
+    			service.deleteData(storeList.get(i).getId());
+    		}else {
+    			map.put(storeList.get(i).getCol2(), storeList.get(i).getId());
+    		}
+		}
+    }
+    
+    public void deleteData(Long id) {
+    	yxlColumnStoreDao.delTRealById(id);
+    }
+    
+    
 }

@@ -21,12 +21,14 @@ import com.njq.basis.service.impl.BaseCodeService;
 import com.njq.basis.service.impl.BaseUserService;
 import com.njq.basis.service.impl.YxlStudyService;
 import com.njq.common.base.config.SpringContextUtil;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.common.model.po.TbkPic;
 import com.njq.common.model.po.TbkRecommendDocView;
 import com.njq.common.model.po.TbkTip;
 import com.njq.common.model.po.TbkType;
+import com.njq.common.model.po.YxlColumnStore;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
@@ -37,6 +39,7 @@ import com.njq.tbk.service.TbkDocService;
 import com.njq.tbk.service.TbkPicService;
 import com.njq.tbk.service.TbkTipService;
 import com.njq.tbk.service.TbkTypeService;
+import com.njq.wap.service.WapRecordService;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
 import com.njq.yxl.service.YxlNoteService;
@@ -69,6 +72,8 @@ public class WapController {
     private YxlNoteService yxlNoteService;
     @Resource
 	private YxlStudyService yxlStudyService;
+    @Resource
+    private WapRecordService wapRecordService;
     
     /**
      * 跳转到首页
@@ -119,10 +124,24 @@ public class WapController {
     @RequestMapping(value = "/toMessage", method = RequestMethod.GET)
     public String toMessage(Model model) {
     	List<YxlType>  list = yxlStudyService.queryTypeList();
+    	wapRecordService.queryNameList();
 		model.addAttribute("typeList", list);
+		model.addAttribute("folderList", wapRecordService.queryNameList());
         return "wap/message";
     }
 
+    @RequestMapping("/loadStorePage")
+    public String storePage(Model model,Long recordType,
+    		@RequestParam(required=false,defaultValue="1") Integer page,
+    		@RequestParam(required=false,defaultValue="100") Integer size) {
+    	PageList<YxlColumnStore> storePage =  wapRecordService.queryStore(recordType,page,size);
+    	model.addAttribute("storeList", storePage.getList());
+    	model.addAttribute("total", storePage.getTotal());
+    	model.addAttribute("req", "recordType="+recordType);
+    	model.addAttribute("page", page);
+    	return "wap/columStore";
+    }
+    
     @NeedPwd
     @RequestMapping(value = "/note/noteList", method = RequestMethod.GET)
     public String noteList(Model model) {

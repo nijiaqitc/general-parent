@@ -79,6 +79,23 @@
 				<br>
 			</div>
 		</div>
+		
+		<div style="margin-top: 50px;overflow: auto;">
+			<div style="margin-left: 24px;">记录</div>
+			<div style="border-top: 1px dashed;border-left: 1px dashed;">
+				<br>
+			</div>
+			<div align="center" style="overflow: auto;">
+				<c:forEach items="${folderList }" var="folder">
+					<a class="menu-box boxa"  href="${path}/wap/loadStorePage?recordType=${folder.id }">${folder.name }</a>
+				</c:forEach>
+			</div>
+			<div style="border-bottom: 1px dashed;border-right: 1px dashed;">
+				<br>
+			</div>
+		</div>
+		
+		
 	</div>
 	<!-- 	正文部分结束 -->
 

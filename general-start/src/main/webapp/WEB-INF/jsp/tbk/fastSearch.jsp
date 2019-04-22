@@ -9,7 +9,7 @@
 <title>文章搜索</title>
 <jsp:include page="${resPath }/tbk/commonjsp/commonTop.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${resPath }/tbk/css/fastSearch.css"  >
-<link rel="stylesheet" type="text/css" href="${resPath }/back/css/customPage.css"  />
+<link rel="stylesheet" type="text/css" href="${resPath }/jsTool/customPage/customPage.css"  />
 </head>
 <body>
     <!--     开始：顶部联系方式 -->
@@ -56,7 +56,7 @@
     </div>
     <!--     结束：页面底部  -->
     <jsp:include page="${resPath }/tbk/commonjsp/commonBottom.jsp"></jsp:include>
-    <script type="text/javascript" src="${resPath }/back/js/customPage.js"></script>
+    <script type="text/javascript" src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script type="text/javascript" src="${resPath }/tbk/js/fastSearch.js" ></script>
 </body>
 </html>

@@ -39,12 +39,20 @@ var njqpage={
 	},
 	click:{},
 	init:function(config){
-		this.total = config.total;
-		this.excId = config.excId;
+		if(config.total){
+			this.total = config.total;			
+		}
+		if(config.excId){
+			this.excId = config.excId;			
+		}
 		this.click=config.click;
+		if(config.size){
+			this.size=config.size;			
+		}
 		if(config.loading==false){
 			this.loding=false;
 		}
+		this.index=1;
 		this.configParam();
 		if(config.size!=null&&config.size!=""){
 			this.size=config.size;			
@@ -59,28 +67,25 @@ var njqpage={
 		this.joinParam.select=this.param.a+this.param.b+this.param.c+"class='selectIndex'"+this.param.d
 	},
 	makePage:function(config,type){
-		this.param.str="";
-		//判断click是否初始化了，如果初始化了那么执行事件
-		if(typeof(this.click)=="function"){
-			if(type==5){
-				this.index=1;
-			}
-			//进行的ajax操作
-			this.click(this.index,this.size);
-			//计算出总共要分多少页
-			this.total=Math.ceil(this.totalNum/this.size);
-			
-		}
 		if(type==undefined){
 			//初始化页码变量
 			this.init(config);
 			if(this.loding==false){
 				return;
 			}
+		}
+		//判断click是否初始化了，如果初始化了那么执行事件
+		if(typeof(this.click)=="function"){
+			if(type==5){
+				this.index=1;
+			}
+			this.param.str="";
 			//进行的ajax操作
 			this.click(this.index,this.size);
 			//计算出总共要分多少页
 			this.total=Math.ceil(this.totalNum/this.size);
+		}
+		if(type==undefined){
 			//如果整个页码小于2，那么不生成页码
 			if(this.total<2){
 				this.pageFor0();
@@ -146,6 +151,7 @@ var njqpage={
 	pageFor0:function(){
 		//清空页码
 		this.param.str="";
+		$(this.excId).html("<div class='customPage'>"+this.param.str+"</div>");
 		return;
 	},
 	pageForOther:function(type){

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.admin.common.UserCommon;
 import com.njq.common.base.dao.ConstantsCommon;
+import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.YxlColumnDefine;
 import com.njq.common.model.po.YxlColumnStore;
@@ -208,11 +209,14 @@ public class NoteManageController {
 	 */
 	@RequestMapping(value = "queryTypeRecordList", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> queryTypeRecordList(Long id) {
-		List<YxlColumnStore> storeList = yxlColumnService.queryStoreList(id);
+	public Map<String, Object> queryTypeRecordList(Long id,
+			@RequestParam(required=false,defaultValue="1") Integer page, 
+			@RequestParam(required=false,defaultValue="10") Integer size) {
 		List<YxlColumnDefine> defineList = yxlColumnService.queryDefineList(id);
+		PageList<YxlColumnStore> pgList = yxlColumnService.queryStorePage(id, page, size);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("storeList", storeList);
+		map.put("storeList", pgList.getList());
+		map.put("total", pgList.getTotal());
 		map.put("defineList", defineList);
 		MessageCommon.getSuccessMap(map);
 		return map;

@@ -15,5 +15,5 @@
 
 <script src="${resPath }/back/js/publicJs.js"></script>
 <!-- 自定义分页 -->
-<script src="${resPath }/back/js/customPage.js"></script>
-<link href="${resPath }/back/css/customPage.css" rel="stylesheet" />
+<script src="${resPath }/jsTool/customPage/customPage.js"></script>
+<link href="${resPath }/jsTool/customPage/customPage.css" rel="stylesheet" />
