@@ -3,10 +3,15 @@
  */
 package com.njq.common.base.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PageList<T> {
+public class PageList<T> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//总的记录数
 	private int total;
 	//返回的集合

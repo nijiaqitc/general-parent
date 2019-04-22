@@ -25,4 +25,5 @@ public class YxlTypeCacheManager extends GenericValueCacheManager<Long, YxlType>
     	return yxlTypeDao.queryTById(id);
 	}
 
+    
 }

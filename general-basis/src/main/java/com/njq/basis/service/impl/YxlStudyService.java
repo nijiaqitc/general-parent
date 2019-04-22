@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.njq.basis.service.cache.YxlStudyCacheManager;
 import com.njq.basis.service.cache.YxlTypeCacheManager;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
@@ -23,6 +24,7 @@ import com.njq.common.model.vo.AnswerVO;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
 import com.njq.common.util.string.StringUtil;
+import com.njq.common.util.string.StringUtil2;
 
 @SuppressWarnings("unchecked")
 @Service
@@ -36,6 +38,8 @@ public class YxlStudyService {
     private DaoCommon<YxlType> yxlTypeDao;
 	@Resource
 	private YxlTypeCacheManager yxlTypeCacheManager;
+	@Resource
+	private YxlStudyCacheManager yxlStudyCacheManager;
 	
 	public PageList<YxlStudyTitleVO> queryTitlePage(int page , int size,Long stTypeId,String stTitleType,String searchValue,Integer stSure){
 		ConditionsCommon cc=new ConditionsCommon();
@@ -189,20 +193,25 @@ public class YxlStudyService {
 	
 	
 	public PageList<YxlStudyVO> queryStudyInfoPage(Long typeId,String titleType,Boolean needStudy,Integer page,Integer size){
-		ConditionsCommon cc=new ConditionsCommon();
-		if(typeId != null) {
-			cc.addEqParam("typeId", typeId);
+		String key = StringUtil2.format("studyPage-{0}-{1}-{2}-{3}-{4}", typeId,titleType,needStudy,page,size);
+		PageList<YxlStudyVO> pg = yxlStudyCacheManager.get(key);
+		if(pg == null) {
+			ConditionsCommon cc=new ConditionsCommon();
+			if(typeId != null) {
+				cc.addEqParam("typeId", typeId);
+			}
+			cc.addEqParam("titleType", titleType);
+			if(needStudy) {
+				cc.addEqParam("isNeedStudy", needStudy);			
+			}
+			cc.addPageParam(page, size);
+			PageList<YxlStudyTitle> pglist = yxlStudyTitleDao.queryForPage(cc);
+			pg = new PageList<YxlStudyVO>();
+			pg.setList(this.convert(pglist.getList()));
+			pg.setTotal(pglist.getTotal());
+			yxlStudyCacheManager.update(key, pg);
 		}
-		cc.addEqParam("titleType", titleType);
-		if(needStudy) {
-			cc.addEqParam("isNeedStudy", needStudy);			
-		}
-		cc.addPageParam(page, size);
-		PageList<YxlStudyTitle> pglist = yxlStudyTitleDao.queryForPage(cc);
-		PageList<YxlStudyVO> plt = new PageList<YxlStudyVO>();
-		plt.setList(this.convert(pglist.getList()));
-		plt.setTotal(pglist.getTotal());
-		return plt;
+		return pg;
 	}
 	
 	public PageList<YxlStudyVO> queryRandomStudyInfoPage(Long typeId,String titleType,Boolean needStudy,Integer page,Integer size){
