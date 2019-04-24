@@ -183,7 +183,7 @@
 			if(njqEditor.editorNodes[1].api.hasText() == ""){
 				$("#options").val("");
 			}else{
-				$("#options").val(njqEditor.editorNodes[1].api.getContent());
+				$("#options").val(njqEditor.editorNodes[1].api.getContentTxt());
 			}
 			if(njqEditor.editorNodes[2].api.hasText() == ""){
 				$("#answer").val("");			

@@ -46,6 +46,12 @@ h2{font-family: "microsoft yahei"; font-size: 14px;}
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
     margin: 0;
 }
+.topMenu{
+     height: 30px;
+     position:fixed; 
+     top:0; 
+     left: 0;
+ }
 /* 	结束：div块 */
 
 /* 开始：导航条*/

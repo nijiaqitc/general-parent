@@ -38,6 +38,7 @@
 			<div style="padding-top: 20px;overflow: auto;">
 				<div align="center" class="seleType"><a href="yxlIssueDoc">系列文章</a></div>
 				<div align="center" class="seleType"><a href="issueDoc">tbk文章</a></div>
+				<div align="center" class="seleType"><a href="/admin/studyManage/issueRevise">复习文章</a></div>
 			</div>
 			
 		</div>

@@ -53,6 +53,9 @@
 				<a class="menu-box boxa" href="javascript:void(0)" onclick="loadInfo(null,true)" >
 					<div class="titleArea">待复习</div>
 				</a>
+				<a href="study/examinations" >
+					<div class="titleArea">考试一下</div>
+				</a>
 			</div>
 		</div>
 	</div>

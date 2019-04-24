@@ -59,6 +59,16 @@ public class StudyController {
 		return "zxgj/reviseContext";
 	}
 	
+	
+	@RequestMapping("examinations")
+	public String examinations(Model model) {
+		
+		
+		
+		return "zxgj/examinations";
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping("queryStydyInfo")
 	public List<YxlStudyVO> queryStydyInfo(String type,Boolean needFlag){
