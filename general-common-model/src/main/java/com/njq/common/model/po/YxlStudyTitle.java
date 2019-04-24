@@ -53,6 +53,12 @@ public class YxlStudyTitle implements Serializable {
 	@Column(name="sure")
 	private Boolean sure;
 	
+	@Column(name="general")
+	private String general;
+	
+	@Column(name="options")
+	private String options;
+	
 	public YxlStudyTitle() {
 	}
 
@@ -128,5 +134,20 @@ public class YxlStudyTitle implements Serializable {
 		this.sure = sure;
 	}
 
+	public String getGeneral() {
+		return general;
+	}
+
+	public void setGeneral(String general) {
+		this.general = general;
+	}
+
+	public String getOptions() {
+		return options;
+	}
+
+	public void setOptions(String options) {
+		this.options = options;
+	}
 	
 }

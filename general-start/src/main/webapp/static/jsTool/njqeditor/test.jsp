@@ -38,7 +38,7 @@
 
     <!-- 包括但不限于第三方是什么作用、第三方怎么用、我们哪里用的、还可以怎么用、用得好不好等等 -->
     <div align="center" >
-        <div id="njqEditorDiv" modelStyle="styleTwo" env="1"></div>
+        <div prefix="design" name="njqEditorDiv" modelStyle="styleTwo" env="1"></div>
     </div>
     
     <div id="aaaa1" style="display: none;"></div>

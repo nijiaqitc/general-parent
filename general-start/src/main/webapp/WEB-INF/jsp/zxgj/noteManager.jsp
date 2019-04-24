@@ -56,7 +56,7 @@
                     </div>
                     <hr style="margin-top: 20px;margin-bottom: 20px;">
                     <div style="overflow: auto;">
-                       <div id="njqEditorDiv" modelStyle="styleSeven"></div>
+                       <div prefix="" name="njqEditorDiv" modelStyle="styleSeven"></div>
                     </div>
                     <div style="outline:none;background-color: white;text-indent: 24px;" id="noteContext"></div>
                 </div>

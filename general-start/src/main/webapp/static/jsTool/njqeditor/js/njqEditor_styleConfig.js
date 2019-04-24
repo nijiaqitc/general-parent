@@ -117,12 +117,12 @@
 			node.style[styleName]=styleValue;	
 		},
 		//全屏操作
-		fullSceen:function(editorNode){
-			var body=document.getElementById("njqEditor_body");
-			var bottom=document.getElementById("njqEditor_wordCount").parentNode;
-			var toos=document.getElementById("njqEditor_toolDiv");
-			var editorDiv=document.getElementById("njqEditor_editorDiv");
-			var editorTip=document.getElementById("njqEditor_tip");
+		fullSceen:function(editorNode,prefix){
+			var body=document.getElementById(prefix+"njqEditor_body");
+			var bottom=document.getElementById(prefix+"njqEditor_wordCount").parentNode;
+			var toos=document.getElementById(prefix+"njqEditor_toolDiv");
+			var editorDiv=document.getElementById(prefix+"njqEditor_editorDiv");
+			var editorTip=document.getElementById(prefix+"njqEditor_tip");
 			editorNode.classList.remove("editor_normal");
 			editorNode.classList.add("editor_full");
 			body.classList.add("editor_full_body");
@@ -150,12 +150,12 @@
 			}
 		},
 		//取消全屏操作
-		cancelFullSceen:function(editorNode){
-			var body=document.getElementById("njqEditor_body");
-			var bottom=document.getElementById("njqEditor_wordCount").parentNode;
-			var toos=document.getElementById("njqEditor_toolDiv");
-			var editorDiv=document.getElementById("njqEditor_editorDiv");
-			var editorTip=document.getElementById("njqEditor_tip");
+		cancelFullSceen:function(editorNode,prefix){
+			var body=editorNode.getElementById(prefix+"njqEditor_body");
+			var bottom=editorNode.getElementById(prefix+"njqEditor_wordCount").parentNode;
+			var toos=editorNode.getElementById(prefix+"njqEditor_toolDiv");
+			var editorDiv=editorNode.getElementById(prefix+"njqEditor_editorDiv");
+			var editorTip=editorNode.getElementById(prefix+"njqEditor_tip");
 			editorNode.classList.add("editor_normal");
 			editorNode.classList.remove("editor_full");
 			body.classList.remove("editor_full_body");

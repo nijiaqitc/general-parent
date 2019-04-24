@@ -18,7 +18,7 @@
         <!-- 正文区域 -->
         <div id="rightContext">
             <div><div>111</div>222</div>
-            <div id="njqEditorDiv" env="3"></div>
+            <div prefix="" name="njqEditorDiv" env="3"></div>
             <div onclick="javascript:alert(njq.getContent())" style="background-color: #333;color:white;margin-left: 4px;float: left;cursor: pointer;">获取编辑器内容</div>
             <div onclick="njq.setContent('欢迎使用')" style="background-color: #333;color:white;margin-left: 4px;float: left;cursor: pointer;">写入内容</div>
             <div onclick="javascript:alert(njq.getContentTxt())" style="background-color: #333;color:white;margin-left: 4px;float: left;cursor: pointer;">获得纯文本</div>

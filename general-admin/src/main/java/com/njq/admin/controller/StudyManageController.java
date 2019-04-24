@@ -23,10 +23,19 @@ public class StudyManageController {
 	@Resource
 	private YxlStudyService yxlStudyService;
 	
-	@RequestMapping
+	@RequestMapping("")
 	public String page(Model model) {
 		model.addAttribute("typeList", yxlStudyService.queryTypeList());
 		return "back/issueDoc/reviseContext";
+	}
+	
+	@RequestMapping("issueRevise")
+	public String issueRevise(Model model,Long id) {
+		model.addAttribute("typeList", yxlStudyService.queryTypeList());
+		if(id != null) {
+			model.addAttribute("studyInfo", yxlStudyService.getStudyInfo(id));			
+		}
+		return "back/issueDoc/issueRevise";
 	}
 	
 	@ResponseBody
@@ -42,13 +51,13 @@ public class StudyManageController {
 	@ResponseBody
 	@RequestMapping("addOrUpdate")
 	public Map<String, Object> addOrUpdate(Long id, String title,String answer,
-			String titleType,Long typeId,String columDesc,
+			String titleType,Long typeId,String columDesc,String general,String options,
 			@RequestParam(required = false , defaultValue = "false")  Boolean sure) {
 		try {
 			if(id == null) {
-				yxlStudyService.addInfo(title, titleType, typeId, answer, columDesc,sure);
+				yxlStudyService.addInfo(title, titleType, typeId, answer, columDesc,sure,options,general);
 			}else {
-				yxlStudyService.updateInfo(id, title, titleType, typeId, answer, columDesc,sure);
+				yxlStudyService.updateInfo(id, title, titleType, typeId, answer, columDesc,sure,options,general);
 			}
 			
 		} catch (Exception e) {

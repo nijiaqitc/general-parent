@@ -53,7 +53,7 @@
             <div class="btnDiv madeNode" nodeId="njqEditor_upPic">
                 <div class='boderOutDiv'>
                    <div class='toolBtnBackImg toolBtnUpPic'>
-                       <input id='testIput' type='file'  style='display:none;'>
+                       <input type='file'  style='display:none;'>
                    </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
         <div id="njqEditor_dlg_div"></div>
     </div>
     
-    <div id="njqEditorDiv" unEvent="true"></div>
+    <div prefix="design" name="njqEditorDiv" unEvent="true"></div>
     <!--    加载用户自定义配置 -->
     <script type="text/javascript" src="../js/njqEditor_config.js"></script>
     <!--    加载按钮配置 -->
@@ -93,23 +93,23 @@
     <!--    加载样式配置 -->
     <script type="text/javascript" src="../js/njqEditor_styleConfig.js"></script>
     <script type="text/javascript" id="njqEditor_eval_js">
-        (function(){
+        (function(editorNode){
         	var util=njqEditor.util;
             //从window中获取出所有按钮的配置
             var tools=window.njqEditor.toolConfig.tools;
             //储存所有转换好后的按钮对象，以id为名字，节点为对象
             var toolsNode=window.njqEditor.toolConfig.toolsNode={};
             var styles=window.njqEditor.styleConfig;
-            var toolDiv=document.getElementById("njqEditor_toolDiv");
+            var toolDiv=document.getElementById(editorNode.prefix+"njqEditor_toolDiv");
             var btnArea=util.getElementsByClassName(toolDiv,"toolsArea")[0]; 
             var madeNode=util.getElementsByClassName(toolDiv,"madeNode");
             var cusNode={},nodeId="";
             for(var i in madeNode){
                 nodeId=madeNode[i].getAttribute("nodeId");
-                cusNode[nodeId]=madeNode[i].innerHTML;
+                cusNode[editorNode.prefix+nodeId]=madeNode[i].innerHTML;
                 util.remove(madeNode[i]);
             }
-            var userConfig=njqEditor.userConfig;
+            var userConfig=editorNode.userConfig;
             var allBtns={1:[],2:[],3:[],4:[],5:[]};
             for(var name in tools){
             	if(util.indexOf(userConfig.useBtn,name)==-1){
@@ -121,7 +121,7 @@
                     for(var attr in object){
                         node[attr]=object[attr];
                     }
-                    node.id=name;
+                    node.id=editorNode.prefix+name;
                     node.title=node.title;
                     toolsNode[name]=node;
                     if(!node.isEnable){
@@ -163,7 +163,7 @@
                 }
             }
             util.remove(btnArea.lastChild);
-        })()
+        })(njqEditor.editorNodes[0])
     </script>
         
 </body>

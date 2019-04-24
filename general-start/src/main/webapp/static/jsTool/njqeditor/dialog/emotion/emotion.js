@@ -67,7 +67,7 @@
 		var img=document.createElement("img");
 		var tempImg,tempd1=d1.cloneNode(),tempd2=d2.cloneNode();
 		var picName="dialog/emotion/images/"+name+"/"+name;
-		var sysurl=njqEditor.userConfig.url;
+		var sysurl=njqEditor.sysConfig.url;
 		for(var i=0;i<num;i++){
 			tempImg=img.cloneNode();
 			tempd2=d2.cloneNode();

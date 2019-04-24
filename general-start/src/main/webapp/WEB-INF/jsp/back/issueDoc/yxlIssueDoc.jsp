@@ -34,7 +34,7 @@
 		<div id="rightContext">
 			<div style="padding-top: 20px;overflow: auto;">
 				<div align="center">
-					<div id="njqEditorDiv">${docdetail.doc }</div>
+					<div prefix="" name="njqEditorDiv">${docdetail.doc }</div>
 				</div>
 				<div style="display: none;">
 				    <input id="upIsUpdate" type="hidden" value="${isUpdate }">

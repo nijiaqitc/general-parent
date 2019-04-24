@@ -8,7 +8,7 @@
 <link href="${resPath }/jsTool/njqeditor/css/njqEditor_styleTwo.css"  rel="stylesheet">
 </head>
 <body>
-<div id="njqEditorDiv" modelStyle="styleTwo" env="4" ></div>
+<div prefix="" name="njqEditorDiv" modelStyle="styleTwo" env="4" ></div>
 <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 </body>
 </html>

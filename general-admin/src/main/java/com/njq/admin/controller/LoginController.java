@@ -81,7 +81,7 @@ public class LoginController {
         user.setCreateBy(ConstantsCommon.Oper_User.NO_USER);
         user.setCreateDate(new Date());
         user.setModiBy(ConstantsCommon.Oper_User.NO_USER);
-        userService.saveUser(user, null, map);
+//        userService.saveUser(user, null, map);
         return map;
     }
 
@@ -93,7 +93,7 @@ public class LoginController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String, Object> loginCheck(@RequestParam String account, @RequestParam String pwd,
+    Map<String, Object> loginCheck(@RequestParam String account, @RequestParam String pwd,String jumpurl,
                                    @RequestParam String code, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         HttpSession session = request.getSession();
@@ -120,6 +120,7 @@ public class LoginController {
             session.setAttribute("powerList", (List<Map<String, Object>>) channelMap.get("children"));
             session.setAttribute("power", (Map<String, Object>) channelMap.get("power"));
             session.setAttribute("powerMap", (Map<Long, Boolean>) channelMap.get("powerMap"));
+            map.put("jumpurl", jumpurl);
             MessageCommon.getSuccessMap(map);
         }
         return map;

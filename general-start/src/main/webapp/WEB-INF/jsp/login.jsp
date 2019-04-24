@@ -61,6 +61,7 @@ label {
         <div style="padding-top: 40px;">
 	        <form id="loginForm" name="loginForm" action="" >
 				<table>
+					<input type="hidden" name="jumpurl" value="${jumpurl }">
 					<tr style=""><td>用户名：</td><td colspan="2"><input name="loginAccount" id="loginAccount" type="text" maxlength="20" style="width: 250px;"></td></tr>
 					<tr><td>密码：</td><td colspan="2"><input id="loginPasswd" name="loginPasswd" type="password" maxlength="20" style="width: 250px;"></td></tr>
 					<tr><td>验证码：</td><td><input maxlength="4" type="text" id="code" name="code" style="width: 124px;">
@@ -144,13 +145,18 @@ label {
 				data:{
 					account:$("#loginAccount").val(),
 					pwd:$("#loginPasswd").val(),
-					code:$("#code").val()
+					code:$("#code").val(),
+					jumpurl:$("#jumpurl").val()
 				},
 				type:"post",
 				dataType: "json",
 				success:function(data){
 					if(data.state==1){
-						window.location.href="${path}/loginIndex";
+						if(data.jumpurl){
+							window.location.href=data.jumpurl;							
+						}else{
+							window.location.href="${path}/loginIndex";
+						}
 					}else{
 						reloadcode();
 						$("#code").val("");

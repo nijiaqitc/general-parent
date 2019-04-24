@@ -33,7 +33,6 @@ import com.njq.admin.common.UserCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.base.other.TokenCheck;
-import com.njq.common.base.redis.RedisCommon;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.common.model.po.TbkPic;
 import com.njq.common.model.po.TbkTip;

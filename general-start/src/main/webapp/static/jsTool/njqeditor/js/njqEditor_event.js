@@ -1,28 +1,28 @@
 (function () {
-    // 编辑器总对象
-    var njqEditor = window.njqEditor;
-    var sysConfig = njqEditor.sysConfig;
-    var userConfig = njqEditor.userConfig;
-    var tools = njqEditor.toolConfig.toolsNode,
-        toolsConfig = njqEditor.toolConfig.tools,
-        util = njqEditor.util,
-        constants = njqEditor.constants,
-        ieFlag = sysConfig.ieFlag,
-        njqHistory = sysConfig.njqHistory,
-        rangeTable = sysConfig.rangeTable,
-        rangePic = sysConfig.rangePic,
-        parentIncludeNode = sysConfig.parentIncludeNode,
-        singleNode = sysConfig.singleNode,
-        ignoreNode = sysConfig.ignoreNode,
-        resetRange = null,
-        ids = njqEditor.sysConfig.editNode;
-    // 存放一些中间变量，用于方法间的过渡
-    var tempVar = {};
-    // 上传图片缓存
-    var upPicArray = {};
-    // 触发事件区域
-    (function () {
-        // 将经常要用到的几个节点单独提取出来，省的经常要进行全文寻找这个节点，获取编辑器
+	function loadEvent(editorConfig){
+		// 编辑器总对象
+	    var njqEditor = window.njqEditor;
+	    var sysConfig = njqEditor.sysConfig;
+	    var userConfig = editorConfig.userConfig;
+	    var tools = njqEditor.toolConfig.toolsNode,
+	        toolsConfig = njqEditor.toolConfig.tools,
+	        util = njqEditor.util,
+	        constants = njqEditor.constants,
+	        ieFlag = sysConfig.ieFlag,
+	        njqHistory = userConfig.njqHistory,
+	        rangeTable = userConfig.rangeTable,
+	        rangePic = userConfig.rangePic,
+	        parentIncludeNode = sysConfig.parentIncludeNode,
+	        singleNode = sysConfig.singleNode,
+	        ignoreNode = sysConfig.ignoreNode,
+	        resetRange = null,
+	        ids = editorConfig.idsNode;
+	    // 存放一些中间变量，用于方法间的过渡
+	    var tempVar = {};
+	    // 上传图片缓存
+	    var upPicArray = {};
+	    
+	    // 将经常要用到的几个节点单独提取出来，省的经常要进行全文寻找这个节点，获取编辑器
         var editorNode = ids.editor;
         // 将经常要用到的几个节点单独提取出来，省的经常要进行全文寻找这个节点，获取编辑器文本区
         var editorContext = ids.editorContext;
@@ -34,7 +34,6 @@
          * countTimer:统计字数 initTimer:重置按钮背景
          */
         var saveSceneTimer, countTimer, initTimer;
-        var makeDialog = njqEditor.makeDialog;
         var dialog = njqEditor.initDialog;
         var stMark = util.createCustomNode(constants.BOOKMARK);
         stMark.checkNext = true;
@@ -44,8 +43,28 @@
         enMark.unclear = true;
         stMark.innerHTML = "[[";
         enMark.innerHTML = "]]";
+
+        var bindEvents = editorConfig.bindEventListeners = {
+        	 // 所有事件绑定执行方法
+            _totalBandEvent: function (e) {
+                //未初始化完成前不允许操作
+                if (!sysConfig.initFinshFlag) {
+                    return;
+                }
+                if (this.njqEvent.common) {
+                    try {
+                        allEvents[this.njqEvent.common].apply(this, [e]);
+                    } catch (e) {
+                        allEvents._recoverData();
+                        if (sysConfig.errorLog) {
+                            console.error("外层控制器捕获异常，选区进行了重置！", e);
+                        }
+                    }
+                }
+            }
+        }
         // 暴露在外的api接口
-        var api = window.njq = window.njqEditor.api = {
+        var api = editorConfig.api = {
             // 获取编辑器内容
             getContent: function () {
                 return editorContext.innerHTML;
@@ -196,7 +215,6 @@
                 tools[btn].handFalse = false;
             }
         };
-
         /**
          * 按钮绑定事件，类似于controller层
          */
@@ -222,12 +240,11 @@
                 var pas = util.createCustomNode("div");
                 //此节点主要用于存放粘贴的内容且不能隐藏，如果隐藏是无法粘贴进去
                 pas.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;white-space:nowrap;";
-                pas.id = njqEditor.sysConfig.ids.editorPaste;
+                pas.id = sysConfig.ids.editorPaste;
                 ids.editorPaste = pas;
 
                 // 加载外部js时需要使用
                 njqEditor.dialogIds = {};
-                var makeDialog = njqEditor.makeDialog;
                 var btn;
                 var waitDialog = [];
                 for (var tool in tools) {
@@ -256,28 +273,11 @@
                 function loadJsSuccess(){
                 	editorContext.setAttribute("contenteditable", true);
                     resetRange = util.initRange(editorContext);
-                    njqEditor.sysConfig.initFinshFlag = true;
-                    njqEditor.sysConfig.finishEvent();
+                    sysConfig.initFinshFlag = true;
+                    sysConfig.finishEvent();
                     service.resetBtnStatus();
                     allEvents._wordCountReckon();
                     service.loadClass();
-                }
-            },
-            // 所有事件绑定执行方法
-            _totalBandEvent: function (e) {
-                //未初始化完成前不允许操作
-                if (!njqEditor.sysConfig.initFinshFlag) {
-                    return;
-                }
-                if (this.njqEvent.common) {
-                    try {
-                        allEvents[this.njqEvent.common].apply(this, [e]);
-                    } catch (e) {
-                        allEvents._recoverData();
-                        if (sysConfig.errorLog) {
-                            console.error("外层控制器捕获异常，选区进行了重置！", e);
-                        }
-                    }
                 }
             },
             // 公共绑定的方法,所有按钮事件的唯一入口
@@ -382,7 +382,7 @@
             _commonDocEventController: function (e) {
                 try {
                     for (var index in this.njqEvent[e.type]) {
-                        allEvents[document.njqEvent[e.type][index]].apply(this, [e]);
+                        allEvents[ids.editor.njqEvent[e.type][index]].apply(this, [e]);
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
@@ -578,12 +578,12 @@
             _allFullSceen: function () {
                 if (this.btnDownFlag) {
                     // 取消全屏
-                    styles.cancelFullSceen(editorNode);
+                    styles.cancelFullSceen(editorNode,editorConfig.prefix);
                     this.btnDownFlag = false;
                     styles.btnRecoverColor(this);
                 } else {
                     // 全屏
-                    styles.fullSceen(editorNode);
+                    styles.fullSceen(editorNode,editorConfig.prefix);
                     this.btnDownFlag = true;
                     styles.btnChangeColor(this);
                 }
@@ -842,7 +842,9 @@
                 } else {
                     pnode = ids.editorTool.getElementById(this.getId);
                 }
-                service.setParaOper("margin-top: " + pnode.setValue);
+                if(pnode.setValue){
+                	service.setParaOper("margin-top: " + pnode.setValue);                	
+                }
             },
             // 段后距-按钮事件
             _afterHeight: function () {
@@ -855,7 +857,9 @@
                 } else {
                     pnode = ids.editorTool.getElementById(this.getId);
                 }
-                service.setParaOper("margin-bottom: " + pnode.setValue);
+                if(pnode.setValue){
+                	service.setParaOper("margin-bottom: " + pnode.setValue);                	
+                }
             },
             // 上下间距-行间距按钮事件
             _lineHeight: function () {
@@ -868,7 +872,9 @@
                 } else {
                     pnode = ids.editorTool.getElementById(this.getId);
                 }
-                service.setParaOper("line-height: " + pnode.setValue);
+                if(pnode.setValue){
+                	service.setParaOper("line-height: " + pnode.setValue);                	
+                }
             },
             // 有序列表-按钮事件
             _selectOrderList: function () {
@@ -979,7 +985,7 @@
                     }
                 }
                 var range = service.getRange();
-                util.cutDiv(table, range);
+                service.cutDiv(table, range);
                 rangeTable.table = table;
                 service.getTableInfo(ftd);
                 resetRange.setStart(ftd, 0);
@@ -1134,14 +1140,14 @@
             },
             // 年月日-插入年月日
             _monthDay: function () {
-                var range = util.rangeAreaDele(service.getRange());
+                var range = service.rangeAreaDele(service.getRange());
                 var monthNode = service.getYMD();
                 service.insertNode(range, monthNode);
                 service.setRangeAfter(monthNode);
             },
             // 时分秒-插入时分秒
             _dayTime: function () {
-                var range = util.rangeAreaDele(service.getRange());
+                var range = service.rangeAreaDele(service.getRange());
                 var timeNode = service.getHmD();
                 service.insertNode(range, timeNode);
                 service.setRangeAfter(timeNode);
@@ -1152,10 +1158,10 @@
             },
             // 表情-插入表情
             _expression: function () {
-                var range = util.rangeAreaDele(service.getRange());
+                var range = service.rangeAreaDele(service.getRange());
                 var img = util.createCustomNode(constants.IMG);
                 img.src = this.getpic;
-                util.addCommonEventListener(img, "click", "_seleImg", 5);
+                util.addCommonEventListener(editorConfig.bindEventListeners,img, "click", "_seleImg", 5);
                 service.insertNode(range, img);
                 service.setRangeAfter(img);
             },
@@ -1229,7 +1235,7 @@
                 var range = service.getRange();
                 //把选区的内容进行删除
                 if (!range.collapsed) {
-                    util.rangeAreaDele(range);
+                	service.rangeAreaDele(range);
                 }
                 //将开始标签插入到节点中做标记
                 service.insertNode(range, stMark);
@@ -1294,7 +1300,7 @@
                     rangeTable.isDown = true;
                     rangeTable.table = util.getSpecalParentNode(constants.TABLE, tdnode);
                     service.getTableInfo(tdnode);
-                    util.addCommonEventListener(editorContext, "mouseover", "_tableMouseOver", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,editorContext, "mouseover", "_tableMouseOver", 5);
                 } else {
                     if (!rangeTable.empty) {
                         service.resetTable();
@@ -1549,6 +1555,13 @@
          * 业务逻辑处理层，类似于service层
          */
         var service = njqEditor.serviceImpl = {
+        	//重置id
+        	resetId:function(oldId){
+        		if(editorConfig.prefix){
+        			return editorConfig.prefix+oldId        			
+        		}
+        		return oldId;
+        	},
             //源码编写添加标红节点
             resetRangePlace: function () {
                 var range = util.getRange();
@@ -1796,7 +1809,7 @@
             // 弹框服务
             showDialog: function (btnNode) {
                 var id = btnNode.dlgId;
-                var nodeDialog = ids.editorDlgDiv.getElementById(id);
+                var nodeDialog = ids.editorDlgDiv.getElementById(this.resetId(id));
                 /*
 				 * 如果弹框尚未初始化，那么进行初始化
 				 */
@@ -1952,7 +1965,7 @@
             // 插入分隔线
             cutLine: function () {
                 var hr = util.createCustomNode(constants.HR);
-                var range = util.cutDiv(hr, this.getRange());
+                var range = service.cutDiv(hr, this.getRange());
                 resetRange.setStartBefore(util.getMinNode(range.startContainer.nextSibling));
                 resetRange.collapse(true);
             },
@@ -1983,8 +1996,13 @@
                         endOffset = range.endOffset;
                     }
                 } else {
-                    stText = endText = range.startContainer;
-                    stOffset = endOffset = range.startOffset;
+                	if(range.startContainer.nodeType==3){
+                		stText = endText = range.startContainer;
+                		stOffset = endOffset = range.startOffset;                		
+                	}else{
+                		stText = endText = range.startContainer.childNodes[range.startOffset-1];
+                		stOffset = endOffset = endText.length; 
+                	}
                 }
                 var parentArray = util.getOutNode(range);
                 util.forListNode(parentArray[0], parentArray[parentArray.length - 1], this.clearDecodefun(), 1);
@@ -2589,7 +2607,7 @@
                         img.width = userConfig.pic.maxWidth;
                     }
                 }
-                util.addCommonEventListener(img, "click", "_seleImg", 5);
+                util.addCommonEventListener(editorConfig.bindEventListeners,img, "click", "_seleImg", 5);
                 if (!styles.checkIsHide(ids.picSele)) {
                     styles.hideStyleNode(ids.picSele);
                     range.setStartBefore(ids.picSele.bandNode);
@@ -2597,7 +2615,7 @@
                     ids.picSele.bandNode.remove();
                     this.insertNode(range, img);
                 } else {
-                    util.rangeAreaDele(range);
+                	service.rangeAreaDele(range);
                     this.insertNode(range, img);
                 }
                 //将图片放入缓存集合中
@@ -2611,7 +2629,7 @@
             // 批量插入图片
             morePicsInsert: function (imgs) {
                 var range = this.getRange();
-                util.rangeAreaDele(range);
+                this.rangeAreaDele(range);
                 var fimg = imgs[0];
                 var eimg = imgs[imgs.length - 1];
                 var timg;
@@ -2623,7 +2641,7 @@
                     ids.picSele.bandNode.remove();
                 }
                 for (var i = 0; imgs.length > 0;) {
-                    util.addCommonEventListener(imgs[i], "click", "_seleImg", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,imgs[i], "click", "_seleImg", 5);
                     timg = imgs[i];
                     this.insertNode(range, timg);
                     timg.style.width = timg.dataWidth + "px";
@@ -3355,7 +3373,7 @@
                         return service.delUnNeedNode(node);
                     }
                     if (node.id) {
-                        if (node.id.startWith("njqEditor")) {
+                        if (node.id.contains("njqEditor")) {
                             return;
                         }
                         node.removeAttribute("id");
@@ -3433,7 +3451,7 @@
                         return util.removeNode(node);
                     }
                     if (node.id) {
-                        if (node.id.startWith("njqEditor")) {
+                        if (node.id.contains("njqEditor")) {
                             return;
                         }
                         node.removeAttribute("id");
@@ -3574,7 +3592,7 @@
             dealInnerImgs: function () {
                 var imgs = util.getElementsByTagName(editorContext, "img");
                 for (var i = 0; i < imgs.length; i++) {
-                    util.addCommonEventListener(imgs[i], "click", "_seleImg", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,imgs[i], "click", "_seleImg", 5);
                 }
                 if (userConfig.pic.upType == 2) {
                     upPicToServer();
@@ -3752,7 +3770,7 @@
             //粘贴前处理
             beforePaste: function (decodeNode) {
                 //粘贴代码的时候会出现内部全是id相同的节点，需要进行替换
-                var sameIdNodes = decodeNode.getElementById(decodeNode.id);
+                var sameIdNodes = decodeNode.getElementById(this.resetId(decodeNode.id));
                 if (sameIdNodes) {
                     for (var i = 0; i < sameIdNodes.length; i++) {
                         var div = util.createCustomNode(constants.DIV);
@@ -3903,13 +3921,12 @@
                     && editorContext.lastChild.firstChild.tagName == constants.BR)) {
                     editorContext.appendChild(util.createEmptyNode(constants.DIV));
                 }
-
                 return;
             },
             //图片加点击事件
             decodeDealImg: function (imgs) {
                 for (var i = 0; i < imgs.length; i++) {
-                    util.addCommonEventListener(imgs[i], "click", "_seleImg", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,imgs[i], "click", "_seleImg", 5);
                 }
                 if (userConfig.pic.upType == 2) {
                     upPicToServer();
@@ -4644,7 +4661,7 @@
                 if (this.checkRuleBase(node, btn)) {
                     return;
                 }
-                var nodeDialog = ids.editorDlgDiv.getElementById(btn.dlgId);
+                var nodeDialog = ids.editorDlgDiv.getElementById(this.resetId(btn.dlgId));
                 var parent = util.getOutParentNode(node);
                 if (!parent) {
                     return;
@@ -4680,9 +4697,8 @@
                 }
                 var parent = util.getOutParentNode(node);
                 if (!parent) {
-//		    		setValue=btn.defaultVaule;
-//	    			return;
-                    console.info(1111)
+		    		setValue=btn.defaultVaule;
+	    			return;
                 }
                 var innerHtml = btn.bindAttr[parent.tagName];
                 var setValue;
@@ -5971,7 +5987,7 @@
                 var liNode = util.getSpecalParentNode(constants.LI, range.startContainer);
                 if (liNode) {
                     if (!range.collapsed) {
-                        util.rangeAreaDele(range);
+                        this.rangeAreaDele(range);
                     }
                     /*
 					 * 判断当前li的节点是否为空的节点 如果是空的，那么点击回车会创建div节点，放在当前div后面
@@ -6060,7 +6076,7 @@
                 var tableNode = util.getSpecalParentNode(constants.TABLE, range.startContainer);
                 if (tableNode) {
                     if (!range.collapsed) {
-                        util.rangeAreaDele(range);
+                        this.rangeAreaDele(range);
                     }
                     var brnode = util.createCustomNode(constants.BR);
                     if (range.startContainer.innerHTML == constants.EMPTY) {
@@ -6074,7 +6090,7 @@
                     this.setRangeAfter(brnode);
                 }
                 if (flag) {
-                    resetRange = util.cutDiv(null, this.getRange());
+                    resetRange = service.cutDiv(null, this.getRange());
                 }
                 exNode = resetRange.startContainer;
                 if(window.getComputedStyle(ids.editorEditorDiv,null).height==window.getComputedStyle(ids.editorBody,null).height){
@@ -6095,7 +6111,7 @@
                         e.preventDefault();
                         return;
                     } else {
-                        util.rangeAreaDele(range);
+                        this.rangeAreaDele(range);
                     }
                 }
                 var span = util.createCustomNode(constants.SPAN);
@@ -6509,7 +6525,161 @@
             },
             hiPic: function () {
                 styles.hideStyleNode(ids.picSele);
+            },
+            /**
+             * 拆分div成为上下多行 node:拆分出来的单元格中间添加的节点
+             */
+            cutDiv: function (node, range) {
+                var sparentNode, enterNode, exNode;
+                for (var i in parentIncludeNode) {
+                    sparentNode = util.getSpecalParentNode(parentIncludeNode[i],
+                        range.startContainer);
+                    if (sparentNode) {
+                        break;
+                    }
+                }
+                if (!sparentNode) {
+                    var dNode = util.createEmptyNode(constants.DIV);
+                    if (range.startOffset > 0) {
+                    	util.insertAfter(dNode, range.startContainer.childNodes[range.startOffset - 1]);
+                    } else {
+                    	util.insertAfter(dNode, range.startContainer.childNodes[range.startOffset]);
+                    }
+                    range.setStartBefore(util.getMinNode(dNode));
+                    return range;
+                }
+                if (!range.collapsed) {
+                	util.deleteContents(range);
+                    sparentNode = util.getOutParentNode(range.startContainer);
+                }
+                if (range.collapsed && range.startContainer.id) {
+                    return util.insertNextNode(range, node);
+                }
+                if (node) {
+                    if (sparentNode.tagName == constants.TABLE) {
+                        var insertNode = util.insertCustomNode(node, sparentNode, 2);
+                        if (!insertNode.nextSibling) {
+                            var d = util.createEmptyNode(constants.DIV);
+                            util.insertAfter(d, insertNode);
+                        }
+                        range.setStartBefore(util.getMinNode(insertNode));
+                        return range;
+                    }
+                    if (util.checkIsSerisNodeChild(sparentNode,
+                        range.startContainer, range, 1)) {
+                        var insertNode = util.insertCustomNode(node, sparentNode, 1);
+                        range.setStartBefore(util.getMinNode(insertNode));
+                        return range;
+                    }
+                    if (util.checkIsSerisNodeChild(sparentNode, range.endContainer, range, 2)) {
+                        if (!sparentNode.nextElementSibling) {
+                            var lastNode = util.createCustomNode(constants.DIV);
+                            lastNode.appendChild(util.createCustomNode(constants.BR));
+                            util.insertAfter(lastNode, sparentNode);
+                        }
+                        var insertNode = util.insertCustomNode(node, sparentNode, 2);
+                        range.setStartBefore(util.getMinNode(insertNode));
+                        return range;
+                    }
+                }
+                if (!ids.editorContext.contains(sparentNode)) {
+                    if (range.startContainer.id) {
+                        return util.insertNextNode(range, node);
+                    } else {
+                        var insertNode = util.insertCustomNode(node, util.getOutParentNode(range.startContainer), 2);
+                        range.setStartBefore(util.getMinNode(insertNode));
+                        range.collapse(true);
+                        if (!insertNode.nextSibling) {
+                        	util.insertAfter(util.createEmptyNode(constants.DIV), insertNode);
+                        }
+                        return range;
+                    }
+                }
+                var tempRange = range.cloneRange();
+                tempRange.collapse(false);
+                try {
+                    tempRange.setEndAfter(sparentNode);
+                } catch (e) {
+                    console.info("出现异常了");
+                }
+                exNode = util.extractContents(tempRange, true);
+                // 剪切后原节点可能变成空节点了，所以补充一个回车符
+                if (util.checkIsEmpty(range.startContainer)) {
+                    range.startContainer.appendChild(util.createCustomNode(constants.BR));
+                }
+                if (exNode.firstChild) {
+                    var childNode = enterNode = exNode.firstChild;
+                    if (childNode.firstChild) {
+                        while (childNode.firstChild) {
+                            childNode = childNode.firstChild;
+                            // 此处判断主要是用于在空节点中加回车符
+                            if (util.checkIsEmpty(childNode)) {
+                                if (childNode.nodeType != 1) {
+                                    childNode = childNode.parentNode;
+                                }
+                                // 针对光标在节点最后位置的情况
+                                childNode.appendChild(util.createCustomNode(constants.BR));
+                                break;
+                            }
+                        }
+                    } else {
+                        childNode.appendChild(util.createCustomNode(constants.BR));
+                    }
+                    util.insertAfter(enterNode, sparentNode);
+                } else {
+                    enterNode = sparentNode.nextSibling;
+                }
+
+                if (node) {
+                	util.insertCustomNode(node, enterNode, 1);
+                }
+                if (util.checkIsEmpty(sparentNode)) {
+                    sparentNode.appendChild(util.createCustomNode(constants.BR));
+                }
+                if (util.checkIstouNode(enterNode)) {
+                    range.setStart(enterNode.firstChild.firstChild, 0);
+                } else {
+                    range.setStartBefore(enterNode.firstChild);
+                }
+                range.collapse(true);
+                return range;
+            },
+            /**
+             * 删除选区选中的文字
+             */
+            rangeAreaDele: function (range) {
+                if (!range.collapsed) {
+                    var soutNode = util.getOutParentNode(range.startContainer);
+                    eoutNode = util.getOutParentNode(range.endContainer);
+                    if (soutNode != eoutNode) {
+                        if (util.checkIsTextNode(range.endContainer)) {
+                            if (range.endContainer.length == range.endOffset &&
+                                range.endContainer == util.getlastTextNode(util.getOutParentNode(range.endContainer))) {
+                                range.setEndAfter(eoutNode);
+                            }
+                        }
+                    }
+                    util.deleteContents(range);
+                }
+                return range;
+            },
+            /**
+             * 删除选区
+             */
+            deleteContents: function (range) {
+                util.deleteContents(range);
+                //不管怎么删除，都不能删除编辑区的所有内容
+                if (util.checkIsEmpty(ids.editorContext)) {
+                    var divNode = util.createEmptyNode(constants.DIV);
+                    ids.editorContext.appendChild(divNode);
+                    range.setStartBefore(util.getMinNode(divNode));
+                    range.collapse(true);
+                } else {
+                    util.resetParentNodeNewRange(range.startContainer, range);
+                }
             }
+            
+            
         };
         var dlgs = ids.editorDlgDiv;
         // 构建弹框
@@ -6519,7 +6689,7 @@
                 var temp = util.createCustomNode(constants.DIV), top, left;
                 temp.innerHTML = text;
                 temp = temp.firstChild;
-                temp.id = node.dlgId;
+                temp.id = editorConfig.prefix+node.dlgId;
                 temp.btnId = node.id;
                 dlgs.appendChild(temp);
                 if (isCenter) {
@@ -6531,8 +6701,8 @@
                     left = node.offsetLeft + 4;
                     styles.setDialogOffset(temp, top, left);
                 }
-                util.addCommonEventListener(temp, "mouseup", "_stopEvent", 5);
-                util.addCommonEventListener(temp, "mousedown", "_stopEvent", 5);
+                util.addCommonEventListener(editorConfig.bindEventListeners,temp, "mouseup", "_stopEvent", 5);
+                util.addCommonEventListener(editorConfig.bindEventListeners,temp, "mousedown", "_stopEvent", 5);
                 return temp;
             },
             // 设置标题的弹框
@@ -6543,7 +6713,7 @@
                     styles.hideDialog(temp);
                     node.defaultVaule = "段落";
                     node.valueNode = node.firstElementChild.firstElementChild;
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectType", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectType", 2);
                     loadJs(node.id, node.dlgId, "fontTitle/fontTitle.js", fun);
 
                 });
@@ -6553,10 +6723,10 @@
                 var baseSet = this.baseSet;
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node, 1);
-                    styles.showDialog(temp);
+                    styles.hideDialog(temp);
                     temp.unclose = true;
                     closeDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_addHref", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_addHref", 2);
                     loadJs(node.id, node.dlgId, "ahref/ahref.js", fun);
                 });
             },
@@ -6580,7 +6750,7 @@
                     styles.hideDialog(temp);
                     node.defaultVaule = "特殊样式";
                     node.valueNode = node.firstElementChild.firstElementChild;
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectCustom", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectCustom", 2);
                     loadJs(node.id, node.dlgId, "customStyle/customStyle.js", fun);
                 });
             },
@@ -6590,7 +6760,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.hideDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_setFontColor", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_setFontColor", 2);
                     loadJs(node.id, node.dlgId, "fontColor/fontColor.js", fun);
                 });
             },
@@ -6600,7 +6770,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.hideDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_setBackGroundColor", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_setBackGroundColor", 2);
                     loadJs(node.id, node.dlgId, "fontColor/fontColor.js", fun);
                 });
             },
@@ -6612,7 +6782,7 @@
                     styles.hideDialog(temp);
                     node.defaultVaule = "arial";
                     node.valueNode = node.firstElementChild.firstElementChild;
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectFontType", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectFontType", 2);
                     loadJs(node.id, node.dlgId, "fontType/fontType.js", fun);
                 });
             },
@@ -6624,7 +6794,7 @@
                     styles.hideDialog(temp);
                     node.defaultVaule = "16px";
                     node.valueNode = node.firstElementChild.firstElementChild;
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectFontSize", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectFontSize", 2);
                     loadJs(node.id, node.dlgId, "fontSize/fontSize.js", fun);
                 });
             },
@@ -6634,7 +6804,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.showDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectOrderList", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectOrderList", 2);
                     loadJs(node.id, node.dlgId, "orderList/orderList.js", fun);
                 });
             },
@@ -6644,7 +6814,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.showDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectunList", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_selectunList", 2);
                     loadJs(node.id, node.dlgId, "unList/unList.js", fun);
                 });
             },
@@ -6654,7 +6824,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.hideDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_beforeHeight", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_beforeHeight", 2);
                     loadJs(node.id, node.dlgId, "beforeHeight/beforeHeight.js", fun);
                 });
             },
@@ -6664,7 +6834,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.hideDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_afterHeight", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_afterHeight", 2);
                     loadJs(node.id, node.dlgId, "beforeHeight/beforeHeight.js", fun);
                 });
             },
@@ -6674,7 +6844,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.hideDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_lineHeight", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_lineHeight", 2);
                     loadJs(node.id, node.dlgId, "lineHeight/lineHeight.js", fun);
                 });
             },
@@ -6717,10 +6887,10 @@
                     for (var i = 0; i < sizeList.length; i++) {
                         childNode = sizeList[i];
                         childNode.index = i;
-                        util.addCommonEventListener(childNode, "mousedown", "_picMouseDown", 5);
-                        util.addCommonEventListener(childNode, "mouseup", "_mouseUp", 5);
+                        util.addCommonEventListener(editorConfig.bindEventListeners,childNode, "mousedown", "_picMouseDown", 5);
+                        util.addCommonEventListener(editorConfig.bindEventListeners,childNode, "mouseup", "_mouseUp", 5);
                     }
-                    util.addCommonEventListener(temp, "mouseup", "_mouseUp", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,temp, "mouseup", "_mouseUp", 5);
                 });
             },
             // 显示源代码
@@ -6757,9 +6927,9 @@
                     }
                     util.getElementsByClassName(editorNode, "codeCenterLeft")[0].innerHTML = leftDiv;
                     util.getElementsByClassName(editorNode, "codeCenterRight")[0].innerHTML = rightDiv;
-                    util.addCommonEventListener(editNode, "keyup", "_resetNum", 5);
-                    util.addCommonEventListener(editNode, "keydown", "_resetRangePlace", 5);
-                    util.addCommonEventListener(editNode, "paste", "_htmlPaste", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,editNode, "keyup", "_resetNum", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,editNode, "keydown", "_resetRangePlace", 5);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,editNode, "paste", "_htmlPaste", 5);
                 });
             },
             // 预览文档弹框
@@ -6779,7 +6949,7 @@
                         dlgs.appendChild(temp);
                         ids.editorViewBtn = temp;
                         ids.editorViewContext = util.getElementsByClassName(temp, "partOne")[0];
-                        util.addCommonEventListener(util.getElementsByClassName(temp, "topdiv")[0], "dblclick", "_closeViewDoc", 5);
+                        util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "topdiv")[0], "dblclick", "_closeViewDoc", 5);
                     });
                 }
             },
@@ -6791,7 +6961,7 @@
                     styles.showDialog(temp);
                     temp.unclose = true;
                     closeDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_useModel", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_useModel", 2);
                     loadJs(node.id, node.dlgId, "model/model.js", fun);
                 });
             },
@@ -6801,7 +6971,7 @@
                 loadPage(node.dlgUrl, function (text) {
                     var temp = baseSet(text, node);
                     styles.showDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_createTable", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_createTable", 2);
                     loadJs(node.id, node.dlgId, "table/table.js", fun);
                 })
             },
@@ -6815,7 +6985,7 @@
                     styles.showDialog(temp);
                     temp.unclose = true;
                     closeDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_expression", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_expression", 2);
                     loadJs(node.id, node.dlgId, "emotion/emotion.js", fun);
                 });
             },
@@ -6827,7 +6997,7 @@
                     styles.showDialog(temp);
                     temp.unclose = true;
                     closeDialog(temp);
-                    util.addCommonEventListener(util.getElementsByClassName(temp, "dialogValue")[0], "click", "_insertPics", 2);
+                    util.addCommonEventListener(editorConfig.bindEventListeners,util.getElementsByClassName(temp, "dialogValue")[0], "click", "_insertPics", 2);
                     loadJs(node.id, node.dlgId, "morePics/morePics.js", fun);
                 });
             }
@@ -6836,7 +7006,7 @@
         var closeDialog = function (dialog) {
             var closeBtns = util.getElementsByClassName(dialog, "closeDialog");
             for (var i = 0; i < closeBtns.length; i++) {
-                util.addCommonEventListener(closeBtns[i], "click", "_commonClose", 6, dialog, dialog.hideFun);
+                util.addCommonEventListener(editorConfig.bindEventListeners,closeBtns[i], "click", "_commonClose", 6, dialog, dialog.hideFun);
             }
         }
         // 加载html页面
@@ -6856,7 +7026,7 @@
                     fun(text);
                 }
             }
-            xmlhttp.open("GET", userConfig.url + url, true);
+            xmlhttp.open("GET", njqEditor.sysConfig.url + url, true);
             xmlhttp.send();
         }
         // html中的js
@@ -6865,12 +7035,12 @@
             var sl = src.split("/");
             var key = sl[sl.length - 1];
             if (njqEditor.dialogIds[key]) {
-                njqEditor.dialogIds[key].push(id + "&" + dlgId);
+                njqEditor.dialogIds[key].push(id + "&" + editorConfig.prefix+dlgId);
             } else {
-                njqEditor.dialogIds[key] = [(id + "&" + dlgId)];
+                njqEditor.dialogIds[key] = [(id + "&" + editorConfig.prefix+dlgId)];
             }
             var hm = util.createCustomNode("script");
-            hm.src = userConfig.url + "dialog/" + src;
+            hm.src = njqEditor.sysConfig.url + "dialog/" + src;
             util.getElementsByTagName(document, 'head')[0].appendChild(hm);
             if (fun) {
                 fun();
@@ -7030,8 +7200,7 @@
             xmlhttp.open("POST", userConfig.pic.picSrc, true);
             xmlhttp.send(formData);
         }
-
         var customEvent = njqEditor.customEvent;
-    })();
-
+	}
+	njqEditor.eventfun = loadEvent;
 })();

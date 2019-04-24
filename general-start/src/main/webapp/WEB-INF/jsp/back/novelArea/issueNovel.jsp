@@ -23,7 +23,7 @@
 			    <input type="hidden" id="title" name="title" value="${title }" >
 			    <input type="hidden" id="titleIndex" name="titleIndex" value="${titleIndex }">
 			    <input type="hidden" id="docId" name="docId" value="${docId }" >
-		        <div id="njqEditorDiv"></div>
+		        <div prefix="" name="njqEditorDiv"></div>
 		    </div>
 		    <div style="position: absolute;z-index: 10;top: 100px;right: 0px;width: 52px;background-color: #fff;height: 200px;">
 		      <div id="rightToolTitle" align="right" style="width: 47px;height: 40px;line-height: 40px;cursor: pointer;" onclick="showDialog(this,1)">标题Ψ</div>

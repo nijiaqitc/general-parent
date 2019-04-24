@@ -23,6 +23,10 @@ public class YxlStudyVO implements Serializable{
 
 	private Boolean sure;
 	
+	private String general;
+	
+	private String options;
+	
 	public Long getId() {
 		return id;
 	}
@@ -85,6 +89,22 @@ public class YxlStudyVO implements Serializable{
 
 	public void setSure(Boolean sure) {
 		this.sure = sure;
+	}
+
+	public String getGeneral() {
+		return general;
+	}
+
+	public void setGeneral(String general) {
+		this.general = general;
+	}
+
+	public String getOptions() {
+		return options;
+	}
+
+	public void setOptions(String options) {
+		this.options = options;
 	}
 	
 	

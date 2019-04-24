@@ -66,7 +66,7 @@
     	<div style="overflow: auto;">
 	        <div style="float: left;width: 100%" align="center">
 		        <div style="margin-top: 50px;" align="center">
-		            <div id="njqEditorDiv" modelStyle="${modelStyle}" env="2" ></div>
+		            <div prefix="" name="njqEditorDiv" modelStyle="${modelStyle}" env="2" ></div>
 		        </div>
 		    </div>  
     	</div>

@@ -1,13 +1,12 @@
 (function () {
-    var ignoreNode = window.njqEditor.sysConfig.ignoreNode;
-    var labels = window.njqEditor.sysConfig.mergeLabel;
-    var parentIncludeNode = window.njqEditor.sysConfig.parentIncludeNode;
-    var childIncludeNode = window.njqEditor.sysConfig.childIncludeNode;
-    var spaceNode = window.njqEditor.sysConfig.spaceNode;
-    var singleNode = window.njqEditor.sysConfig.singleNode;
-    var tools = window.njqEditor.toolConfig.toolsNode;
+	var sysConfig = njqEditor.sysConfig;
+    var ignoreNode = sysConfig.ignoreNode;
+    var labels = sysConfig.mergeLabel;
+    var parentIncludeNode = sysConfig.parentIncludeNode;
+    var childIncludeNode = sysConfig.childIncludeNode;
+    var spaceNode = sysConfig.spaceNode;
+    var singleNode = sysConfig.singleNode;
     var session;
-    var toolsConfig = window.njqEditor.toolConfig.tools;
 
     /**
      * 通用工具区，类似于util工具类
@@ -87,9 +86,8 @@
             if (node.toolBtn) {
                 return node
             }
-            var editorTool = njqEditor.sysConfig.editNode.editorTool;
-            // 循环到最外层为止（不包含最外层的div）
-            while (editorTool.contains(node) && editorTool != node) {
+            // 循环到最外层有id的为止
+            while (!node.id) {
                 node = node.parentNode;
                 if (node.toolBtn) {
                     return node
@@ -252,127 +250,6 @@
             }
             return node.nextSibling;
         },
-        /**
-         * 拆分div成为上下多行 node:拆分出来的单元格中间添加的节点
-         */
-        cutDiv: function (node, range) {
-            var sparentNode, enterNode, exNode;
-            for (var i in parentIncludeNode) {
-                sparentNode = this.getSpecalParentNode(parentIncludeNode[i],
-                    range.startContainer);
-                if (sparentNode) {
-                    break;
-                }
-            }
-            if (!sparentNode) {
-                var dNode = this.createEmptyNode(constants.DIV);
-                if (range.startOffset > 0) {
-                    this.insertAfter(dNode, range.startContainer.childNodes[range.startOffset - 1]);
-                } else {
-                    this.insertAfter(dNode, range.startContainer.childNodes[range.startOffset]);
-                }
-                range.setStartBefore(this.getMinNode(dNode));
-                return range;
-            }
-            if (!range.collapsed) {
-                this.deleteContents(range);
-                sparentNode = this.getOutParentNode(range.startContainer);
-            }
-            if (range.collapsed && range.startContainer.id) {
-                return this.insertNextNode(range, node);
-            }
-            if (node) {
-                if (sparentNode.tagName == constants.TABLE) {
-                    var insertNode = this.insertCustomNode(node, sparentNode, 2);
-                    if (!insertNode.nextSibling) {
-                        var d = this.createEmptyNode(constants.DIV);
-                        this.insertAfter(d, insertNode);
-                    }
-                    range.setStartBefore(this.getMinNode(insertNode));
-                    return range;
-                }
-                if (this.checkIsSerisNodeChild(sparentNode,
-                    range.startContainer, range, 1)) {
-                    var insertNode = this.insertCustomNode(node, sparentNode, 1);
-                    range.setStartBefore(this.getMinNode(insertNode));
-                    return range;
-                }
-                if (this.checkIsSerisNodeChild(sparentNode, range.endContainer, range, 2)) {
-                    if (!sparentNode.nextElementSibling) {
-                        var lastNode = this.createCustomNode(constants.DIV);
-                        lastNode.appendChild(this
-                            .createCustomNode(constants.BR));
-                        this.insertAfter(lastNode, sparentNode);
-                    }
-                    var insertNode = this.insertCustomNode(node, sparentNode, 2);
-                    range.setStartBefore(this.getMinNode(insertNode));
-                    return range;
-                }
-            }
-            if (!njqEditor.sysConfig.editNode.editorContext.contains(sparentNode)) {
-                if (range.startContainer.id) {
-                    return this.insertNextNode(range, node);
-                } else {
-                    var insertNode = this.insertCustomNode(node, this.getOutParentNode(range.startContainer), 2);
-                    range.setStartBefore(this.getMinNode(insertNode));
-                    range.collapse(true);
-                    if (!insertNode.nextSibling) {
-                        this.insertAfter(this.createEmptyNode(constants.DIV), insertNode);
-                    }
-                    return range;
-                }
-            }
-            var tempRange = range.cloneRange();
-            tempRange.collapse(false);
-            try {
-                tempRange.setEndAfter(sparentNode);
-            } catch (e) {
-                console.info("出现异常了");
-            }
-            exNode = this.extractContents(tempRange, true);
-            // 剪切后原节点可能变成空节点了，所以补充一个回车符
-            if (this.checkIsEmpty(range.startContainer)) {
-                range.startContainer.appendChild(this
-                    .createCustomNode(constants.BR));
-            }
-            if (exNode.firstChild) {
-                var childNode = enterNode = exNode.firstChild;
-                if (childNode.firstChild) {
-                    while (childNode.firstChild) {
-                        childNode = childNode.firstChild;
-                        // 此处判断主要是用于在空节点中加回车符
-                        if (this.checkIsEmpty(childNode)) {
-                            if (childNode.nodeType != 1) {
-                                childNode = childNode.parentNode;
-                            }
-                            // 针对光标在节点最后位置的情况
-                            childNode.appendChild(this
-                                .createCustomNode(constants.BR));
-                            break;
-                        }
-                    }
-                } else {
-                    childNode.appendChild(this.createCustomNode(constants.BR));
-                }
-                this.insertAfter(enterNode, sparentNode);
-            } else {
-                enterNode = sparentNode.nextSibling;
-            }
-
-            if (node) {
-                this.insertCustomNode(node, enterNode, 1);
-            }
-            if (this.checkIsEmpty(sparentNode)) {
-                sparentNode.appendChild(this.createCustomNode(constants.BR));
-            }
-            if (this.checkIstouNode(enterNode)) {
-                range.setStart(enterNode.firstChild.firstChild, 0);
-            } else {
-                range.setStartBefore(enterNode.firstChild);
-            }
-            range.collapse(true);
-            return range;
-        },
         insertNextNode: function (range, node) {
             if (this.isOutNodeCheck(node)) {
                 range.insertNode(node);
@@ -410,9 +287,8 @@
          */
         getAllParentNodesName: function (currentNode) {
             var parentsName = [];
-            var context = njqEditor.sysConfig.editNode.editorContext;
-            // 循环到最外层为止（不包含最外层的div）
-            while (context.contains(currentNode) && context != currentNode) {
+            // 循环到最外层有id的节点为止（不包含最外层的div）
+            while (!currentNode.id) {
                 parentsName.push(currentNode.tagName)
                 currentNode = currentNode.parentNode;
             }
@@ -423,8 +299,7 @@
          */
         getAllParentNodes: function (currentNode) {
             var parents = [];
-            var context = njqEditor.sysConfig.editNode.editorContext;
-            while (context.contains(currentNode) && context != currentNode) {
+            while (!currentNode.id) {
                 parents.push(currentNode)
                 currentNode = currentNode.parentNode;
             }
@@ -902,7 +777,7 @@
          * commonType：绑定通用类 otobj：执行时的对象，比如 按了这个按钮，另一个控件出现反应
          * otevent：自定义事件，并非在event里面设置好的
          */
-        addCommonEventListener: function (obj, eventType, specalHandle,
+        addCommonEventListener: function (commonEvent,obj, eventType, specalHandle,
                                           commonType, otobj, otevent) {
             if (!obj.njqEvent) {
                 obj.njqEvent = {};
@@ -945,8 +820,7 @@
                 // 执行自定义方法
                 obj.njqEvent["common"] = "_commonCustomEventController";
             }
-            this.addEventListener(obj, eventType,
-                njqEditor.eventListeners["_totalBandEvent"]);
+            this.addEventListener(obj, eventType,commonEvent["_totalBandEvent"]);
         },
         /**
          * 事件绑定，不同浏览器绑定事件不一样 obj:事件对象 type:绑定事件名称 handle:绑定事件方法
@@ -2085,25 +1959,6 @@
             return;
         },
         /**
-         * 删除选区选中的文字
-         */
-        rangeAreaDele: function (range) {
-            if (!range.collapsed) {
-                var soutNode = this.getOutParentNode(range.startContainer);
-                eoutNode = this.getOutParentNode(range.endContainer);
-                if (soutNode != eoutNode) {
-                    if (this.checkIsTextNode(range.endContainer)) {
-                        if (range.endContainer.length == range.endOffset &&
-                            range.endContainer == this.getlastTextNode(this.getOutParentNode(range.endContainer))) {
-                            range.setEndAfter(eoutNode);
-                        }
-                    }
-                }
-                this.deleteContents(range);
-            }
-            return range;
-        },
-        /**
          * 获取最外层父节点，返回父节点
          */
         getNodeOutNode: function (node) {
@@ -2417,15 +2272,6 @@
                 range.setEndAfter(range.endContainer);
             }
             range.deleteContents();
-            //不管怎么删除，都不能删除编辑区的所有内容
-            if (this.checkIsEmpty(njqEditor.sysConfig.editNode.editorContext)) {
-                var divNode = this.createEmptyNode(constants.DIV);
-                njqEditor.sysConfig.editNode.editorContext.appendChild(divNode);
-                range.setStartBefore(this.getMinNode(divNode));
-                range.collapse(true);
-            } else {
-                this.resetParentNodeNewRange(range.startContainer, range);
-            }
         },
         /**
          * 当选区在外置节点之间，那么要进行重新设定节点才行
@@ -2603,155 +2449,4 @@
         STYLE: "STYLE",
         BOOKMARK: "BOOKMARK"// 书签节点，用于隔离需要重置选区的内容
     };
-
-    // 有些浏览器方法不支持，主动进行拓展
-    (function () {
-        // ie8不支持trim方法
-        String.prototype.trim = function () {
-            return this.replace(/^\s+|\s+$/g, '');
-        }
-        String.prototype.startWith = function (str) {
-            var reg = new RegExp("^" + str);
-            return reg.test(this);
-        }
-        String.prototype.endWith = function (str) {
-            var reg = new RegExp(str + "$");
-            return reg.test(this);
-        }
-
-        if (!("classList" in document.documentElement)) {
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype, 'classList',
-                {
-                    get: function () {
-                        var self = this;
-
-                        function update(fn) {
-                            return function (value) {
-                                var classes = self.className
-                                    .split(/\s+/g), index = util
-                                    .indexOf(classes, value);
-
-                                fn(classes, index, value);
-                                self.className = classes.join(" ");
-                            }
-                        }
-
-                        return {
-                            add: update(function (classes, index,
-                                                  value) {
-                                if (!~index)
-                                    classes.push(value);
-                            }),
-
-                            remove: update(function (classes, index) {
-                                if (~index)
-                                    classes.splice(index, 1);
-                            }),
-
-                            toggle: update(function (classes,
-                                                     index, value) {
-                                if (~index)
-                                    classes.splice(index, 1);
-                                else
-                                    classes.push(value);
-                            }),
-
-                            contains: function (value) {
-                                return !!~self.className.split(
-                                    /\s+/g).indexOf(value);
-                            },
-
-                            item: function (i) {
-                                return self.className.split(/\s+/g)[i]
-                                    || null;
-                            }
-                        };
-                    }
-                });
-        }
-        if (!("nextElementSibling" in document.documentElement)) {
-            //获取下一个元素节点
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,
-                'nextElementSibling', {
-                    get: function () {
-                        if (this.nextElementSibling) {
-                            return this.nextElementSibling;
-                        } else {
-                            var node = this.nextSibling;
-                            while (node && node.nodeType !== 1) {
-                                node = node.nextibling;
-                            }
-                            return node;
-                        }
-                    }
-                })
-        }
-        if (!("previousElementSibling" in document.documentElement)) {
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,
-                'previousElementSibling', {
-                    get: function () {
-                        if (this.previousElementSibling) {
-                            return this.previousElementSibling;
-                        } else {
-                            var el = this.previousSibling;
-                            while (el && el.nodeType !== 1) {
-                                el = el.previousSibling;
-                            }
-                            return el;
-                        }
-                    }
-                })
-        }
-        if (!("firstElementChild" in document.documentElement)) {
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,
-                'firstElementChild', {
-                    get: function () {
-                        var el = this.firstChild;
-                        while (el && el.nodeType !== 1) {
-                            el = el.nextSibling;
-                        }
-                        return el;
-                    }
-                })
-        }
-        if (!("lastElementChild" in document.documentElement)) {
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,
-                'lastElementChild', {
-                    get: function () {
-                        if (this.lastElementChild) {
-                            return this.lastElementChild;
-                        } else {
-                            var el = this.lastChild;
-                            while (el && el.nodeType !== 1) {
-                                el = el.previousSibling;
-                            }
-                            return el;
-                        }
-                    }
-                })
-        }
-        if (!("getElementById" in document.documentElement)) {
-            Object.defineProperty((window.HTMLElement ? HTMLElement : Element).prototype,
-                'getElementById', {
-                    get: function () {
-                        return function (idName) {
-                            var list = [];
-                            var tagNodes = this.getElementsByTagName("*");
-                            for (var i = 0; i < tagNodes.length; i++) {
-                                if (tagNodes[i].id == idName) {
-                                    list.push(tagNodes[i]);
-                                }
-                            }
-                            if (list.length == 1) {
-                                return list[0];
-                            } else if (list.length == 0) {
-                                return null;
-                            } else {
-                                return list;
-                            }
-                        }
-                    }
-                })
-        }
-    })();
 })();

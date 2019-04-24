@@ -1,5 +1,4 @@
 (function(){
-	var njqEditor=window.njqEditor;
 	njqEditor.toolConfig={
 		tools:{
 			njqEditor_html:{
@@ -498,6 +497,7 @@
 				btnType:2,
 				//需要加入历史记录
 				needDlgHistroy:true,
+				initDialog:true,
 				isNeedCheck:true,
 				checkType:{
 					type:"3"//检测类型1：检测文本是否处在标签内 2：针对table，检测是否选中了td而不是检测文本节点 3:只需要进行基本校验如插入图片
@@ -737,7 +737,7 @@
 				//分别对下面几种类型进行检测
 				checkType:{
 					type:"1",//检测类型1：检测文本是否处在标签内 2：针对table，检测是否选中了td而不是检测文本节点
-					style:{textIndent: njqEditor.userConfig.indentValue}
+					style:{textIndent: "24px"}
 				},
 				checkfun:["checkRuleOutNodeStyle"],
 				event:{

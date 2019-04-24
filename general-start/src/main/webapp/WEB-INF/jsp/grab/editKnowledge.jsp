@@ -11,7 +11,7 @@
 	<div style="float: left;width: 100%" align="center">
 		<input type="hidden" value="${doc.id }" id="docId">
         <div  align="center">
-            <div id="njqEditorDiv" modelStyle="styleTwo" env="3" pv="docId=${doc.id }"  >${doc.doc }</div>
+            <div prefix="" name="njqEditorDiv" modelStyle="styleTwo" env="3" pv="docId=${doc.id }"  >${doc.doc }</div>
         </div>
     </div>  
 	<script src="${resPath }/jquery/jquery.min.js" type="text/javascript"></script>

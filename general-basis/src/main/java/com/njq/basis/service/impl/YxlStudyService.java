@@ -93,7 +93,9 @@ public class YxlStudyService {
 	}
 	
 	
-	public void addInfo(String title,String titleType,Long typeId ,String answer,String columDesc,Boolean sure) {
+	public void addInfo(String title,String titleType,Long typeId ,
+			String answer,String columDesc,Boolean sure,
+			String options, String general) {
 		YxlStudyTitle t = new YxlStudyTitle();
 		t.setCreateDate(new Date());
 		t.setIsNeedStudy(false);
@@ -101,6 +103,8 @@ public class YxlStudyService {
 		t.setTitleType(titleType);
 		t.setTypeId(typeId);
 		t.setSure(sure);
+		t.setGeneral(general);
+		t.setOptions(options);
 		yxlStudyTitleDao.save(t);
 		
 		YxlStudyAnswer a = new YxlStudyAnswer();
@@ -112,7 +116,9 @@ public class YxlStudyService {
 	}
 	
 	
-	public void updateInfo(Long id , String title,String titleType,Long typeId ,String answer,String columDesc,Boolean sure) {
+	public void updateInfo(Long id , String title,String titleType,Long typeId ,
+			String answer,String columDesc,Boolean sure,
+			String options, String general) {
 		YxlStudyTitle t = new YxlStudyTitle();
 		t.setId(id);
 		t.setCreateDate(new Date());
@@ -121,6 +127,8 @@ public class YxlStudyService {
 		t.setTitleType(titleType);
 		t.setTypeId(typeId);
 		t.setSure(sure);
+		t.setOptions(options);
+		t.setGeneral(general);
 		yxlStudyTitleDao.updateByPrimaryKeySelective(t);
 		ConditionsCommon cc = new ConditionsCommon();
 		cc.addEqParam("titleId", t.getId());
