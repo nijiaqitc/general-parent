@@ -358,25 +358,27 @@ input{
 	     			<div class="aopenT">
 	     				二、简答题（<span>共30题，每题2分</span>）
 	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6 questions" align="left"  attId="11">
-			     			<div>
-				     			<input type="radio"  name="ques11">
-				     			<span>A、通晓原理</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="ques11">
-				     			<span>B、知晓大概</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="ques11">
-				     			<span>C、含含糊糊</span>
-			     			</div>
-			     		</div>
-	     			</div>
+	     			<c:forEach items="${examap.questions }" var="qus">
+		     			<div class="bonT">
+				     		<div class="aopenWord5">
+				     			2、请在以下选项中选择一个正确的答案
+				     		</div>
+				     		<div class="aopenWord6 questions" align="left"  attId="11">
+				     			<div>
+					     			<input type="radio"  name="ques11">
+					     			<span>A、通晓原理</span>
+				     			</div>
+				     			<div>
+					     			<input type="radio"  name="ques11">
+					     			<span>B、知晓大概</span>
+				     			</div>
+				     			<div>
+					     			<input type="radio"  name="ques11">
+					     			<span>C、含含糊糊</span>
+				     			</div>
+				     		</div>
+		     			</div>
+	     			</c:forEach>
 	     			<div class="bonT">
 			     		<div class="aopenWord5">
 			     			2、请在以下选项中选择一个正确的答案
