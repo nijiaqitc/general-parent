@@ -19,7 +19,6 @@ import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.file.load.api.FileLoadService;
 import com.njq.grab.service.PageAnalysisPerformer;
-import com.njq.grab.service.impl.CustomLoadService;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 
@@ -31,9 +30,7 @@ public class YhWikiController {
     private PageAnalysisPerformer yhWikiPageAnalysis;
     @Resource
     private FileLoadService fileLoadService;
-    @Resource
-    private CustomLoadService customLoadService;
-    
+
     @RequestMapping("login")
     public void login() {
         Map<String, String> param = new HashMap<>();
@@ -61,7 +58,7 @@ public class YhWikiController {
         model.addAttribute("doc", context);
         
         
-//        yhWikiPageAnalysis.saveDoc(context, "题题题题题题");
+//        yhWikiPageAnalysis.saveDoc(context, "题题题题题题11");
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
 //        base.setId(14193L);
@@ -122,12 +119,7 @@ public class YhWikiController {
     }
 
 
-    @ResponseBody
-    @RequestMapping("grabText")
-    public String grabText() {
-    	customLoadService.loadsgx();
-    	return "处理中";
-    }
+
     
 
 }
