@@ -1,5 +1,6 @@
 package com.njq.basis.service.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +18,12 @@ import com.njq.basis.service.cache.YxlTypeCacheManager;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.model.dao.YxlStudyTitleJpaRepository;
 import com.njq.common.model.po.YxlStudyAnswer;
 import com.njq.common.model.po.YxlStudyTitle;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.model.vo.AnswerVO;
+import com.njq.common.model.vo.ExaminationsVO;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
 import com.njq.common.util.string.StringUtil;
@@ -40,6 +43,8 @@ public class YxlStudyService {
 	private YxlTypeCacheManager yxlTypeCacheManager;
 	@Resource
 	private YxlStudyCacheManager yxlStudyCacheManager;
+	@Resource
+	private YxlStudyTitleJpaRepository yxlStudyTitleJpaRepository;
 	
 	public PageList<YxlStudyTitleVO> queryTitlePage(int page , int size,Long stTypeId,String stTitleType,String searchValue,Integer stSure){
 		ConditionsCommon cc=new ConditionsCommon();
@@ -267,6 +272,46 @@ public class YxlStudyService {
 		yxlStudyAnswerDao.deleteBycc(condition);
 	}
 	
+	public List<ExaminationsVO> queryExaminations() {
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("2", 30);
+		return this.convertExa(titlePage);
+	}
 	
+	public YxlStudyVO queryPenQue() {
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("3", 1);
+		List<YxlStudyVO> lt = this.convert(titlePage);
+		return lt.get(0);
+	}
+	
+	public List<YxlStudyVO> queryExaminationsQue() {
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("1", 30);
+		if(CollectionUtils.isEmpty(titlePage)) {
+			return Collections.EMPTY_LIST;
+		}
+		return  this.convert(titlePage);
+	}
+	
+	private List<ExaminationsVO> convertExa(List<YxlStudyTitle> titleList){
+		return titleList.stream().map(n->{
+			ExaminationsVO vo = new ExaminationsVO();
+			BeanUtils.copyProperties(n, vo);
+			ConditionsCommon condition=new ConditionsCommon();
+			condition.addEqParam("titleId", n.getId());
+			List<YxlStudyAnswer> answerList = yxlStudyAnswerDao.queryColumnForList(condition);
+			String opstr = n.getOptions();
+			vo.setOptionsub(Arrays.asList(opstr.split("\\(\\|\\)")));
+			
+			
+			
+			vo.setAnswerList(
+				answerList.stream().map(m->{
+					AnswerVO v = new AnswerVO();
+					v.setAnswer(m.getAnswer());
+					v.setColumDesc(m.getColumDesc());
+					return v;
+				}).collect(Collectors.toList()));
+			return vo;
+		}).collect(Collectors.toList());
+	}
 	
 }

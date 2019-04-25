@@ -387,6 +387,7 @@ public class GrabController {
     @RequestMapping(value = "editPicUp", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> editPicUp(HttpServletRequest req) {
+    	
     	return upFileService.upEditPic(req);
     }
     

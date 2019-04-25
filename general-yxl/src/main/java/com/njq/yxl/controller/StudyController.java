@@ -1,5 +1,6 @@
 package com.njq.yxl.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,9 +63,11 @@ public class StudyController {
 	
 	@RequestMapping("examinations")
 	public String examinations(Model model) {
-		
-		
-		
+		Map<String, Object> examap=new HashMap<>();
+		examap.put("selectSub", yxlStudyService.queryExaminations());
+		examap.put("questions", yxlStudyService.queryExaminationsQue());
+		examap.put("penques", yxlStudyService.queryPenQue());
+		model.addAttribute("examap", examap);
 		return "zxgj/examinations";
 	}
 	
