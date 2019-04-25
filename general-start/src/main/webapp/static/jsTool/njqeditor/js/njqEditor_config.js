@@ -548,7 +548,7 @@
 						}
 					},
 					// 所使用的按钮
-					useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode","njqEditor_addHref" ]
+					useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode","njqEditor_addHref","njqEditor_decodePre" ]
 			}
 			// ------------------------------------------------------------------------------------------
 		} else {
@@ -672,8 +672,11 @@
 		loadScript(njqEditor.sysConfig.url+"js/njqEditor_event.js", function() {
 			njqEditor.loadFlag[4]=true;
 		});
-		loadScript(njqEditor.sysConfig.url+"js/njqEditor_bind_event.js", function() {
+		loadScript(njqEditor.sysConfig.url+"js/njqEditor_custom.js", function() {
 			njqEditor.loadFlag[5]=true;
+		});
+		loadScript(njqEditor.sysConfig.url+"js/njqEditor_bind_event.js", function() {
+			njqEditor.loadFlag[6]=true;
 		});
 	}
 	
@@ -693,7 +696,7 @@
 			loadEnv(njqEditor.editorNodes[i]);
 			editorDivs[i].style.height=njqEditor.editorNodes[i].userConfig.initHeight+"px";
 		}
-		njqEditor.loadFlag=new Array(6);
+		njqEditor.loadFlag=new Array(7);
 		//加载前置js文件
 		loadAllJs();
 		

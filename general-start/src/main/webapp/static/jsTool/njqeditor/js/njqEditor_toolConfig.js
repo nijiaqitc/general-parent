@@ -1387,7 +1387,27 @@
 				},
 				//事件类型：1:立即执行事件 2：无属性弹框有属性立即执行事件 3：只弹框
 				clevty:3
-	        }
+	        },
+	        //自定义一个pre格式化
+			njqEditor_decodePre:{
+				title:"格式化",
+				defaultClass:"toolBtnBackImg toolBtnCharToUp",
+				hoverClass:"toolBtnCharToUpHover",
+				//初始状态是否可用，true为是
+				isEnable:true,
+				//点击按钮是否需要重置按钮状态
+				isNeedResetTool:false,
+				btnType:5,
+				//需要加入历史记录
+				needHistroy:true,
+				event:{
+					click:"_decodePre",
+					mouseenter:"_hover",
+					mouseleave:"_out"
+				},
+				//事件类型：1:立即执行事件 2：无属性弹框有属性立即执行事件 3：只弹框
+				clevty:1
+			}
 	        /*,
 	        njqEditor_demo:{
 	        	title:"举例",

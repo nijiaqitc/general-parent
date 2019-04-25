@@ -2259,16 +2259,22 @@
          * 删除选区
          */
         deleteContents: function (range) {
+        	var stflag = true;
+        	var edflag = true;
             if (range.startContainer.nodeType == 3 && range.startOffset == 0) {
                 range.setStartBefore(range.startContainer);
+                //开始状态标志，避免改了之后又满足下面的条件
+                stflag = false;
             }
             if (range.endContainer.nodeType == 3 && range.endOffset == range.endContainer.length) {
                 range.setEndAfter(range.endContainer);
+                //结束状态标志，避免改了之后又满足下面的条件
+                edflag = false;
             }
-            if (range.startContainer.nodeType == 1 && range.startOffset == 0) {
+            if (stflag&&range.startContainer.nodeType == 1 && range.startOffset == 0) {
                 range.setStartBefore(range.startContainer);
             }
-            if (range.endContainer.nodeType == 1 && range.endOffset == range.endContainer.childNodes.length) {
+            if (edflag&&range.endContainer.nodeType == 1 && range.endOffset == range.endContainer.childNodes.length) {
                 range.setEndAfter(range.endContainer);
             }
             range.deleteContents();
