@@ -1,10 +1,10 @@
 package com.njq.yxl.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.YxlStudyService;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.base.other.IpUtil;
 import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
+import com.njq.common.util.string.StringUtil2;
+import com.njq.yxl.cache.ExaminationsCacheReader;
 
 @RequestMapping("study")
 @Controller
@@ -25,6 +28,8 @@ public class StudyController {
 
 	@Resource
 	private YxlStudyService yxlStudyService;
+	@Resource
+	private ExaminationsCacheReader examinationsCacheReader;
 	
 	@RequestMapping
 	public String index(Model model) {
@@ -62,11 +67,15 @@ public class StudyController {
 	
 	
 	@RequestMapping("examinations")
-	public String examinations(Model model) {
-		Map<String, Object> examap=new HashMap<>();
-		examap.put("selectSub", yxlStudyService.queryExaminations());
-		examap.put("questions", yxlStudyService.queryExaminationsQue());
-		examap.put("penques", yxlStudyService.queryPenQue());
+	public String examinations(Model model,
+			@RequestParam(required=false,defaultValue="false") Boolean change,HttpServletRequest request) {
+		String key = StringUtil2.format("examinations-ip-{0}", IpUtil.getIpAddr(request));
+		Map<String, Object> examap;
+		if(change) {
+			examap = examinationsCacheReader.getOrsetData(key);
+		}else {
+			examap = examinationsCacheReader.get(key);
+		}
 		model.addAttribute("examap", examap);
 		return "zxgj/examinations";
 	}

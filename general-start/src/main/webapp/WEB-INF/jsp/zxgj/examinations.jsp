@@ -11,158 +11,21 @@
 <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"  />
 <link rel="stylesheet" href="${resPath }/zxgj/css/novelList.css">
 <link rel="stylesheet" href="${resPath }/zxgj/js/prettify.css"/>
+<link rel="stylesheet" href="${resPath }/zxgj/css/examinations.css"/>
 <style type="text/css">
 	
-/*全屏开始*/
-.adocDiv{
-	z-index: 998;width: 100%;margin: 10px;position:absolute;
-}
-.adocDiv1{
-	background-color: #fff;border-radius: 6px;width: 997px;box-shadow: 0 3px 9px rgba(0,0,0,0.5);min-height: 400px;
-}
-.transparent_class {  
-    /* Required for IE 5, 6, 7 */  
-    /* ...or something to trigger hasLayout, like zoom: 1; */  
-    width: 100%;
-    height: 100%; 
-    position: fixed;
-    line-height:300px;  
-    text-align:center;  
-    background:#cccccc;  
-    color:#fff;  
-    top: 0;right: 0;bottom: 0;left: 0; 
-}
-
-.aopenWord{
-	width: 20px;border-radius: 2px;cursor: pointer;
-}
-.aopenWord1{
-	background: url('../images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
-}
-.aopenWord2{
-	background-color: #ffe69f;width: 20px;border: 1px #dcac6c solid;border-radius: 2px;cursor: pointer;
-}
-.aopenWord3{
-	background: url('../images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
-}
-.aopenWord4{
-	width:840px;padding-top: 60px;
-}
-.aopenT{
-	font-size: 18px;line-height: 2;font-weight: normal;margin-top: 10px;margin-bottom: 10px;
-}
-.aopenWord5{
-	font-size: 16px;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.aopenWord6{
-	text-indent: 24px;font-size: 14px;
-}
-.aopenWord6  div{
-    padding: 4px 0px;
-}
-.aopenWord7{
-	font-size: 12px;
-}
-.aopenWord8{
-	font-family:'SimSun';font-size: 16px;line-height: 26px;margin-top: 50px;
-}
-.aopenWord9{
-	font-weight: 600;font-size: 12px;margin: 10px 0 4px 0;
-}
-.aopenWord10{
-	font-weight: 600;font-size: 12px;margin-bottom: 20px;
-}
-.aopenWord11{
-	color: red;font-size: 14px;
-}
-.aopenWord12{
 	
-}
-.aopenWord13{
-	width: 50px;
-}
-.bonT{
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;margin-bottom: 24px;margin-left: 24px;
-}
-/*全屏结束*/
-
-.topTip{
-	float: left;
-    margin-right: 40px;
-}
-.subEx{
-	cursor: pointer;
-    border: 1px solid #eee;
-    padding: 2px 4px;
-}
-
-.subEx:hover{
-	background-color: #eee;
-}
-
-.fractionValue{
-	color:#ef4a4a;
-	position: absolute;
-    right: 10%;
-    font-size: 60px;
-    overflow: auto;
-    height: 70px;
-    line-height: 60px;
-}
-
-.prettyprint ul {
-    position: absolute;
-    width: 36px;
-    background-color: #282C33;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 8px 0;
-    list-style: none;
-    text-align: right;
-}
-.prettyprint ul li {
-    color: #abb2bf!important;
-    border-right: 1px solid #c5c5c5;
-    padding: 0 8px;
-    list-style: none;
-    margin: 0;
-    text-indent: 0px;
-}
-pre{
-	position: relative !important;
-    overflow-y: hidden !important;
-    overflow-x: auto !important;
-    font-size: 16px !important;
-    line-height: 22px !important;
-    font-family: Source Code Pro,DejaVu Sans Mono,Ubuntu Mono,Anonymous Pro,Droid Sans Mono,Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,PingFang SC,Microsoft YaHei,sans-serif !important;
-    margin: 0 0 0px !important;
-    padding: 8px 16px 6px 56px !important;
-    background-color: #282C33 !important;
-    border: none !important;
-    white-space: pre !important;
-}
-.pre-numbering li span{
-    color: #fff !important;
-}
-input{
-	cursor: pointer;
-}
-
-.questions .div{
-	width: 160px;
-    float: left;
-}
 </style>
 </head>
 <body>
 	<!--     开始：顶部菜单栏-->
 	<div style="height: 40px;" class="menu-box topMenu" align="center">
 		<div style="width: 860px;overflow: auto;line-height: 40px;">
-			<div class="topTip">本试卷总分150分，75分通过</div>
-			<div class="topTip">考题数量：30 题</div>
-			<div class="topTip">考试时长：30 分钟</div>
+			<div class="topTip">本试卷总分100分，80分通过</div>
+			<div class="topTip">考题数量：61 题</div>
+			<div class="topTip">考试时长：60 分钟</div>
 			<div class="topTip"><span class="subEx" onclick="submitEx()">交卷</span></div>
+			<div class="topTip"><a href="/study/examinations?change=1"><span class="subEx" onclick="changeSubject()">换题</span></a></div>
 			<div style="float: right;display:inline-block;vertical-align:top;color:#fead11;font-size:21px;">
 				<i class="icon-time"></i>
 				<span id="leftTime">00:00:00</span>
@@ -174,14 +37,19 @@ input{
 	<div align="center">
 		<div id="wordForShow" align="center" class="adocDiv"  style="margin-top: 50px;" >
 	     	<div class="adocDiv1"  align="center">
-				<div class="fractionValue" >100</div>
+				<div class="fractionValue" >
+					<div id="fenarea" class="fenarea">
+						100
+					</div>
+				</div>
+				<div id="pingyu" style="color: #ef4a4a;position: absolute;right: 16%;font-size: 16px;overflow: auto;margin-top: 120px;"></div>
 	     		<div class="aopenWord4" align="left">
 	     			<div class="aopenT">
 	     				一、单选题（<span>共30题，每题1分</span>）
 	     			</div>
 	     			<c:forEach items="${examap.selectSub }" var="sub" varStatus="order">
 		     			<div class="bonT">
-				     		<div class="aopenWord5">
+				     		<div class="aopenWord5" id="title_${sub.id }">
 				     			${order.index+1 }、${sub.title }
 				     		</div>
 				     		<div class="aopenWord6 selectSub" align="left"  answer="${sub.answerList[0].answer }" attId="${sub.id }" >
@@ -190,233 +58,60 @@ input{
 					     				${sub.general }
 					     			</div>
 				     			</c:if>
+				     			<div class="gouarea"></div>
+			     				<div class="charea"></div>
 				     			<c:forEach items="${sub.optionsub }" var="option">
-					     			<div>
-						     			<input type="radio"  name="st${sub.id }" value="A" >
-						     			<span>${option }</span>
+					     			<div class="subjectArea">
+						     			<input type="radio"  name="st${sub.id }" value="${option[0] }" >
+						     			<span>${option[0] }、${option[1] }</span>
 					     			</div>
 				     			</c:forEach>
-				     			
-<!-- 				     			<div> -->
-<!-- 					     			<input type="radio"  name="aab"> -->
-<!-- 					     			<span>B、选项aaa</span> -->
-<!-- 				     			</div> -->
-<!-- 				     			<div> -->
-<!-- 					     			<input type="radio"  name="aab"> -->
-<!-- 					     			<span>C、选项aaa</span> -->
-<!-- 				     			</div> -->
-<!-- 				     			<div> -->
-<!-- 					     			<input type="radio"  name="aab"> -->
-<!-- 					     			<span>D、选项aaa</span> -->
-<!-- 				     			</div> -->
-				     			
-				     			
 				     		</div>
 		     			</div>	     			
 	     			</c:forEach>
-	     			
-	     			
-	     			
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>A、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>B、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>C、选项aaa</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="aab">
-				     			<span>D、选项aaa</span>
-			     			</div>
-			     		</div>
-	     			</div>
 	     			<div class="aopenT">
-	     				二、简答题（<span>共30题，每题2分</span>）
+	     				二、简答题（<span>共30题，每题2分</span>）<span style="font-size: 12px;">（提示：请直接根据题目进行回答，然后根据回答的情况选择合适的打分）</span>
 	     			</div>
-	     			<c:forEach items="${examap.questions }" var="qus">
+	     			<c:forEach items="${examap.questions }" var="qus" varStatus="order">
 		     			<div class="bonT">
-				     		<div class="aopenWord5">
-				     			2、请在以下选项中选择一个正确的答案
+				     		<div class="aopenWord5" id="title_${qus.id }">
+				     			${order.index+31 }、${qus.title }
 				     		</div>
-				     		<div class="aopenWord6 questions" align="left"  attId="11">
-				     			<div>
-					     			<input type="radio"  name="ques11">
+				     		<div class="aopenWord6 questions" align="left"  attId="${qus.id }">
+				     			<div class="subjectArea">
+					     			<input type="radio"  name="ques${qus.id }" value="2">
 					     			<span>A、通晓原理</span>
 				     			</div>
-				     			<div>
-					     			<input type="radio"  name="ques11">
+				     			<div class="subjectArea">
+					     			<input type="radio"  name="ques${qus.id }" value="1">
 					     			<span>B、知晓大概</span>
 				     			</div>
-				     			<div>
-					     			<input type="radio"  name="ques11">
+				     			<div class="subjectArea">
+					     			<input type="radio"  name="ques${qus.id }" value="0">
 					     			<span>C、含含糊糊</span>
 				     			</div>
 				     		</div>
 		     			</div>
 	     			</c:forEach>
-	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
-			     		</div>
-			     		<div class="aopenWord6 questions" align="left"  attId="12">
-			     			<div>
-				     			<input type="radio"  name="ques12">
-				     			<span>A、通晓原理</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="ques12">
-				     			<span>B、知晓大概</span>
-			     			</div>
-			     			<div>
-				     			<input type="radio"  name="ques12">
-				     			<span>C、含含糊糊</span>
-			     			</div>
-			     		</div>
-	     			</div>
 		     		<div class="aopenT">
 	     				三、笔试题（<span>共1题，每题10分</span>）
 	     			</div>
 	     			<div class="bonT">
-			     		<div class="aopenWord5">
-			     			2、请在以下选项中选择一个正确的答案
+			     		<div class="aopenWord5" id="title_${examap.penques.id }">
+			     			61、${examap.penques.title }
 			     		</div>
 			     		<div class="aopenWord6" align="left" >
-			     			<div>
-				     			<input type="radio" value="1"  name="pen" onclick="showOrHideWriteArea(this)">
+			     			<div class="subjectArea">
+				     			<input type="radio" value="10"  name="pen" onclick="showOrHideWriteArea(this)">
 				     			<span>A、会</span>
 			     			</div>
-			     			<div>
-				     			<input type="radio" value="2"  name="pen"  onclick="showOrHideWriteArea(this)">
+			     			<div class="subjectArea">
+				     			<input type="radio" value="0"  name="pen"  onclick="showOrHideWriteArea(this)">
 				     			<span>B、不会</span>
 			     			</div>
 			     			<div align="left" id="penarea" style="text-indent: 0px;display: none;">
 			     				<label>会，那就写一个</label>
-			     				<textarea style="width: 100%;height: 300px;"></textarea>
+			     				<textarea id="writePenArea" attrId="${examap.penques.id }" style="width: 100%;height: 300px;"></textarea>
 			     			</div>
 			     		</div>
 	     			</div>
@@ -427,6 +122,54 @@ input{
 	     	</div>
 	    </div>
 	  	<div id="wordModel" class="transparent_class" ></div>
+	  	<div onclick="showTotalArea()" class="rightBtn rightBtnsz">大纲</div>
+	  	<div id="csdialog" style="" class="sidebar" align="center">
+	  		<div style="height: 30px;margin-bottom: 6px;">
+	  			<div style="float: right;height: 30px;border-bottom: 1px solid #e7e8e8;font-size: 12px;width: 220px;">
+	  				答题情况：<span id="finishNum">0</span>/61
+	  				<span id="finishResultArea" style="margin-left: 20px;"></span>
+	  			</div>
+	  		</div>
+			<div style="width: 430px;overflow: auto;" align="left">
+				<div class="outArea">
+					<div class="caption">
+						<i></i> 单选题<span class="mark">(每题 1分，共 30题)</span>
+					</div>
+					<div>
+						<ul>
+							<c:forEach items="${examap.selectSub }" var="sub"  varStatus="order">
+								<li id="subt_${sub.id }">
+									${order.index + 1 }
+									<div class="charea"></div>
+								</li>
+			     			</c:forEach>
+						</ul>
+					</div>
+				</div>
+				<div class="outArea">
+					<div class="caption">
+						<i></i> 简答题<span class="mark">(每题 2分，共 30题)</span>
+					</div>
+					<div>
+						<ul>
+							<c:forEach items="${examap.questions }" var="ques" varStatus="order">
+								<li id="subt_${ques.id }">${order.index + 31 }</li>
+			     			</c:forEach>
+						</ul>
+					</div>
+				</div>
+				<div class="outArea" style="border-bottom: 0;">
+					<div class="caption">
+						<i></i> 笔试题<span class="mark">(每题 10分，共 1题)</span>
+					</div>
+					<div>
+						<ul>
+							<li id="subt_${examap.penques.id }">61</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!--     开始：顶部菜单栏-->
 	<jsp:include page="../zxgj/bottom.jsp"></jsp:include>
@@ -436,12 +179,6 @@ input{
 	<script src="${resPath }/zxgj/js/common.js" type="text/javascript"></script>
 	<script src="${resPath }/zxgj/js/prettify.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$("#leftTime").countDown({
-		    times: 30,  
-		    ms: false,   
-		    Hour: true   
-		},function(){});
-		
 		function decodePre() {
 		    for (var i = 0; i < $("pre").length; i++) {
 		        var code = document.createElement("code");
@@ -462,36 +199,114 @@ input{
 		    prettyPrint();
 		}
 		
-		decodePre();
-		
 		function submitEx(){
 			var selsub = $(".selectSub");
 			var total = 0;
+			var rightNum=0;
 			for(var i = 0 ;i < selsub.length;i++){
-				console.info($(selsub[i]).attr("answer"));
-				console.info($(selsub[i]).attr("attId"));
-				var id = $(selsub[i]).attr("attId");
-				$("input[name='st"+id+"']:checked").val();
+				var checkValue = $("input[name='st"+$(selsub[i]).attr("attId")+"']:checked").val();
+				var answerValue = $(selsub[i]).attr("answer");
+                if(checkValue == answerValue){
+                	$(selsub[i]).children(".gouarea").show();
+					++total;	
+					++rightNum;                
+                }else{
+                	$(selsub[i]).children(".charea").show();
+                	$("#subt_"+$(selsub[i]).attr("attId")).addClass("subfinishResultCha");
+                }
+			}
+			var quesub = $(".questions");
+			for(var i = 0 ;i < quesub.length;i++){
+				var checkValue = $("input[name='ques"+$(quesub[i]).attr("attId")+"']:checked").val();
+				if(checkValue){
+					total += Number(checkValue); 
+					if(Number(checkValue)==2){
+						++rightNum;
+					}else if(Number(checkValue)==1){
+						$("#subt_"+$(quesub[i]).attr("attId")).addClass("subfinishResultBanCha");
+					}else if(Number(checkValue)==0){
+						$("#subt_"+$(quesub[i]).attr("attId")).addClass("subfinishResultAllCha");
+					}
+				}else{
+					$("#subt_"+$(quesub[i]).attr("attId")).addClass("subfinishResultAllCha");
+				}
+			}
+			var penValue = $("input[name='pen']:checked").val();
+			var id = $("#writePenArea").attr("attrId");
+			if(penValue){
+				if(Number(penValue)==10){
+					total += 10 ;
+					++rightNum;
+				}else{
+					if($("#writePenArea").val().trim() == ""){
+						$("#subt_"+id).addClass("subfinishResultAllCha");
+					}
+				}
+			}else{
+				$("#subt_"+id).addClass("subfinishResultAllCha");
+			}
+			$("input[type='radio']").attr("disabled","disabled");
+			$("#fenarea").html(total);
+			$("#fenarea").show();
+			scrollTo(0,0);
+			
+			if(total < 30){
+				$("#pingyu").html("赶紧再充下电吧，欠缺的有点多哦！");
+			}else if(total < 60){
+				$("#pingyu").html("再努力下哦");
+			}else if(total < 80){
+				$("#pingyu").html("再接再厉哈");
+			}else if(total < 100){
+				$("#pingyu").html("不错不错");
 			}
 			
-			var qus = $(".questions");
-			for(var i = 0 ;i < qus.length;i++){
-				console.info($(qus[i]).attr("attId"));
-			}
+			$("#finishResultArea").html("答错题目:"+(61-rightNum));
 			
-			
-			console.info("提交");
 		}
 		
-		
-		
 		function showOrHideWriteArea(target){
-			if($(target).val() == 1){
+			if($(target).val() == 10){
 				$("#penarea").show();
 			}else{
 				$("#penarea").hide();
 			}
 		}
+		
+		function showTotalArea(){
+			if($("#csdialog").css("right")=="-490px"){
+		        $("#csdialog").animate({right: '0px'},"fast");
+		    }else{
+		        $("#csdialog").animate({right: '-490px'},"fast");   
+		    }
+		}
+		
+		
+		$(function (){
+			$("#leftTime").countDown({
+			    times: 60,  
+			    ms: false,   
+			    Hour: true   
+			},function(){});
+			decodePre();
+			$(".subjectArea span").click(function(){
+				this.previousElementSibling.click();
+			});
+			$("#csdialog li").click(function(){
+				var id = this.id.substr(this.id.indexOf("_")+1);
+				$(window).scrollTop($("#title_"+id).offset().top-100);
+			});
+			var finishNum=0;
+			$("input[type='radio']").click(function(){
+				var id = $(this.parentNode.parentNode).attr("attid");
+				$("#subt_"+id).addClass("subfinish");
+				finishNum +=1;
+				$("#finishNum").html(finishNum);
+			});
+			
+		});
+		
+		
+		
 	</script>
 </body>
 </html>

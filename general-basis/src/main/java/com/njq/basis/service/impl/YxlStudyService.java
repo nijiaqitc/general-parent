@@ -3,13 +3,16 @@ package com.njq.basis.service.impl;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -272,19 +275,16 @@ public class YxlStudyService {
 		yxlStudyAnswerDao.deleteBycc(condition);
 	}
 	
-	public List<ExaminationsVO> queryExaminations() {
-		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("2", 30);
-		return this.convertExa(titlePage);
-	}
-	
-	public YxlStudyVO queryPenQue() {
-		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("3", 1);
-		List<YxlStudyVO> lt = this.convert(titlePage);
-		return lt.get(0);
+	public Map<String, Object> getExam(){
+		Map<String, Object> examap=new HashMap<>();
+		examap.put("selectSub", this.queryExaminations());
+		examap.put("questions", this.queryExaminationsQue());
+		examap.put("penques", this.queryPenQue());
+		return examap;
 	}
 	
 	public List<YxlStudyVO> queryExaminationsQue() {
-		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("1", 30);
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("1", PageRequest.of(0, 10));
 		if(CollectionUtils.isEmpty(titlePage)) {
 			return Collections.EMPTY_LIST;
 		}
@@ -299,10 +299,7 @@ public class YxlStudyService {
 			condition.addEqParam("titleId", n.getId());
 			List<YxlStudyAnswer> answerList = yxlStudyAnswerDao.queryColumnForList(condition);
 			String opstr = n.getOptions();
-			vo.setOptionsub(Arrays.asList(opstr.split("\\(\\|\\)")));
-			
-			
-			
+			vo.setOptionsub(generateSel(opstr));
 			vo.setAnswerList(
 				answerList.stream().map(m->{
 					AnswerVO v = new AnswerVO();
@@ -314,4 +311,22 @@ public class YxlStudyService {
 		}).collect(Collectors.toList());
 	}
 	
+	
+	private List<String[]> generateSel(String str){
+		List<String> lt = Arrays.asList(str.split("\\(\\|\\)"));
+		return lt.stream().map(n->{
+			return n.split("\\、");
+		}).collect(Collectors.toList());
+	}
+	
+	public List<ExaminationsVO> queryExaminations() {
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("2", PageRequest.of(0, 30));
+		return this.convertExa(titlePage);
+	}
+	
+	public YxlStudyVO queryPenQue() {
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("3", PageRequest.of(0, 1));
+		List<YxlStudyVO> lt = this.convert(titlePage);
+		return lt.get(0);
+	}
 }

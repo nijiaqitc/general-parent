@@ -1,0 +1,235 @@
+/*全屏开始*/
+.adocDiv{
+	z-index: 998;width: 100%;margin: 10px;position:absolute;
+}
+.adocDiv1{
+	background-color: #fff;border-radius: 6px;width: 997px;box-shadow: 0 3px 9px rgba(0,0,0,0.5);min-height: 400px;position: relative;
+}
+.transparent_class {  
+    /* Required for IE 5, 6, 7 */  
+    /* ...or something to trigger hasLayout, like zoom: 1; */  
+    width: 100%;
+    height: 100%; 
+    position: fixed;
+    line-height:300px;  
+    text-align:center;  
+    background:#cccccc;  
+    color:#fff;  
+    top: 0;right: 0;bottom: 0;left: 0; 
+}
+
+.aopenWord{
+	width: 20px;border-radius: 2px;cursor: pointer;
+}
+.aopenWord1{
+	background: url('../images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+}
+.aopenWord2{
+	background-color: #ffe69f;width: 20px;border: 1px #dcac6c solid;border-radius: 2px;cursor: pointer;
+}
+.aopenWord3{
+	background: url('../images/icons.png') no-repeat;width: 20px;display: block;height: 20px;background-position: -100px -20px;
+}
+.aopenWord4{
+	width:840px;padding-top: 60px;
+}
+.aopenT{
+	font-size: 18px;line-height: 2;font-weight: normal;margin-top: 10px;margin-bottom: 10px;
+}
+.aopenWord5{
+	font-size: 16px;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.aopenWord6{
+	text-indent: 24px;font-size: 14px;
+}
+.aopenWord6  div{
+    padding: 4px 0px;
+}
+.aopenWord7{
+	font-size: 12px;
+}
+.aopenWord8{
+	font-family:'SimSun';font-size: 16px;line-height: 26px;margin-top: 50px;
+}
+.aopenWord9{
+	font-weight: 600;font-size: 12px;margin: 10px 0 4px 0;
+}
+.aopenWord10{
+	font-weight: 600;font-size: 12px;margin-bottom: 20px;
+}
+.aopenWord11{
+	color: red;font-size: 14px;
+}
+.aopenWord12{
+	
+}
+.aopenWord13{
+	width: 50px;
+}
+.bonT{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;margin-bottom: 24px;margin-left: 24px;
+}
+/*全屏结束*/
+
+.topTip{
+	float: left;
+    margin-right: 40px;
+}
+.subEx{
+	cursor: pointer;
+    border: 1px solid #eee;
+    padding: 2px 4px;
+}
+
+.subEx:hover{
+	background-color: #eee;
+}
+
+.fractionValue{
+	color:#ef4a4a;
+	position: absolute;
+    right: 16%;
+    font-size: 60px;
+    overflow: auto;
+    line-height: 60px;
+    height: 140px;
+}
+
+.fenarea{
+	width: 190px;background-image:url('/static/zxgj/img/unline.png');background-repeat: no-repeat;height: 124px;background-position: bottom;padding-right: 30px;
+}
+.prettyprint ul {
+    position: absolute;
+    width: 36px;
+    background-color: #282C33;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+    text-align: right;
+}
+.prettyprint ul li {
+    color: #abb2bf!important;
+    border-right: 1px solid #c5c5c5;
+    padding: 0 8px;
+    list-style: none;
+    margin: 0;
+    text-indent: 0px;
+}
+pre{
+	position: relative !important;
+    overflow-y: hidden !important;
+    overflow-x: auto !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    font-family: Source Code Pro,DejaVu Sans Mono,Ubuntu Mono,Anonymous Pro,Droid Sans Mono,Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,PingFang SC,Microsoft YaHei,sans-serif !important;
+    margin: 0 0 0px !important;
+    padding: 8px 16px 6px 56px !important;
+    background-color: #282C33 !important;
+    border: none !important;
+    white-space: pre !important;
+}
+.pre-numbering li span{
+    color: #fff !important;
+}
+input{
+	cursor: pointer;
+}
+
+.questions .div{
+	width: 160px;
+    float: left;
+}
+
+.subjectArea span{
+	cursor: pointer;
+}
+
+.gouarea{
+	z-index: 999;position: absolute;background-image:url('/static/zxgj/img/duihao.png');background-size: 60px;width:60px;height:60px;margin-left: 80px;margin-top: 20px;display: none;
+}
+.charea{
+	z-index: 999;position: absolute;background-image:url('/static/zxgj/img/cha.png');background-size: 60px;width:60px;height:60px;margin-left: 80px;margin-top: 20px;display: none;
+}
+
+.sidebar{
+	position: fixed;width: 480px;min-height: 350px;background-color: #fff;top: 130px;border: 1px solid #888;right: 0px;z-index: 999;
+}
+.sidebar li{
+	border: 1px solid #ccc;
+    background-color: #fff;
+    color: #666;
+	list-style: none;
+    padding: 0;
+	float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 5px;
+    font-size: 12px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.outArea{
+	clear: both;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e7e8e8;
+    overflow: auto;
+}
+.sidebar li:hover{
+	color: white;
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.sidebar .caption{
+	font-size: 14px;
+    color: #333;
+}
+
+.sidebar .mark{
+	font-size: 12px;
+    color: #999;
+}
+
+.sidebar i{
+	position: relative;
+    top: 2px;
+    left: -2px;
+    display: inline-block;
+    width: 5px;
+    height: 15px;
+    background-color: #fead11;
+}
+.rightBtn {
+	top: 78px;
+    width: 50px;
+    height: 50px;
+    background-color: #ffdd7e;
+    position: fixed;
+    right: 0px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+       z-index: 999;
+       border-radius: 6px;
+}
+.subfinish{
+	color: #cecdcd !important;
+   	background-color: #f3f3f3 !important;
+}
+.subfinishResultCha{
+	background-image: url(/static/zxgj/img/cha.png);
+    background-size: 24px;
+    background-position: bottom;
+}
+.subfinishResultBanCha{
+	border: 1px dotted red !important;
+}
+.subfinishResultAllCha{
+	background-color: red !important;
+}

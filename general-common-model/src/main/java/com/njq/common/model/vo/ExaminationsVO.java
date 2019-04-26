@@ -19,7 +19,7 @@ public class ExaminationsVO implements Serializable{
 
 	private Long typeId;
 
-	private List<String> optionsub;
+	private List<String[]> optionsub;
 	
 	private List<AnswerVO> answerList;
 	
@@ -71,11 +71,11 @@ public class ExaminationsVO implements Serializable{
 		this.typeId = typeId;
 	}
 
-	public List<String> getOptionsub() {
+	public List<String[]> getOptionsub() {
 		return optionsub;
 	}
 
-	public void setOptionsub(List<String> optionsub) {
+	public void setOptionsub(List<String[]> optionsub) {
 		this.optionsub = optionsub;
 	}
 
