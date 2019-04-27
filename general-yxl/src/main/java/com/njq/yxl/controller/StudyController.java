@@ -73,6 +73,7 @@ public class StudyController {
 		Map<String, Object> examap;
 		if(change) {
 			examap = examinationsCacheReader.getOrsetData(key);
+			return "redirect:/study/examinations";
 		}else {
 			examap = examinationsCacheReader.get(key);
 		}

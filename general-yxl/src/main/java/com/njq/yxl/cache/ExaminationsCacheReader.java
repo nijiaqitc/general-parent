@@ -22,10 +22,17 @@ public class ExaminationsCacheReader extends GenericValueCacheManager<String, Ma
 	}
 
 	public Map<String, Object> getOrsetData(String key){
-		Map<String, Object> map = yxlStudyService.getExam();
+		Map<String, Object> map = this.createObject(key);
 		update(key, map, 1440);
 		return map;
 	}
+
+	@Override
+	protected Map<String, Object> createObject(String id) {
+		return yxlStudyService.getExam();
+	}
+	
+	
 	
 	
 }

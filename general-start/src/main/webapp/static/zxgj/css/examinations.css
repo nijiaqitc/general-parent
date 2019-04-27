@@ -1,6 +1,6 @@
 /*全屏开始*/
 .adocDiv{
-	z-index: 998;width: 100%;margin: 10px;position:absolute;
+	z-index: 998;width: 100%;margin: 10px;position:absolute;margin-top: 50px;
 }
 .adocDiv1{
 	background-color: #fff;border-radius: 6px;width: 997px;box-shadow: 0 3px 9px rgba(0,0,0,0.5);min-height: 400px;position: relative;
@@ -96,7 +96,7 @@
 }
 
 .fenarea{
-	width: 190px;background-image:url('/static/zxgj/img/unline.png');background-repeat: no-repeat;height: 124px;background-position: bottom;padding-right: 30px;
+	width: 190px;background-image:url('/static/zxgj/img/unline.png');background-repeat: no-repeat;height: 124px;background-position: bottom;padding-right: 30px;display: none;
 }
 .prettyprint ul {
     position: absolute;
@@ -154,7 +154,7 @@ input{
 }
 
 .sidebar{
-	position: fixed;width: 480px;min-height: 350px;background-color: #fff;top: 130px;border: 1px solid #888;right: 0px;z-index: 999;
+	position: fixed;width: 480px;min-height: 350px;background-color: #fff;top: 130px;border: 1px solid #888;z-index: 999;right: -490px;
 }
 .sidebar li{
 	border: 1px solid #ccc;
@@ -232,4 +232,37 @@ input{
 }
 .subfinishResultAllCha{
 	background-color: red !important;
+}
+
+.topDescription{
+	width: 860px;overflow: auto;line-height: 40px;
+}
+.rightTime{
+	float: right;display:inline-block;vertical-align:top;color:#fead11;font-size:21px;
+}
+.topMenu{
+	height: 40px;
+}
+.pingyu{
+	color: #ef4a4a;position: absolute;right: 16%;font-size: 16px;overflow: auto;margin-top: 120px;
+}
+
+.sidebar .headInfo{
+	height: 30px;margin-bottom: 6px;
+}
+.sidebar .headInfo2{
+	width: 430px;overflow: auto;
+}
+.sidebar .headInfo .tp1{
+	float: right;height: 30px;border-bottom: 1px solid #e7e8e8;font-size: 12px;width: 220px;
+}
+.littleFont{
+	font-size: 12px;
+}
+.writeArea{
+	text-indent: 0px;display: none;
+}
+
+.writeArea .area1{
+	width: 100%;height: 300px;
 }
