@@ -284,7 +284,7 @@ public class YxlStudyService {
 	}
 	
 	public List<YxlStudyVO> queryExaminationsQue() {
-		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("1", PageRequest.of(0, 10));
+		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("1", PageRequest.of(0, 30));
 		if(CollectionUtils.isEmpty(titlePage)) {
 			return Collections.EMPTY_LIST;
 		}
@@ -315,8 +315,12 @@ public class YxlStudyService {
 	private List<String[]> generateSel(String str){
 		List<String> lt = Arrays.asList(str.split("\\(\\|\\)"));
 		return lt.stream().map(n->{
-			return n.split("\\、");
-		}).collect(Collectors.toList());
+			if(StringUtil.IsNotEmpty(n)) {
+				return n.split("\\、");
+			}else {
+				return null;
+			}
+		}).filter(n->n!=null).collect(Collectors.toList());
 	}
 	
 	public List<ExaminationsVO> queryExaminations() {

@@ -23,7 +23,7 @@
 			<div class="topTip">考题数量：61 题</div>
 			<div class="topTip">考试时长：60 分钟</div>
 			<div class="topTip"><span class="subEx" onclick="submitEx()">交卷</span></div>
-			<div class="topTip"><a href="${path }/study/examinations?change=1"><span class="subEx" onclick="changeSubject()">换题</span></a></div>
+			<div class="topTip"><a href="${path }/study/examinations?change=1"><span class="subEx" >换题</span></a></div>
 			<div class="rightTime">
 				<i class="icon-time"></i>
 				<span id="leftTime">00:00:00</span>
@@ -67,9 +67,11 @@
 				     		</div>
 				     		<div class="answerDes">
 				     			<div>答案是：<span>${sub.answerList[0].answer }</span></div>
-				     			<div>
-				     				描述：${sub.answerList[0].columDesc }
-				     			</div>
+				     			<c:if test="${sub.answerList[0].columDesc != null && sub.answerList[0].columDesc !=''}">
+					     			<div>
+					     				描述：${sub.answerList[0].columDesc }
+					     			</div>
+				     			</c:if>
 				     		</div>
 		     			</div>	     			
 	     			</c:forEach>
@@ -95,9 +97,11 @@
 					     			<span>C、含含糊糊</span>
 				     			</div>
 				     		</div>
-				     		<div class="answerDes">
-				     			<div>答案描述<span>${qus.answerList[0].answer }</span></div>
-				     		</div>
+				     		<c:if test="${qus.answerList[0].answer != null && qus.answerList[0].answer !='' }">
+					     		<div class="answerDes">
+					     			<div>答案描述：<span>${qus.answerList[0].answer }</span></div>
+					     		</div>
+				     		</c:if>
 		     			</div>
 	     			</c:forEach>
 		     		<div class="aopenT">

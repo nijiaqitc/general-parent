@@ -88,7 +88,7 @@
 								</div>
 					  		</div>
 					  		<div class="control-group" id="optionsArea" style="display: none;">
-								<label class="control-label">选项：</label>
+								<label class="control-label">选项： (A、选项a(|))</label>
 								<div class="controls" >
 									<div prefix="options" name="njqEditorDiv" modelStyle="styleTwo" env="4" >${studyInfo.options }</div>
 									<input type="hidden" id="options" name="options" value="${studyInfo.options }">
@@ -114,7 +114,6 @@
 			</div>
 		</div>
 	    <!--     加载用户自定义配置 -->
-	    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 		<!-- 通用底部 -->
 		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
@@ -122,6 +121,8 @@
 	<script src="${resPath }/common/js/publicJs.js"></script>
 	<!-- start:公共页，存放公共框 -->
 	<jsp:include page="${path}/publicJsp"></jsp:include>
+	<script src="${resPath }/zxgj/js/tools/jsDecode.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 	<!-- jqueryvalide验证 -->
 	<script src="${resPath }/back/js/jquery.validate.min.js"></script>
 	<script src="${resPath }/back/js/jqueryValidateExtend.js"></script>
@@ -188,7 +189,11 @@
 			if(njqEditor.editorNodes[2].api.hasText() == ""){
 				$("#answer").val("");			
 			}else{
-				$("#answer").val(njqEditor.editorNodes[2].api.getContent());
+				if($("input[name='titleType']:checked").val()=="2"){
+					$("#answer").val(njqEditor.editorNodes[2].api.getContentTxt());
+				}else{
+					$("#answer").val(njqEditor.editorNodes[2].api.getContent());
+				}
 			}
 			if(njqEditor.editorNodes[3].api.hasText() == ""){
 				$("#columDesc").val("");

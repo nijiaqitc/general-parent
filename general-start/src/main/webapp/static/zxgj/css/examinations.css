@@ -129,6 +129,7 @@ pre{
     background-color: #282C33 !important;
     border: none !important;
     white-space: pre !important;
+    text-indent: 0px !important;
 }
 .pre-numbering li span{
     color: #fff !important;
@@ -268,4 +269,5 @@ input{
 }
 .answerDes{
 	color: red;
+	display: none;
 }
