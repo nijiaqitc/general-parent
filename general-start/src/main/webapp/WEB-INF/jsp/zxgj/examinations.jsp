@@ -65,6 +65,12 @@
 					     			</div>
 				     			</c:forEach>
 				     		</div>
+				     		<div class="answerDes">
+				     			<div>答案是：<span>${sub.answerList[0].answer }</span></div>
+				     			<div>
+				     				描述：${sub.answerList[0].columDesc }
+				     			</div>
+				     		</div>
 		     			</div>	     			
 	     			</c:forEach>
 	     			<div class="aopenT">
@@ -88,6 +94,9 @@
 					     			<input type="radio"  name="ques${qus.id }" value="0">
 					     			<span>C、含含糊糊</span>
 				     			</div>
+				     		</div>
+				     		<div class="answerDes">
+				     			<div>答案描述<span>${qus.answerList[0].answer }</span></div>
 				     		</div>
 		     			</div>
 	     			</c:forEach>

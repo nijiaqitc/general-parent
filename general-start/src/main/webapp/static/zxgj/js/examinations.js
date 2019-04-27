@@ -68,7 +68,7 @@ function submitEx(){
 	$("#fenarea").html(total);
 	$("#fenarea").show();
 	scrollTo(0,0);
-	
+	$(".answerDes").show();
 	if(total < 30){
 		$("#pingyu").html("赶紧再充下电吧，欠缺的有点多哦！");
 	}else if(total < 60){
