@@ -88,7 +88,7 @@
 								</div>
 					  		</div>
 					  		<div class="control-group" id="optionsArea" style="display: none;">
-								<label class="control-label">选项： (A、选项a(|))</label>
+								<label class="control-label">选项： (A、选项a(|) 回车“(br)” )</label>
 								<div class="controls" >
 									<div prefix="options" name="njqEditorDiv" modelStyle="styleTwo" env="4" >${studyInfo.options }</div>
 									<input type="hidden" id="options" name="options" value="${studyInfo.options }">

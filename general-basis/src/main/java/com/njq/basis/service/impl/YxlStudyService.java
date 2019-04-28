@@ -317,7 +317,7 @@ public class YxlStudyService {
 		return lt.stream().map(n->{
 			if(StringUtil.IsNotEmpty(n)) {
 				if(n.indexOf("(br)")>-1) {
-					n=n.replaceAll("(br)", "<br>");					
+					n=n.replaceAll("\\(br\\)", "\\<br\\>");					
 				}
 				return n.split("\\、");
 			}else {
