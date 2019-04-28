@@ -699,7 +699,10 @@
 		njqEditor.loadFlag=new Array(7);
 		//加载前置js文件
 		loadAllJs();
-		
+		delayLoad();
+	}
+	
+	function delayLoad(){
 		setTimeout(function () {
             var flag = true;
             //做一个栏栅，等所有配置加载完成后才开始组装
@@ -715,8 +718,10 @@
             	if(njqEditor.editorNodes.length == 1){
             		window.njq = njqEditor.editorNodes[0].api;
             	}
+            }else{
+            	delayLoad();	
             }
-        }, 200);
+        }, 1000);
 	}
 	
 	/**

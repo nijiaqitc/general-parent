@@ -316,6 +316,9 @@ public class YxlStudyService {
 		List<String> lt = Arrays.asList(str.split("\\(\\|\\)"));
 		return lt.stream().map(n->{
 			if(StringUtil.IsNotEmpty(n)) {
+				if(n.indexOf("(br)")>-1) {
+					n=n.replaceAll("(br)", "<br>");					
+				}
 				return n.split("\\、");
 			}else {
 				return null;
