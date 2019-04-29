@@ -85,6 +85,8 @@
 									<input type="radio" name="titleType" value="2"  onclick="radioClick(this)">
 									编写题
 									<input type="radio" name="titleType" value="3"  onclick="radioClick(this)">
+									多选题
+									<input type="radio" name="titleType" value="4"  onclick="radioClick(this)">
 								</div>
 					  		</div>
 					  		<div class="control-group" id="optionsArea" style="display: none;">
@@ -160,7 +162,7 @@
     	
 		
 		function radioClick(target){
-			if($(target).val()==2){
+			if($(target).val()==2||$(target).val()==4){
 				$("#generalArea").show();
 				$("#optionsArea").show();
 			}else{
