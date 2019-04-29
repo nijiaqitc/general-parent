@@ -29,8 +29,13 @@ public class Test2Controller {
 
 	@RequestMapping("tttest")
 	public ModelAndView ttt() {
-		
+		/**"ssdsdsd
+		 * ***********
+		 */
+		//""
 		ModelAndView mv = new ModelAndView("thymeleaf/acb");
+		
+		String str = "/";
 		return mv;
 	}
 	
