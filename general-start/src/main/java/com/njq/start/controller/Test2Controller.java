@@ -100,6 +100,6 @@ public class Test2Controller {
 	public String ffff6(Model model,Integer page){
 		model.addAttribute("page", page);
 		model.addAttribute("req", "a=2");
-		return "test3";
+		return "test5";
 	}
 }

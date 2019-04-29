@@ -80,7 +80,7 @@ li, ol, ul {
 }
 
 .cengen{
-	width: 1150px;margin-bottom: 50px;
+	width: 1150px;margin-bottom: 50px;overflow: auto;
 }
 .cengen .hantp{
 	margin-top: 40px;

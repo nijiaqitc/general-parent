@@ -72,11 +72,11 @@ function submitEx(){
 	if(total < 30){
 		$("#pingyu").html("赶紧再充下电吧，欠缺的有点多哦！");
 	}else if(total < 60){
-		$("#pingyu").html("再努力下哦");
+		$("#pingyu").html("离及格差不远了哦，加油！");
 	}else if(total < 80){
-		$("#pingyu").html("再接再厉哈");
+		$("#pingyu").html("已经及格啦，马上就要良好了哦，加油！");
 	}else if(total < 100){
-		$("#pingyu").html("不错不错");
+		$("#pingyu").html("可以准备准备投简历啦^_^");
 	}
 	
 	$("#finishResultArea").html("答错题目:"+(61-rightNum));
