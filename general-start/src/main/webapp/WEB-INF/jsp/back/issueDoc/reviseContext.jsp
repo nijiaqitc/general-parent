@@ -281,38 +281,7 @@
 		 * 修改显示弹出框
 		 */
 		function showDialogForUpdate(e){
-			$("#dialogTitleName").html("修改");
-			$("#saveButton").show();
-			$("#updateButton").hide();
-			$.ajax({
-				url:"${path}/admin/studyManage/queryInfo",
-				type:"post",
-				data:{
-					id:$(e).parents("tr").children()[1].innerHTML
-				},
-				async:false,
-				success:function(data){
-					if(data != null){
-			 			$("#id").val(data.id);
-			 			$("#title").val(data.title);
-			 			$.each($("input[name='titleType']"),function(a,b){
-			 				if($(b).val()==data.titleType){
-			 					$(b).click();
-			 				}
-			 			}); 
-			 			$("#typeId").val(data.typeId);
-			 			$("#answer").val(data.answerList[0].answer);
-			 			$("#columDesc").val(data.answerList[0].columDesc);
-			 			if(data.sure){
-			 				$("#sure").click();
-			 			}
-			 			window.frames[0].njq.setContent(data.answerList[0].answer);
-			 			window.frames[1].njq.setContent(data.answerList[0].columDesc);
-					}
-				}
-			})
-			$("#myModal").show();
-			$("#backBlackGround").show();
+			window.location="${path}/admin/studyManage/issueRevise?id="+$(e).parents("tr").children()[1].innerHTML;
 		}
 		
 		

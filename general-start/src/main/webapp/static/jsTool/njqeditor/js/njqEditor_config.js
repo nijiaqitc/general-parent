@@ -310,6 +310,8 @@
 					plug:{
 						enable:false
 					},
+					//是否需要清理去除制表符等符号
+					clearInitText:true,
 					// 所使用的按钮
 					useBtn : [ "njqEditor_html", "njqEditor_save", "njqEditor_back",
 						"njqEditor_go", "njqEditor_clearAll",
@@ -388,6 +390,8 @@
 					plug:{
 						enable:false
 					},
+					//是否需要清理去除制表符等符号
+					clearInitText:true,
 					// 所使用的按钮
 					useBtn : [ "njqEditor_html", "njqEditor_save", "njqEditor_back",
 						"njqEditor_go", "njqEditor_clearAll",
@@ -466,6 +470,8 @@
 					plug:{
 						enable:false
 					},
+					//是否需要清理去除制表符等符号
+					clearInitText:true,
 					// 所使用的按钮
 					useBtn : [ "njqEditor_html", "njqEditor_save", "njqEditor_back",
 						"njqEditor_go", "njqEditor_clearAll",
@@ -547,6 +553,8 @@
 							node.innerHTML=js_beautify(node.innerHTML,4," ");
 						}
 					},
+					//是否需要清理去除制表符等符号
+					clearInitText:false,
 					// 所使用的按钮
 					useBtn : ["njqEditor_strong", "njqEditor_lean","njqEditor_clearDecode","njqEditor_dataCode","njqEditor_addHref","njqEditor_decodePre" ]
 			}
@@ -601,6 +609,8 @@
 					plug:{
 						enable:false
 					},
+					//是否需要清理去除制表符等符号
+					clearInitText:true,
 					// 所使用的按钮
 					useBtn : [ "njqEditor_html", "njqEditor_save", "njqEditor_back",
 						"njqEditor_go", "njqEditor_clearAll",
@@ -814,7 +824,11 @@
 			njqEditor.bindfun(editorNode);
 			//初始化内容
 			if(userConfig.initText!=null&&userConfig.initText!=""){
-				idsNode["editorContext"].innerHTML=userConfig.initText.replace(/^\s+|\s+$/gm, '').replace(/[\r\n\t]/g, "");			
+				if(userConfig.clearInitText){
+					idsNode["editorContext"].innerHTML=userConfig.initText.replace(/^\s+|\s+$/gm, '').replace(/[\r\n\t]/g, "");								
+				}else{
+					idsNode["editorContext"].innerHTML=userConfig.initText;
+				}
 			}else{
 				idsNode["editorContext"].innerHTML="<div><br></div>";
 			}
