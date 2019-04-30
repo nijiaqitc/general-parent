@@ -124,6 +124,7 @@
 	<!-- start:公共页，存放公共框 -->
 	<jsp:include page="${path}/publicJsp"></jsp:include>
 	<script src="${resPath }/zxgj/js/tools/jsDecode.js" type="text/javascript"></script>
+	<script src="${resPath }/jsTool/decodeJava/decodeJava.js" type="text/javascript"></script>
     <script type="text/javascript" src="${resPath }/jsTool/njqeditor/js/njqEditor_config.js"></script>
 	<!-- jqueryvalide验证 -->
 	<script src="${resPath }/back/js/jquery.validate.min.js"></script>

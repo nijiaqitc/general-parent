@@ -1,4 +1,4 @@
-function decodeJ(unDealStr){
+function decodeJ(unDealStr,fillChar,fillTimes){
 	var newStr="";
 	var dealFun={
 			"/":dealChar1,
@@ -10,17 +10,19 @@ function decodeJ(unDealStr){
 			"111":dealChar7,
 			"(":dealChar8,
 			")":dealChar9,
-			" ":dealChar10
+			" ":dealChar10,
+			"\"":dealChar11
 			};
-	//存放左括号 =-*/!^
+	var completeChar= "=+-*/^&";
+	//存放左括号 
 	var kuoLeft=[];
 	//当前处理到的字符位置
 	var parser_pos=0;
 	//每个字符
 	var charValue;
-	var emptyChar=" ";
+	var emptyChar=fillChar||" ";
 	//空格占位符包含几个空格
-	var indent_size = 4;
+	var indent_size = fillTimes||4;
 	//填充的空格占位符
 	var indent_string = "";
 	//当前放几次前置空格占位符
@@ -30,10 +32,10 @@ function decodeJ(unDealStr){
 	// 行注释标记
 	var lineAnnot=false;
 	var morelineAnnot=false;
+	var yinhaoAnnot = false;
 	while (indent_size--) {
         indent_string += emptyChar;
     }
-	
 	while(parser_pos < unDealStr.length){
 		charValue=unDealStr.charAt(parser_pos);
 		++parser_pos;
@@ -64,19 +66,26 @@ function decodeJ(unDealStr){
 			addChar();
 			continue;
 		}
-//		if(morelineAnnot){
-//			
-//		}
-		if("	" == charValue){
-			continue;
-		}
 		if(dealFun[charValue]){
-			dealFun[charValue]();
+			if(yinhaoAnnot){
+				if("\"" == charValue){
+					dealFun[charValue]();
+				}else{
+					addChar();
+				}
+			}else{
+				dealFun[charValue]();
+			}
 		}else{
-			addChar();
+			if(/\s/g.test(charValue)){
+				dealChar10();
+			}else{
+				dealCompleteChar();
+				addChar();
+			}
 		}
 	}
-	$("#outInfo").val(newStr);
+	return newStr;
 	
 	function addEnter(){
 		newStr += "\n";
@@ -95,7 +104,9 @@ function decodeJ(unDealStr){
 		newStr += charValue;
 	}
 	
-	
+	/**
+	 * 左斜杠
+	 */
 	function dealChar1(){
 		var lastChar = getLastChar(); 
 		addChar();
@@ -103,16 +114,26 @@ function decodeJ(unDealStr){
 			addEnterEmpty();
 			morelineAnnot=false;
 		}else if(lastChar == "/"){
-			lineAnnot = true;
+			if(!yinhaoAnnot){
+				lineAnnot = true;				
+			}
 		}
 	}
 	
+	/**
+	 *  星号
+	 */
 	function dealChar2(){
-		addChar();
 		var lastt = newStr.substr(newStr.length-2);
 		if(lastt.indexOf("/")>-1){
-			morelineAnnot = true;
+			if(!yinhaoAnnot){
+				morelineAnnot = true;				
+			}
 		}
+		if(!(morelineAnnot||lineAnnot)){
+			dealCompleteChar();
+		}
+		addChar();
 	}
 	/**
 	 * @ 操作符号
@@ -145,8 +166,10 @@ function decodeJ(unDealStr){
 	 */
 	function dealChar5(){
 		addChar();
-		addEnter();
-		addEmpty();
+		if(kuoLeft.length == 0){
+			addEnter();
+			addEmpty();			
+		}
 	}
 	
 	/**
@@ -155,8 +178,27 @@ function decodeJ(unDealStr){
 	function dealChar6(){
 		newStr = newStr.substr(0,newStr.length-indent_string.length);
 		--cindex;
-		dealChar5();
+		if(rcheck()){
+			addChar();
+			addEpt();
+		}else{
+			addChar();
+			addEnter();
+			addEmpty();
+		}
+		function rcheck(){
+			var rchar = ["finally","catch","else"];
+			var substr = unDealStr.substr(parser_pos,unDealStr.length);
+			substr = substr.trim();
+			for(var i = 0 ;i<rchar.length;i++){
+				if(substr.startsWith(rchar[i])){
+					return true;
+				}
+			}
+			
+		}
 	}
+	
 	
 	function dealChar7(){
 		addChar();
@@ -194,6 +236,21 @@ function decodeJ(unDealStr){
 		}
 	}
 	
+	/**
+	 * 双引号
+	 */
+	function dealChar11(){
+		if(!(lineAnnot || morelineAnnot)){
+			if(yinhaoAnnot){
+				yinhaoAnnot = false;
+			}else{
+				yinhaoAnnot = true;
+			}
+		}
+		addChar();
+	}
+	
+	
 	function getLastChar(){
 		return newStr.charAt(newStr.length-1);
 	}
@@ -202,5 +259,18 @@ function decodeJ(unDealStr){
 	function addEnterEmpty(){
 		addEnter();		
 		addEmpty();
+	}
+	
+	function dealCompleteChar(){
+		/*var lc = getLastChar();
+		if(completeChar.indexOf(charValue)>-1){
+			if(completeChar.indexOf(lc)==-1){
+				addEpt();
+			}
+		}else{
+			if(lc!=""&&completeChar.indexOf(lc)>-1){
+				addEpt();
+			}
+		}*/
 	}
 }

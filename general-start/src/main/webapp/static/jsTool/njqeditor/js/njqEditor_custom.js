@@ -15,7 +15,7 @@
 				var pre = util.getSpecalParentNode(constants.PRE, range.startContainer);
 				if(pre){
 					var textarea = util.createCustomNode("textarea");
-					textarea.value = js_beautify(pre.innerText,2,"&nbsp;");
+					textarea.value = decodeJ(pre.innerText);
 					pre.innerHTML=textarea.value;
 					textarea.remove();
 				}
