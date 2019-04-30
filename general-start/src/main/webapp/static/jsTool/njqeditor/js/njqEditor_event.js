@@ -47,9 +47,6 @@
         var bindEvents = editorConfig.bindEventListeners = {
         	 // 所有事件绑定执行方法
             _totalBandEvent: function (e) {
-            	
-            	console.info(editorConfig.prefix)
-            	
                 //未初始化完成前不允许操作
                 if (!sysConfig.initFinshFlag) {
                     return;
