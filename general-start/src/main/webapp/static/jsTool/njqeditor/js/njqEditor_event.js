@@ -47,6 +47,9 @@
         var bindEvents = editorConfig.bindEventListeners = {
         	 // 所有事件绑定执行方法
             _totalBandEvent: function (e) {
+            	
+            	console.info(editorConfig.prefix)
+            	
                 //未初始化完成前不允许操作
                 if (!sysConfig.initFinshFlag) {
                     return;
@@ -382,7 +385,7 @@
             _commonDocEventController: function (e) {
                 try {
                     for (var index in this.njqEvent[e.type]) {
-                        allEvents[ids.editor.njqEvent[e.type][index]].apply(this, [e]);
+                        allEvents[document.njqEvent[e.type][index]].apply(this, [e]);
                     }
                 } catch (e) {
                     if (sysConfig.errorLog) {
@@ -1325,6 +1328,7 @@
             },
             // 绑定在document上的鼠标释放事件
             _docMouseUp: function (e) {
+            	console.info(ids);
                 if (tempVar.mouseDown) {
                     service.resetRangeAndSelection(e);
                     service.resetBtnStatus();

@@ -71,7 +71,7 @@
 		//绑定document事件
 		for(var eventName in docEvent){
 			for(var bEvent in docEvent[eventName]){
-				util.addCommonEventListener(editorNode.bindEventListeners,ids.editor,bEvent,docEvent[eventName][bEvent],4);
+				util.addCommonEventListener(editorNode.bindEventListeners,document,bEvent,docEvent[eventName][bEvent],4);
 			}
 		}
 	}

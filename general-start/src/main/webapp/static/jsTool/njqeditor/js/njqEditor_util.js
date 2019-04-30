@@ -799,7 +799,7 @@
             obj.njqEvent[eventType].push(specalHandle);
             if (bandFlag) {
                 // 已经绑定过一次后就不再执行后续操作
-                return;
+//                return;
             }
             if (commonType == 1) {
                 // 所有按钮绑定事件
