@@ -202,6 +202,7 @@
 		<module>general-wap</module>
 		<module>general-yxl</module>
 		<module>general-xs</module>
+		<module>general-wx</module>
 		<module>general-grab</module>
 		<module>general-basis</module>
 	</modules>
