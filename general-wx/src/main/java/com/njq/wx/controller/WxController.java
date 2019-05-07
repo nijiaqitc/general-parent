@@ -48,6 +48,7 @@ public class WxController {
      */
     @GetMapping
     public void verifyToken(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    	logger.info("进入wx");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         // 微信加密签名
