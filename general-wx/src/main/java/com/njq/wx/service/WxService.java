@@ -11,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Map;
 @Service
 public class WxService {
     private static final Logger logger = LoggerFactory.getLogger(WxService.class);
+    @Autowired
     private AccessTokenManager accessTokenManager;
     private String prefixUrl = "https://api.weixin.qq.com";
 
