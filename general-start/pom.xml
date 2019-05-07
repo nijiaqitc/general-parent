@@ -49,6 +49,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.njq.wx</groupId>
+            <artifactId>general-wx</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.njq.grab</groupId>
             <artifactId>general-grab</artifactId>
             <version>0.0.1-SNAPSHOT</version>
