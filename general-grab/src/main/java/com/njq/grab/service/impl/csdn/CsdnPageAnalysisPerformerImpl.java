@@ -81,6 +81,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Element element = doc.getElementById("asideArchive");
         if (element == null) {
         	logger.info("未读取到id:asideArchive");
+        	logger.info("读取到的元素:"+doc.html());
             return;
         }
         Elements elements = element.getElementsByTag("ul").get(0).getElementsByTag("a");

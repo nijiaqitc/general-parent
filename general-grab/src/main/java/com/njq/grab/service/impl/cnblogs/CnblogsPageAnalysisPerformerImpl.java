@@ -94,7 +94,8 @@ public class CnblogsPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             Element et = doc.getElementById("sidebar_categories");
             if(et != null) {
             	cnblogsLoadTwoPerformer.loadMenu(et, typeId);
-            }else {            	
+            }else {
+            	logger.info("cnblogs加载找不到id sidebar_categories catListPostArchive ："+doc.html());
             	throw new BaseKnownException("找不到加载的标签");
             }
         }
