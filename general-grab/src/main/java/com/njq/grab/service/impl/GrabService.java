@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -94,6 +95,7 @@ public class GrabService {
 
     public void loadMenuJobTask() {
         List<GrabUrlInfo> list = grabUrlInfoService.getInfoList(true);
+        logger.info("下载菜单开始=======================》"+JSON.toJSONString(list));
         list.forEach(n -> {
             loadPageTaskExecutor.submit(() -> {
                 try {

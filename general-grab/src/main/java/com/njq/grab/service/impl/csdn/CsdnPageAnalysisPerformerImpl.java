@@ -74,11 +74,13 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public void loadMenu(String url, Long typeId) {
+    	logger.info("待加载的url:"+url);
         Document doc = HtmlGrabUtil
                 .build(ChannelType.CSDN.getValue())
                 .getDoc(url);
         Element element = doc.getElementById("asideArchive");
         if (element == null) {
+        	logger.info("未读取到id:asideArchive");
             return;
         }
         Elements elements = element.getElementsByTag("ul").get(0).getElementsByTag("a");
