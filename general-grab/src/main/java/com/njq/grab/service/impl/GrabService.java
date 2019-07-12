@@ -247,6 +247,12 @@ public class GrabService {
     
     public GrabDoc readDoc(Long docId) {
     	GrabDoc doc = grabDocDao.queryTById(docId);
+    	if(doc == null){
+    	    GrabDoc gd = new GrabDoc();
+    	    gd.setTitle("未找到对应的文章");
+    	    gd.setDoc("未找到对应的文章");
+    	    return gd;
+        }
     	Pattern pt1 =Pattern.compile("&amp;\\{\\|.*?\\|\\}");
     	Matcher mt1 =  pt1.matcher(doc.getDoc());
     	String matchstr;
