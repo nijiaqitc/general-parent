@@ -78,6 +78,7 @@ public class GrabService {
             loadPageTaskExecutor.submit(() -> {
                 try {
                     semaphore.acquire();
+                    logger.info("开始加载文章:"+n.getUrl());
                     performerService.getAnalysisPerformer(ChannelType.getChannelType(n.getChannel()))
                             .grabAndSave(new AnalysisPageRequestBuilder()
                                     .ofUrl(n.getUrl())
@@ -90,7 +91,7 @@ public class GrabService {
                 }
             });
         });
-        System.out.println(loadPageTaskExecutor.getActiveCount());
+        logger.info("存活线程数："+loadPageTaskExecutor.getActiveCount());
     }
 
     public void loadMenuJobTask() {
