@@ -4,14 +4,26 @@
 		<class>com.njq.common.model.po.BaseBanner</class>
 		<class>com.njq.common.model.po.BaseChannel</class>
 		<class>com.njq.common.model.po.BaseCode</class>
-		<class>com.njq.common.model.po.BaseLog</class>
-		<class>com.njq.common.model.po.BaseMessage</class>
 		<class>com.njq.common.model.po.BaseFile</class>
+		<class>com.njq.common.model.po.BaseLog</class>
+		<class>com.njq.common.model.po.BaseMenu</class>
+		<class>com.njq.common.model.po.BaseMessage</class>
 		<class>com.njq.common.model.po.BaseRule</class>
 		<class>com.njq.common.model.po.BaseRuleChannelConfig</class>
+		<class>com.njq.common.model.po.BaseTip</class>
+		<class>com.njq.common.model.po.BaseTipConfig</class>
+		<class>com.njq.common.model.po.BaseTitle</class>
+		<class>com.njq.common.model.po.BaseTitleGrab</class>
+		<class>com.njq.common.model.po.BaseTitleLoading</class>
+		<class>com.njq.common.model.po.BaseType</class>
+		<class>com.njq.common.model.po.BaseTypeNum</class>
 		<class>com.njq.common.model.po.BaseUser</class>
 		<class>com.njq.common.model.po.BaseUserChannelConfig</class>
 		<class>com.njq.common.model.po.BaseUserRuleConfig</class>
+		<class>com.njq.common.model.po.GrabDoc</class>
+		<class>com.njq.common.model.po.GrabNovelDoc</class>
+		<class>com.njq.common.model.po.GrabNovelMenu</class>
+		<class>com.njq.common.model.po.GrabUrlInfo</class>
 		<class>com.njq.common.model.po.TbkDoc</class>
 		<class>com.njq.common.model.po.TbkDocPicConfig</class>
 		<class>com.njq.common.model.po.TbkDocTipConfig</class>
@@ -40,20 +52,11 @@
 		<class>com.njq.common.model.po.YxlFolder</class>
 		<class>com.njq.common.model.po.YxlNote</class>
 		<class>com.njq.common.model.po.YxlNoteGeneral</class>
+		<class>com.njq.common.model.po.YxlStudyAnswer</class>
+		<class>com.njq.common.model.po.YxlStudyTitle</class>
 		<class>com.njq.common.model.po.YxlTip</class>
 		<class>com.njq.common.model.po.YxlType</class>
 		<class>com.njq.common.model.po.YxlTypeName</class>
-		<class>com.njq.common.model.po.BaseMenu</class>
-		<class>com.njq.common.model.po.BaseTip</class>
-		<class>com.njq.common.model.po.BaseTitle</class>
-		<class>com.njq.common.model.po.BaseType</class>
-		<class>com.njq.common.model.po.BaseTypeNum</class>
-		<class>com.njq.common.model.po.GrabDoc</class>
-		<class>com.njq.common.model.po.BaseTitleGrab</class>
-		<class>com.njq.common.model.po.BaseTitleLoading</class>
-		<class>com.njq.common.model.po.GrabUrlInfo</class>
-		<class>com.njq.common.model.po.BaseTipConfig</class>
-		<class>com.njq.common.model.po.YxlStudyAnswer</class>
-		<class>com.njq.common.model.po.YxlStudyTitle</class>
+		<class>com.njq.common.model.po.GrabNovelUrl</class>
 	</persistence-unit>
 </persistence>

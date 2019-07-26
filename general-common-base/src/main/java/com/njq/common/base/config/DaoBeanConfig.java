@@ -21,6 +21,9 @@ import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.BaseUserChannelConfig;
 import com.njq.common.model.po.BaseUserRuleConfig;
 import com.njq.common.model.po.GrabDoc;
+import com.njq.common.model.po.GrabNovelDoc;
+import com.njq.common.model.po.GrabNovelMenu;
+import com.njq.common.model.po.GrabNovelUrl;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.po.TbkDoc;
 import com.njq.common.model.po.TbkDocPicConfig;
@@ -162,6 +165,20 @@ public class DaoBeanConfig {
     @Bean
     public DaoCommon<GrabUrlInfo> grabUrlInfoDao() {
         return new DaoCommon<GrabUrlInfo>(GrabUrlInfo.class);
+    }
+    
+    @Bean
+    public DaoCommon<GrabNovelMenu> grabNovelMenuDao() {
+        return new DaoCommon<GrabNovelMenu>(GrabNovelMenu.class);
+    }
+
+    @Bean
+    public DaoCommon<GrabNovelDoc> grabNovelDocDao() {
+        return new DaoCommon<GrabNovelDoc>(GrabNovelDoc.class);
+    }
+    
+    public DaoCommon<GrabNovelUrl> grabNovelUrlDao(){
+    	return new DaoCommon<GrabNovelUrl>(GrabNovelUrl.class);
     }
 //	<!-- 	系统基本功能结束 -->
 

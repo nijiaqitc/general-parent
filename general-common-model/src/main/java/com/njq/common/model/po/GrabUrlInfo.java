@@ -54,6 +54,10 @@ public class GrabUrlInfo implements Serializable {
 
 	@Column(name="type_name")
 	private String typeName;
+	
+	@Column(name="url_type")
+	private String urlType;
+	
 	public GrabUrlInfo() {
 	}
 
@@ -160,4 +164,13 @@ public class GrabUrlInfo implements Serializable {
 	public void setLoadBtn(Boolean loadBtn) {
 		this.loadBtn = loadBtn;
 	}
+
+	public String getUrlType() {
+		return urlType;
+	}
+
+	public void setUrlType(String urlType) {
+		this.urlType = urlType;
+	}
+	
 }

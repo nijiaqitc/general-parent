@@ -31,7 +31,7 @@ public class TbkRecommendDocView implements Serializable {
 	@Column(name="create_date")
 	private Date createDate;
 
-	@Column(name="formatText")
+	@Column(name="format_text")
 	private String formatText;
 
 	@Column(name="general")
@@ -57,16 +57,16 @@ public class TbkRecommendDocView implements Serializable {
 	@Column(name="title")
 	private String title;
 
-	@Column(name="typeId")
+	@Column(name="type_id")
 	private Long typeId;
 
-	@Column(name="typeName")
+	@Column(name="type_name")
 	private String typeName;
 
 	@Column(name="url")
 	private String url;
 
-	@Column(name="userName")
+	@Column(name="user_name")
 	private String userName;
 
 	// Constructors

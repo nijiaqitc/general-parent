@@ -37,6 +37,7 @@ import com.njq.common.model.vo.LabelNameVO;
 import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
+import com.njq.grab.service.impl.novel.NovelSearchPerformer;
 
 @RequestMapping("grab")
 @Controller
@@ -391,5 +392,21 @@ public class GrabController {
     	return upFileService.upEditPic(req);
     }
     
+    
+    
+    @Autowired
+    private NovelSearchPerformer performer;
+    
+    
+    
+    @RequestMapping(value = "loadtest", method = RequestMethod.GET)
+    public void loadtest(@RequestParam(required=false,defaultValue="1") String type, HttpServletRequest req) {
+    	performer.search(type);
+    }
+    
+    @RequestMapping(value = "loaddoc", method = RequestMethod.GET)
+    public void loaddoc(HttpServletRequest req) {
+    	performer.loadDoc();
+    }
     
 }
