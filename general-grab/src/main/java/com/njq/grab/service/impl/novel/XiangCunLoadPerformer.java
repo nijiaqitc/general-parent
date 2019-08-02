@@ -1,6 +1,7 @@
 package com.njq.grab.service.impl.novel;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,10 +38,9 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 					.getDoc(url+"/modules/article/search.php?searchtype=articlename&searchkey="+URLEncoder.encode(str, "gb2312"));
 			Elements ets =  doc.getElementsByClass("read_yd");
 			if(ets.size()>0) {
-				
+				String href = url + ets.get(0).getElementsByTag("a").get(0).attr("href");
+				loadMenu(href);				
 			}
-			String href = url + ets.get(0).getElementsByTag("a").get(0).attr("href");
-			loadMenu(href);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,25 +61,27 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 	}
 	
 	@Override
-	public void loadMenu(String str) {
+	public List<GrabNovelMenu> loadMenu(String str) {
 		Document doc = HtmlGrabUtil
                 .build(ChannelType.CUSTOM.getValue())
                 .getDoc(str);
 		Elements es = doc.getElementsByTag("dd");
 		List<Element> list = es.subList(0, 10);
+		List<GrabNovelMenu> ll = new ArrayList<GrabNovelMenu>();
 		list.forEach(e->{
 			Elements e1 = e.getElementsByTag("a"); 
 			if(e1 != null && e1.size()>0) {
 				System.out.println(e1.html());
 				GrabNovelMenu menu = new GrabNovelMenu();
 				menu.setCreateDate(new Date());
-				menu.setName(e1.get(0).html());
+				menu.setName(e1.get(0).html().trim());
 				menu.setType("1");
 				menu.setHref(url+e1.get(0).attr("href"));
 				menu.setLoaded(0);
-				grabNovelMenuDao.save(menu);
+				ll.add(menu);
 			}
 		});
+		return ll;
 	}
 	
 	@Override

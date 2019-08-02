@@ -1,6 +1,7 @@
 package com.njq.grab.service.impl.novel;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,13 +33,29 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 	@Override
 	public String search(String str) {
 		try {
-			loadMenu(url+"/modules/article/search.php?searchkey="+URLEncoder.encode(str, "gb2312"));
+			String searchUrl = url+"/modules/article/search.php?searchkey="+URLEncoder.encode(str, "gb2312"); 
+			Document doc =  this.grabUrl(searchUrl);
+			Element elt =  doc.getElementById("info");
+			if(elt != null) {
+				Elements links = doc.getElementsByTag("link");
+				for(Element element:links) {
+					if("canonical".equals(element.attr("rel"))) {
+						return element.attr("href");
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return null;
 	}
 
+	private Document grabUrl(String str) {
+		Document doc = HtmlGrabUtil
+                .build(ChannelType.CUSTOM.getValue())
+                .getDoc(str);
+		return doc;
+	}
 	
 	@Override
 	public void loadDetail() {
@@ -47,11 +64,9 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 	}
 
 	@Override
-	public void loadMenu(String str) {
+	public List<GrabNovelMenu> loadMenu(String str) {
 		System.out.println(12121212);
-		Document doc = HtmlGrabUtil
-                .build(ChannelType.CUSTOM.getValue())
-                .getDoc(str);
+		Document doc = this.grabUrl(str);
 		Elements links = doc.getElementsByTag("link");
 		String h1 = "";
 		for(Element element:links) {
@@ -63,19 +78,21 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 		Elements es = doc.getElementsByTag("dd");
 		String h2 = h1;
 		List<Element> list = es.subList(0, 10);
+		List<GrabNovelMenu> menuList = new ArrayList<GrabNovelMenu>();
 		list.forEach(e->{
 			Elements e1 = e.getElementsByTag("a"); 
 			if(e1 != null && e1.size()>0) {
 				System.out.println(e1.html());
 				GrabNovelMenu menu = new GrabNovelMenu();
 				menu.setCreateDate(new Date());
-				menu.setName(e1.get(0).html());
+				menu.setName(e1.get(0).html().trim());
 				menu.setType("1");
 				menu.setHref(h2+e1.get(0).attr("href"));
 				menu.setLoaded(0);
-				grabNovelMenuDao.save(menu);
+				menuList.add(menu);
 			}
 		});
+		return menuList;
 	}
 
 	@Override

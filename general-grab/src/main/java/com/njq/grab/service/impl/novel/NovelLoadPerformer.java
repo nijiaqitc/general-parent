@@ -1,12 +1,16 @@
 package com.njq.grab.service.impl.novel;
 
+import java.util.List;
+
+import com.njq.common.model.po.GrabNovelMenu;
+
 public interface NovelLoadPerformer {
 
 	public String search(String str);
 	
 	public void loadDetail();
 	
-	public void loadMenu(String str);
+	public List<GrabNovelMenu> loadMenu(String str);
 	
 	public void loadDoc();
 	

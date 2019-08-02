@@ -401,7 +401,7 @@ public class GrabController {
     
     @RequestMapping(value = "loadtest", method = RequestMethod.GET)
     public void loadtest(@RequestParam(required=false,defaultValue="1") String type, HttpServletRequest req) {
-    	performer.search(type);
+    	performer.search("这里有妖气");
     }
     
     @RequestMapping(value = "loaddoc", method = RequestMethod.GET)

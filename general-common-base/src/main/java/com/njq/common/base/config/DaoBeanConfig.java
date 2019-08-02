@@ -177,6 +177,7 @@ public class DaoBeanConfig {
         return new DaoCommon<GrabNovelDoc>(GrabNovelDoc.class);
     }
     
+    @Bean
     public DaoCommon<GrabNovelUrl> grabNovelUrlDao(){
     	return new DaoCommon<GrabNovelUrl>(GrabNovelUrl.class);
     }
