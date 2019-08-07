@@ -49,7 +49,7 @@
 	<!-- 	底部通用部分结束 -->
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
   	<script type="text/javascript"  src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
-  	<script type="text/javascript" src=".${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
+  	<script type="text/javascript"  src="${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
   	<script type="text/javascript">
 	  	$(function(){
 	  		var cd=new CustomDecoder()

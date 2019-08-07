@@ -1,21 +1,26 @@
 package com.njq.xs.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.base.dao.PageList;
 import com.njq.common.base.other.LogCommon;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.GrabNovelDoc;
+import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.model.po.XsTitleDesign;
 import com.njq.common.model.vo.TitlethcVO;
 import com.njq.common.util.string.StringUtil;
@@ -24,7 +29,10 @@ public class XsTitleDesignService {
 
 	@Resource
 	private DaoCommon<XsTitleDesign> titleDao;
-	
+	@Resource
+	private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
+	@Resource
+	private DaoCommon<GrabNovelDoc> grabNovelDocDao;
 	/**
 	 * 查询所有章节
 	 * @param paramMap
@@ -213,5 +221,63 @@ public class XsTitleDesignService {
 
 	
 	
+	public List<TitlethcVO> queryGrabNovelTitleList(Long parentId,String sort){
+		ConditionsCommon cc=new ConditionsCommon();
+		if(parentId != null) {
+			cc.addEqParam("parentId", parentId);
+			cc.addSetOrderColum("id", sort);
+		}else {
+			cc.addEqParam("type", "0");
+			cc.addSetOrderColum("id", "desc");			
+		}
+		List<GrabNovelMenu> list = grabNovelMenuDao.queryColumnForList(cc);
+		if(CollectionUtils.isEmpty(list)) {
+			return Collections.EMPTY_LIST;
+		}
+		return list.stream().map(n->{
+			TitlethcVO vo=new TitlethcVO();
+			vo.setId(n.getId());
+			vo.setTitle(n.getName());
+			return vo;
+		}).collect(Collectors.toList());
+	}
 
+	public GrabNovelDoc queryGrabNovelDoc(Long menuId){
+		ConditionsCommon cc = new ConditionsCommon();
+		cc.addEqParam("menuId", menuId);
+		return grabNovelDocDao.queryTByParamForOne(cc);
+	}
+	
+	public GrabNovelMenu queryMenu(Long id) {
+		return grabNovelMenuDao.queryTById(id);
+	}
+	
+	public GrabNovelMenu queryBeforeMenu(Long id) {
+		ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addLtParam("id", id);
+        conditionsCommon.addEqParam("type", "1");
+        conditionsCommon.addSetOrderColum("id", "desc");
+        conditionsCommon.addPageParam(1, 1);
+        List<GrabNovelMenu> list = grabNovelMenuDao.queryColumnForList(conditionsCommon);
+		if(CollectionUtils.isNotEmpty(list)) {
+			return list.get(0);
+		}else {
+			return null;
+		}
+	}
+	
+	public GrabNovelMenu queryNextMenu(Long id) {
+		ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addGtParam("id", id);
+        conditionsCommon.addEqParam("type", "1");
+        conditionsCommon.addSetOrderColum("id", "asc");
+        conditionsCommon.addPageParam(1, 1);
+        List<GrabNovelMenu> list = grabNovelMenuDao.queryColumnForList(conditionsCommon);
+		if(CollectionUtils.isNotEmpty(list)) {
+			return list.get(0);
+		}else {
+			return null;
+		}
+	}
+	
 }

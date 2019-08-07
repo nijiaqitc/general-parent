@@ -10,7 +10,7 @@ public interface NovelLoadPerformer {
 	
 	public void loadDetail();
 	
-	public List<GrabNovelMenu> loadMenu(String str);
+	public List<GrabNovelMenu> loadMenu(String str,Long parentId);
 	
 	public void loadDoc();
 	

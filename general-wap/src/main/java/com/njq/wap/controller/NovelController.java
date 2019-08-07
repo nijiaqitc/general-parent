@@ -21,6 +21,8 @@ import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.interceptor.NeedPwd;
 import com.njq.common.base.other.IpUtil;
 import com.njq.common.base.other.MessageCommon;
+import com.njq.common.model.po.GrabNovelDoc;
+import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.model.po.XsDocDetail;
 import com.njq.common.model.po.XsDocUserOp;
 import com.njq.common.model.po.XsTitleDesign;
@@ -305,4 +307,69 @@ public class NovelController {
         docDetailService.saveObject(detail);
         return MessageCommon.getSuccessMap();
     }
+    
+    
+    
+    
+    
+    @RequestMapping(value = "/queryNovelTitle", method = RequestMethod.GET)
+    public String queryNovelTitle(Model model,HttpServletRequest request,@RequestParam(required=false) Long parentId,@RequestParam(required=false,defaultValue="desc") String sort) {
+    	List<TitlethcVO> list = titleService.queryGrabNovelTitleList(parentId,sort);
+        model.addAttribute("list", list);
+        if(parentId !=null) {
+        	GrabNovelMenu menu = titleService.queryMenu(parentId);
+        	model.addAttribute("title", menu.getName());
+        	return "wap/grabNovelMenu";        	
+        }else {
+        	return "wap/grabNovelTitle";
+        }
+    }
+    
+    
+    
+    @RequestMapping(value = "/queryNovelDoc", method = RequestMethod.GET)
+    public String queryNovelDoc(Model model,HttpServletRequest request,Long menuId) {
+        GrabNovelMenu beforeMenu = titleService.queryBeforeMenu(menuId);
+        model.addAttribute("menuId", menuId);
+        model.addAttribute("beforeMenuId", beforeMenu.getId());
+        return "wap/grabNovelDoc";
+    }
+    
+    @RequestMapping(value = "/getNovelDoc", method = RequestMethod.POST)
+    @ResponseBody
+    public NovelDocVO getNovelDoc(Model model,HttpServletRequest request,Long menuId) {
+    	if(menuId == null) {
+    		return null;
+    	}
+    	GrabNovelMenu menu = titleService.queryMenu(menuId);
+    	GrabNovelDoc doc = titleService.queryGrabNovelDoc(menuId);
+        NovelDocVO novel = new NovelDocVO();
+        novel.setCreateDate(doc.getCreateDate());
+        novel.setText(doc.getDoc());
+        novel.setTitle(menu.getName());
+        GrabNovelMenu nextMenu = titleService.queryNextMenu(menuId);
+        if(nextMenu != null) {
+        	novel.setAfterMenuId(nextMenu.getId());
+        }
+        GrabNovelMenu beforeMenu = titleService.queryBeforeMenu(menuId);
+        if(beforeMenu != null) {
+        	novel.setBeforeMenuId(beforeMenu.getId());
+        }
+        return novel;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

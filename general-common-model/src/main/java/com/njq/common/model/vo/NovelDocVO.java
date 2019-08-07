@@ -20,6 +20,9 @@ public class NovelDocVO implements java.io.Serializable{
 	
 	private Date createDate;
 
+	private Long beforeMenuId;
+	private Long afterMenuId;
+	
     public Long getDocId() {
         return docId;
     }
@@ -75,6 +78,22 @@ public class NovelDocVO implements java.io.Serializable{
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+	public Long getBeforeMenuId() {
+		return beforeMenuId;
+	}
+
+	public void setBeforeMenuId(Long beforeMenuId) {
+		this.beforeMenuId = beforeMenuId;
+	}
+
+	public Long getAfterMenuId() {
+		return afterMenuId;
+	}
+
+	public void setAfterMenuId(Long afterMenuId) {
+		this.afterMenuId = afterMenuId;
+	}
 	
 	
 

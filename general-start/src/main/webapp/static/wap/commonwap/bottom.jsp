@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<div class="bottomDiv"></div>
+<div class="bottomDiv shouldHid"></div>
 <div class="hide-menu">>>>></div>
 <div class="bottom-menu">
     <ul> 

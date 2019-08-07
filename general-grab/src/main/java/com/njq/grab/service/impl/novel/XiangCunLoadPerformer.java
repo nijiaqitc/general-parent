@@ -39,7 +39,7 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 			Elements ets =  doc.getElementsByClass("read_yd");
 			if(ets.size()>0) {
 				String href = url + ets.get(0).getElementsByTag("a").get(0).attr("href");
-				loadMenu(href);				
+//				loadMenu(href);				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,7 +61,7 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 	}
 	
 	@Override
-	public List<GrabNovelMenu> loadMenu(String str) {
+	public List<GrabNovelMenu> loadMenu(String str,Long parentId) {
 		Document doc = HtmlGrabUtil
                 .build(ChannelType.CUSTOM.getValue())
                 .getDoc(str);
@@ -78,6 +78,9 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 				menu.setType("1");
 				menu.setHref(url+e1.get(0).attr("href"));
 				menu.setLoaded(0);
+				menu.setParentId(parentId);
+				menu.setLoadTimes(0);
+				menu.setChannel(ChannelType.XIANGCUN.getValue());
 				ll.add(menu);
 			}
 		});
@@ -88,6 +91,8 @@ public class XiangCunLoadPerformer implements NovelLoadPerformer{
 	public void loadDoc() {
 		ConditionsCommon condition = new ConditionsCommon();
 		condition.addEqParam("loaded", 0);
+		condition.addEqParam("channel", ChannelType.XIANGCUN.getValue());
+		condition.addLteParam("loadTimes", 10);
 		List<GrabNovelMenu> menuList = grabNovelMenuDao.queryColumnForList(condition);
 		if(CollectionUtils.isNotEmpty(menuList)) {
 			menuList.forEach(n->{

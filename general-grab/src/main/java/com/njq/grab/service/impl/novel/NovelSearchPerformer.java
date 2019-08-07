@@ -14,7 +14,6 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
-import com.njq.common.model.po.GrabNovelDoc;
 import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.model.po.GrabNovelUrl;
 import com.njq.common.model.po.GrabUrlInfo;
@@ -23,10 +22,6 @@ import com.njq.common.util.string.StringUtil2;
 @Component
 public class NovelSearchPerformer {
 
-	@Autowired
-	private XiangCunLoadPerformer xiangCunChannelPerformer;
-	@Autowired
-	private NovelLoadPerformer qishuLoadPerformer;
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
@@ -51,7 +46,7 @@ public class NovelSearchPerformer {
 			}
 		}
 		
-		loadMenu(null);
+		loadMenu(str,null);
 		return mp;
 	}
 	public void saveNovelMenuUrl(String name,String url,String channel) {
@@ -61,12 +56,20 @@ public class NovelSearchPerformer {
 		if(CollectionUtils.isNotEmpty(list)) {
 			return ;
 		}
-		GrabNovelMenu menu = new GrabNovelMenu();
-		menu.setHref(url);
-		menu.setName(name);
-		menu.setCreateDate(new Date());
-		menu.setType("0");
-		grabNovelMenuDao.save(menu);
+		condition = new ConditionsCommon();
+		condition.addEqParam("name", name);
+		GrabNovelMenu menu =  grabNovelMenuDao.queryTByParamForOne(condition);
+		if(menu == null) {
+			menu = new GrabNovelMenu();
+			menu.setHref(url);
+			menu.setName(name);
+			menu.setCreateDate(new Date());
+			menu.setType("0");
+			menu.setChannel(channel);
+			menu.setLoaded(0);
+			menu.setLoadTimes(0);
+			grabNovelMenuDao.save(menu);			
+		}
 		GrabNovelUrl novelUrl = new GrabNovelUrl();
 		novelUrl.setCreateDate(new Date());
 		novelUrl.setUrl(url);
@@ -76,10 +79,13 @@ public class NovelSearchPerformer {
 	}
 	
 	
-	public void loadMenu(String bookName) {
+	public void loadMenu(String bookName,Long menuId) {
 		ConditionsCommon condition = new ConditionsCommon();
 		if(StringUtil2.IsNotEmpty(bookName)) {
 			condition.addEqParam("name", bookName);			
+		}
+		if(menuId != null) {
+			condition.addEqParam("id", menuId);
 		}
 		condition.addEqParam("type", "0");
 		GrabNovelMenu bookMenu = grabNovelMenuDao.queryTByParamForOne(condition);
@@ -93,14 +99,22 @@ public class NovelSearchPerformer {
 			//读取load的url值
 			List<GrabNovelUrl> urlList = grabNovelUrlDao.queryColumnForList(condition);
 			for(GrabNovelUrl url : urlList) {
-				List<GrabNovelMenu> list1 = factory.getPerformer(url.getChannel()).loadMenu(url.getUrl());
-				if(menuList.size() < list1.size()) {
-					if(menuList.get(menuList.size()-1).getName().equals(list1.get(menuList.size()-1).getName())) {
-						List<GrabNovelMenu> list2  = list1.subList(menuList.size(), list1.size());
-						NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
-						performer.save(list2);
-					}
+				NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
+				List<GrabNovelMenu> list1 = factory.getPerformer(url.getChannel()).loadMenu(url.getUrl(),bookMenu.getId());
+				if(list1 == null) {
+					continue;
 				}
+				if(CollectionUtils.isEmpty(menuList)) {
+					performer.save(list1);
+				}else {
+					if(menuList.size() < list1.size()) {
+						if(menuList.get(menuList.size()-1).getName().equals(list1.get(menuList.size()-1).getName())) {
+							List<GrabNovelMenu> list2  = list1.subList(menuList.size(), list1.size());
+							performer.save(list2);
+						}
+					}					
+				}
+				menuList = list1;
 			}
 		}
 	}
@@ -113,13 +127,8 @@ public class NovelSearchPerformer {
 	}
 	
 	public void loadDoc() {
-		ConditionsCommon condition = new ConditionsCommon();
-		condition.addEqParam("urlType", "1");
-		List<GrabUrlInfo> list = grabUrlInfoDao.queryColumnForList(condition);
-		if(CollectionUtils.isNotEmpty(list)) {
-			list.forEach(n->{
-				factory.getPerformer(n.getChannel()).loadDoc();
-			});
+		for(Map.Entry<String, NovelLoadPerformer> entry:factory.getMap().entrySet()) {
+			factory.getPerformer(entry.getKey()).loadDoc();
 		}
 	}
 }

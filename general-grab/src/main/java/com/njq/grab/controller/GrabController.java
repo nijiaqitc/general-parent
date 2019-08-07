@@ -399,14 +399,30 @@ public class GrabController {
     
     
     
-    @RequestMapping(value = "loadtest", method = RequestMethod.GET)
-    public void loadtest(@RequestParam(required=false,defaultValue="1") String type, HttpServletRequest req) {
-    	performer.search("这里有妖气");
+    @RequestMapping(value = "loadbook", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadbook(String bookName, HttpServletRequest req) {
+    	if(StringUtil.isEmpty(bookName)) {
+    		return MessageCommon.getFalseMap("请输入书名");
+    	}
+    	performer.search(bookName.trim());
+    	return MessageCommon.getSuccessMap();
     }
     
-    @RequestMapping(value = "loaddoc", method = RequestMethod.GET)
-    public void loaddoc(HttpServletRequest req) {
+    
+    @RequestMapping(value = "loaddoc", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loaddoc(HttpServletRequest req) {
     	performer.loadDoc();
+    	return MessageCommon.getSuccessMap();
+    }
+    
+    
+    @RequestMapping(value = "upNovel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> upNovel(Long menuId) {
+    	performer.loadMenu(null, menuId);
+    	return MessageCommon.getSuccessMap();
     }
     
 }

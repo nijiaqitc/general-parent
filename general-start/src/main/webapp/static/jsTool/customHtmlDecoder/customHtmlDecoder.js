@@ -84,7 +84,7 @@ function customHtmlDecoder(){
 		//把无用标签替换掉
 		oldStr=oldStr.replace("</input>","");
 		oldStr=oldStr.replace("</img>","");
-		oldStr=oldStr.replace(/(<br>|<\/br>|<br\/>)/g,"<\/br>");
+		oldStr=oldStr.replace(/(<br>|<\/br>|<br\/>)/g,"<br\/>");
 		//对特殊标签进行处理
 		dealSpealLables();
 		//去除其中的回车、tab等

@@ -1,9 +1,17 @@
 package com.njq.common.model.po;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.math.BigInteger;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -27,13 +35,19 @@ public class GrabNovelMenu implements Serializable {
 	private String name;
 
 	@Column(name="parent_id")
-	private BigInteger parentId;
+	private Long parentId;
 
 	private String type;
 
 	private String href;
 	
 	private Integer loaded;
+	
+	@Column(name="channel")
+	private String channel;
+	
+	@Column(name="load_times")
+	private Integer loadTimes;
 	
 	public GrabNovelMenu() {
 	}
@@ -62,11 +76,11 @@ public class GrabNovelMenu implements Serializable {
 		this.name = name;
 	}
 
-	public BigInteger getParentId() {
-		return this.parentId;
+	public Long getParentId() {
+		return parentId;
 	}
 
-	public void setParentId(BigInteger parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
@@ -93,5 +107,21 @@ public class GrabNovelMenu implements Serializable {
 	public void setLoaded(Integer loaded) {
 		this.loaded = loaded;
 	}
-	
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	public Integer getLoadTimes() {
+		return loadTimes;
+	}
+
+	public void setLoadTimes(Integer loadTimes) {
+		this.loadTimes = loadTimes;
+	}
+
 }

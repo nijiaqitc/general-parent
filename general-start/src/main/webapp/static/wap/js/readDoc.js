@@ -41,7 +41,7 @@ $(window).scroll(function(){
         var leftHeight=  docheight-rollheight-srollPos;//到底部距离为总高度减去滚动条高度和滚动条到顶部到高度
 	     if(flag){
 	     	if(leftHeight<100){
-	     		console.info(leftHeight);
+//	     		console.info(leftHeight);
 //	     		getAppendText(1,page,10);
        	 }
      	}
