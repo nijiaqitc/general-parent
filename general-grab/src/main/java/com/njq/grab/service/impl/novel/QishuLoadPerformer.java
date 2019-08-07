@@ -141,17 +141,21 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 		}
 		Element et = doc.getElementById("content");
 		if(et != null) {
+			ConditionsCommon condition = new ConditionsCommon();
+			condition.addEqParam("id", menuId);
+			condition.addsetObjectParam("loaded", 1);
+			condition.addsetObjectParam("loadTimes", menu.getLoadTimes()+1);
+			condition.addNotEqParam("loaded", 1);
+			int num = grabNovelMenuDao.update(condition);			
+			if(num > 0) {
+				logger.info("并发修改失败,menuId："+menuId);
+			}
 			GrabNovelDoc dc = new GrabNovelDoc();
 			dc.setCreateDate(new Date());
 			dc.setDoc(dealHtml(et.html()));
 			dc.setMenuId(menuId);
 			grabNovelDocDao.save(dc);
 			
-			ConditionsCommon condition = new ConditionsCommon();
-			condition.addEqParam("id", menuId);
-			condition.addsetObjectParam("loaded", 1);
-			condition.addsetObjectParam("loadTimes", menu.getLoadTimes()+1);
-			grabNovelMenuDao.update(condition);			
 		}else {
 			ConditionsCommon condition = new ConditionsCommon();
 			condition.addEqParam("id", menuId);
