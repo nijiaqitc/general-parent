@@ -46,10 +46,10 @@
 	<!-- 	正文部分开始 -->
 	<div class="textContext" align="center">
 	   <div style="width: 90%;padding-top: 20px;" align="left">
-		   <div style="margin-top: 20px;overflow: auto;">
+		   <div style="overflow: auto;">
 		   		<div align="right">
-					<div>
-						<input type="button" value="更新" onclick="load()" style="float: left;">
+					<div style="height: 40px;line-height: 40px;">
+						<input type="button" value="更新" onclick="load()" style="float: left;margin-top: 10px;">
 						<input type="text" id="bookName" name="bookName"><input type="button" name="搜索" value="搜索"  onclick="searchBook()">
 					</div>
 		   		</div>
@@ -75,7 +75,15 @@
 	<script type="text/javascript">
 
     function load(){
-    	var values = $("input[name='book']:checked").val();
+    	var checkedBooks = $("input[name='book']:checked");
+    	if(checkedBooks.size()==0){
+    		return;
+    	}
+    	var values="";
+    	for(var i = 0 ;i<checkedBooks.size();i++){
+    		values += checkedBooks[i].value+",";
+    	}
+    	values = values.substr(0,values.length-1);
 		$.ajax({
     		url:"/grab/upNovel",
     		type:"post",
@@ -84,7 +92,8 @@
     		},
     		success:function(data){
     			if(data.state == "1"){
-	    			alert("正在处理...！")
+	    			alert("正在处理...！");
+	    			loadDoc();
     			}else{
     				alert(data);
     			}
@@ -115,6 +124,7 @@
     		url:"/grab/loaddoc",
     		type:"post",
     		success:function(data){
+    			window.location.reload();
     		}
     	})
     }

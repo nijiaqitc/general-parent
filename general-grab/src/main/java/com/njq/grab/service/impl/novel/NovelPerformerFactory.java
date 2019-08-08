@@ -13,15 +13,19 @@ public class NovelPerformerFactory {
 
 	private final NovelLoadPerformer qishuLoadPerformer;
 	private final NovelLoadPerformer xiangCunChannelPerformer;
+	private final NovelLoadPerformer bbiqugeLoadPerformer;
 	private Map<String, NovelLoadPerformer> map;
 	
 	@Autowired
-	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, NovelLoadPerformer xiangCunChannelPerformer) {
+	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, 
+			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer) {
 		this.qishuLoadPerformer = qishuLoadPerformer;
 		this.xiangCunChannelPerformer = xiangCunChannelPerformer;
+		this.bbiqugeLoadPerformer = bbiqugeLoadPerformer;
 		map = new HashMap<>();
-		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
-		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
+//		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
+//		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
+		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
 	}
 
 

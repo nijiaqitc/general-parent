@@ -37,6 +37,7 @@ import com.njq.common.model.vo.LabelNameVO;
 import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
+import com.njq.grab.service.impl.novel.NovelLoadPerformer;
 import com.njq.grab.service.impl.novel.NovelSearchPerformer;
 
 @RequestMapping("grab")
@@ -420,8 +421,23 @@ public class GrabController {
     
     @RequestMapping(value = "upNovel", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> upNovel(Long menuId) {
-    	performer.loadMenu(null, menuId);
+    public Map<String, Object> upNovel(Long[] menuId) {
+    	if(menuId != null) {
+    		for(Long id:menuId) {
+    			performer.loadMenu(null, id);    			
+    		}
+    	}
+    	return MessageCommon.getSuccessMap();
+    }
+    
+    
+    
+    @Resource
+    private NovelLoadPerformer bbiqugeLoadPerformer;
+    @RequestMapping(value = "searchtest", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> searchtest(String bookName, HttpServletRequest req) {
+    	bbiqugeLoadPerformer.search("神秘复苏");
     	return MessageCommon.getSuccessMap();
     }
     

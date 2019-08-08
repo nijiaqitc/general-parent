@@ -29,10 +29,11 @@ import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 
-@Component("qishuLoadPerformer")
-public class QishuLoadPerformer implements NovelLoadPerformer{
+@Component("bbiqugeLoadPerformer")
+public class BbiqugeLoadPerformer implements NovelLoadPerformer{
+
 	private static final Logger logger = LoggerFactory.getLogger(QishuLoadPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QI_SHU).getPageIndex();
+	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.BBIQUGE).getPageIndex();
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
@@ -99,7 +100,7 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 				menu.setLoaded(0);
 				menu.setParentId(parentId);
 				menu.setLoadTimes(0);
-				menu.setChannel(ChannelType.QI_SHU.getValue());
+				menu.setChannel(ChannelType.BBIQUGE.getValue());
 				menuList.add(menu);
 			}
 		});
@@ -110,9 +111,9 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 	public void loadDoc() {
 		ConditionsCommon condition = new ConditionsCommon();
 		condition.addEqParam("loaded", 0);
-		condition.addEqParam("channel", ChannelType.QI_SHU.getValue());
-		condition.addLteParam("loadTimes", 10);
+		condition.addEqParam("channel", ChannelType.BBIQUGE.getValue());
 		condition.addEqParam("type", "1");
+		condition.addLteParam("loadTimes", 10);
 		List<GrabNovelMenu> menuList = grabNovelMenuDao.queryColumnForList(condition);
 		Map<Long, String> bookMap = new HashMap<Long, String>();
 		if(CollectionUtils.isNotEmpty(menuList)) {
@@ -174,7 +175,8 @@ public class QishuLoadPerformer implements NovelLoadPerformer{
 
 	
 	public String dealHtml(String str,String bookName) {
-		str = str.replace("奇书网 www.qishu.tw 最快更新"+bookName+"最新章节！", "");
+		str = str.replace("一秒记住【笔趣阁 www.bbiquge.com】，精彩小说无弹窗免费阅读！", "");
 		return HtmlDecodeUtil.decodeHtml(str, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
 	}
+
 }
