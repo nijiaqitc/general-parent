@@ -26,13 +26,12 @@ import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.GrabNovelDoc;
 import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
-import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 
 @Component("bbiqugeLoadPerformer")
-public class BbiqugeLoadPerformer implements NovelLoadPerformer{
+public class BbiqugeLoadPerformer extends AbstractLoadPerformer{
 
-	private static final Logger logger = LoggerFactory.getLogger(QishuLoadPerformer.class);
+	private static final Logger logger = LoggerFactory.getLogger(BbiqugeLoadPerformer.class);
 	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.BBIQUGE).getPageIndex();
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
@@ -59,20 +58,7 @@ public class BbiqugeLoadPerformer implements NovelLoadPerformer{
 		}
 		return null;
 	}
-
-	private Document grabUrl(String str) {
-		Document doc = HtmlGrabUtil
-                .build(ChannelType.CUSTOM.getValue())
-                .getDoc(str);
-		return doc;
-	}
 	
-	@Override
-	public void loadDetail() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public List<GrabNovelMenu> loadMenu(String str,Long parentId) {
 		Document doc = this.grabUrl(str);
@@ -118,19 +104,17 @@ public class BbiqugeLoadPerformer implements NovelLoadPerformer{
 		Map<Long, String> bookMap = new HashMap<Long, String>();
 		if(CollectionUtils.isNotEmpty(menuList)) {
 			Semaphore semaphore = new Semaphore(10,true);
+			BbiqugeLoadPerformer former = SpringContextUtil.getBean(BbiqugeLoadPerformer.class);
 			menuList.forEach(n->{
 				if(bookMap.get(n.getParentId()) == null) {
 					GrabNovelMenu bookMenu = grabNovelMenuDao.queryTById(n.getParentId());
 					bookMap.put(n.getParentId(), bookMenu.getName());
 				}
 				loadPageTaskExecutor.submit(() -> {
-					Document doc = HtmlGrabUtil
-		                .build(ChannelType.CUSTOM.getValue())
-		                .getDoc(n.getHref());
+					Document doc = super.grabUrl(n.getHref());
 					try {
 						semaphore.acquire();
 						logger.info("读取信号量并发："+(10-semaphore.availablePermits()));
-						QishuLoadPerformer former = SpringContextUtil.getBean(QishuLoadPerformer.class);
 						former.updateToSave(doc,n.getId(),bookMap.get(n.getParentId()));
 					} catch (InterruptedException e) {
 						logger.error("读取报错"+e.getMessage());
@@ -144,33 +128,8 @@ public class BbiqugeLoadPerformer implements NovelLoadPerformer{
 	}
 	
 	public void updateToSave(Document doc,Long menuId,String bookName) {
-		GrabNovelMenu menu = grabNovelMenuDao.queryTById(menuId);
-		if(menu.getLoadTimes()>10) {
-			return;
-		}
 		Element et = doc.getElementById("content");
-		if(et != null) {
-			ConditionsCommon condition = new ConditionsCommon();
-			condition.addEqParam("id", menuId);
-			condition.addsetObjectParam("loaded", 1);
-			condition.addsetObjectParam("loadTimes", menu.getLoadTimes()+1);
-			condition.addNotEqParam("loaded", 1);
-			int num = grabNovelMenuDao.update(condition);			
-			if(num > 0) {
-				logger.info("并发修改失败,menuId："+menuId);
-			}
-			GrabNovelDoc dc = new GrabNovelDoc();
-			dc.setCreateDate(new Date());
-			dc.setDoc(dealHtml(et.html(),bookName));
-			dc.setMenuId(menuId);
-			grabNovelDocDao.save(dc);
-			
-		}else {
-			ConditionsCommon condition = new ConditionsCommon();
-			condition.addEqParam("id", menuId);
-			condition.addsetObjectParam("loadTimes", menu.getLoadTimes()+1);
-			grabNovelMenuDao.update(condition);
-		}
+		super.updateToSave(et, menuId, bookName);
 	}
 
 	

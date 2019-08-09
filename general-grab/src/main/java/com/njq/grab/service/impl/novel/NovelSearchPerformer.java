@@ -38,45 +38,63 @@ public class NovelSearchPerformer {
 				mp.put(entry.getKey(), url);
 			}
 		}
+		if(mp.isEmpty()) {
+			return null;
+		}
+		NovelSearchPerformer former = SpringContextUtil.getBean(NovelSearchPerformer.class);
+		Long menuId = former.saveBook(str);
 		for(Map.Entry<String, String> entry:mp.entrySet()) {
 			if(!StringUtil2.isEmpty(mp.get(entry.getKey()))) {
-				NovelSearchPerformer former = SpringContextUtil.getBean(NovelSearchPerformer.class);
-				former.saveNovelMenuUrl(str, entry.getValue(),entry.getKey());
+				former.saveNovelMenuUrl(str, entry.getValue(),entry.getKey(),menuId);
+			}
+		}
+		loadMenu(str,null);
+		for(Map.Entry<String, NovelConsultPerformer> entry:factory.getConsultMap().entrySet()) {
+			String u = entry.getValue().search(str);
+			if(u != null) {
+				former.saveNovelConsult(str, u, entry.getKey(), menuId);
+				break;
 			}
 		}
 		
-		loadMenu(str,null);
 		return mp;
 	}
-	public void saveNovelMenuUrl(String name,String url,String channel) {
+	public Long saveBook(String name) {
 		ConditionsCommon condition = new ConditionsCommon();
-		condition.addEqParam("url", url);
-		List<GrabNovelUrl> list = grabNovelUrlDao.queryColumnForList(condition);
-		if(CollectionUtils.isNotEmpty(list)) {
-			return ;
-		}
 		condition = new ConditionsCommon();
 		condition.addEqParam("name", name);
 		GrabNovelMenu menu =  grabNovelMenuDao.queryTByParamForOne(condition);
 		if(menu == null) {
 			menu = new GrabNovelMenu();
-			menu.setHref(url);
 			menu.setName(name);
 			menu.setCreateDate(new Date());
 			menu.setType("0");
-			menu.setChannel(channel);
 			menu.setLoaded(0);
 			menu.setLoadTimes(0);
 			grabNovelMenuDao.save(menu);			
 		}
+		return menu.getId();
+	}
+	
+	public void saveNovelMenuUrl(String name,String url,String channel,Long menuId) {
 		GrabNovelUrl novelUrl = new GrabNovelUrl();
 		novelUrl.setCreateDate(new Date());
 		novelUrl.setUrl(url);
 		novelUrl.setChannel(channel);
-		novelUrl.setMenuId(menu.getId());
+		novelUrl.setMenuId(menuId);
+		novelUrl.setType("1");
 		grabNovelUrlDao.save(novelUrl);
 	}
 	
+	public void saveNovelConsult(String name,String url,String channel,Long menuId) {
+		GrabNovelUrl novelUrl = new GrabNovelUrl();
+		novelUrl.setCreateDate(new Date());
+		novelUrl.setUrl(url);
+		novelUrl.setChannel(channel);
+		novelUrl.setMenuId(menuId);
+		novelUrl.setType("0");
+		grabNovelUrlDao.save(novelUrl);
+	}
 	
 	public void loadMenu(String bookName,Long menuId) {
 		ConditionsCommon condition = new ConditionsCommon();
@@ -97,8 +115,8 @@ public class NovelSearchPerformer {
 			condition.addEqParam("menuId", bookMenu.getId());
 			//读取load的url值
 			List<GrabNovelUrl> urlList = grabNovelUrlDao.queryColumnForList(condition);
+			NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
 			for(GrabNovelUrl url : urlList) {
-				NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
 				List<GrabNovelMenu> list1 = factory.getPerformer(url.getChannel()).loadMenu(url.getUrl(),bookMenu.getId());
 				if(list1 == null) {
 					continue;

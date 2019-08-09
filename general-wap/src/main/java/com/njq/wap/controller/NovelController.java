@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,7 @@ import com.njq.common.model.po.XsTitleDetail;
 import com.njq.common.model.vo.NovelDocVO;
 import com.njq.common.model.vo.TitlethcVO;
 import com.njq.common.util.string.StringUtil;
+import com.njq.grab.service.impl.novel.NovelConsultPerformer;
 import com.njq.xs.service.XsDocDetailService;
 import com.njq.xs.service.XsDocDiscussService;
 import com.njq.xs.service.XsDocUserOpService;
@@ -309,23 +312,33 @@ public class NovelController {
     }
     
     
-    
-    
+    @Resource
+    private NovelConsultPerformer qidianConsultPerformer;
+    private Map<Long, Pair<Date, List<String>>> cacheMap = new HashMap<>();
     
     @RequestMapping(value = "/queryNovelTitle", method = RequestMethod.GET)
     public String queryNovelTitle(Model model,HttpServletRequest request,@RequestParam(required=false) Long parentId,@RequestParam(required=false,defaultValue="desc") String sort) {
     	List<TitlethcVO> list = titleService.queryGrabNovelTitleList(parentId,sort);
-        model.addAttribute("list", list);
+    	model.addAttribute("list", list);
         if(parentId !=null) {
+        	List<String> menuList;
+        	if(cacheMap.get(parentId)!=null&& new DateTime(cacheMap.get(parentId).getLeft()).plusMinutes(5).isAfter(System.currentTimeMillis())) {
+        		menuList = cacheMap.get(parentId).getRight(); 
+        	}else {
+        		menuList = qidianConsultPerformer.loadMenu(parentId);
+        		cacheMap.put(parentId, Pair.of(new Date(), menuList));
+        	}
+        	model.addAttribute("consultList", menuList);
         	GrabNovelMenu menu = titleService.queryMenu(parentId);
         	model.addAttribute("title", menu.getName());
         	return "wap/grabNovelMenu";        	
         }else {
+        	if(!cacheMap.isEmpty()) {
+        		cacheMap.clear();        		
+        	}
         	return "wap/grabNovelTitle";
         }
     }
-    
-    
     
     @RequestMapping(value = "/queryNovelDoc", method = RequestMethod.GET)
     public String queryNovelDoc(Model model,HttpServletRequest request,Long menuId) {

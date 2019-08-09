@@ -48,8 +48,8 @@
 	   <div style="width: 90%;padding-top: 20px;" align="left">
 		   <div style="overflow: auto;">
 		   		<div align="right">
-					<div style="height: 40px;line-height: 40px;">
-						<input type="button" value="更新" onclick="load()" style="float: left;margin-top: 10px;">
+					<div style="height: 40px;line-height: 44px;">
+						<input type="button" value="更新" onclick="load()" style="float: left;margin-top: 14px;">
 						<input type="text" id="bookName" name="bookName"><input type="button" name="搜索" value="搜索"  onclick="searchBook()">
 					</div>
 		   		</div>

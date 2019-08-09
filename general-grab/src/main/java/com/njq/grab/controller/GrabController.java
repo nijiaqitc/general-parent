@@ -39,6 +39,7 @@ import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
 import com.njq.grab.service.impl.novel.NovelLoadPerformer;
 import com.njq.grab.service.impl.novel.NovelSearchPerformer;
+import com.njq.grab.service.impl.novel.QidianConsultPerformer;
 
 @RequestMapping("grab")
 @Controller
@@ -434,10 +435,13 @@ public class GrabController {
     
     @Resource
     private NovelLoadPerformer bbiqugeLoadPerformer;
+    @Resource
+    private QidianConsultPerformer qidianConsultPerformer;
     @RequestMapping(value = "searchtest", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> searchtest(String bookName, HttpServletRequest req) {
-    	bbiqugeLoadPerformer.search("神秘复苏");
+//    	qidianConsultPerformer.search("神秘复苏");
+//    	qidianConsultPerformer.loadMenu(menuId)
     	return MessageCommon.getSuccessMap();
     }
     

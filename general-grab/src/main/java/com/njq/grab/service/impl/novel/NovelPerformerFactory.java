@@ -16,9 +16,11 @@ public class NovelPerformerFactory {
 	private final NovelLoadPerformer bbiqugeLoadPerformer;
 	private Map<String, NovelLoadPerformer> map;
 	
+	private final NovelConsultPerformer qidianConsultPerformer;
+	private Map<String,NovelConsultPerformer> consultMap;
 	@Autowired
 	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, 
-			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer) {
+			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer,NovelConsultPerformer qidianConsultPerformer) {
 		this.qishuLoadPerformer = qishuLoadPerformer;
 		this.xiangCunChannelPerformer = xiangCunChannelPerformer;
 		this.bbiqugeLoadPerformer = bbiqugeLoadPerformer;
@@ -26,6 +28,9 @@ public class NovelPerformerFactory {
 //		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
 //		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
 		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
+		consultMap = new HashMap<>();
+		this.qidianConsultPerformer = qidianConsultPerformer;
+		consultMap.put("", qidianConsultPerformer);
 	}
 
 
@@ -38,4 +43,12 @@ public class NovelPerformerFactory {
 		return this.map;
 	}
 	
+	
+	public NovelConsultPerformer getConsultPerformer(String key) {
+		return consultMap.get(key);
+	}
+	
+	public Map<String, NovelConsultPerformer> getConsultMap(){
+		return this.consultMap;
+	}
 }

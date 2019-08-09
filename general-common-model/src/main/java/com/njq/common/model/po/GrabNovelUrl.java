@@ -39,6 +39,8 @@ public class GrabNovelUrl implements Serializable {
 
 	private String url;
 
+	private String type;
+	
 	public GrabNovelUrl() {
 	}
 
@@ -82,4 +84,13 @@ public class GrabNovelUrl implements Serializable {
 		this.url = url;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 }
