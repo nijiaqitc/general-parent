@@ -13,7 +13,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -29,7 +28,6 @@ public class QidianConsultPerformer implements NovelConsultPerformer{
 	private String url ;
 	@Resource
 	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
-	@Autowired
 	public QidianConsultPerformer() {
 		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QIDIAN).getPageIndex();
 	}
