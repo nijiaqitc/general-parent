@@ -72,9 +72,10 @@ public class QishuLoadPerformer extends AbstractLoadPerformer {
 		}
 		Elements es = doc.getElementsByTag("dd");
 		String h2 = h1;
-		List<Element> list = es.subList(0, 16);
+		
+//		List<Element> list = es.subList(0, 16);
 		List<GrabNovelMenu> menuList = new ArrayList<GrabNovelMenu>();
-		list.forEach(e->{
+		es.forEach(e->{
 			Elements e1 = e.getElementsByTag("a"); 
 			if(e1 != null && e1.size()>0) {
 				System.out.println(e1.html());

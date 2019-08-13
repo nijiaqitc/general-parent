@@ -39,9 +39,7 @@ import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
 import com.njq.grab.service.impl.novel.NovelLoadPerformer;
 import com.njq.grab.service.impl.novel.NovelSearchPerformer;
-import com.njq.grab.service.impl.novel.QidianConsultPerformer;
 import com.njq.grab.service.impl.novel.XxsyConsultPerformer;
-import com.njq.grab.service.impl.novel.ZonghengConsultPerformer;
 
 @RequestMapping("grab")
 @Controller

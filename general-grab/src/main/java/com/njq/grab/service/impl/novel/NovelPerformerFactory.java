@@ -18,13 +18,13 @@ public class NovelPerformerFactory {
 			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer,
 			NovelConsultPerformer qidianConsultPerformer,NovelConsultPerformer zonghengConsultPerformer,NovelConsultPerformer xxsyConsultPerformer) {
 		map = new HashMap<>();
-//		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
-//		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
-//		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
+		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
+		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
+		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
 		map.put(ChannelType.DINGDIAN.getValue(), dingdianLoadPerformer);
 		consultMap = new HashMap<>();
-//		consultMap.put(ChannelType.QIDIAN.getValue(), qidianConsultPerformer);
-//		consultMap.put(ChannelType.ZONGHENG.getValue(), zonghengConsultPerformer);
+		consultMap.put(ChannelType.QIDIAN.getValue(), qidianConsultPerformer);
+		consultMap.put(ChannelType.ZONGHENG.getValue(), zonghengConsultPerformer);
 		consultMap.put(ChannelType.XIAOXIANGSHUYUAN.getValue(), xxsyConsultPerformer);
 	}
 
