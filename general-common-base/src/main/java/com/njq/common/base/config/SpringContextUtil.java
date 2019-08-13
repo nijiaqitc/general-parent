@@ -1,5 +1,7 @@
 package com.njq.common.base.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SpringContextUtil implements ApplicationContextAware {
+	private static final Logger logger = LoggerFactory.getLogger(SpringContextUtil.class);
 
     /**
      * Spring应用上下文环境
@@ -47,6 +50,9 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @author leieb
      */
     public static <T> T getBean(Class<T> classType) throws BeansException {
+    	if(applicationContext == null) {
+    		logger.info("applicationContext 为空！");
+    	}
         return applicationContext.getBean(classType);
     }
 
