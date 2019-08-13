@@ -113,6 +113,7 @@ public class NovelSearchPerformer {
 			List<GrabNovelMenu> menuList = grabNovelMenuDao.queryColumnForList(condition);
 			condition = new ConditionsCommon();
 			condition.addEqParam("menuId", bookMenu.getId());
+			condition.addEqParam("type", "1");
 			//读取load的url值
 			List<GrabNovelUrl> urlList = grabNovelUrlDao.queryColumnForList(condition);
 			NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
