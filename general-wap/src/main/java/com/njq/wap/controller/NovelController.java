@@ -312,7 +312,7 @@ public class NovelController {
     }
     
     
-
+    @Resource
     private NovelConsultPerformer qidianConsultPerformer;
     private Map<Long, Pair<Date, List<String>>> cacheMap = new HashMap<>();
     

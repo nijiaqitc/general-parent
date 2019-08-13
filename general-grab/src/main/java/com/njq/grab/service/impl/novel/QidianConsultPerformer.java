@@ -22,7 +22,7 @@ import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.model.po.GrabNovelUrl;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
-
+@Component("qidianConsultPerformer")
 public class QidianConsultPerformer implements NovelConsultPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(QidianConsultPerformer.class);
 	private String url ;
