@@ -4,13 +4,15 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpringContextUtil implements ApplicationContextAware {
+public class SpringContextUtil implements InitializingBean,ApplicationContextAware,BeanPostProcessor {
 	private static final Logger logger = LoggerFactory.getLogger(SpringContextUtil.class);
 
     /**
@@ -137,4 +139,8 @@ public class SpringContextUtil implements ApplicationContextAware {
         return applicationContext.getEnvironment().getProperty(key);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
+    }
 }
