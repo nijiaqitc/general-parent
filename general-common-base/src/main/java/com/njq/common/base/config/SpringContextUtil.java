@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpringContextUtil implements InitializingBean,ApplicationContextAware {
+public class SpringContextUtil implements InitializingBean,ApplicationContextAware,BeanPostProcessor {
 	private static final Logger logger = LoggerFactory.getLogger(SpringContextUtil.class);
 
     /**
