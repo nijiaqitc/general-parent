@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpringContextUtil implements InitializingBean,ApplicationContextAware,BeanPostProcessor {
+public class SpringContextUtil implements InitializingBean,ApplicationContextAware {
 	private static final Logger logger = LoggerFactory.getLogger(SpringContextUtil.class);
 
     /**
@@ -31,7 +31,6 @@ public class SpringContextUtil implements InitializingBean,ApplicationContextAwa
     @Override
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
-        logger.info("------------------设置context:"+ JSON.toJSONString(applicationContext));
         SpringContextUtil.applicationContext = applicationContext;
     }
 
