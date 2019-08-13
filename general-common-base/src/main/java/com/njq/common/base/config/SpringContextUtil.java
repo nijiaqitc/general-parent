@@ -1,5 +1,6 @@
 package com.njq.common.base.config;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -28,6 +29,7 @@ public class SpringContextUtil implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
+        logger.info("------------------设置context:"+ JSON.toJSONString(applicationContext));
         SpringContextUtil.applicationContext = applicationContext;
     }
 
