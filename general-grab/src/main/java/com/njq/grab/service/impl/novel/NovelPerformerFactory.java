@@ -15,7 +15,7 @@ public class NovelPerformerFactory {
 	
 	@Autowired
 	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, NovelLoadPerformer dingdianLoadPerformer,
-			NovelLoadPerformer bbiqugeLoadPerformer,NovelConsultPerformer qidianConsultPerformer,
+			NovelLoadPerformer bbiqugeLoadPerformer,
 			NovelConsultPerformer zonghengConsultPerformer,NovelConsultPerformer xxsyConsultPerformer) {
 		map = new HashMap<>();
 		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
