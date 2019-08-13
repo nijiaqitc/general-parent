@@ -42,7 +42,26 @@
 	    padding-left: 4px;
 	    overflow: auto;
 	    height: 100%;
+	    z-index: 1055;
     }
+    
+    .modal-backdrop {
+	  position: fixed;
+	  top: 0;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  z-index: 1040;
+	  background-color: #000000;
+	}
+	.modal-backdrop.fade {
+	  opacity: 0;
+	}
+	.modal-backdrop,
+	.modal-backdrop.fade.in {
+	  opacity: 0.8;
+	  filter: alpha(opacity=80);
+	}
 </style>
 </head>
 <body>
@@ -64,6 +83,7 @@
 		       		<div class="rmenu">${consult }</div>
 		       </c:forEach>
 	       </div>
+	       <div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
 	   </div>
 	</div>
 	<!-- 	正文部分结束 -->
@@ -89,17 +109,19 @@
     
     $(function(){
 	    touch.on(".textContext", "swipeleft", function(ev){
-			    	leftmove();
+			leftmove();
 		});
     	touch.on(".textContext", "swiperight", function(ev){
-			    	rightmove();
+			rightmove();
 		});
     
     	function leftmove(){
     		animate($(".consultArea")[0],"right","0");
+    		$("#backBlackGround").show();
     	}
     	function rightmove(){
     		animate($(".consultArea")[0],"right","-300");
+    		$("#backBlackGround").hide();
     	}
     	touch.on(".consultArea", "doubletap", function(ev){
 		  	$.ajax({
@@ -118,7 +140,7 @@
             // 属性当前值
             var icur = parseInt(getStyle(obj, attr));
             // 动画的速度
-            var speed = (target - icur) / 4;
+            var speed = (target - icur) / 2;
             speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
             if (icur == target) {
                 clearInterval(obj.timer);

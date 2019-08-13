@@ -19,7 +19,7 @@ public class NovelPerformerFactory {
 			NovelConsultPerformer qidianConsultPerformer,NovelConsultPerformer zonghengConsultPerformer,NovelConsultPerformer xxsyConsultPerformer) {
 		map = new HashMap<>();
 		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
-		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
+//		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
 		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
 		map.put(ChannelType.DINGDIAN.getValue(), dingdianLoadPerformer);
 		consultMap = new HashMap<>();

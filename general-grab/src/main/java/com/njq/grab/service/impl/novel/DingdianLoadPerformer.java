@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +32,20 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 @Component("dingdianLoadPerformer")
 public class DingdianLoadPerformer extends AbstractLoadPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(DingdianLoadPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.DINGDIAN).getPageIndex();
+	private String url ;
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
 	private DaoCommon<GrabNovelDoc> grabNovelDocDao;
 	@Resource
     private ThreadPoolTaskExecutor loadPageTaskExecutor;
+	
+	@Autowired
+	public DingdianLoadPerformer() {
+		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.DINGDIAN).getPageIndex();
+	}
+
+
 	@Override
 	public String search(String str) {
 		try {

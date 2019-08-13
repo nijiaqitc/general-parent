@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -24,12 +25,17 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 @Component("xiangCunChannelPerformer")
 public class XiangCunLoadPerformer implements NovelLoadPerformer{
 	
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.XIANGCUN).getPageIndex();
+	private String url ;
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
 	private DaoCommon<GrabNovelDoc> grabNovelDocDao;
 	
+	@Autowired
+	public XiangCunLoadPerformer() {
+		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.XIANGCUN).getPageIndex();
+	}
+
 	@Override
 	public String search(String str) {
 		try {

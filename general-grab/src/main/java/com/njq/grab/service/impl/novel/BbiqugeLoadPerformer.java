@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -32,13 +33,19 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 public class BbiqugeLoadPerformer extends AbstractLoadPerformer{
 
 	private static final Logger logger = LoggerFactory.getLogger(BbiqugeLoadPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.BBIQUGE).getPageIndex();
+	private String url ;
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
 	private DaoCommon<GrabNovelDoc> grabNovelDocDao;
 	@Resource
     private ThreadPoolTaskExecutor loadPageTaskExecutor;
+	
+	@Autowired
+	public BbiqugeLoadPerformer() {
+		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.BBIQUGE).getPageIndex();
+	}
+
 	@Override
 	public String search(String str) {
 		try {

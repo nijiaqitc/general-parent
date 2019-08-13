@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -25,7 +26,13 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 @Component("zonghengConsultPerformer")
 public class ZonghengConsultPerformer implements NovelConsultPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(ZonghengConsultPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.ZONGHENG).getPageIndex();
+	private String url ;
+	@Autowired
+	public ZonghengConsultPerformer() {
+		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.ZONGHENG).getPageIndex();
+	}
+
+
 	@Override
 	public String search(String name) {
 		try {

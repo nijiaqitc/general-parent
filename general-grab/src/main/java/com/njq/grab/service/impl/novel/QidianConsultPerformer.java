@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -25,7 +26,12 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 @Component("qidianConsultPerformer")
 public class QidianConsultPerformer implements NovelConsultPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(QidianConsultPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QIDIAN).getPageIndex();
+	private String url ;
+	@Autowired
+	public QidianConsultPerformer() {
+		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QIDIAN).getPageIndex();
+	}
+
 	@Override
 	public String search(String name) {
 		try {
@@ -39,7 +45,13 @@ public class QidianConsultPerformer implements NovelConsultPerformer{
 				Element fet = ets.get(0);
 				Elements etsh4 = fet.getElementsByTag("h4");
 				Elements etsa = etsh4.get(0).getElementsByTag("a");
+				if(etsa.isEmpty()) {
+					return null;
+				}
 				Elements etscite = etsa.get(0).getElementsByTag("cite");
+				if(etscite.isEmpty()) {
+					return null;
+				}
 				System.out.println(etscite.get(0).html());
 				return "https:"+etsa.attr("href");
 			}

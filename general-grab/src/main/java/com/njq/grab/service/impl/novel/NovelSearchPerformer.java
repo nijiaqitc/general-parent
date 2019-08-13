@@ -13,6 +13,7 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.njq.common.base.config.SpringContextUtil;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.DaoCommon;
+import com.njq.common.exception.BaseKnownException;
 import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.model.po.GrabNovelUrl;
 import com.njq.common.model.po.GrabUrlInfo;
@@ -60,40 +61,51 @@ public class NovelSearchPerformer {
 		return mp;
 	}
 	public Long saveBook(String name) {
-		ConditionsCommon condition = new ConditionsCommon();
-		condition = new ConditionsCommon();
-		condition.addEqParam("name", name);
-		GrabNovelMenu menu =  grabNovelMenuDao.queryTByParamForOne(condition);
-		if(menu == null) {
-			menu = new GrabNovelMenu();
-			menu.setName(name);
-			menu.setCreateDate(new Date());
-			menu.setType("0");
-			menu.setLoaded(0);
-			menu.setLoadTimes(0);
-			grabNovelMenuDao.save(menu);			
+		if(name == null) {
+			throw new BaseKnownException("书名为空！");
 		}
-		return menu.getId();
+		synchronized (name.intern()) {
+			ConditionsCommon condition = new ConditionsCommon();
+			condition = new ConditionsCommon();
+			condition.addEqParam("name", name);
+			GrabNovelMenu menu =  grabNovelMenuDao.queryTByParamForOne(condition);
+			if(menu == null) {
+				menu = new GrabNovelMenu();
+				menu.setName(name);
+				menu.setCreateDate(new Date());
+				menu.setType("0");
+				menu.setLoaded(0);
+				menu.setLoadTimes(0);
+				grabNovelMenuDao.save(menu);			
+			}
+			return menu.getId();
+		}
 	}
 	
 	public void saveNovelMenuUrl(String name,String url,String channel,Long menuId) {
-		GrabNovelUrl novelUrl = new GrabNovelUrl();
-		novelUrl.setCreateDate(new Date());
-		novelUrl.setUrl(url);
-		novelUrl.setChannel(channel);
-		novelUrl.setMenuId(menuId);
-		novelUrl.setType("1");
-		grabNovelUrlDao.save(novelUrl);
+		String lockey=name+":"+url+":"+channel+":"+menuId;
+		synchronized (lockey.intern()) {
+			GrabNovelUrl novelUrl = new GrabNovelUrl();
+			novelUrl.setCreateDate(new Date());
+			novelUrl.setUrl(url);
+			novelUrl.setChannel(channel);
+			novelUrl.setMenuId(menuId);
+			novelUrl.setType("1");
+			grabNovelUrlDao.save(novelUrl);			
+		}
 	}
 	
 	public void saveNovelConsult(String name,String url,String channel,Long menuId) {
-		GrabNovelUrl novelUrl = new GrabNovelUrl();
-		novelUrl.setCreateDate(new Date());
-		novelUrl.setUrl(url);
-		novelUrl.setChannel(channel);
-		novelUrl.setMenuId(menuId);
-		novelUrl.setType("0");
-		grabNovelUrlDao.save(novelUrl);
+		String lockey=name+":"+url+":"+channel+":"+menuId;
+		synchronized (lockey) {
+			GrabNovelUrl novelUrl = new GrabNovelUrl();
+			novelUrl.setCreateDate(new Date());
+			novelUrl.setUrl(url);
+			novelUrl.setChannel(channel);
+			novelUrl.setMenuId(menuId);
+			novelUrl.setType("0");
+			grabNovelUrlDao.save(novelUrl);
+		}
 	}
 	
 	public void loadMenu(String bookName,Long menuId) {
@@ -116,19 +128,19 @@ public class NovelSearchPerformer {
 			condition.addEqParam("type", "1");
 			//读取load的url值
 			List<GrabNovelUrl> urlList = grabNovelUrlDao.queryColumnForList(condition);
-			NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
+			
 			for(GrabNovelUrl url : urlList) {
 				List<GrabNovelMenu> list1 = factory.getPerformer(url.getChannel()).loadMenu(url.getUrl(),bookMenu.getId());
 				if(list1 == null) {
 					continue;
 				}
 				if(CollectionUtils.isEmpty(menuList)) {
-					performer.save(list1);
+					this.toSaveMenu(list1);
 				}else {
 					if(menuList.size() < list1.size()) {
 						if(menuList.get(menuList.size()-1).getName().equals(list1.get(menuList.size()-1).getName())) {
 							List<GrabNovelMenu> list2  = list1.subList(menuList.size(), list1.size());
-							performer.save(list2);
+							this.toSaveMenu(list2);
 						}
 					}					
 				}
@@ -138,10 +150,15 @@ public class NovelSearchPerformer {
 	}
 	
 	
-	public void save(List<GrabNovelMenu> list) {
+	private void toSaveMenu(List<GrabNovelMenu> list) {
+		NovelSearchPerformer performer = SpringContextUtil.getBean(NovelSearchPerformer.class);
 		for(GrabNovelMenu menu :list) {
-			grabNovelMenuDao.save(menu);
+			performer.saveMenu(menu);
 		}
+	}
+	
+	public void saveMenu(GrabNovelMenu menu) {
+		grabNovelMenuDao.save(menu);
 	}
 	
 	public void loadDoc() {

@@ -40,6 +40,24 @@
 		text-align: center;
 		padding: 0px 10px;
 	}
+	
+	.modal-backdrop {
+	  position: fixed;
+	  top: 0;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  z-index: 1040;
+	  background-color: #000000;
+	}
+	.modal-backdrop.fade {
+	  opacity: 0;
+	}
+	.modal-backdrop,
+	.modal-backdrop.fade.in {
+	  opacity: 0.8;
+	  filter: alpha(opacity=80);
+	}
 </style>
 </head>
 <body>
@@ -65,6 +83,7 @@
 				</div>
 			</div>
 	   </div>
+	   <div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
 	</div>
 	<!-- 	正文部分结束 -->
 
@@ -102,6 +121,7 @@
     }
     
     function searchBook(){
+    	$("#backBlackGround").show();
     	$.ajax({
     		url:"/grab/loadbook",
     		type:"post",
@@ -109,6 +129,7 @@
     			bookName:$("#bookName").val()
     		},
     		success:function(data){
+    			$("#backBlackGround").hide();
     			if(data.state == "1"){
 	    			alert("正在处理...！");
 	    			loadDoc();
