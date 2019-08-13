@@ -27,6 +27,9 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 public class ZonghengConsultPerformer implements NovelConsultPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(ZonghengConsultPerformer.class);
 	private String url ;
+	@Resource
+	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
+	
 	@Autowired
 	public ZonghengConsultPerformer() {
 		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.ZONGHENG).getPageIndex();
@@ -79,9 +82,6 @@ public class ZonghengConsultPerformer implements NovelConsultPerformer{
 		}
 		return ets.get(0).attr("href");
 	}
-	
-	@Resource
-	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
 	
 	@Override
 	public List<String> loadMenu(Long menuId) {

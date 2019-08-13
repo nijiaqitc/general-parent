@@ -27,9 +27,10 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 
 @Component("xxsyConsultPerformer")
 public class XxsyConsultPerformer implements NovelConsultPerformer{
-
 	private static final Logger logger = LoggerFactory.getLogger(ZonghengConsultPerformer.class);
 	private String url;
+	@Resource
+	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
 	@Autowired
 	public XxsyConsultPerformer() {
 		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.XIAOXIANGSHUYUAN).getPageIndex();
@@ -72,9 +73,6 @@ public class XxsyConsultPerformer implements NovelConsultPerformer{
 			return null;
 		} 
 	}
-	
-	@Resource
-	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
 	
 	@Override
 	public List<String> loadMenu(Long menuId) {

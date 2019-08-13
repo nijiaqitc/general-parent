@@ -27,6 +27,8 @@ import com.njq.grab.service.impl.GrabUrlInfoFactory;
 public class QidianConsultPerformer implements NovelConsultPerformer{
 	private static final Logger logger = LoggerFactory.getLogger(QidianConsultPerformer.class);
 	private String url ;
+	@Resource
+	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
 	@Autowired
 	public QidianConsultPerformer() {
 		url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QIDIAN).getPageIndex();
@@ -61,9 +63,6 @@ public class QidianConsultPerformer implements NovelConsultPerformer{
 			return null;
 		} 
 	}
-	
-	@Resource
-	private DaoCommon<GrabNovelUrl> grabNovelUrlDao;
 	
 	@Override
 	public List<String> loadMenu(Long menuId) {
