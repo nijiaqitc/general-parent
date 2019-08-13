@@ -40,6 +40,8 @@ import com.njq.grab.service.impl.GrabUrlInfoService;
 import com.njq.grab.service.impl.novel.NovelLoadPerformer;
 import com.njq.grab.service.impl.novel.NovelSearchPerformer;
 import com.njq.grab.service.impl.novel.QidianConsultPerformer;
+import com.njq.grab.service.impl.novel.XxsyConsultPerformer;
+import com.njq.grab.service.impl.novel.ZonghengConsultPerformer;
 
 @RequestMapping("grab")
 @Controller
@@ -434,14 +436,13 @@ public class GrabController {
     
     
     @Resource
-    private NovelLoadPerformer bbiqugeLoadPerformer;
+    private NovelLoadPerformer dingdianLoadPerformer;
     @Resource
-    private QidianConsultPerformer qidianConsultPerformer;
+    private XxsyConsultPerformer xxsyConsultPerformer;
     @RequestMapping(value = "searchtest", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> searchtest(String bookName, HttpServletRequest req) {
-//    	qidianConsultPerformer.search("神秘复苏");
-//    	qidianConsultPerformer.loadMenu(menuId)
+    	dingdianLoadPerformer.loadMenu("https://www.23wx.so/62_62292/", 0L);
     	return MessageCommon.getSuccessMap();
     }
     

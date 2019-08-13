@@ -28,10 +28,10 @@ import com.njq.common.model.po.GrabNovelMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 
-@Component("qishuLoadPerformer")
-public class QishuLoadPerformer extends AbstractLoadPerformer {
-	private static final Logger logger = LoggerFactory.getLogger(QishuLoadPerformer.class);
-	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.QI_SHU).getPageIndex();
+@Component("dingdianLoadPerformer")
+public class DingdianLoadPerformer extends AbstractLoadPerformer{
+	private static final Logger logger = LoggerFactory.getLogger(DingdianLoadPerformer.class);
+	private String url =  GrabUrlInfoFactory.getUrlInfo(ChannelType.DINGDIAN).getPageIndex();
 	@Resource
     private DaoCommon<GrabNovelMenu> grabNovelMenuDao;
 	@Resource
@@ -86,7 +86,7 @@ public class QishuLoadPerformer extends AbstractLoadPerformer {
 				menu.setLoaded(0);
 				menu.setParentId(parentId);
 				menu.setLoadTimes(0);
-				menu.setChannel(ChannelType.QI_SHU.getValue());
+				menu.setChannel(ChannelType.DINGDIAN.getValue());
 				menuList.add(menu);
 			}
 		});
@@ -97,14 +97,14 @@ public class QishuLoadPerformer extends AbstractLoadPerformer {
 	public void loadDoc() {
 		ConditionsCommon condition = new ConditionsCommon();
 		condition.addEqParam("loaded", 0);
-		condition.addEqParam("channel", ChannelType.QI_SHU.getValue());
+		condition.addEqParam("channel", ChannelType.DINGDIAN.getValue());
 		condition.addLteParam("loadTimes", 10);
 		condition.addEqParam("type", "1");
 		List<GrabNovelMenu> menuList = grabNovelMenuDao.queryColumnForList(condition);
 		Map<Long, String> bookMap = new HashMap<Long, String>();
 		if(CollectionUtils.isNotEmpty(menuList)) {
 			Semaphore semaphore = new Semaphore(10,true);
-			QishuLoadPerformer former = SpringContextUtil.getBean(QishuLoadPerformer.class);
+			DingdianLoadPerformer former = SpringContextUtil.getBean(DingdianLoadPerformer.class);
 			menuList.forEach(n->{
 				if(bookMap.get(n.getParentId()) == null) {
 					GrabNovelMenu bookMenu = grabNovelMenuDao.queryTById(n.getParentId());
@@ -133,7 +133,8 @@ public class QishuLoadPerformer extends AbstractLoadPerformer {
 
 	@Override	
 	public String dealHtml(String str,String bookName) {
-		str = str.replace("奇书网 www.qishu.tw 最快更新"+bookName+"最新章节！", "");
+		str = str.replace("一秒记住【顶点小说网 www.23wx.so】，精彩小说无弹窗免费阅读！", "");
 		return HtmlDecodeUtil.decodeHtml(str, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
 	}
+	
 }

@@ -330,7 +330,9 @@ public class NovelController {
         	}
         	model.addAttribute("consultList", menuList);
         	GrabNovelMenu menu = titleService.queryMenu(parentId);
-        	model.addAttribute("title", menu.getName());
+        	if(menu != null) {
+        		model.addAttribute("title", menu.getName());        		
+        	}
         	return "wap/grabNovelMenu";        	
         }else {
         	if(!cacheMap.isEmpty()) {
@@ -338,6 +340,15 @@ public class NovelController {
         	}
         	return "wap/grabNovelTitle";
         }
+    }
+    
+    @RequestMapping(value = "/reloadMenu", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> reloadMenu(Model model,HttpServletRequest request,Long menuId) {
+    	if(!cacheMap.isEmpty()) {
+    		cacheMap.clear();        		
+    	}
+    	return MessageCommon.getSuccessMap();
     }
     
     @RequestMapping(value = "/queryNovelDoc", method = RequestMethod.GET)

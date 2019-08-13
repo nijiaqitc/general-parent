@@ -101,9 +101,15 @@
     	function rightmove(){
     		animate($(".consultArea")[0],"right","-300");
     	}
-    	
-    	
-    	
+    	touch.on(".consultArea", "doubletap", function(ev){
+		  	$.ajax({
+	    		url:"/novel/reloadMenu",
+	    		type:"post",
+	    		success:function(data){
+	    			window.location.reload();
+	    		}
+	    	})
+		});
     })
    	function animate(obj, attr, target) {
         // 防止连续移入元素会生成多个计时器，所以进入之前先清除
@@ -112,7 +118,7 @@
             // 属性当前值
             var icur = parseInt(getStyle(obj, attr));
             // 动画的速度
-            var speed = (target - icur) / 8;
+            var speed = (target - icur) / 4;
             speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
             if (icur == target) {
                 clearInterval(obj.timer);

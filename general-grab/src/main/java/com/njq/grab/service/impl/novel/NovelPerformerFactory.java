@@ -11,26 +11,21 @@ import com.njq.common.enumreg.channel.ChannelType;
 @Component
 public class NovelPerformerFactory {
 
-	private final NovelLoadPerformer qishuLoadPerformer;
-	private final NovelLoadPerformer xiangCunChannelPerformer;
-	private final NovelLoadPerformer bbiqugeLoadPerformer;
 	private Map<String, NovelLoadPerformer> map;
-	
-	private final NovelConsultPerformer qidianConsultPerformer;
 	private Map<String,NovelConsultPerformer> consultMap;
 	@Autowired
-	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, 
-			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer,NovelConsultPerformer qidianConsultPerformer) {
-		this.qishuLoadPerformer = qishuLoadPerformer;
-		this.xiangCunChannelPerformer = xiangCunChannelPerformer;
-		this.bbiqugeLoadPerformer = bbiqugeLoadPerformer;
+	public NovelPerformerFactory(NovelLoadPerformer qishuLoadPerformer, NovelLoadPerformer dingdianLoadPerformer,
+			NovelLoadPerformer xiangCunChannelPerformer, NovelLoadPerformer bbiqugeLoadPerformer,
+			NovelConsultPerformer qidianConsultPerformer,NovelConsultPerformer zonghengConsultPerformer,NovelConsultPerformer xxsyConsultPerformer) {
 		map = new HashMap<>();
 //		map.put(ChannelType.QI_SHU.getValue(), qishuLoadPerformer);
 //		map.put(ChannelType.XIANGCUN.getValue(), xiangCunChannelPerformer);
-		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
+//		map.put(ChannelType.BBIQUGE.getValue(), bbiqugeLoadPerformer);
+		map.put(ChannelType.DINGDIAN.getValue(), dingdianLoadPerformer);
 		consultMap = new HashMap<>();
-		this.qidianConsultPerformer = qidianConsultPerformer;
-		consultMap.put("", qidianConsultPerformer);
+//		consultMap.put(ChannelType.QIDIAN.getValue(), qidianConsultPerformer);
+//		consultMap.put(ChannelType.ZONGHENG.getValue(), zonghengConsultPerformer);
+		consultMap.put(ChannelType.XIAOXIANGSHUYUAN.getValue(), xxsyConsultPerformer);
 	}
 
 
