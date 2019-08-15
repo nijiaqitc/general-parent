@@ -31,7 +31,6 @@ public class SpringContextUtil implements InitializingBean,ApplicationContextAwa
     @Override
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
-        logger.info("------------------设置context:"+ JSON.toJSONString(applicationContext));
         SpringContextUtil.applicationContext = applicationContext;
     }
 
