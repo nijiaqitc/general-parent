@@ -333,6 +333,7 @@ public class NovelController {
         	if(menu != null) {
         		model.addAttribute("title", menu.getName());        		
         	}
+        	model.addAttribute("bookId",parentId);
         	return "wap/grabNovelMenu";        	
         }else {
         	if(!cacheMap.isEmpty()) {

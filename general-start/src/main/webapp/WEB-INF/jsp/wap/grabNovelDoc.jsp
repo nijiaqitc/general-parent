@@ -90,8 +90,8 @@ p{
 		     		async:false,
 		     		type:"post",
 		     		success:function(data){
-		     			if(data != null){
-			     			var cd=new CustomDecoder()
+		     			if(data != null && data != ""){
+			     			var cd=new CustomDecoder();
 					     	cd.str=data.text;
 					     	var chd=new customHtmlDecoder();
 					     	var context = "<div align='center'>"+
@@ -106,7 +106,7 @@ p{
 					     	$("#beforeMenuId").val(data.beforeMenuId);
 					     	$("#nextMenu").val(data.afterMenuId);
 		     			}else{
-		     				alert("文章不存在，或正在加载中，请稍后....");
+		     				$("#contextArea").append("<div align='center'><h3>文章不存在，或正在加载中，请稍后....</h3></div>");
 		     			}
 		     		}
 		     	})
