@@ -312,7 +312,7 @@ public class NovelController {
     }
     
     
-
+    
     private NovelConsultPerformer qidianConsultPerformer;
     private Map<Long, Pair<Date, List<String>>> cacheMap = new HashMap<>();
     
@@ -366,20 +366,24 @@ public class NovelController {
     		return null;
     	}
     	GrabNovelMenu menu = titleService.queryMenu(menuId);
-    	GrabNovelDoc doc = titleService.queryGrabNovelDoc(menuId);
-        NovelDocVO novel = new NovelDocVO();
-        novel.setCreateDate(doc.getCreateDate());
-        novel.setText(doc.getDoc());
-        novel.setTitle(menu.getName());
-        GrabNovelMenu nextMenu = titleService.queryNextMenu(menuId);
-        if(nextMenu != null) {
-        	novel.setAfterMenuId(nextMenu.getId());
-        }
-        GrabNovelMenu beforeMenu = titleService.queryBeforeMenu(menuId);
-        if(beforeMenu != null) {
-        	novel.setBeforeMenuId(beforeMenu.getId());
-        }
-        return novel;
+    	if(menu != null && 1 == menu.getLoaded()) {
+    		GrabNovelDoc doc = titleService.queryGrabNovelDoc(menuId);
+    		NovelDocVO novel = new NovelDocVO();
+    		novel.setCreateDate(doc.getCreateDate());
+    		novel.setText(doc.getDoc());
+    		novel.setTitle(menu.getName());
+    		GrabNovelMenu nextMenu = titleService.queryNextMenu(menuId);
+    		if(nextMenu != null) {
+    			novel.setAfterMenuId(nextMenu.getId());
+    		}
+    		GrabNovelMenu beforeMenu = titleService.queryBeforeMenu(menuId);
+    		if(beforeMenu != null) {
+    			novel.setBeforeMenuId(beforeMenu.getId());
+    		}
+    		return novel;
+    	}else {
+    		return null;
+    	}
     }
     
     

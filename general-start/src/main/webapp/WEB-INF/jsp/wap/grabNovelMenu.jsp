@@ -62,6 +62,16 @@
 	  opacity: 0.8;
 	  filter: alpha(opacity=80);
 	}
+	.leftUp{
+		position: fixed;
+	    top: 0px;
+	    left: 0px;
+	    background-color: white;
+	    padding-left: 4px;
+	    overflow: auto;
+	    height: 100%;
+	    z-index: 1055;
+	}
 </style>
 </head>
 <body>
@@ -82,6 +92,9 @@
 		       <c:forEach items="${consultList }" var="consult">
 		       		<div class="rmenu">${consult }</div>
 		       </c:forEach>
+	       </div>
+	       <div class="leftUp">
+	       	<div onclick="upDoc()">更新</div>
 	       </div>
 	       <div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
 	   </div>
@@ -106,6 +119,9 @@
 		}
 	}
     
+    function upDoc(){
+    	
+    }
     
     $(function(){
 	    touch.on(".textContext", "swipeleft", function(ev){

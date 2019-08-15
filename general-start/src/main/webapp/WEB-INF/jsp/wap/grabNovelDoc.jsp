@@ -105,6 +105,8 @@ p{
 					     	}
 					     	$("#beforeMenuId").val(data.beforeMenuId);
 					     	$("#nextMenu").val(data.afterMenuId);
+		     			}else{
+		     				alert("文章不存在，或正在加载中，请稍后....");
 		     			}
 		     		}
 		     	})
