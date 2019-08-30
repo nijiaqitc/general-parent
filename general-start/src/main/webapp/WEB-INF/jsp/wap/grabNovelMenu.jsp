@@ -62,6 +62,16 @@
 	  opacity: 0.8;
 	  filter: alpha(opacity=80);
 	}
+	.leftUp{
+		position: fixed;
+	    top: 0px;
+	    left: -300px;
+	    background-color: white;
+	    padding: 4px 10px;
+	    margin-top: 20px;
+	    overflow: auto;
+	    z-index: 1055;
+	}
 </style>
 </head>
 <body>
@@ -69,6 +79,7 @@
 	<div class="textContext" align="center">
 	   <div style="width: 90%;padding-top: 20px;" align="left">
 	   	   <div align="center" style="font-size: 20px;font-weight: 600;" onclick="reload()">${title }</div>
+	   	   <input type="hidden" id="bookId" value="${bookId }">
 	       <c:forEach items="${list}" var="thc" >
 			   <div class="titleStyle">
 			        <a href="queryNovelDoc?menuId=${thc.id}" >
@@ -82,6 +93,9 @@
 		       <c:forEach items="${consultList }" var="consult">
 		       		<div class="rmenu">${consult }</div>
 		       </c:forEach>
+	       </div>
+	       <div class="leftUp"  onclick="upDoc()">
+	       	<div>更新</div>
 	       </div>
 	       <div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
 	   </div>
@@ -106,6 +120,23 @@
 		}
 	}
     
+    function upDoc(){
+		$.ajax({
+    		url:"/grab/upNovel",
+    		type:"post",
+    		data:{
+    			menuId:$("#bookId").val()
+    		},
+    		success:function(data){
+    			if(data.state == "1"){
+	    			alert("正在处理...！");
+	    			loadDoc();
+    			}else{
+    				alert(data);
+    			}
+    		}
+    	})
+    }
     
     $(function(){
 	    touch.on(".textContext", "swipeleft", function(ev){
@@ -117,10 +148,12 @@
     
     	function leftmove(){
     		animate($(".consultArea")[0],"right","0");
+    		animate($(".leftUp")[0],"left","0");
     		$("#backBlackGround").show();
     	}
     	function rightmove(){
     		animate($(".consultArea")[0],"right","-300");
+    		animate($(".leftUp")[0],"left","-300");
     		$("#backBlackGround").hide();
     	}
     	touch.on(".consultArea", "doubletap", function(ev){
@@ -132,6 +165,7 @@
 	    		}
 	    	})
 		});
+		
     })
    	function animate(obj, attr, target) {
         // 防止连续移入元素会生成多个计时器，所以进入之前先清除
@@ -157,6 +191,16 @@
         } else {
             return getComputedStyle(obj, false)[attr];
         }
+    }
+    
+    function loadDoc(){
+    	$.ajax({
+    		url:"/grab/loaddoc",
+    		type:"post",
+    		success:function(data){
+    			window.location.reload();
+    		}
+    	})
     }
     </script>
 </body>
