@@ -26,25 +26,26 @@ public class TtTests {
         }
         System.out.println(url);
         for (int i = 0; i < 10; i++) {
-            System.out.println(url + i);
+            ggg(i + url + ".com");
         }
         for (int i = 0; i < 10; i++) {
-            System.out.println(i + url);
+            ggg(i + url + ".com");
         }
 
 
+    }
+
+    private void ggg(String url) {
         for (int i = 0; i < 10; i++) {
             url = this.getUrl("https://" + url + "/video/detail/7992");
             this.completeNums(url);
         }
-
     }
-
 
     private String getUrl(String url) {
         System.out.println("访问：" + url);
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
