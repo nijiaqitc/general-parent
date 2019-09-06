@@ -40,17 +40,34 @@ public class TestController {
 	}
 	
 	public static void main(String[] args) {
-		TestController tt = new TestController();
-		tt.test();
+//		TestController tt = new TestController();
+//		tt.test();
 //		List<String> ll =new ArrayList<>();
 //		ll.addAll(null);
 //		System.out.println(ll);
-		
-		List<String> ll =new ArrayList<>();
-		ll.add("1111");
-		ll.add("222");
-		ll.add("333");
-		System.out.println(JSON.toJSONString(ll));
+
+
+
+		String a = "tttff9";
+		if(a.substring(5, 6).matches("\\d+")){
+			a = a.substring(0, 5);
+		}
+		if(a.substring(0, 1).matches("\\d+")){
+			a = a.substring(1, 6);
+		}
+		System.out.println( a);
+		for(int i = 0 ;i <10;i++){
+			System.out.println(a+i);
+		}
+		for(int i = 0 ;i <10;i++){
+			System.out.println(i+a);
+		}
+
+//		List<String> ll =new ArrayList<>();
+//		ll.add("1111");
+//		ll.add("222");
+//		ll.add("333");
+//		System.out.println(JSON.toJSONString(ll));
 		
 //		System.out.println(ll.get(0));
 		
