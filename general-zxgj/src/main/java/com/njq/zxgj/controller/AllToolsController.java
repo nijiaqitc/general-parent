@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,7 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("tools")
 public class AllToolsController {
-
+	
+	@RequestMapping(value="/inx/{toolname}",method=RequestMethod.GET)
+    public String index(HttpServletRequest request,Model model,@PathVariable(value = "toolname") String toolname){
+		model.addAttribute("toolName", toolname);
+    	return "zxgj/tool/index";
+    }
 	
 	/**
 	 * 跳转到json格式化页面
@@ -21,7 +27,7 @@ public class AllToolsController {
 	 */
 	@RequestMapping(value="jsonDecode",method=RequestMethod.GET)
     public String jsondecode(HttpServletRequest request,Model model){
-    	return "zxgj/tools/jsonDecode";
+    	return "zxgj/tools/index";
     }
 	
 	/**

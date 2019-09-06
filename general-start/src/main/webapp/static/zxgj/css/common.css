@@ -1,5 +1,9 @@
 @charset "utf-8";
 /*     开始：全局样式 */
+html,body{
+	height: 100%;
+	width: 100%;
+}
 body{
 	min-width: 1250px;
 }
@@ -27,7 +31,7 @@ a{
 	text-decoration:none;
 	color:#444;
 }
-a:hover{color:#2f889a}
+a:hover{color:#2f889a;text-decoration: none !important;}
 ul,li,ol{list-style:none}
 em,i{font-style:normal}
 em{color:red}

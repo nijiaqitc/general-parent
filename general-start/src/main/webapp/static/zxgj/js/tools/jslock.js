@@ -36,11 +36,10 @@ function num(c) {
 			+ ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36));
 
 }
-function run() {
-	eval(document.getElementById('code').value);
+function run(code) {
+	eval(code);
 }
-function decode() {
-	var code = document.getElementById('code').value;
+function decode(code) {
 	code = code.replace(/^eval/, '');
-	document.getElementById('code').value = eval(code);
+	return eval(code);
 } 
