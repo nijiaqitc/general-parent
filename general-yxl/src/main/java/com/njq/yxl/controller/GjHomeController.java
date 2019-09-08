@@ -68,9 +68,14 @@ public class GjHomeController {
 //        model.addAttribute("doclist",docList);
 //        model.addAttribute("xlDoclist",xlList);
 //        model.addAttribute("ismob", ismob);
-        return "zxgj/index";
+    	return "redirect:/tools/inx/jsondecode";
     }
 
+    @RequestMapping(value = "neEditor", method = RequestMethod.GET)
+    public String neEditor(Model model, String ismob) {
+    	return "zxgj/index";
+    }
+    
     @RequestMapping(value = "index2", method = RequestMethod.GET)
     public String toIndex2(Model model, String ismob) {
     	List<YxlDocSearch> xlList=yxlDocSearchService.queryTitleYxlList(true);

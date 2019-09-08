@@ -8,8 +8,44 @@
 <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png" />
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style type="text/css">
+.topul{
+	list-style: none;
+}
+
+.topul li{
+	list-style: none;
+	float: left;
+}
+.topul li a {
+	font-family: "微软雅黑";
+    font-size: 14px;
+    text-decoration: none;
+    outline: none;
+    padding: 4px 14px;
+    display: block;
+    width: 100%;
+}
+.topul li a:hover{
+	background-color: #40719a;
+	color:white;
+}
+</style>
 </head>
 <body style="background: url('${resPath }/zxgj/img/bg.png');">
+	<div style="width:100%;height:40px;margin-bottom: 10px;">
+		<div class="panel panel-default" style="height:100%;margin-bottom: 0px;border: 0px;">
+		  <div class="panel-body" style="height: 100%;padding: 10px;">
+		  	<div style="height:24px;float: left;">
+		  		<img alt="" src="${resPath }/zxgj/img/logomax.png" style="height: 24px;margin-right: 10px;"> 
+		  	</div>
+		  	<ul class="topul">
+		  		<li><a href="${path}/tools/inx/jsondecode">格式工具</a></li>
+		  		<li><a href="${path}/neEditor">NE插件</a></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
     <!-- 中间正文公用部分 -->
     <div class="contextArea" align="center" style="height: 80%;min-height: 800px;">
     	<jsp:include page="leftMenu.jsp"></jsp:include>

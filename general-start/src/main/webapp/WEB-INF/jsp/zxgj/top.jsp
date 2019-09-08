@@ -11,7 +11,7 @@
         <div class="topBarRight">
             <ul class="nagivationMenu">
                 <li class="nagivationMenuContext">
-                    <a href="${path }/">
+                    <a href="${path }/neEditor">
                         <div class="topFontStyle">首页</div>
                         <div class="nagivationBottom nagivationBottomSelect" ></div> 
                     </a>
