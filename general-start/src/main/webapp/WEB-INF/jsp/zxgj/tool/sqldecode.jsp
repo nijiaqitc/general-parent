@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <html>
 <body>
-	<div style="float:right;width:78%;height:100%;">
+	<div class="commonRight">
 		<div class="panel panel-default" style="margin-bottom: 0px;height:100%;">
 		  <div class="panel-body" style="height:100%;">
 		  	<div style="height: 34px;">

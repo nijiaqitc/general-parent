@@ -30,6 +30,12 @@
 	background-color: #40719a;
 	color:white;
 }
+.commonRight{
+	float: left;
+    width: 76%;
+    height: 100%;
+    margin-left: 70px;
+}
 </style>
 </head>
 <body style="background: url('${resPath }/zxgj/img/bg.png');">
