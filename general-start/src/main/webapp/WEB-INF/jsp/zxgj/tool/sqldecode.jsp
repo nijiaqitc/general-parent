@@ -4,7 +4,7 @@
 <body>
 	<div style="float:right;width:78%;height:100%;">
 		<div class="panel panel-default" style="margin-bottom: 0px;height:100%;">
-		  <div class="panel-body" >
+		  <div class="panel-body" style="height:100%;">
 		  	<div style="height: 34px;">
 			  	<div style="float:left;">
 				    <button type="button" class="btn btn-danger" onclick="decode1()">格式化</button>

@@ -127,7 +127,7 @@ table td {
 	</div>
 	<div style="float:right;width:58%;height:100%;">
 		<div class="panel panel-default" style="margin-bottom: 0px;height:100%;">
-		  <div class="panel-body" >
+		  <div class="panel-body" style="height:100%;">
 		    <textarea style="width:100%;height:20%;border: 0;outline:none;border-bottom: 1px solid #ddd;min-height: 300px;"  placeholder="输入待加密内容"  id="area1">测a试b文c本</textarea>
 		  	<div style="height: 34px;margin: 10px 10px;min-width: 670px;">
 			  	<div style="float:left;">
