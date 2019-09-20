@@ -1,6 +1,7 @@
 package com.njq.start.testcontroller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,22 +47,24 @@ public class TestController {
 //		ll.addAll(null);
 //		System.out.println(ll);
 
-
-
-		String a = "tttff9";
-		if(a.substring(5, 6).matches("\\d+")){
-			a = a.substring(0, 5);
-		}
-		if(a.substring(0, 1).matches("\\d+")){
-			a = a.substring(1, 6);
-		}
-		System.out.println( a);
-		for(int i = 0 ;i <10;i++){
-			System.out.println(a+i);
-		}
-		for(int i = 0 ;i <10;i++){
-			System.out.println(i+a);
-		}
+		List<String> cityidsList = Arrays.asList("4,2,".split(","));
+		Long cityId = 5L;
+		System.out.println(cityidsList.contains(cityId.toString()));
+		System.out.println(cityId.toString().equals("4"));
+//		String a = "tttff9";
+//		if(a.substring(5, 6).matches("\\d+")){
+//			a = a.substring(0, 5);
+//		}
+//		if(a.substring(0, 1).matches("\\d+")){
+//			a = a.substring(1, 6);
+//		}
+//		System.out.println( a);
+//		for(int i = 0 ;i <10;i++){
+//			System.out.println(a+i);
+//		}
+//		for(int i = 0 ;i <10;i++){
+//			System.out.println(i+a);
+//		}
 
 //		List<String> ll =new ArrayList<>();
 //		ll.add("1111");

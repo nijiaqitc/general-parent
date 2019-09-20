@@ -33,7 +33,7 @@
 .commonRight{
 	float: left;
     width: 76%;
-    height: 100%;
+    height: 800px;
     margin-left: 70px;
 }
 </style>
@@ -53,7 +53,7 @@
 		</div>
 	</div>
     <!-- 中间正文公用部分 -->
-    <div class="contextArea" align="center" style="height: 80%;min-height: 800px;">
+    <div class="contextArea" align="center" style="min-height: 800px;overflow: hidden;">
     	<jsp:include page="leftMenu.jsp"></jsp:include>
 		<jsp:include page="${toolName}.jsp"></jsp:include>	
     </div>
