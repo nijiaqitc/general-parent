@@ -72,7 +72,7 @@
 									  <tr>
 									  	  <th style="width: 15px;"><i id="topCheck" class="icon-check-empty" onclick="checkAllOrNot(this)" ></i></th>
 										  <th style="width: 20px;">ID</th>
-										  <th style="width: 65%;">标题(绿色：以完成 ，红色：未完成)</th>
+										  <th style="width: 65%;">标题(绿色：已完成 ，红色：未完成)</th>
 										  <th>分类</th>
 										  <th>类型</th>
 										  <th style="width: 30px;">操作</th>                                         

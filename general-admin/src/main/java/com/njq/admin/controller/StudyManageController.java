@@ -131,11 +131,15 @@ public class StudyManageController {
         
         Cell cell1 = row.getCell(2);
         cell1.setCellType(CellType.STRING);
-        vo.setAnswer(cell1.getStringCellValue().trim());
+        if(StringUtil2.IsNotEmpty(cell1.getStringCellValue())) {
+        	vo.setAnswer(cell1.getStringCellValue().trim());
+        }
         
         Cell cell2 = row.getCell(3);
         cell2.setCellType(CellType.STRING);
-        vo.setGeneral(cell2.getStringCellValue().trim());
+        if(StringUtil2.IsNotEmpty(cell2.getStringCellValue())) {
+        	vo.setGeneral(cell2.getStringCellValue().trim());        	
+        }
         
         return vo;
     }
