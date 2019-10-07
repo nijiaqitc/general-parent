@@ -27,6 +27,7 @@ import com.njq.common.model.po.YxlStudyTitle;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.model.vo.AnswerVO;
 import com.njq.common.model.vo.ExaminationsVO;
+import com.njq.common.model.vo.StudyExcelVO;
 import com.njq.common.model.vo.YxlStudyTitleVO;
 import com.njq.common.model.vo.YxlStudyVO;
 import com.njq.common.util.string.StringUtil;
@@ -335,5 +336,16 @@ public class YxlStudyService {
 		List<YxlStudyTitle> titlePage = yxlStudyTitleJpaRepository.queryQues("3", PageRequest.of(0, 1));
 		List<YxlStudyVO> lt = this.convert(titlePage);
 		return lt.get(0);
+	}
+	
+	
+	public void upStudyTitle(List<StudyExcelVO> list) {
+		if(CollectionUtils.isNotEmpty(list)) {
+			list.forEach(vo->{
+				if(StringUtil2.IsNotEmpty(vo.getTitle())) {
+					addInfo(vo.getTitle(),  "1", vo.getTypeId(), vo.getAnswer(), vo.getGeneral(), false, null, null);					
+				}
+			});
+		}
 	}
 }
