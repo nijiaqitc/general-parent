@@ -36,8 +36,10 @@
 						<div class="box-header">
 							<h2><i class="icon-align-justify"></i><span class="break"></span>复习内容</h2>
 							<div class="box-icon">
+								<a href="javascript:void(0)"  onclick="upexcel()" ><i class="icon-plus"></i></a>
 								<a href="javascript:void(0)"  onclick="showDialogForSave()" ><i class="icon-plus"></i></a>
 								<a href="javascript:void(0)"  onclick="del()" ><i class="icon-minus"></i></a>
+								<input type="file" style="display: none;" onchange="upbatchskus(this)" id="crowd_file">
 							</div>
 						</div>
 						<div class="box-content custom_pagination"  >
@@ -70,7 +72,7 @@
 									  <tr>
 									  	  <th style="width: 15px;"><i id="topCheck" class="icon-check-empty" onclick="checkAllOrNot(this)" ></i></th>
 										  <th style="width: 20px;">ID</th>
-										  <th style="width: 65%;">标题</th>
+										  <th style="width: 65%;">标题(绿色：以完成 ，红色：未完成)</th>
 										  <th>分类</th>
 										  <th>类型</th>
 										  <th style="width: 30px;">操作</th>                                         
@@ -256,7 +258,13 @@
 					ajaxAfter();
 					var str="";
 					$.each(data.list,function(n,d){
-						str +="<tr><td><i class='icon-check-empty'></td><td>"+d.id+"</td><td ";
+						str +="<tr><td><i class='icon-check-empty'></td><td ";
+						if(d.sure){
+							str+=" style='background-color: #9efba5;text-align: center;' ";
+						}else{
+							str+=" style='text-align: center;' ";
+						}
+						str += ">"+d.id+"</td><td ";
 						if(!d.sure){
 							str+=" style='color:#f1591c' ";
 						}
@@ -416,6 +424,27 @@
 			$("#myModal").show();
 			$("#backBlackGround").show();
 		}
+		
+		function upexcel(){
+	        $("#crowd_file").click();
+	    }
+	    function upbatchskus(target){
+	        var formData = new FormData();
+	        formData.append("studyFiles", target.files[0]);
+	        $.ajax({
+	            url:'${path}/admin/studyManage/upstudyexcel',
+	            data: formData,
+	            type:'POST',
+	            processData: false,
+	            contentType: false,
+	            success: function(data){
+	                alert(data.message);
+	            },
+	            error:function(response){
+	                console.log(response);
+	            }
+	        });
+	    }
 	</script>
 </body>
 </html>

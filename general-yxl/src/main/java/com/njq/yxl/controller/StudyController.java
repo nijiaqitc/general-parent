@@ -25,12 +25,10 @@ import com.njq.yxl.cache.ExaminationsCacheReader;
 @RequestMapping("study")
 @Controller
 public class StudyController {
-
 	@Resource
 	private YxlStudyService yxlStudyService;
 	@Resource
 	private ExaminationsCacheReader examinationsCacheReader;
-	
 	@RequestMapping
 	public String index(Model model) {
 		List<YxlType>  list = yxlStudyService.queryTypeList();
@@ -118,5 +116,6 @@ public class StudyController {
 		yxlStudyService.updateToNeedStudy(id, type);
 		return MessageCommon.getSuccessMap();
 	}
+	
 	
 }
