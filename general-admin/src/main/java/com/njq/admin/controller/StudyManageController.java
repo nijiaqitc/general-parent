@@ -117,6 +117,9 @@ public class StudyManageController {
 	private StudyExcelVO readRowData(Row row) {
 		StudyExcelVO vo = new StudyExcelVO();
         Cell cell0 = row.getCell(0);
+        if(cell0 == null) {
+        	return vo;
+        }
         cell0.setCellType(CellType.STRING);
         if(StringUtil2.isEmpty(cell0.getStringCellValue())) {
         	return vo;
@@ -124,23 +127,27 @@ public class StudyManageController {
         vo.setTitle(cell0.getStringCellValue().trim());
         
         Cell cell3 = row.getCell(1);
-        cell3.setCellType(CellType.STRING);
-        if(StringUtil2.IsNotEmpty(cell3.getStringCellValue())) {
-        	vo.setTypeId(Long.parseLong(cell3.getStringCellValue().trim()));        	
+        if(cell3 != null) {
+        	cell3.setCellType(CellType.STRING);
+        	if(StringUtil2.IsNotEmpty(cell3.getStringCellValue())) {
+        		vo.setTypeId(Long.parseLong(cell3.getStringCellValue().trim()));        	
+        	}
         }
         
         Cell cell1 = row.getCell(2);
-        cell1.setCellType(CellType.STRING);
-        if(StringUtil2.IsNotEmpty(cell1.getStringCellValue())) {
-        	vo.setAnswer(cell1.getStringCellValue().trim());
+        if(cell1 != null) {
+        	cell1.setCellType(CellType.STRING);
+        	if(StringUtil2.IsNotEmpty(cell1.getStringCellValue())) {
+        		vo.setAnswer(cell1.getStringCellValue().trim());
+        	}
         }
-        
         Cell cell2 = row.getCell(3);
-        cell2.setCellType(CellType.STRING);
-        if(StringUtil2.IsNotEmpty(cell2.getStringCellValue())) {
-        	vo.setGeneral(cell2.getStringCellValue().trim());        	
+        if(cell2 != null) {
+        	cell2.setCellType(CellType.STRING);
+        	if(StringUtil2.IsNotEmpty(cell2.getStringCellValue())) {
+        		vo.setGeneral(cell2.getStringCellValue().trim());        	
+        	}
         }
-        
         return vo;
     }
 }
