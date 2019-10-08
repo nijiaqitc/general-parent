@@ -39,5 +39,6 @@
 	<div><a target="_blank" href="/yxlIssueDoc">yxl文章发表</a></div>
 	<div><a target="_blank" href="/updateYxlDocPage?docId=34">yxl文章修改</a></div>
 	<div>修改抓文 <a target="_blank" href="/grab/editKnowledge?docId=1181">抓文修改</a></div>
+	<div><a target="_blank" href="/tbk/fastNote">tbk发表文章</a></div>
 </body>
 </html>
