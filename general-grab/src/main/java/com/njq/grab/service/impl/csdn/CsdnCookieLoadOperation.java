@@ -2,8 +2,10 @@ package com.njq.grab.service.impl.csdn;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 
 import javax.annotation.Resource;
 
@@ -49,7 +51,18 @@ public class CsdnCookieLoadOperation {
 	}
 	public void load(String url,String cookie) {
 		if(StringUtil2.IsNotEmpty(url)) {
-			Document doc = Jsoup.parse(loadDoc(url, cookie));
+			String str = loadDoc(url, cookie);
+			Document doc = null;
+			try {
+				System.out.println(new String(str.getBytes(),"UTF-8"));
+				System.out.println(new String(str.getBytes(),"GBK"));
+				doc = Jsoup.parse(new String(str.getBytes(),"UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if(doc == null) {
+				return;
+			}
 			LeftMenu left=new LeftMenu();
 			String title = doc.getElementsByTag("title").get(0).html(); 
 			left.setName(title);
