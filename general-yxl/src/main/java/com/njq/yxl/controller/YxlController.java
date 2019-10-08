@@ -5,9 +5,13 @@ import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.YxlDoc;
 import com.njq.common.model.po.YxlDocSearch;
 import com.njq.common.model.vo.DocListVO;
+import com.njq.common.model.vo.XtitleVO;
 import com.njq.common.util.string.StringUtil;
 import com.njq.yxl.service.YxlDocSearchService;
 import com.njq.yxl.service.YxlDocService;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -192,6 +196,21 @@ public class YxlController {
             if (list.size() > 0) {
                 model.addAttribute("showLeft", "1");
             }
+            YxlDocSearch search = yxlDocSearchService.queryByDocId(docId);
+            Pair<YxlDocSearch, YxlDocSearch> pairTitle = yxlDocSearchService.getlrTitle(search.getId());
+            if(pairTitle.getLeft() != null) {
+        		XtitleVO leftTitle = new XtitleVO();
+        		leftTitle.setDocId(pairTitle.getLeft().getDocId());
+        		leftTitle.setTitle(pairTitle.getLeft().getTitle());
+        		model.addAttribute("leftTitle", leftTitle);
+        	}
+        	if(pairTitle.getRight() != null) {
+        		XtitleVO rightTitle = new XtitleVO();
+        		BeanUtils.copyProperties(pairTitle.getRight(), rightTitle);
+        		rightTitle.setDocId(pairTitle.getRight().getDocId());
+        		rightTitle.setTitle(pairTitle.getRight().getTitle());
+        		model.addAttribute("rightTitle", rightTitle);
+        	}
         }
         return "zxgj/knowledgeDoc";
     }

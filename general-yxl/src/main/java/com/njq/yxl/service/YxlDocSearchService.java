@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
@@ -110,6 +112,18 @@ public class YxlDocSearchService {
     	
     }
     
+    public Pair<YxlDocSearch, YxlDocSearch> getlrTitle(Long titleId) {
+        ConditionsCommon conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addLtParam("id", titleId);
+        conditionsCommon.addSetOrderColum("id", "desc");
+        conditionsCommon.addPageParam(1, 1);
+        List<YxlDocSearch> leftList = yxlDocSearchDao.queryForListNoPage(conditionsCommon);
+        conditionsCommon = new ConditionsCommon();
+        conditionsCommon.addGtParam("id", titleId);
+        conditionsCommon.addPageParam(1, 1);
+        List<YxlDocSearch> rightList = yxlDocSearchDao.queryForListNoPage(conditionsCommon);
+        return Pair.of(CollectionUtils.isEmpty(leftList) ? null : leftList.get(0), CollectionUtils.isEmpty(rightList) ? null : rightList.get(0));
+    }
     
     /**
      * 查询文章

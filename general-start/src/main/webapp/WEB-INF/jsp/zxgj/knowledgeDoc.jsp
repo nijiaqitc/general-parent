@@ -9,6 +9,26 @@
 <link rel="shortcut icon" href="${resPath }/zxgj/img/logo.png" />
 <link rel="stylesheet" href="${resPath }/zxgj/css/common.css">
 <link rel="stylesheet" href="${resPath }/zxgj/css/knowledgeDoc.css">
+<style type="text/css">
+.bottomlrmenu {
+
+}
+
+.bottomlrmenu a:hover {
+    background-color: #59b5a4;
+    color: white;
+    padding: 2px 2px;
+}
+
+.lrdiv {
+    width: 50%;
+    float: left;
+}
+
+.lrdivspan {
+    margin-left: 14px;
+}
+</style>
 </head>
 <body>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
@@ -49,6 +69,16 @@
 			        <div id="clearCss" style="display: none;">${doc.css }</div>
 		        </c:if>
 		    </div>
+		    <div class="bottomlrmenu">
+	            <c:if test="${leftTitle !=null }">
+	                <div class="lrdiv" align="center"><a href="${leftTitle.docId }">上一篇 <span
+	                        class="lrdivspan">${leftTitle.title }</span></a></div>
+	            </c:if>
+	            <c:if test="${rightTitle !=null }">
+	                <div class="lrdiv" align="center"><a href="${rightTitle.docId }">下一篇 <span
+	                        class="lrdivspan">${rightTitle.title }</span></a></div>
+	            </c:if>
+	        </div>
 	    </div>
 	</div> 
     <!--     开始：顶部菜单栏-->

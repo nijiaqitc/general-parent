@@ -13,7 +13,7 @@
 <div>
     <input style="margin-top: 10px;width: 500px;" placeholder="请输入指定页面" type="text" id="pageIndex"
            name="pageIndex"/>
-	<input style="margin-top: 10px;width: 300px;" placeholder="请输入cookie，如a=123；b=234" type="text" id="pageCookie"
+	<input style="margin-top: 10px;width: 300px;" placeholder="请输入cookie，如acw_sc__v2=5d9" type="text" id="pageCookie"
            name="pageIndex"/>
     <input type="button" value="提取" onclick="grabPage()"/>
 </div>

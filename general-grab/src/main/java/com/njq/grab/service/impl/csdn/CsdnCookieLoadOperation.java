@@ -97,7 +97,6 @@ public class CsdnCookieLoadOperation {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-            System.out.println("请求响应结果：" + sb);
             return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
