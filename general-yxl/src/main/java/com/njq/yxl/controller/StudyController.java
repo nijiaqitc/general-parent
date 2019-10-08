@@ -45,9 +45,9 @@ public class StudyController {
 			@RequestParam(required=false,defaultValue="false")  Boolean needStudy) {
 		PageList<YxlStudyVO> pg = null;
 		if(needRange) {
-			pg = yxlStudyService.queryStudyInfoPage(typeId, titleType, needStudy, page, size);
-		}else {
 			pg = yxlStudyService.queryRandomStudyInfoPage(typeId, titleType, needStudy, page, size);
+		}else {
+			pg = yxlStudyService.queryStudyInfoPage(typeId, titleType, needStudy, page, size);
 		}
 		
 		if(typeId != null) {

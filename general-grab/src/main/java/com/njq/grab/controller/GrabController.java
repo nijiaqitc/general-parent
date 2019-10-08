@@ -110,10 +110,11 @@ public class GrabController {
     	MultipartHttpServletRequest params=((MultipartHttpServletRequest) req); 
     	String docId=params.getParameter("docId");
     	String text = params.getParameter("text");
+    	String title = params.getParameter("title");
     	if(StringUtil.isEmpty(text)) {
     		return MessageCommon.getFalseMap("内容为空，暂不保存！");
     	}
-    	grabService.updateDoc(Long.parseLong(docId), text);
+    	grabService.updateDoc(Long.parseLong(docId), text,title);
     	return MessageCommon.getSuccessMap();
     }
     

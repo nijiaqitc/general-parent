@@ -20,10 +20,13 @@
 		njqEditor.sysConfig.finishEvent(function(){
 			$("#njqEditor_allFullSceen .boderOutDiv").click();
 		});
+		$(".contextCenter").css("height","94%");
+		njq.setTitle("标题：<input id='docTitle' style='width: 600px;' value='${doc.title }'>");
 		njqEditor.sysConfig.customUpDocEvent=function(data,fn){
 			var form = new FormData();
-			form.append("text",njqEditor.api.getContent());
+			form.append("text",njq.getContent());
 			form.append("docId",$("#docId").val());
+			form.append("title",$("#docTitle").val());
 			$.ajax({
 				url:"editToSave",
                 type:"post",

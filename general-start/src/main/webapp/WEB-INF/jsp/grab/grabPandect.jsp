@@ -25,18 +25,19 @@
 		<div>/grab/reloadJob?channel=xxx&docId=xxx</div>
 	</div>
 	
-	<div>修改文章 /grab/editKnowledge?docId=xxx</div>
-	<div><a target="_blank" href="/yxlIssueDoc">yxl文章发表</a></div>
-	<div><a target="_blank" href="/updateYxlDocPage">yxl文章修改</a></div>
 	<div><a target="_blank" href="/noteManager">笔记管理</a></div>
 	<div><a target="_blank" href="/recordManager">记录管理</a></div>
 	<div><a target="_blank" href="/pwdPage">权限登录</a></div>
-	<div><a target="_blank" href="/mdValue">获取md值</a></div>
+	<div><a target="_blank" href="/mdValue?value=1">获取md值</a></div>
+	<div><a target="_blank" href="/rcShare/init">资源分享页</a></div>
 	
 	<div>
-		<a href="/xs/novelList">小说</a>
+		<a href="/xs">小说</a>
 		<a href="/tbk">tbk</a>
 		<a href="/grab/index">抓文</a>
 	</div>
+	<div><a target="_blank" href="/yxlIssueDoc">yxl文章发表</a></div>
+	<div><a target="_blank" href="/updateYxlDocPage?docId=34">yxl文章修改</a></div>
+	<div>修改抓文 <a target="_blank" href="/grab/editKnowledge?docId=1181">抓文修改</a></div>
 </body>
 </html>

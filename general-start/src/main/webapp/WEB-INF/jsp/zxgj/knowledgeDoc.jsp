@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="${resPath }/zxgj/css/knowledgeDoc.css">
 </head>
 <body>
-    <!--     开始：顶部菜单栏-->
-    <jsp:include page="top.jsp"></jsp:include>
     <div style="height: 20px;width: 100%;background-color: #ec8316;"></div>
     <!--     结束：顶部菜单栏 position:fixed;-->
  	<div class="centerDiv">
@@ -41,7 +39,11 @@
 		         <div align="center" class="noWord">无此文章，换一篇吧！</div>                 
                 </c:if>
 		        <c:if test="${doc!=null }">
-			        <div align="center" class="textSt">${doc.title }</div>
+			        <div align="center" class="textSt">
+			        	<div style="width: 70%;border-bottom: 1px solid #999;">
+				        	<span>${doc.title }</span>
+			        	</div>
+			        </div>
 			        <div id="textContext"></div>
 			        <div id="clearText" style="display: none;">${doc.text }</div>
 			        <div id="clearCss" style="display: none;">${doc.css }</div>

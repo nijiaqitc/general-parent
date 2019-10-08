@@ -37,6 +37,7 @@ import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
+import com.njq.common.util.string.StringUtil2;
 import com.njq.grab.cache.LoginCacheManager;
 import com.njq.grab.service.impl.custom.CustomAnalysisPerformer;
 
@@ -239,10 +240,20 @@ public class GrabService {
         return grabDocDao.queryTById(docId);
     }
 
-    public void updateDoc(Long docId , String doc) {
+    public void updateDoc(Long docId , String doc,String title) {
+    	GrabDoc oldDoc =grabDocDao.queryTById(docId);
     	GrabDoc dd = new GrabDoc();
     	dd.setId(docId);
     	dd.setDoc(doc);
+    	if(!StringUtil2.isEmpty(title)) {
+    		if(!title.equals(oldDoc.getTitle())) {
+    			dd.setTitle(title);
+    			ConditionsCommon con = new ConditionsCommon();
+    			con.addEqParam("docId", docId);
+    			con.addsetColumParam("title", title);
+    			baseTitleGrabDao.update(con);
+    		}
+    	}
     	grabDocDao.updateByPrimaryKeySelective(dd);
     }
     
