@@ -20,6 +20,7 @@
 	<div><a target="_blank" href="/grab/loadMenu">执行下载菜单任务</a></div>
 	<div><a target="_blank" href="/grab/reloadFile">重新下载失败的文件</a></div>
 	
+	<div><a target="_blank" href="/grab/grabPage">csdn单页面下载</a></div>
 	<div>
 		<div>重新加载系列文章</div>
 		<div>/grab/reloadJob?channel=xxx&docId=xxx</div>

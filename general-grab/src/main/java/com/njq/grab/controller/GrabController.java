@@ -1,5 +1,9 @@
 package com.njq.grab.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +12,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +41,11 @@ import com.njq.common.model.po.BaseTitleLoading;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabUrlInfo;
 import com.njq.common.model.vo.LabelNameVO;
+import com.njq.common.model.vo.XtitleVO;
 import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabService;
 import com.njq.grab.service.impl.GrabUrlInfoService;
+import com.njq.grab.service.impl.csdn.CsdnCookieLoadOperation;
 import com.njq.grab.service.impl.novel.NovelLoadPerformer;
 import com.njq.grab.service.impl.novel.NovelSearchPerformer;
 import com.njq.grab.service.impl.novel.XxsyConsultPerformer;
@@ -208,8 +217,16 @@ public class GrabController {
     	}
     	Pair<BaseTitle,BaseTitle> pairTitle = baseTitleService.getlrTitle(title.getId());
     	model.addAttribute("titleInfo", title);
-    	model.addAttribute("leftTitle", pairTitle.getLeft());
-    	model.addAttribute("rightTitle", pairTitle.getRight());
+    	if(pairTitle.getLeft() != null) {
+    		XtitleVO leftTitle = new XtitleVO();
+    		BeanUtils.copyProperties(pairTitle.getLeft(), leftTitle);
+    		model.addAttribute("leftTitle", leftTitle);
+    	}
+    	if(pairTitle.getRight() != null) {
+    		XtitleVO rightTitle = new XtitleVO();
+    		BeanUtils.copyProperties(pairTitle.getRight(), rightTitle);
+    		model.addAttribute("rightTitle", rightTitle);
+    	}
         model.addAttribute("doc", doc);
         model.addAttribute("tipList", baseTipService.getTipsByTitleId(title.getId()));
         model.addAttribute("topList", baseTipService.getTopTips());
@@ -444,5 +461,21 @@ public class GrabController {
     	dingdianLoadPerformer.loadMenu("https://www.23wx.so/62_62292/", 0L);
     	return MessageCommon.getSuccessMap();
     }
+    
+    @RequestMapping(value = "grabPage", method = RequestMethod.GET)
+    public String grabPage(String url,String cookie){
+    	return "grab/loadUrl";
+    }
+    
+    @Resource
+    private CsdnCookieLoadOperation csdnCookieLoadOperation;
+    
+    @RequestMapping(value = "grabAppointPage", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> grabAppointPage(String url,String cookie){
+    	csdnCookieLoadOperation.load(url, cookie);
+    	return MessageCommon.getSuccessMap();
+    }
+    
     
 }

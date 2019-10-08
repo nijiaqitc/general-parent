@@ -67,6 +67,12 @@ public class BaseTypeService {
      * @param typeId
      */
     public void addNum(String channel, Long typeId) {
+    	if(typeId==null) {
+    		return;
+    	}
+    	if(StringUtil2.isEmpty(channel)) {
+    		return;
+    	}
         String lockKey = StringUtil2.format("typeaddNum-{0}-{1}", typeId, channel);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
