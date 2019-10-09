@@ -24,7 +24,6 @@ import com.njq.common.model.ro.AnalysisPageRequestBuilder;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
-import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.string.StringUtil2;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
@@ -93,10 +92,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             int num = Integer.parseInt(spanElements.get(0).html().split("篇")[0]);
             int pageNum = num % 20 == 0 ? num / 20 : (num / 20 + 1);
             for (int i = 1; i <= pageNum; i++) {
-                Elements ss = HtmlGrabUtil
-                        .build(ChannelType.CSDN.getValue())
-                        .getDoc(n.attr("href") + "/" + i)
-                        .getElementsByClass("article-item-box");
+                Elements ss = csdnPreHandler.preLoad(n.attr("href") + "/" + i).getElementsByClass("article-item-box");
                 ss.forEach(m -> {
                     if (m.outerHtml().contains("display: none")) {
                         return;

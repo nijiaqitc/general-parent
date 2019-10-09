@@ -85,6 +85,7 @@ public class GrabService {
                                     .ofUrl(n.getUrl())
                                     .ofBaseTitle(grabSaveTitlePerformer.getTitleById(n.getTitleId()))
                                     .build());
+                    logger.info("结束加载文章:"+n.getUrl());
                 } catch (Exception e) {
                     logger.error("获取失败", e);
                 }finally {

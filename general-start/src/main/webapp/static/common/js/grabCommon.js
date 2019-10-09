@@ -19,4 +19,10 @@ function resetBottom() {
             $(".bottomInfoDiv").removeClass("stbot");
         }
     }
+    if((document.documentElement.scrollHeight-$(".bottomInfoDiv")[0].offsetTop)>600){
+    	if (!$(".bottomInfoDiv").hasClass("stbot")) {
+            $(".bottomInfoDiv").addClass("stbot");
+        }
+    }
+    
 }
