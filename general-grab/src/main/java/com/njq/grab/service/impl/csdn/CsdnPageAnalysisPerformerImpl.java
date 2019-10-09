@@ -25,6 +25,7 @@ import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.common.util.string.StringUtil2;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 import com.njq.grab.service.impl.GrabConfigBuilder;
@@ -45,17 +46,18 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final GrabDocSaveOperation grabDocSaveOperation;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
-
+    private final CsdnPreHandler csdnPreHandler;
     @Autowired
     public CsdnPageAnalysisPerformerImpl(BaseTitleService baseTitleService, BaseTipService baseTipService,
                                          BaseFileService baseFileService, SaveTitlePerformer grabSaveTitlePerformer,
-                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation) {
+                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation,CsdnPreHandler csdnPreHandler) {
         this.baseTitleService = baseTitleService;
         this.baseTipService = baseTipService;
         this.baseFileService = baseFileService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.grabDocSaveOperation = grabDocSaveOperation;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
+        this.csdnPreHandler = csdnPreHandler;
     }
 
     @Override
@@ -75,9 +77,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     @Override
     public void loadMenu(String url, Long typeId) {
     	logger.info("待加载的url:"+url);
-        Document doc = HtmlGrabUtil
-                .build(ChannelType.CSDN.getValue())
-                .getDoc(url);
+        Document doc = csdnPreHandler.preLoad(url);
         Element element = doc.getElementById("asideArchive");
         if (element == null) {
         	logger.info("未读取到id:asideArchive");
@@ -148,6 +148,9 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     
     @Override
     public Long saveLoadingDoc(AnalysisPageRequest request) {
+    	if(StringUtil2.isEmpty(request.getDoc())) {
+    		throw new BaseKnownException("空白页面，不要:"+request.getUrl());
+    	}
         Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,
                 request.getBaseTitle().getId());
@@ -184,9 +187,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         String grabUrl = GrabUrlInfoFactory.getUrlInfo(ChannelType.CSDN).getPageIndex();
         String url = request.getUrl();
         url = url.startsWith("http") ? url : grabUrl + url;
-        Document doc = HtmlGrabUtil
-                .build(ChannelType.CSDN.getValue())
-                .getDoc(url);
+        Document doc = csdnPreHandler.preLoad(url);
         if (doc == null) {
             throw new BaseKnownException(ErrorCodeConstant.UN_LOAD_DOC_CODE, ErrorCodeConstant.UN_LOAD_DOC_MSG + url);
         }

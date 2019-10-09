@@ -17,7 +17,8 @@ public class GrabUrlInfoFactory {
     private static String docUrl;
     private static String docPlace;
     private static String decodeJsPlace;
-
+    private static String decodeJskey;
+    
     public static GrabUrlInfo getUrlInfo(ChannelType channel) {
         if (map.get(channel) == null) {
             GrabUrlInfo info = null;
@@ -85,5 +86,16 @@ public class GrabUrlInfoFactory {
             }
         }
         return decodeJsPlace;
+    }
+    
+    public static String getDecodeJsKey() {
+        if (decodeJskey == null) {
+            synchronized (GrabUrlInfoFactory.class) {
+            	if (decodeJskey == null) {
+            		decodeJskey = SpringContextUtil.getValue("decode.js.key");            		
+            	}
+            }
+        }
+        return decodeJskey;
     }
 }

@@ -19,6 +19,7 @@
 	<div><a target="_blank" href="/grab/loadJob">执行下载页面job任务</a></div>
 	<div><a target="_blank" href="/grab/loadMenu">执行下载菜单任务</a></div>
 	<div><a target="_blank" href="/grab/reloadFile">重新下载失败的文件</a></div>
+	<div>抓文显示来源路径：/grab/knowledge/1580?allInfo=1</div>
 	
 	<div><a target="_blank" href="/grab/grabPage">csdn单页面下载</a></div>
 	<div>
