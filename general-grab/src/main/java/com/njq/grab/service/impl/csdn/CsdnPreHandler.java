@@ -37,7 +37,6 @@ public class CsdnPreHandler {
                 Document doc1 = HtmlGrabUtil
                         .build(ChannelType.CSDN.getValue())
                         .getDoc(url, "acw_sc__v2", cookieStr.trim(),".blog.csdn.net");
-                System.out.println("ppppppppppp:"+doc1.html());
                 return doc1;
             }
         }catch(Exception e){
