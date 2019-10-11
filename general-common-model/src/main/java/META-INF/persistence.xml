@@ -58,5 +58,7 @@
 		<class>com.njq.common.model.po.YxlType</class>
 		<class>com.njq.common.model.po.YxlTypeName</class>
 		<class>com.njq.common.model.po.GrabNovelUrl</class>
+		<class>com.njq.common.model.po.YxlNotesChunk</class>
+		<class>com.njq.common.model.po.YxlNotesReview</class>
 	</persistence-unit>
 </persistence>

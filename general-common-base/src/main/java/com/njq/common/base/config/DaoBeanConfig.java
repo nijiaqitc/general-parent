@@ -1,5 +1,8 @@
 package com.njq.common.base.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import com.njq.common.base.dao.DaoCommon;
 import com.njq.common.model.po.BaseBanner;
 import com.njq.common.model.po.BaseChannel;
@@ -50,13 +53,13 @@ import com.njq.common.model.po.YxlDocTipConfig;
 import com.njq.common.model.po.YxlFolder;
 import com.njq.common.model.po.YxlNote;
 import com.njq.common.model.po.YxlNoteGeneral;
+import com.njq.common.model.po.YxlNotesChunk;
+import com.njq.common.model.po.YxlNotesReview;
 import com.njq.common.model.po.YxlStudyAnswer;
 import com.njq.common.model.po.YxlStudyTitle;
 import com.njq.common.model.po.YxlTip;
 import com.njq.common.model.po.YxlType;
 import com.njq.common.model.po.YxlTypeName;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DaoBeanConfig {
@@ -335,6 +338,15 @@ public class DaoBeanConfig {
         return new DaoCommon<YxlStudyAnswer>(YxlStudyAnswer.class);
     }
     
+    @Bean
+    public DaoCommon<YxlNotesChunk> yxlNotesChunkDao() {
+        return new DaoCommon<YxlNotesChunk>(YxlNotesChunk.class);
+    }
+    
+    @Bean
+    public DaoCommon<YxlNotesReview> yxlNotesReviewDao() {
+        return new DaoCommon<YxlNotesReview>(YxlNotesReview.class);
+    }
     //	<!-- 系列文章结束 -->
 //	<!-- 	视图对象开始 -->
     @Bean

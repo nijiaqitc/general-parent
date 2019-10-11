@@ -175,7 +175,7 @@ public class IssueNovelController {
 	@RequestMapping(value = "/addJuan", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addJuan(XsTitleDetail detail, Model model) {
-		if ("0".equals(detail.getTitleIndex())) {
+		if (detail.getTitleIndex() == null || detail.getTitleIndex() == 0) {
 			detail.setTitleIndex(null);
 		}
 		detail.setUserId(UserCommon.getUserId());
