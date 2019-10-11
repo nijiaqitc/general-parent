@@ -1,6 +1,7 @@
 package com.njq.common.model.po;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -36,12 +37,15 @@ public class YxlNotesReview implements Serializable {
 	@Lob
 	private String doc;
 
-	private int index;
+	private int index1;
 
 	@Column(name="modi_date")
-	private Date modiDate;
+	private Timestamp modiDate;
 
 	private Long chunkId;
+	
+	@Column(name="general")
+	private String general;
 	
 	public YxlNotesReview() {
 	}
@@ -70,19 +74,19 @@ public class YxlNotesReview implements Serializable {
 		this.doc = doc;
 	}
 
-	public int getIndex() {
-		return this.index;
+	public int getIndex1() {
+		return index1;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
+	public void setIndex1(int index1) {
+		this.index1 = index1;
 	}
 
-	public Date getModiDate() {
+	public Timestamp getModiDate() {
 		return this.modiDate;
 	}
 
-	public void setModiDate(Date modiDate) {
+	public void setModiDate(Timestamp modiDate) {
 		this.modiDate = modiDate;
 	}
 
@@ -94,4 +98,13 @@ public class YxlNotesReview implements Serializable {
 		this.chunkId = chunkId;
 	}
 
+	public String getGeneral() {
+		return general;
+	}
+
+	public void setGeneral(String general) {
+		this.general = general;
+	}
+
+	
 }

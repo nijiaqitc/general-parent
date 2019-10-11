@@ -44,7 +44,6 @@ public class YxlNotesChunkService {
 		chunk.setName(name);
 		chunk.setIndex1(index1);
 		chunk.setIndex2(index2);
-		chunk.setModiDate(new Date());
 		yxlNotesChunkDao.updateByPrimaryKeySelective(chunk);
 	}
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.njq.basis.service.impl.YxlNotesChunkService;
 import com.njq.common.base.dao.PageList;
+import com.njq.common.base.other.MessageCommon;
 import com.njq.common.model.po.YxlNotesChunk;
 
 @RequestMapping("admin/notes")
@@ -23,7 +24,12 @@ public class NotesChunkController {
 	@Resource
 	private YxlNotesChunkService yxlNotesChunkService;
 	
-	@RequestMapping(value = "chunkList", method = RequestMethod.GET)
+	@RequestMapping("chunkManage")
+	public String page(Model model) {
+		return "back/noteManage/chunkManage";
+	}
+	
+	@RequestMapping(value = "chunkList", method = RequestMethod.POST)
 	public @ResponseBody PageList<YxlNotesChunk> chunkList(Model model,
 			@RequestParam(required = false, defaultValue = "-1") int page,
 			@RequestParam(required = false, defaultValue = "-1") int size) {
@@ -33,13 +39,14 @@ public class NotesChunkController {
 		return chunkList;
 	}
 	
-	@RequestMapping("dealChunk")
-	public void addNotesChunk(Long id, String name,int index1,int index2) {
+	@RequestMapping(value="dealChunk",method=RequestMethod.POST)
+	public Map<String, Object> addNotesChunk(Long id, String name,Integer index1,Integer index2) {
 		if(id == null) {
 			yxlNotesChunkService.saveNotes(name, index1, index2);
 		}else {
 			yxlNotesChunkService.updateNotes(index1, index2, id, name);
 		}
+		return MessageCommon.getSuccessMap();
 	}
 	
 	

@@ -29,17 +29,18 @@ public class YxlNotesReviewService {
 		return yxlNotesReviewDao.queryForPage(cc);
 	}
 	
-	public void saveNotes(String doc,int index,Long chunkId) {
+	public void saveNotes(String doc,Integer index,Long chunkId,String general) {
 		YxlNotesReview review = new YxlNotesReview();
-		review.setCreateDate(new Date());
-		review.setDoc(doc);
-		review.setIndex(index);
 		review.setChunkId(chunkId);
+		review.setDoc(doc);
+		review.setIndex1(index);
+		review.setGeneral(general);
+		review.setCreateDate(new Date());
 		yxlNotesReviewDao.save(review);
 	}
 	
 	
-	public void updateNotes(Long id,String doc,int index,Long chunkId) {
+	public void updateNotes(Long id,String doc,int index,Long chunkId,String general) {
 		if(id == null) {
 			return;
 		}
@@ -48,9 +49,9 @@ public class YxlNotesReviewService {
 		if(StringUtil2.IsNotEmpty(doc)) {
 			review.setDoc(doc);
 		}
-		review.setIndex(index);
-		review.setModiDate(new Date());
+		review.setIndex1(index);
 		review.setChunkId(chunkId);
+		review.setGeneral(general);
 		yxlNotesReviewDao.updateByPrimaryKeySelective(review);
 	}
 	

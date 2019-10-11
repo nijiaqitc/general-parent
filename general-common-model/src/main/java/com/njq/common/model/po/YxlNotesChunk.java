@@ -1,6 +1,7 @@
 package com.njq.common.model.po;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -37,7 +38,7 @@ public class YxlNotesChunk implements Serializable {
 	private int index2;
 
 	@Column(name="modi_date")
-	private Date modiDate;
+	private Timestamp modiDate;
 
 	private String name;
 
@@ -76,11 +77,11 @@ public class YxlNotesChunk implements Serializable {
 		this.index2 = index2;
 	}
 
-	public Date getModiDate() {
+	public Timestamp getModiDate() {
 		return this.modiDate;
 	}
 
-	public void setModiDate(Date modiDate) {
+	public void setModiDate(Timestamp modiDate) {
 		this.modiDate = modiDate;
 	}
 

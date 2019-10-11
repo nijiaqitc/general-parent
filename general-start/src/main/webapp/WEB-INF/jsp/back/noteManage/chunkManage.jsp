@@ -12,7 +12,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>正文</title>
 <jsp:include page="${path}/commonTopLink"></jsp:include>
-<jsp:include page="${path}/head"></jsp:include>
 <!-- 自定义分页 -->
 <link href="${resPath }/jsTool/customPage/customPage.css" rel="stylesheet" />
 </head>
@@ -28,13 +27,11 @@
 			<div class="menu-box barAreaDiv">
 				<div class="barTopw">
 					<h2 class="barLeftDiv">
-						<i class="icon-ambulance leftLogo"></i> chunk列表
+						<i class="icon-ambulance leftLogo"></i> 分块列表
 					</h2>
 					<div class="barRightDiv">
 						<a href="javascript:void(0)"
-							onclick=""><i class="icon-plus barRightBtn"></i></a> <input
-							id="upPicInput" onchange="fileChange(this)" type="file"
-							style="display: none;"> 
+							onclick="showDialogForSave()"><i class="icon-plus barRightBtn"></i></a>
 						<a href="javascript:void(0)"
 							onclick=""><i class="icon-minus barRightBtn"></i></a>
 					</div>
@@ -48,6 +45,8 @@
 										class="icon-check-empty" onclick="checkAllOrNot(this)"></i></th>
 									<th style="width: 30px;">ID</th>
 									<th style="width: 150px;">片名</th>
+									<th style="width: 150px;">序号1</th>
+									<th style="width: 150px;">序号2</th>
 									<th style="width: 60px;">操作</th>
 								</tr>
 							</thead>
@@ -67,49 +66,51 @@
 		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
 	
-	<!-- start:弹出框 -->
-	<div class="modal hide fade in" id="myModal" aria-hidden="false" style="display: none;">
-		<div class="modal-header">
-			<button type="button" onclick="closeDialog()" class="close" data-dismiss="modal">×</button>
-			<h3 id="dialogTitleName"></h3>
+	<div id="myModal" class="custom-customModel" style="display: none;">
+			<form  id="ruleForm">
+				<div class="custom-customModel-header">
+					<h3 id="dialogTitleName"></h3>
+				</div>
+				<div class="custom-customModel-body" style="height: 350px;">
+					<div class="body-div1" align="center">
+						<div align="left" style="width: 310px;">
+							<div class="control-group">
+								<label  class="control-label" for="input1">名称：</label>
+								<div class="controls">
+									<input type="hidden" id="chunkId" name="id">
+						  			<input id="chunkName" name="name" type="text" style="width: 180px;"  maxlength="10" />
+								</div>
+					  		</div>
+					  		<div class="control-group">
+								<label class="control-label" for="input2">1级序号：</label>
+								<div class="controls">
+									<input id="index1" name="index1" type="text" value="0" style="width: 180px;"  maxlength="10" />
+								</div>
+					  		</div>
+					  		<div class="control-group">
+								<label class="control-label" for="input2">2级序号：</label>
+								<div class="controls">
+									<input id="index2" name="index2" type="text" value="0" style="width: 180px;"  maxlength="10" />
+								</div>
+					  		</div>
+						</div>
+					</div>
+				</div>
+				<div class="custom-customModel-bottom" >
+					<a href="javascript:void(0)" id="closeBtn" class="custom-customModel-btnCancel" onclick="closeDialog()">关闭</a>
+					<a href="javascript:void(0)" id="agreeBtn" class="custom-customModel-btnCancel" onclick="save()">确定</a>
+					<a href="javascript:void(0)" id="modiBtn" class="custom-customModel-btnCancel" onclick="update()">修改</a>
+				</div>
+			</form>
 		</div>
-		<div class="modal-body">
-			<div class="step-pane" id="step2" style="margin-top: 20px;">
-				<form class="form-horizontal" id="ruleForm" />
-					<fieldset>	
-						<div class="control-group">
-							<input type="hidden" id="id" name="id" >
-							<label  class="control-label" for="input1">名称：</label>
-							<div class="controls">
-					  			<input id="ruleName" name="ruleName" type="text" style="width: 180px;"  maxlength="10" />
-							</div>
-				  		</div>
-				  		<div class="control-group">
-							<label class="control-label" for="input2">序号：</label>
-							<div class="controls">
-					  			<textarea id="ruleDesc" name="columDesc"  style="height: 98px;width: 180px;"></textarea>
-							</div>
-				  		</div>
-					</fieldset>
-				</form>
-			</div>
-		</div>
-		<div class="modal-footer" >
-			<span id="saveButton" style="display: none;">
-				<a href="javascript:void(0)" class="btn btn-primary" onclick="save()">保存</a>
-			</span>
-			<span id="updateButton" style="display: none;">
-				<a href="javascript:void(0)" class="btn btn-primary" onclick="update()">保存</a>
-			</span>
-			<a href="#" class="btn" onclick="closeDialog()" >关闭</a>
-		</div>
-	</div>
-	<!--end:弹出框-->
-	<!--start:遮罩层-->
-	<div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
-	<!--end:遮罩层-->
-	<jsp:include page="${path}/foot"></jsp:include>
+		<!--end:弹出框-->
+		<!--start:遮罩层-->
+		<div id="custom-background" style="display: none;"></div>
+		<!--end:遮罩层-->
+	
+	
 	<jsp:include page="${path}/commonBottomLink"></jsp:include>
+	<jsp:include page="${path}/foot"></jsp:include>
 	<script src="${resPath }/jsTool/customPage/customPage.js"></script>
 	<script src="${resPath }/common/js/publicJs.js"></script>
 	<!-- start:公共页，存放公共框 -->
@@ -124,6 +125,23 @@
 			});
 		})
 
+		$("#ruleForm").validate({
+			rules:{
+				name:{
+					required:true,
+					maxlength:10,
+					minlength:2
+				}
+			},
+			messages:{
+				name:{
+					required:"不能为空！",
+					maxlength:"最大长度为{0}",
+					minlength:"最小长度为{0}"
+				}
+			}
+		})
+		
 		/**
 		 * 加载表格数据
 		 */
@@ -145,7 +163,10 @@
 									+ d.id
 									+ "</td><td class='center'>"
 									+ d.name
-									+ "</td><td><a class='btn btn-info' onclick='' href='javascript:void(0)'><i  class='icon-edit btnStyle'></i></a></td></tr>";
+									+ "</td><td>"+d.index1
+									+"</td><td>"+d.index2
+									+"</td><td><a class='btn btn-info' onclick='updateDialog(\""+d.id+"\",\""+d.name+"\",\""+d.index1+"\",\""+d.index2+"\",)' href='javascript:void(0)'><i  class='icon-edit btnStyle'></i></a>"
+									+ "<a class='btn btn-info'  href='${path}/admin/notes/aupage?chunkId="+d.id+"'><i  class='icon-plus btnStyle'></i></a></td></tr>";
 					})
 					$("#dataBody").html(str);
 					//$("#topCheck").attr("class","icon-check-empty");
@@ -222,43 +243,41 @@
 		}
 		
 		
-		
-		
-		
-		/**
-		 * 修改显示弹出框
-		 */
-		function showDialogForUpdate(e){
-			$("#saveButton").hide();
-			$("#updateButton").show();
-			$("#dialogTitleName").html("修改");
- 			$("#id").val($($(e).parents("tr").children()[1]).html());
-			$("#ruleName").val($($(e).parents("tr").children()[2]).html());
-			$("#ruleDesc").val($($(e).parents("tr").children()[5]).html());
-			$("#myModal").show();
-			$("#backBlackGround").show();
-		}
-		
 		/**
 		 * 新增显示弹出框
 		 */
-		function showDialogForSave(){
-			$("#saveButton").show();
-			$("#updateButton").hide();
+		function showDialogForSave(e){
+		    $("#agreeBtn").show();
+			$("#modiBtn").hide();
 			$("#dialogTitleName").html("新增");
 			$("#myModal").show();
-			$("#backBlackGround").show();
+			$("#custom-background").show();
 		}
-		
+
+		function updateDialog(a,b,c,d){
+			$("#modiBtn").show();
+			$("#agreeBtn").hide();
+			$("#dialogTitleName").html("修改");
+			
+			$("#chunkId").val(a);
+			$("#chunkName").val(b);
+			$("#index1").val(c);
+			$("#index2").val(d);
+			
+			$("#myModal").show();
+			$("#custom-background").show();
+		}
+
 		/**
 		 * 关闭弹出框
 		 */
 		function closeDialog(){
 			$("#myModal").hide();
-			$("#backBlackGround").hide();
-			$("#id").val("");
-			$("#ruleName").val("");
-			$("#ruleDesc").val("");
+			$("#custom-background").hide();
+			$("#index1").val("");
+			$("#index2").val("");
+			$("#chunkName").val("");
+			$("#chunkId").val("");
 			$("#ruleForm").validate().resetForm();
 		}
 		
@@ -272,7 +291,7 @@
 			showMsg("确定","确定保存信息？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/admin/ruleManage/saveRule",
+						url:"${path}/admin/notes/dealChunk",
 						type:"post",
 						beforeSend:ajaxBefore(),
 						data:$("#ruleForm").serialize(),
