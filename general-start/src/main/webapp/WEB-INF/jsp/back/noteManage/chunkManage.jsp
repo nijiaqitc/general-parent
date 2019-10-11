@@ -66,6 +66,48 @@
 		<!-- 通用底部 -->
 		<jsp:include page="${path}/commonBottom"></jsp:include>
 	</div>
+	
+	<!-- start:弹出框 -->
+	<div class="modal hide fade in" id="myModal" aria-hidden="false" style="display: none;">
+		<div class="modal-header">
+			<button type="button" onclick="closeDialog()" class="close" data-dismiss="modal">×</button>
+			<h3 id="dialogTitleName"></h3>
+		</div>
+		<div class="modal-body">
+			<div class="step-pane" id="step2" style="margin-top: 20px;">
+				<form class="form-horizontal" id="ruleForm" />
+					<fieldset>	
+						<div class="control-group">
+							<input type="hidden" id="id" name="id" >
+							<label  class="control-label" for="input1">名称：</label>
+							<div class="controls">
+					  			<input id="ruleName" name="ruleName" type="text" style="width: 180px;"  maxlength="10" />
+							</div>
+				  		</div>
+				  		<div class="control-group">
+							<label class="control-label" for="input2">序号：</label>
+							<div class="controls">
+					  			<textarea id="ruleDesc" name="columDesc"  style="height: 98px;width: 180px;"></textarea>
+							</div>
+				  		</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<div class="modal-footer" >
+			<span id="saveButton" style="display: none;">
+				<a href="javascript:void(0)" class="btn btn-primary" onclick="save()">保存</a>
+			</span>
+			<span id="updateButton" style="display: none;">
+				<a href="javascript:void(0)" class="btn btn-primary" onclick="update()">保存</a>
+			</span>
+			<a href="#" class="btn" onclick="closeDialog()" >关闭</a>
+		</div>
+	</div>
+	<!--end:弹出框-->
+	<!--start:遮罩层-->
+	<div id="backBlackGround" class="modal-backdrop fade in" style="display: none;"></div>
+	<!--end:遮罩层-->
 	<jsp:include page="${path}/foot"></jsp:include>
 	<jsp:include page="${path}/commonBottomLink"></jsp:include>
 	<script src="${resPath }/jsTool/customPage/customPage.js"></script>
@@ -177,6 +219,100 @@
                     }
                 })
             } 
+		}
+		
+		
+		
+		
+		
+		/**
+		 * 修改显示弹出框
+		 */
+		function showDialogForUpdate(e){
+			$("#saveButton").hide();
+			$("#updateButton").show();
+			$("#dialogTitleName").html("修改");
+ 			$("#id").val($($(e).parents("tr").children()[1]).html());
+			$("#ruleName").val($($(e).parents("tr").children()[2]).html());
+			$("#ruleDesc").val($($(e).parents("tr").children()[5]).html());
+			$("#myModal").show();
+			$("#backBlackGround").show();
+		}
+		
+		/**
+		 * 新增显示弹出框
+		 */
+		function showDialogForSave(){
+			$("#saveButton").show();
+			$("#updateButton").hide();
+			$("#dialogTitleName").html("新增");
+			$("#myModal").show();
+			$("#backBlackGround").show();
+		}
+		
+		/**
+		 * 关闭弹出框
+		 */
+		function closeDialog(){
+			$("#myModal").hide();
+			$("#backBlackGround").hide();
+			$("#id").val("");
+			$("#ruleName").val("");
+			$("#ruleDesc").val("");
+			$("#ruleForm").validate().resetForm();
+		}
+		
+		/**
+		 * 保存数据
+		 */
+		function save(){
+			if(!$("#ruleForm").valid()){
+				return;
+			}
+			showMsg("确定","确定保存信息？",function(t){
+				if(t){
+					$.ajax({
+						url:"${path}/admin/ruleManage/saveRule",
+						type:"post",
+						beforeSend:ajaxBefore(),
+						data:$("#ruleForm").serialize(),
+						success:function(data){
+							ajaxAfter();
+							if(data.state==1){
+								closeDialog();
+								njqpage.reMake();
+							}
+							showSureMessage("提示",data.message);
+						}
+					})
+				}
+			})
+		}
+		/**
+		 * 修改数据
+		 */
+		function update(){
+			if(!$("#ruleForm").valid()){
+				return;
+			}
+			showMsg("确认","确认修改？",function(t){
+				if(t){
+					$.ajax({
+						url:"${path}/admin/ruleManage/updateRule",
+						data:$("#ruleForm").serialize(),
+						type:"post",
+						beforeSend:ajaxBefore(),
+						success:function(data){
+							ajaxAfter();
+							if(data.state==1){
+								closeDialog();
+								njqpage.reMake();
+							}
+							showSureMessage("提示",data.message);
+						}
+					})
+				}
+			})
 		}
 	</script>
 </body>
