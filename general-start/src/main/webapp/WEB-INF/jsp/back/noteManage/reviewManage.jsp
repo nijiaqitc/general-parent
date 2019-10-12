@@ -30,7 +30,7 @@
 						<i class="icon-ambulance leftLogo"></i> 笔记列表
 					</h2>
 					<div class="barRightDiv">
-						<a href="javascript:void(0)" onclick=""><i class="icon-minus barRightBtn"></i></a>
+						<a href="javascript:void(0)" onclick="delReview()"><i class="icon-minus barRightBtn"></i></a>
 					</div>
 				</div>
 				<div class="barAreaContextDiv">
@@ -40,9 +40,9 @@
 								<tr align="left">
 									<th style="width: 30px;"><i id="topCheck" class="icon-check-empty" onclick="checkAllOrNot(this)"></i></th>
 									<th style="width: 30px;">ID</th>
-									<th style="width: 30px;">分片名称</th>
+									<th style="width: 150px;">分片名称</th>
 									<th style="width: 150px;">描述</th>
-									<th style="width: 150px;">序号</th>
+									<th style="width: 30px;">序号</th>
 									<th style="width: 60px;">操作</th>
 								</tr>
 							</thead>
@@ -99,14 +99,13 @@
 							str += "<tr><td><i class='icon-check-empty'></td><td>"
 									+ d.id
 									+ "</td><td class='center'>"
-									+ d.index
+									+ d.chunkName
+									+ "</td><td>"+d.general
 									+ "</td><td>"+d.index
-									+ "</td><td>"+d.index
-									+ "</td><td><a class='btn btn-info'  href='${path}/admin/notes/aupage?id='"+d.id+"><i  class='icon-edit btnStyle'></i></a>"
+									+ "</td><td><a class='btn btn-info'  href='${path}/admin/notes/aupage?id="+d.id+"'><i  class='icon-edit btnStyle'></i></a>"
 									+ "</td></tr>";
 					})
 					$("#dataBody").html(str);
-					//$("#topCheck").attr("class","icon-check-empty");
 					njqpage.totalNum = Number(data.total);
 				}
 			})
@@ -162,7 +161,7 @@
                 showMsg("确认","确定删除？",function(t){
                     if(t){
                         $.ajax({
-                            url:"delBanner",
+                            url:"${path}/admin/notes/delReview",
                             data:{
                             	delIds:delIds
                             },

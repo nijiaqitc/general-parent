@@ -75,6 +75,7 @@
 				<a class="menu-box boxa"  href="${path}/feel/jump">心情录入</a>
 				<a class="menu-box boxa"  href="${path}/wap/zjJump">章节设定</a>
 				<a class="menu-box boxa"  href="${path}/novel/queryNovelTitle">小说</a>
+				<a class="menu-box boxa"  href="${path}/review/reviewInfo">笔记整理</a>
 			</div>
 			<div style="border-bottom: 1px dashed;border-right: 1px dashed;">
 				<br>

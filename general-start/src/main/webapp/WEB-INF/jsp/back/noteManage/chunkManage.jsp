@@ -32,8 +32,6 @@
 					<div class="barRightDiv">
 						<a href="javascript:void(0)"
 							onclick="showDialogForSave()"><i class="icon-plus barRightBtn"></i></a>
-						<a href="javascript:void(0)"
-							onclick=""><i class="icon-minus barRightBtn"></i></a>
 					</div>
 				</div>
 				<div class="barAreaContextDiv">
@@ -43,10 +41,10 @@
 								<tr align="left">
 									<th style="width: 30px;"><i id="topCheck"
 										class="icon-check-empty" onclick="checkAllOrNot(this)"></i></th>
-									<th style="width: 30px;">ID</th>
+									<th style="width: 50px;">ID</th>
 									<th style="width: 150px;">片名</th>
-									<th style="width: 150px;">序号1</th>
-									<th style="width: 150px;">序号2</th>
+									<th style="width: 30px;">序号1</th>
+									<th style="width: 30px;">序号2</th>
 									<th style="width: 60px;">操作</th>
 								</tr>
 							</thead>
@@ -73,24 +71,24 @@
 				</div>
 				<div class="custom-customModel-body" style="height: 350px;">
 					<div class="body-div1" align="center">
-						<div align="left" style="width: 310px;">
-							<div class="control-group">
-								<label  class="control-label" for="input1">名称：</label>
+						<div align="left" style="width: 310px;padding-top: 30px;">
+							<div class="control-group" style="padding: 10px;">
+								<label  class="control-label" style="float: left;width: 65px;" for="input1">名称：</label>
 								<div class="controls">
 									<input type="hidden" id="chunkId" name="id">
-						  			<input id="chunkName" name="name" type="text" style="width: 180px;"  maxlength="10" />
+						  			<input id="chunkName" name="name" type="text" style="width: 180px;background: white;"  maxlength="10" />
 								</div>
 					  		</div>
-					  		<div class="control-group">
-								<label class="control-label" for="input2">1级序号：</label>
+					  		<div class="control-group" style="padding: 10px;">
+								<label class="control-label" style="float: left;width: 65px;" for="input2">1级序号：</label>
 								<div class="controls">
-									<input id="index1" name="index1" type="text" value="0" style="width: 180px;"  maxlength="10" />
+									<input id="index1" name="index1" type="number" value="${maxIndex }" style="width: 180px;background: white;"  maxlength="10" />
 								</div>
 					  		</div>
-					  		<div class="control-group">
-								<label class="control-label" for="input2">2级序号：</label>
+					  		<div class="control-group" style="padding: 10px;">
+								<label class="control-label" style="float: left;width: 65px;" for="input2">2级序号：</label>
 								<div class="controls">
-									<input id="index2" name="index2" type="text" value="0" style="width: 180px;"  maxlength="10" />
+									<input id="index2" name="index2" type="number" value="1" style="width: 180px;background: white;"  maxlength="10" />
 								</div>
 					  		</div>
 						</div>
@@ -317,7 +315,7 @@
 			showMsg("确认","确认修改？",function(t){
 				if(t){
 					$.ajax({
-						url:"${path}/admin/ruleManage/updateRule",
+						url:"${path}/admin/notes/dealChunk",
 						data:$("#ruleForm").serialize(),
 						type:"post",
 						beforeSend:ajaxBefore(),

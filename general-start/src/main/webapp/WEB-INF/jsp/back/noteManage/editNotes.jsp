@@ -31,7 +31,7 @@
 		<div id="rightContext">
 			<div style="padding-top: 20px;overflow: auto;">
 				<div align="center">
-					<div prefix="" name="njqEditorDiv">${review.doc }</div>
+					<div style="display: none;" prefix="" name="njqEditorDiv">${review.doc }</div>
 				</div>
 				<div style="display: none;">
 				    <input id="chunkId" type="hidden" value="${chunkId }">
@@ -42,8 +42,8 @@
 			<div id="csdialog" style="position: fixed;width: 550px;min-height: 350px;background-color: #fff;top: 130px;border: 1px solid #888;right: -560px;" align="center">
 				<div style="width: 300px;margin-top: 30px;">
 				    <input type="hidden" id="docId" value="${review.id }">;
-					<div align="left" style="padding: 16px 0;">描述：<textarea id="general"  style="width: 290px;height: 100px;"></textarea> </div>
-					<div align="left" style="padding: 16px 0;">序号：<input id="index"  style="width: 290px;" /></div>
+					<div align="left" style="padding: 16px 0;">描述：<textarea id="general"  style="width: 290px;height: 100px;">${review.general }</textarea> </div>
+					<div align="left" style="padding: 16px 0;">序号：<input id="index"  style="width: 290px;" value="${maxIndex }" /></div>
 					<div onclick="saveValue()" align="center" style="width: 145px;overflow: auto;margin-top: 20px;margin-bottom: 20px;" >
 						<div style="cursor:pointer;float: left;width: 50px;height: 26px;background-color: #4aa0f5;line-height: 26px;margin-left: 10px;">确定</div>
 						<div onclick="showhideDialog()" style="cursor:pointer;float: left;width: 50px;height: 26px;background-color: #4aa0f5;line-height: 26px;margin-left: 30px;">隐藏</div>

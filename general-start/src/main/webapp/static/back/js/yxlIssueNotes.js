@@ -3,6 +3,7 @@ function saveDoc(){
         url:"/admin/notes/dealReviews",
         type:"post",
         data:{
+        	id:$("#docId").val(),
         	chunkId:$("#chunkId").val(),
         	doc:njq.getContent(),
         	general:$("#general").val(),

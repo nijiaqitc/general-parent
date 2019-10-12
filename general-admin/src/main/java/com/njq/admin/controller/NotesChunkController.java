@@ -26,6 +26,8 @@ public class NotesChunkController {
 	
 	@RequestMapping("chunkManage")
 	public String page(Model model) {
+		YxlNotesChunk chunk = yxlNotesChunkService.queryLastChunk();
+		model.addAttribute("maxIndex", chunk.getIndex1()+1);
 		return "back/noteManage/chunkManage";
 	}
 	
@@ -40,11 +42,11 @@ public class NotesChunkController {
 	}
 	
 	@RequestMapping(value="dealChunk",method=RequestMethod.POST)
-	public Map<String, Object> addNotesChunk(Long id, String name,Integer index1,Integer index2) {
+	public @ResponseBody Map<String, Object> addNotesChunk(Long id, String name,Integer index1,Integer index2) {
 		if(id == null) {
-			yxlNotesChunkService.saveNotes(name, index1, index2);
+			yxlNotesChunkService.saveChunk(name, index1, index2);
 		}else {
-			yxlNotesChunkService.updateNotes(index1, index2, id, name);
+			yxlNotesChunkService.updateChunk(index1, index2, id, name);
 		}
 		return MessageCommon.getSuccessMap();
 	}

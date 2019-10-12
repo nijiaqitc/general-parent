@@ -169,10 +169,10 @@ public class DaoCommon<T> {
 				}
 			}
 			Field field =object.getClass().getDeclaredField("id");
+			field.setAccessible(true);
 			if(field.get(object) == null) {
 				return;
 			}
-			field.setAccessible(true);
 			condition.addEqParam("id", field.get(object));
 			ddl.update(condition);
 		} catch (Exception e) {
