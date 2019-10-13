@@ -37,7 +37,8 @@ p{
     height: 24px;
     line-height: 24px;
     border-bottom: 1px #eee dashed;
-    width: 200px
+    width: 200px;
+    margin-bottom: 10px;
 }
 .contextCss{
 	line-height: 1.8;
@@ -80,7 +81,8 @@ p{
 	min-width: 200px;
 }
 .activeChunk{
-	background-color: #fbfbfb;
+	background-color: #518a00;
+	color: white;
 }
 table {
     border-collapse: collapse;
@@ -273,7 +275,9 @@ pre {
 	$(function(){
 	    touch.on(".textContext", "swipeleft", function(ev){
 	    	if(ev.target.tagName != "PRE" && $(ev.target).parents("pre").length == 0){
-				leftmove();
+	    		if(ev.detail.distance >160){
+					leftmove();
+	    		}
 	    	}
 		});
     	touch.on(".textContext", "swiperight", function(ev){
