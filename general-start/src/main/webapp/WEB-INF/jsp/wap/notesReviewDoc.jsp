@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
 <jsp:include page="${resPath }/wap/commonwap/common.jsp"></jsp:include>
+<script src="${resPath }/zxgj/js/stopCopy.js" type="text/javascript"></script>
+<link rel="stylesheet" href="${resPath }/zxgj/js/prettify.css"/>
 <style>
 html,body{
 	height: 100%;
@@ -77,6 +79,70 @@ p{
 	z-index: 1055;
 	min-width: 200px;
 }
+.activeChunk{
+	background-color: #fbfbfb;
+}
+table {
+    border-collapse: collapse;
+}
+
+th {
+    user-select: none;
+    min-width: 0px;
+    max-width: none;
+    background: #f0f0f0 center right no-repeat;
+    padding-right: 15px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+pre {
+    position: relative !important;
+    overflow-y: hidden !important;
+    overflow-x: auto !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    font-family: Source Code Pro, DejaVu Sans Mono, Ubuntu Mono, Anonymous Pro, Droid Sans Mono, Menlo, Monaco, Consolas, Inconsolata, Courier, monospace, PingFang SC, Microsoft YaHei, sans-serif !important;
+    margin: 0 0 24px !important;
+    padding: 8px 16px 6px 44px !important;
+    background-color: #282C33 !important;
+    border: none !important;
+    white-space: pre !important;
+}
+
+.prettyprint ul {
+    position: absolute;
+    width: 36px;
+    background-color: #282C33;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+    text-align: right;
+}
+
+.prettyprint ul li {
+    color: #abb2bf !important;
+    border-right: 1px solid #c5c5c5;
+    padding: 0 8px;
+    list-style: none;
+    margin: 0;
+}
+
+.pre-numbering li span {
+    color: #fff !important;
+}
 </style>
 </head>
 <body class="skin-default">
@@ -91,8 +157,8 @@ p{
 		<div class="consultArea">
 			<div align="center" style="border-bottom: 1px solid #f7caca;font-size: 16px;padding: 4px 0px;">大纲</div>
 			<c:forEach items="${chunkList }" var="chunk">
-				<a href="javascript:void(0)" onclick="loadChunk(${chunk.docId})">
-					<div class="rmenu">${chunk.title }</div>
+				<a href="javascript:void(0)" onclick="loadChunk(${chunk.chunkId})">
+					<div class="rmenu" chunkId = "${chunk.chunkId}" >${chunk.title }</div>
 				</a>
 			 </c:forEach>
 		</div>
@@ -106,6 +172,8 @@ p{
 	<jsp:include page="${resPath }/wap/commonwap/commonBottom.jsp"></jsp:include>
 	<script type="text/javascript"  src="${resPath }/jsTool/customClearStyle/customClearStyle.js"></script>
   	<script type="text/javascript"  src="${resPath }/jsTool/customHtmlDecoder/customHtmlDecoder.js"></script>
+  	<script type="text/javascript" src="${resPath }/zxgj/js/prettify.js"></script>
+  	<script type="text/javascript" src="${resPath }/zxgj/js/grab.js"></script>
 	<script type="text/javascript">
 		function changeBgd(){
 			if($("#contextArea").hasClass("ye-page-read")){
@@ -132,10 +200,10 @@ p{
 				     	var chd=new customHtmlDecoder();
 				     	var context = "<div align='left'>";
 				     	if(data.title){
-				     		context += "<h3 class='titleStyle'>"+data.title+"</h3>";
+				     		context += "<div class='titleStyle'>"+data.index+"."+data.title+"</div>";
 				     	}
 					    context +="</div>"+
-					    "<div  class='contextCss'>"+chd.decode(cd.decode(),{ispre:true,tranType:2,spaceType:4})+"</div><div class='bottomDiv'></div>";
+					    "<div  class='contextCss' chunkId="+data.chunkId+" >"+chd.decode(cd.decode(),{ispre:false,tranType:2,spaceType:4})+"</div><div class='bottomDiv'></div>";
 				     	if(flag){
 					     	$("#beforeMenuId").val(data.beforeMenuId);
 				     		$("#contextArea").prepend(context);
@@ -147,13 +215,25 @@ p{
 				     		$("#beforeMenuId").val(data.beforeMenuId);
 				     		$("#nextMenu").val(data.afterMenuId);
 				     	}
-				     	$("#chunkId").val(data.chunkId);
+				     	if(data.chunkId != $("#chunkId").val()){
+					     	$("#chunkId").val(data.chunkId);
+					     	setActivityChunk(data.chunkId);
+				     	}
+				     	decodePre();
 	     			}else{
 	     				$("#contextArea").append("<div align='center'><h3>文章不存在，或正在加载中，请稍后....</h3></div>");
 	     			}
 	     		}
 	     	})
      	}
+		function setActivityChunk(chunkId){
+			$(".rmenu").removeClass("activeChunk");
+			$.each($(".rmenu"),function(a,b){
+				if($(b).attr("chunkId") == chunkId){
+					$(b).addClass("activeChunk");
+				}
+			})
+		}
 		function loadChunk(chunkId){
 			$("#contextArea").html("");
 			loadDoc(null,chunkId);
@@ -185,7 +265,7 @@ p{
 		        		}
 			       	 }
 		     	}
-		        
+	        	resetCurChunk();
 		    });
 		    touch.on(".skin-default", "doubletap", function(ev){
 		    	changeBgd();
@@ -195,7 +275,9 @@ p{
 	  	
 	$(function(){
 	    touch.on(".textContext", "swipeleft", function(ev){
-			leftmove();
+	    	if(ev.target.tagName != "PRE" && $(ev.target).parents("pre").length == 0){
+				leftmove();
+	    	}
 		});
     	touch.on(".textContext", "swiperight", function(ev){
 			rightmove();
@@ -203,6 +285,10 @@ p{
     	touch.on(".textContext", "swipedown", function(ev){
 			downmove();
 		});
+    	//双击切换背景色
+	    touch.on(".skin-default", "doubletap", function(ev){
+	    	changeBgd();
+		 });
     })
    	function leftmove(){
    		animate($(".consultArea")[0],"right","0");
@@ -214,7 +300,22 @@ p{
    		animate($(".leftUp")[0],"left","-300");
    		$("#backBlackGround").hide();
    	}
- 
+ 	
+   	function resetCurChunk(){
+   		var scroTop = $(window).scrollTop();
+   		var wheight = $(window).height();
+   		$.each($(".contextCss"),function(a,b){
+   			var bt = b.offsetTop - scroTop; 
+   			if(bt>0&&bt<wheight/3){
+   				if($(b).attr("chunkId") != $("#chunkId").val()){
+	   				$(".rmenu").removeClass("activeChunk");
+					$(".rmenu[chunkId="+$(b).attr("chunkId")+"]").addClass("activeChunk");
+					$("#chunkId").val($(b).attr("chunkId"));
+				}
+   			}
+   		})
+   	}
+   	
    	function downmove(){
    		var srollPos = $(window).scrollTop();    
    		if(srollPos < 20){

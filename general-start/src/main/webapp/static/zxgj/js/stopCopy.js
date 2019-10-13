@@ -1,6 +1,3 @@
-<link rel="shortcut icon" href="${resPath }/tbk/images/logo.png" />
-<link rel="stylesheet" type="text/css" href="${resPath }/wap/css/common.css"  >
-<script type="text/javascript">
 document.oncontextmenu=new Function("event.returnValue=false;");
 document.onselectstart=new Function("event.returnValue=false;");
 var omitformtags=["input", "textarea", "select"];
@@ -19,4 +16,3 @@ if (typeof document.onselectstart!="undefined"){
 	document.onmousedown=disableselect;
 	document.onmouseup=reEnable;
 }
-</script>

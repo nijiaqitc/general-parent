@@ -40,7 +40,7 @@ a:hover{
     max-width: 1000px;
 }
 .centerDiv .contextArea{
-    width: 1000px;min-height: 600px;background-color: #fff;text-align: left;margin-bottom: 40px;margin-top: 20px;
+    width: 1000px;min-height: 600px;text-align: left;margin-bottom: 40px;margin-top: 20px;
 }
 .centerDiv .contextArea .noWord{
    font-weight: 600;margin-top: 40px;font-size: 20px;

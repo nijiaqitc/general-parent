@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${resPath }/zxgj/css/knowledgeDoc.css">
     <link rel="stylesheet" href="${resPath }/zxgj/css/grab.css">
     <link rel="stylesheet" href="${resPath }/common/css/font-awesome.min.css"/>
+    <script src="${resPath }/zxgj/js/stopCopy.js" type="text/javascript"></script>
     <style type="text/css">
         .stbot {
             bottom: 0;
@@ -131,6 +132,9 @@
 
         .starcs:hover {
             background-color: #ddd;
+        }
+        body{
+        	background: url("http://image.njqityun.com/uploadImage/novel/4.png")
         }
     </style>
 </head>

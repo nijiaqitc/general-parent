@@ -23,8 +23,6 @@ public class NovelDocVO implements java.io.Serializable{
 	private Long beforeMenuId;
 	private Long afterMenuId;
 	
-	private Long chunkId;
-	
     public Long getDocId() {
         return docId;
     }
@@ -102,16 +100,6 @@ public class NovelDocVO implements java.io.Serializable{
 	public void setAfterMenuId(Long afterMenuId) {
 		this.afterMenuId = afterMenuId;
 	}
-
-	public Long getChunkId() {
-		return chunkId;
-	}
-
-	public void setChunkId(Long chunkId) {
-		this.chunkId = chunkId;
-	}
-	
-	
 
 	
 }

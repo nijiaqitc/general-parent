@@ -11,6 +11,8 @@
     <form action="/setPwd" method="post">
     	<input type="hidden" name="jumpurl" value="${jumpurl }">
         <input type="text" name = "token" >
+        <input type="text" name = "grab" >
+        <input type="text" name = "review" >
         <input type="submit" name="提交">
     </form>
 </body>

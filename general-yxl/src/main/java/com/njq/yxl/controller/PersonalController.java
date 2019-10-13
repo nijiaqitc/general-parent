@@ -143,23 +143,41 @@ public class PersonalController {
     }
 
     @RequestMapping(value = "setPwd", method = RequestMethod.POST)
-    public String setPwd(@RequestParam String token ,@RequestParam String jumpurl, HttpServletRequest request){
+    public String setPwd(@RequestParam String token ,String jumpurl,String grab, String review, HttpServletRequest request){
+    	int falseNum = 0;
         if(!TokenCheck.checkToken(token)){
-            return "请设置正确的密码！";
+        	++falseNum;
+        }else {
+        	//保存1天
+        	CookieUtil.addCookie("loginFlag", "true",CookieExpire.Day);
         }
-        //保存1小时
-        CookieUtil.addCookie("loginFlag", "true",CookieExpire.SIXTY);
-        BaseUser user =  userService.queryUserById(2L);
-        HttpSession session = request.getSession();
-        // 在session中填充sessionId,唯一
-        session.setAttribute("sessionId", request.getSession().getId());
-        // 在session中填充用户信息
-        session.setAttribute("user", user);
-        Map<String, Object> channelMap = channelService.queryUserChannel(user.getId());
-        // 在session中填充角色
-        session.setAttribute("powerList", channelMap.get("children"));
-        session.setAttribute("power", channelMap.get("power"));
-        session.setAttribute("powerMap", channelMap.get("powerMap"));
+        if(!TokenCheck.checkGrabToken(grab)) {
+        	++falseNum;
+        }else {
+        	//保存1天
+        	CookieUtil.addCookie("grabFlag", "true",CookieExpire.Day);
+        }
+        if(!TokenCheck.checkReviewToken(review)) {
+        	++falseNum;
+        }else {
+        	//保存1天
+        	CookieUtil.addCookie("studyFlag", "true",CookieExpire.Day);
+        }
+        if(falseNum < 3) {
+        	BaseUser user =  userService.queryUserById(2L);
+        	HttpSession session = request.getSession();
+        	// 在session中填充sessionId,唯一
+        	session.setAttribute("sessionId", request.getSession().getId());
+        	// 在session中填充用户信息
+        	session.setAttribute("user", user);
+        	Map<String, Object> channelMap = channelService.queryUserChannel(user.getId());
+        	// 在session中填充角色
+        	session.setAttribute("powerList", channelMap.get("children"));
+        	session.setAttribute("power", channelMap.get("power"));
+        	session.setAttribute("powerMap", channelMap.get("powerMap"));
+        }else {
+        	return "请设置正确的密码！";
+        }
         return "redirect:"+jumpurl;
     }
 

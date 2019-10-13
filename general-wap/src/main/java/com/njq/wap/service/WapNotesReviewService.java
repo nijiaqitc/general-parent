@@ -11,8 +11,7 @@ import com.njq.basis.service.impl.YxlNotesChunkService;
 import com.njq.basis.service.impl.YxlNotesReviewService;
 import com.njq.common.model.po.YxlNotesChunk;
 import com.njq.common.model.po.YxlNotesReview;
-import com.njq.common.model.vo.NovelDocVO;
-import com.njq.common.model.vo.XtitleVO;
+import com.njq.common.model.vo.StudyNotesVO;
 
 @Service
 public class WapNotesReviewService {
@@ -22,23 +21,26 @@ public class WapNotesReviewService {
 	@Resource
 	private YxlNotesChunkService yxlNotesChunkService;
 	
-	public NovelDocVO loadFirst(Long chunkId) {
+	public StudyNotesVO loadFirst(Long chunkId) {
+		StudyNotesVO vo = new StudyNotesVO();
 		YxlNotesReview nv = yxlNotesReviewService.queryFirstReview(chunkId);
-		NovelDocVO vo = new NovelDocVO();
 		if(nv == null) {
+			vo.setChunkId(chunkId);
 			return vo;
 		}
 		this.fillBefore(vo, nv.getId(), chunkId);
 		this.fillNext(vo, nv.getId(), chunkId);
 		vo.setCreateDate(nv.getCreateDate());
 		vo.setText(nv.getDoc());
-		vo.setDocId(nv.getId());
+		vo.setTitle(nv.getGeneral());
+		vo.setChunkId(nv.getChunkId());
+		vo.setIndex(nv.getIndex1());
 		return vo;
 	}
 	
-	public NovelDocVO loadDoc(Long id,String queryFlag) {
+	public StudyNotesVO loadDoc(Long id,String queryFlag) {
 		YxlNotesReview review = yxlNotesReviewService.queryById(id);
-		NovelDocVO vo = new NovelDocVO();
+		StudyNotesVO vo = new StudyNotesVO();
 		if("1".equals(queryFlag)) {
 			this.fillBefore(vo, id, review.getChunkId());
 		}else {
@@ -48,10 +50,11 @@ public class WapNotesReviewService {
 		vo.setText(review.getDoc());
 		vo.setChunkId(review.getChunkId());
 		vo.setTitle(review.getGeneral());
+		vo.setIndex(review.getIndex1());
 		return vo;
 	}
 	
-	public void fillNext(NovelDocVO vo,Long id,Long chunkId) {
+	public void fillNext(StudyNotesVO vo,Long id,Long chunkId) {
 		YxlNotesReview nextReview = yxlNotesReviewService.queryNextReview(id);
 		if(nextReview == null) {
 			YxlNotesReview nv = this.diGuiNext(chunkId);
@@ -75,7 +78,7 @@ public class WapNotesReviewService {
 		return null;
 	}
 	
-	public void fillBefore(NovelDocVO vo , Long id,Long chunkId) {
+	public void fillBefore(StudyNotesVO vo , Long id,Long chunkId) {
 		YxlNotesReview beforeReview = yxlNotesReviewService.queryBeforeReview(id);
 		if(beforeReview == null) {
 			YxlNotesReview nv = diGuiBefore(chunkId);
@@ -99,12 +102,12 @@ public class WapNotesReviewService {
 		return null;
 	}
 	
-	public List<XtitleVO> loadAllChunk() {
+	public List<StudyNotesVO> loadAllChunk() {
 		List<YxlNotesChunk> list =yxlNotesChunkService.queryAll();
 		return list.stream().map(n->{
-			XtitleVO vo = new XtitleVO();
+			StudyNotesVO vo = new StudyNotesVO();
 			vo.setTitle(n.getName());
-			vo.setDocId(n.getId());
+			vo.setChunkId(n.getId());
 			return vo;
 		}).collect(Collectors.toList());
 	}
