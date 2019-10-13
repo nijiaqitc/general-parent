@@ -267,9 +267,6 @@ pre {
 		     	}
 	        	resetCurChunk();
 		    });
-		    touch.on(".skin-default", "doubletap", function(ev){
-		    	changeBgd();
-			 });
 	  	});
 	  	
 	  	
