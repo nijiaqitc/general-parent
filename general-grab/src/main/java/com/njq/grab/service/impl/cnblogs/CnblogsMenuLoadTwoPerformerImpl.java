@@ -1,5 +1,6 @@
 package com.njq.grab.service.impl.cnblogs;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,13 @@ public class CnblogsMenuLoadTwoPerformerImpl implements CnblogsMenuLoadPerformer
 	public void loadMenu(Element element, Long typeId) {
 		Elements elements = element.getElementsByTag("a");
         elements.parallelStream().forEach(n -> {
-            Elements ss = HtmlGrabUtil
+            Document dd = HtmlGrabUtil
                     .build(ChannelType.CNBLOGS.getValue())
-                    .getDoc(n.attr("href"))
-                    .getElementsByTag("h5");
+                    .getDoc(n.attr("href"));
+            Elements ss = dd.getElementsByTag("h5"); 
+            if(ss.isEmpty()) {
+            	ss = dd.getElementsByClass("entrylistItemTitle");
+            }
             ss.forEach(f -> {
             	Elements titlea = f.getElementsByTag("a");
             	Element a = titlea.get(0); 
