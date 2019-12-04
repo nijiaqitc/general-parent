@@ -8,6 +8,9 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 public class TestController {
 	public static   CyclicBarrier cyclicBarrier=new CyclicBarrier(5);
 	public static void main(String[] args) throws Exception {
@@ -23,16 +26,16 @@ public class TestController {
 //		String[] str = filePlace.split("\\/"); 
 //		System.out.println(filePlace.substring(0, (filePlace.length()-str[str.length-1].length()-1)));
 		
-		String url = "https://img-blog.csdn.net/20180428102835632";
-		String uriStr = url.split("\\/")[2];
-        if (url.startsWith("https")) {
-            uriStr = "https://" + uriStr;
-        } else {
-            uriStr = "http://" + uriStr;
-        }
-		
-		System.out.println(uriStr);
-		
+//		String url = "https://img-blog.csdn.net/20180428102835632";
+//		String uriStr = url.split("\\/")[2];
+//        if (url.startsWith("https")) {
+//            uriStr = "https://" + uriStr;
+//        } else {
+//            uriStr = "http://" + uriStr;
+//        }
+//
+//		System.out.println(uriStr);
+//
 		
 //		File dir = new File("C:\\mywork\\doc\\debug\\uploadDoc\\yhwiki\\20190325\\微信商城v212-交互-0510.zip");
 //		dir.mkdirs();
@@ -91,6 +94,14 @@ public class TestController {
 //		Matcher mt =  pattern.matcher(str);
 //		System.out.println(mt.find());
 //		System.out.println(mt.group());
+		TestController tt = new TestController();
+		System.out.println(tt.ttnu(null));
+	}
+
+	@NotNull
+	public String ttnu(@NotNull String abc){
+		System.out.println(abc);
+		return null;
 	}
 
 	public class  smr implements Runnable{
