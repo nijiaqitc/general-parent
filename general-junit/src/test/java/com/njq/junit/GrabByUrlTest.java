@@ -31,16 +31,32 @@ public class GrabByUrlTest {
 
     @Test
     public void loadDoc1() {
-        String urlPath = "https://www.jianshu.com/u/cb32a7edf150?order_by=shared_at&page=500";
+//        String urlPath = "https://www.jianshu.com/u/cb32a7edf150?order_by=shared_at&page=500";
+        String urlPath = "https://www.jianshu.com/p/c64bf543f16a";
+//        Document doc = HtmlGrabUtil
+//                .build("swerer111")
+//                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+//                .getDoc(urlPath);
+//        Elements es = doc.select(".content .title");
+//        for(int i=0;i<es.size();i++){
+//            System.out.println(es.get(i).attr("href")+" --- "+ es.get(i).html());
+//        }
+//        System.out.println();
+
         Document doc = HtmlGrabUtil
                 .build("swerer111")
                 .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
                 .getDoc(urlPath);
-        Elements es = doc.select(".content .title");
-        for(int i=0;i<es.size();i++){
-            System.out.println(es.get(i).attr("href")+" --- "+ es.get(i).html());
+        String uuu = "https://www.jianshu.com"+doc.select(".qzhJKO").get(0).attr("href");
+        Document doc2 = HtmlGrabUtil
+                .build("swerer111")
+                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+                .getDoc(uuu);
+        Elements es1 = doc2.select(".content .title");
+        for(int i=0;i<es1.size();i++){
+            System.out.println(es1.get(i).attr("href")+" --- "+ es1.get(i).html());
         }
-        System.out.println();
+
 
 
 //        /p/1a19446be126 --- 利用Spring的@Async异步处理改善web应用中耗时操作的用户体验
