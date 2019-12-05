@@ -305,7 +305,7 @@ public class BaseTitleService {
             conditionsCommon.addIsNullParam("parentId");
         }
         conditionsCommon.addSetOrderColum("starTab", "desc");
-        conditionsCommon.addSetOrderColum("id", "asc");
+        conditionsCommon.addSetOrderColum("title", "asc");
         return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
     }
 
