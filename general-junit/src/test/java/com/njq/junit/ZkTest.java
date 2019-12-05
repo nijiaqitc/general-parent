@@ -24,16 +24,17 @@ public class ZkTest {
         ZkWatcher zkWatcher = new ZkWatcher();
         Stat stat = new Stat();
         ZooKeeper zk = new ZooKeeper("118.25.12.143:2181", 3000, zkWatcher);
-        zkWatcher.waitToConn();
-
         System.out.println(zk.getState());
 
-        String path = "/";
-        List<String> children = zk.getChildren(path, null);
-        for (String child : children) {
-            System.out.println("find " + child + " :");
-            System.out.println("   " + new String(zk.getData(path + child, true, stat)));
-        }
+//        zkWatcher.waitToConn();
+
+
+//        String path = "/";
+//        List<String> children = zk.getChildren(path, null);
+//        for (String child : children) {
+//            System.out.println("find " + child + " :");
+//            System.out.println("   " + new String(zk.getData(path + child, true, stat)));
+//        }
 
         zk.close();
 
@@ -45,6 +46,7 @@ public class ZkTest {
 
         @Override
         public void process(WatchedEvent watchedEvent) {
+            System.out.println("Receive watched event:"+watchedEvent);
             if (Event.KeeperState.SyncConnected == watchedEvent.getState()) {
                 connectedSemaphore.countDown();
             }
