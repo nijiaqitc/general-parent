@@ -23,7 +23,7 @@
 		  	</div>
 		    
 		    <hr style="margin-top: 8px;margin-bottom: 8px;">
-		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="area1">.headbg{margin:0 8px /*display:none*/ } a:link,a:focus{   color:#00c } a:active{   color:red }</textarea>
+		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="area1" placeholder="请输入带格式化样式"></textarea>
 		    
 		  </div>
 		</div>

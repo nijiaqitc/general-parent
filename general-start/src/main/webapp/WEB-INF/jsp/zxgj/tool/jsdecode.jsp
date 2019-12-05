@@ -33,8 +33,7 @@
 			    </div>
 		  	</div>
 		    <hr style="margin-top: 8px;margin-bottom: 8px;">
-		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="text1">/*  把你的代码粘贴到此处 并点击“开始格式化”按钮   */
-	if('this_is'==/an_example/){do_something();}else{var a=b?(c%d):e[f];}</textarea>
+		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="text1" placeholder="请输入带格式化字符串"></textarea>
 		  </div>
 		</div>
 	</div>

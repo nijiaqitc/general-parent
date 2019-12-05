@@ -55,12 +55,7 @@ public class BaseFileService {
     	if(StringUtil2.isEmpty(src)) {
     		return "";
     	}
-    	if(!(src.split("\\.").length>2)) {
-    		src = prefix + src;
-    	}
-    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-    		src = SendConstants.HTTP_PREFIX+"://"+src;
-    	}
+    	src = dealUrl(src, prefix);
     	List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
     	if(CollectionUtils.isEmpty(list)) {
     		BaseFile file;
@@ -80,12 +75,7 @@ public class BaseFileService {
     		return "";
     	}
         String src = request.getSrc();
-        if(!(src.split("\\.").length>2)) {
-    		src = request.getPrefix() + src;
-    	}
-    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-    		src = SendConstants.HTTP_PREFIX+"://"+src;
-    	}
+        src = dealUrl(src, request.getPrefix());
         String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", getOldName(src), request.getSrc());
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
@@ -119,6 +109,20 @@ public class BaseFileService {
         }
     }
 
+    private String dealUrl(String src,String prefix) {
+    	if(!(src.split("\\.").length>2)) {
+    		src = prefix + src;
+    	}
+    	if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+    		if(src.startsWith("//")) {
+    			src = SendConstants.HTTP_PREFIX+":"+src;
+    		}else {
+    			src = SendConstants.HTTP_PREFIX+"://"+src;    			
+    		}
+    	}
+    	return src;
+    }
+    
     public BaseFile dealBase64Src(Long typeId, ChannelType channel, String src) {
     	String lockKey = StringUtil2.format("oldName-{0}-oldSrc-{1}", "base64", src);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {

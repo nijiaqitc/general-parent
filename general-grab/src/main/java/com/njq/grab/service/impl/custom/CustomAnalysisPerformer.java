@@ -18,6 +18,7 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
@@ -93,7 +94,15 @@ public class CustomAnalysisPerformer {
         }
         String uri = uriStr;
         enode.getElementsByTag("img").forEach(n -> {
-            n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM, uri, n.attr("src")));
+        	String imgUrl="";
+        	if(StringUtil.IsNotEmpty(n.attr("src"))) {
+        		imgUrl = n.attr("src");
+        	}else if(StringUtil.IsNotEmpty(n.attr("data-original-src"))) {
+        		imgUrl = n.attr("data-original-src");
+        	}
+        	if(StringUtil.IsNotEmpty(imgUrl)) {
+        		n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM, uri, imgUrl));        		
+        	}
         });
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }

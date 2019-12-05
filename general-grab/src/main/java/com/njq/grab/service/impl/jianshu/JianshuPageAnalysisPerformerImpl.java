@@ -76,7 +76,11 @@ public class JianshuPageAnalysisPerformerImpl implements PageAnalysisPerformer {
             return;
         }
         list.parallelStream().forEach(n -> {
-            this.saveTitle(n, typeId, null);
+        	try {
+        		this.saveTitle(n, typeId, null);				
+			} catch (Exception e) {
+				logger.error("保存标题出错！"+e.getMessage(),e);
+			}
         });
     }
 

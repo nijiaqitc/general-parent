@@ -39,6 +39,7 @@
             <td>id</td>
             <td>主页地址</td>
             <td>渠道</td>
+            <td>类型名称</td>
             <td>创建时间</td>
             <td>开闭状态</td>
             <td>操作</td>
@@ -49,6 +50,7 @@
                 <td>${info.id }</td>
                 <td>${info.pageIndex }</td>
                 <td>${info.channel }</td>
+                <td>${info.typeName }</td>
                 <td>${info.createDate }</td>
                 <td>
                     <c:if test="${info.loadBtn==false }">已关闭</c:if>
@@ -60,6 +62,11 @@
                     <c:if test="${info.loadBtn }"><a style="color:red;" href="javascript:void(0)"
                                                      onclick="enOrDisStatus('${info.id }','0')">关闭</a></c:if>
                 </td>
+            </tr>
+            <tr style="background-color:aliceblue; ">
+            	<td></td>
+            	<td colspan="5"> ${info.menuUrl }</td>
+            	<td></td>
             </tr>
         </c:forEach>
     </table>

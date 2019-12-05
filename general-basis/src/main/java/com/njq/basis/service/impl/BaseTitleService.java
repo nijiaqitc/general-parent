@@ -20,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.alibaba.druid.util.StringUtils;
 import com.njq.basis.service.SaveTitlePerformer;
+import com.njq.basis.service.cache.BaseTitleCacheManager;
 import com.njq.common.base.dao.ConditionsCommon;
 import com.njq.common.base.dao.ConstantsCommon;
 import com.njq.common.base.dao.ConstantsCommon.Use_Type;
@@ -49,7 +50,8 @@ public class BaseTitleService {
     private BaseTitleGrabJpaRepository baseTitleGrabJpaRepository;
     @Resource
     private JedisLockFactory jedisLockFactory;
-
+    @Resource
+    private BaseTitleCacheManager baseTitleCacheManager;
     private Semaphore semaphore;
 
     @Autowired
@@ -297,25 +299,41 @@ public class BaseTitleService {
 
 
     public List<BaseTitle> getTitleByType(Long typeId, Long parentId) {
-        ConditionsCommon conditionsCommon = new ConditionsCommon();
-        conditionsCommon.addEqParam("typeId", typeId);
-        if (parentId != null) {
-            conditionsCommon.addEqParam("parentId", parentId);
-        } else {
-            conditionsCommon.addIsNullParam("parentId");
-        }
-        conditionsCommon.addSetOrderColum("starTab", "desc");
-        conditionsCommon.addSetOrderColum("title", "asc");
-        return saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);
+    	String key = StringUtil2.format("grabTypeTitle-{0}-{1}", typeId,parentId);
+    	List<BaseTitle> list = baseTitleCacheManager.get(key);
+    	if(CollectionUtils.isEmpty(list)) {
+    		ConditionsCommon conditionsCommon = new ConditionsCommon();
+    		conditionsCommon.addEqParam("typeId", typeId);
+    		if (parentId != null) {
+    			conditionsCommon.addEqParam("parentId", parentId);
+    		} else {
+    			conditionsCommon.addIsNullParam("parentId");
+    		}
+    		conditionsCommon.addSetOrderColum("starTab", "desc");
+    		conditionsCommon.addSetOrderColum("title", "asc");
+    		List<BaseTitle> tlist = saveMap.get(TitleType.GRAB_TITLE).getTitleByParam(conditionsCommon);    		
+    		baseTitleCacheManager.update(key, tlist);
+    		return tlist;
+    	}else {
+    		return list;
+    	}
     }
 
-    public List<BaseTitle> getTitleByTip(Long tipId) {
-        List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipId(tipId);
-        return titleList.stream().map(n -> {
-            BaseTitle returnTitle = new BaseTitle();
-            BeanUtils.copyProperties(n, returnTitle);
-            return returnTitle;
-        }).collect(Collectors.toList());
+	public List<BaseTitle> getTitleByTip(Long tipId) {
+    	String key = StringUtil2.format("grabTipTitle-{0}", tipId);
+    	List<BaseTitle> list = baseTitleCacheManager.get(key);
+    	if(CollectionUtils.isEmpty(list)) {
+    		 List<BaseTitleGrab> titleList = baseTitleGrabJpaRepository.queryByTipId(tipId);
+    		 List<BaseTitle> tlist = titleList.stream().map(n -> {
+    	            BaseTitle returnTitle = new BaseTitle();
+    	            BeanUtils.copyProperties(n, returnTitle);
+    	            return returnTitle;
+    	        }).collect(Collectors.toList());
+    		 baseTitleCacheManager.update(key, tlist);
+    		 return tlist;
+    	}else {
+    		return list;
+    	}
     }
 
     public List<BaseTitle> getTitleByTipName(String tipName) {

@@ -7,6 +7,7 @@ import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.exception.BaseKnownException;
 import com.njq.common.exception.ErrorCodeConstant;
 import com.njq.common.model.ro.BaseFileDealRequestBuilder;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
@@ -52,10 +53,18 @@ public class YhwikiBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         		}
         	});
         	enode.getElementsByTag("img").forEach(n -> {
-        		n.attr("src", config.getBaseFileService().dealImgSrc(config.getBaseTitle().getTypeId(),
-        						ChannelType.YH_WIKI,
-        						config.getGrabUrl(),
-        						n.attr("src")));
+        		String imgUrl="";
+            	if(StringUtil.IsNotEmpty(n.attr("src"))) {
+            		imgUrl = n.attr("src");
+            	}else if(StringUtil.IsNotEmpty(n.attr("data-original-src"))) {
+            		imgUrl = n.attr("data-original-src");
+            	}
+            	if(StringUtil.IsNotEmpty(imgUrl)) {
+            		n.attr("src", config.getBaseFileService().dealImgSrc(config.getBaseTitle().getTypeId(),
+            				ChannelType.YH_WIKI,
+            				config.getGrabUrl(),
+            				imgUrl));            		
+            	}
         	});
         }
         return enode.html();

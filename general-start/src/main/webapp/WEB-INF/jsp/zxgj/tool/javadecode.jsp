@@ -11,7 +11,7 @@
 			  	</div>
 		  	</div>
 		    <hr style="margin-top: 8px;margin-bottom: 8px;">
-		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="area1">{"menu":{"id": "file","value": [1,2,3],"popup":{"menuitem":[{"value":["one","two"],"onclick":"CreateNewDoc()"},{"value":"Close","onclick":"CloseDoc()"}]}}}</textarea>
+		    <textarea style="width:100%;height:92%;border: 0;outline:none;min-height: 600px;" id="area1" placeholder="请输入带格式化字符串"></textarea>
 		  </div>
 		</div>
 	</div>

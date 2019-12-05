@@ -34,7 +34,11 @@ public class CnblogsMenuLoadTwoPerformerImpl implements CnblogsMenuLoadPerformer
                 String[] urlspl = href.split("/");
                 menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
                 CnblogsPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CnblogsPageAnalysisPerformerImpl.class);
-                impl.saveTitle(menu, typeId);
+                try {
+                	impl.saveTitle(menu, typeId);					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
             });
         });
 	}

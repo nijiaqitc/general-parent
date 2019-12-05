@@ -107,7 +107,11 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                     menu.setValue(href);
                     String[] urlspl = href.split("/");
                     menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
-                    this.saveTitle(menu, typeId, null);
+                    try {
+                    	this.saveTitle(menu, typeId, null);						
+					} catch (Exception e) {
+						logger.error("保存标题出错"+e.getMessage(),e);
+					}
                 });
             }
         });

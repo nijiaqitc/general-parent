@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 
@@ -26,11 +27,19 @@ public class CsdnBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         }
         if(config.getType()) {
         	enode.getElementsByTag("img").forEach(n -> {
-        		n.attr("src", config.getBaseFileService()
-        				.dealImgSrc(config.getBaseTitle().getTypeId(),
-        						ChannelType.CSDN,
-        						config.getGrabUrl(),
-        						n.attr("src")));
+        		String imgUrl="";
+            	if(StringUtil.IsNotEmpty(n.attr("src"))) {
+            		imgUrl = n.attr("src");
+            	}else if(StringUtil.IsNotEmpty(n.attr("data-original-src"))) {
+            		imgUrl = n.attr("data-original-src");
+            	}
+            	if(StringUtil.IsNotEmpty(imgUrl)) {
+            		n.attr("src", config.getBaseFileService()
+            				.dealImgSrc(config.getBaseTitle().getTypeId(),
+            						ChannelType.CSDN,
+            						config.getGrabUrl(),
+            						imgUrl));            		
+            	}
         	});
         }
         return enode.html();

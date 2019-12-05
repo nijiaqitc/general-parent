@@ -29,7 +29,7 @@
             <a href="javascript:void(0)" onclick="loadTypeData(this)">类型</a>
             <a href="javascript:void(0)" onclick="loadTipData(this)">标签</a>
             <a href="searchForList?star=1" target="_blank">星标</a>
-            <a href="docListPage" target="_blank">列表</a>
+            <a href="docListPage" target="_blank">最近更新</a>
         </div>
     </div>
 </div>

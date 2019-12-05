@@ -13,7 +13,7 @@
 			  	</div>
 		  	</div>
 		    <hr style="margin-top: 8px;margin-bottom: 8px;">
-		    <textarea style="width:100%;height:20%;border: 0;outline:none;border-bottom: 1px solid #ddd;min-height: 300px;"  placeholder="输入需要加密的明文"  id="area1">{"menu":{"id": "file","value": [1,2,3],"popup":{"menuitem":[{"value":["one","two"],"onclick":"CreateNewDoc()"},{"value":"Close","onclick":"CloseDoc()"}]}}}</textarea>
+		    <textarea style="width:100%;height:20%;border: 0;outline:none;border-bottom: 1px solid #ddd;min-height: 300px;"  placeholder="输入需要加密的明文"  id="area1"></textarea>
 		    <textarea style="width:100%;height:68%;border: 0;outline:none;margin-top: 24px;min-height: 340px;max-height: 400px;" id="area2"  placeholder="输入需要解密的密文" ></textarea>
 		  </div>
 		</div>
