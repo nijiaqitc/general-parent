@@ -205,6 +205,9 @@ public class GrabController {
     		return "grab/noDoc";
     	}
     	BaseTitle title = baseTitleService.getTitleByDocId(docId);
+    	if(title == null) {
+    		return "redirect:/error/404";
+    	}
     	if(allInfo!=null&&allInfo) {
     		BaseTitleLoading loading =  baseTitleService.getLoadingByTitleId(title.getId());
     		model.addAttribute("loaded", loading);

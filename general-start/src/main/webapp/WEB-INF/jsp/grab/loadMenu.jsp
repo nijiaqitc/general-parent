@@ -42,7 +42,7 @@
             <td>类型名称</td>
             <td>创建时间</td>
             <td>开闭状态</td>
-            <td>操作</td>
+            <td style="width:80px;">操作</td>
         </tr>
         </thead>
         <c:forEach items="${infoList }" var="info">
