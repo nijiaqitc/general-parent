@@ -99,12 +99,12 @@ public class BannerManagerController {
     	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
     		try {
     			fileLoadService.delBannerFile(ByteRequestBuilder.aByteRequest()
-    					.ofType(ChannelType.SBANNER)
+    					.ofType(ChannelType.SBANNER.getValue())
     					.ofName(entry.getValue().getOriginalFilename())
     					.ofDebugFlag(TokenCheck.debugType())
     					.build());
     			SaveFileInfo saveFileInfo = fileLoadService.upBannerByteFile(ByteRequestBuilder.aByteRequest()
-    					.ofType(ChannelType.SBANNER)
+    					.ofType(ChannelType.SBANNER.getValue())
     					.ofName(entry.getValue().getOriginalFilename())
     					.ofData(entry.getValue().getBytes())
     					.ofDebugFlag(TokenCheck.debugType())

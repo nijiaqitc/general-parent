@@ -85,7 +85,7 @@ public class BaseFileService {
             if (CollectionUtils.isEmpty(list)) {
             	SaveFileInfo fileInfo = fileLoadService.loadFile(UpFileInfoRequestBuilder.anUpFileInfoRequest()
             			.ofUrl(src)
-            			.ofType(ChannelType.getChannelType(request.getChannel()))
+            			.ofType(request.getChannel())
             			.ofDebugFlag(TokenCheck.debugType())
             			.ofCookieStr(HtmlGrabUtil.build(request.getChannel()).getCookieStr())
             			.build());
@@ -133,7 +133,7 @@ public class BaseFileService {
             if (CollectionUtils.isEmpty(list)) {
             	SaveFileInfo fileInfo = fileLoadService.loadBase64(UpFileInfoRequestBuilder.anUpFileInfoRequest()
                         .ofUrl(src)
-                        .ofType(channel)
+                        .ofType(channel.getValue())
                         .ofDebugFlag(TokenCheck.debugType())
                         .ofCookieStr(HtmlGrabUtil.build(channel.getValue()).getCookieStr())
                         .build());
@@ -166,7 +166,7 @@ public class BaseFileService {
             if (CollectionUtils.isEmpty(list)) {
             	SaveFileInfo fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
                         .ofUrl(src)
-                        .ofType(channel)
+                        .ofType(channel.getValue())
                         .ofDebugFlag(TokenCheck.debugType())
                         .ofCookieStr(HtmlGrabUtil.build(channel.getValue()).getCookieStr())
                         .build());
@@ -264,7 +264,7 @@ public class BaseFileService {
         fileList.forEach(n -> {
             SaveFileInfo fileInfo = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
                     .ofUrl(n.getOldSrc())
-                    .ofType(ChannelType.getChannelType(n.getChannel()))
+                    .ofType(n.getChannel())
                     .ofRealSavePlace(n.getRealPlace())
                     .ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
                     .build());
@@ -283,7 +283,7 @@ public class BaseFileService {
         	try {
         		 info = fileLoadService.fileQuery(UpFileInfoRequestBuilder.anUpFileInfoRequest()
         				.ofUrl(n.getOldSrc())
-        				.ofType(ChannelType.getChannelType(n.getChannel()))
+        				.ofType(n.getChannel())
         				.ofRealSavePlace(n.getRealPlace())
         				.ofCookieStr(HtmlGrabUtil.build(n.getChannel()).getCookieStr())
         				.build());

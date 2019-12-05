@@ -33,7 +33,7 @@ public class UpFileService {
     	for (Map.Entry<String, MultipartFile> entry : mms.entrySet()) { 
     		try {
     			SaveFileInfo fileInfo = fileLoadService.upYxlByteFile(ByteRequestBuilder.aByteRequest()
-    					.ofType(ChannelType.YXL)
+    					.ofType(ChannelType.YXL.getValue())
     					.ofName(entry.getValue().getOriginalFilename())
     					.ofData(entry.getValue().getBytes())
     					.ofDebugFlag(TokenCheck.debugType())
@@ -61,7 +61,7 @@ public class UpFileService {
     			if(entry.getValue()[0].startsWith("data")) {
     				fileLoadService.loadBase64(UpFileInfoRequestBuilder.anUpFileInfoRequest()
     						.ofUrl(entry.getValue()[0])
-    						.ofType(ChannelType.YXL)
+    						.ofType(ChannelType.YXL.getValue())
     						.ofDebugFlag(TokenCheck.debugType())
     						.build());
     			}else {
@@ -70,7 +70,7 @@ public class UpFileService {
     				}
     				fileInfo = fileLoadService.loadPic(UpFileInfoRequestBuilder.anUpFileInfoRequest()
     						.ofUrl(entry.getValue()[0])
-    						.ofType(ChannelType.YXL)
+    						.ofType(ChannelType.YXL.getValue())
     						.ofDebugFlag(TokenCheck.debugType())
     						.build());      				
     			}
