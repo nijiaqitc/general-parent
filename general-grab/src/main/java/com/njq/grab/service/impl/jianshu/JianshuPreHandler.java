@@ -38,7 +38,7 @@ public class JianshuPreHandler {
         String menuUrl = grabUrl + href;
         Map<String, Boolean> urlMap = new HashMap<>();
         List<LeftMenu> list = new ArrayList<>();
-        int page = 10;
+        int page = 1;
         while (true) {
             logger.info("执行:" + (menuUrl+"?order_by=shared_at&page=" + page));
             Document docx = HtmlGrabUtil
