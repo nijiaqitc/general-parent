@@ -30,7 +30,7 @@ function CustomDecoder() {
     //匹配标签中的style或class
     this.zz3 = /(style|class)(| *)=(| *)".*?"/g;
     //排除的标签
-    this.excludeLabel=[/<(svg)(.*?)>(.|\n| )*?<\/\1>/g,/<(style)(.*?)>(.|\n| )*?<\/\1>/g];
+    this.excludeLabel=[/<(svg)(.*?)>(.|\n| )*?<\/\1>/g,/<(style)(.*?)>(.|\n| )*?<\/\1>/g,/<(script)(.*?)>(.|\n| )*?<\/\1>/g];
     this.customStr = "";
     this.validate = function () {
         if (this.str == undefined) {
@@ -52,6 +52,10 @@ function CustomDecoder() {
     };
     //第一步处理，清理样式
     this.clearLabelProperty = function () {
+    	//先删除需要排除掉的标签
+    	for(var i=0;i<this.excludeLabel.length;i++){
+        	this.clear(this.str.match(this.excludeLabel[i]));
+        }
         //将所有符合正则表达式的字符串提取出来
         var sz = this.str.match(this.firstClear1);
         if (sz != null) {
@@ -67,10 +71,7 @@ function CustomDecoder() {
     this.clearEmptyLabel = function () {
         this.str = this.str.replace(/\&nbsp;/g, "");
         var inputList = this.str.match(/<input.*?\>/g);
-        this.clear(inputList);
-        for(var i=0;i<this.excludeLabel.length;i++){
-        	this.clear(this.str.match(this.excludeLabel[i]));
-        }
+        this.clear(inputList);       
         this.recurrenceClear();
         this.clear(this.str.match(this.secondClear));
         this.clear(this.str.match(/\<!--.*?--\>/g));
@@ -202,7 +203,7 @@ function CustomDecoder() {
         if (this.showPlatform != "") {
             st += "max-width:300px;max-height:200px;"
         }
-        var src = s.match(/src=".*?"/);
+        var src = s.match(/ src=".*?"/);
         if(src != null){
             src = src[0];
         }else{

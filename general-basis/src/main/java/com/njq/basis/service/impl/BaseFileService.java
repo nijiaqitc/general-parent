@@ -27,6 +27,7 @@ import com.njq.common.model.po.BaseFile;
 import com.njq.common.model.ro.BaseFileDealRequest;
 import com.njq.common.model.ro.BaseFileSaveRequest;
 import com.njq.common.model.ro.BaseFileSaveRequestBuilder;
+import com.njq.common.util.encrypt.Md5Util;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
 import com.njq.common.util.string.IdGen;
@@ -56,6 +57,7 @@ public class BaseFileService {
     		return "";
     	}
     	src = dealUrl(src, prefix);
+    	
     	List<BaseFile> list = getFileListByCon(typeId, channel.getValue(), getOldName(src));
     	if(CollectionUtils.isEmpty(list)) {
     		BaseFile file;
@@ -109,7 +111,20 @@ public class BaseFileService {
         }
     }
 
+    private Boolean checkIsBase64(String src) {
+    	if(src.length()>30) {
+    		String preStr = src.substring(0, 30);
+    		if(preStr.toLowerCase().startsWith("data:image/png;base64")) {
+    			return true;    			
+    		}
+    	}
+    	return false;
+    }
+    
     private String dealUrl(String src,String prefix) {
+    	if(checkIsBase64(src)) {
+    		return src;
+    	}
     	if(!(src.split("\\.").length>2)) {
     		src = prefix + src;
     	}
@@ -218,7 +233,26 @@ public class BaseFileService {
         return file;
     }
 
-    public static String getOldName(String src) {
+    
+    
+    public String generateOldName(String src) {
+    	String data = src.toLowerCase().split("base64")[1];
+    	if(data.length()>50) {
+    		StringBuilder stb = new StringBuilder();
+    		stb.append(data.substring(0, 10));
+    		stb.append(data.substring(data.length()-10));
+    		int mid=data.length()/2;
+    		stb.append(data.substring(mid, mid+10));
+    		return Md5Util.getMD5Password(stb.toString());
+    	}else {
+    		return Md5Util.getMD5Password(data);
+    	}
+    }
+    
+    public  String getOldName(String src) {
+    	if(checkIsBase64(src)) {
+    		return generateOldName(src);
+    	}
         String[] img = src.split("\\?")[0].split("\\/");
         return img[img.length - 1];
     }

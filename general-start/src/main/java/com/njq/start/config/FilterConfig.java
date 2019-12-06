@@ -33,6 +33,7 @@ public class FilterConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(new ServletInterceptor()).addPathPatterns("/**").excludePathPatterns("/test");
         registry.addInterceptor(new NeedPwdInterceptor()).addPathPatterns("/**");
         registry.addInterceptor(new GrabPwdInterceptor()).addPathPatterns("/grab/**");
+        registry.addInterceptor(new GrabPwdInterceptor()).addPathPatterns("/wap/**");
         registry.addInterceptor(new StudyPwdInterceptor()).addPathPatterns("/review/**");
         registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/admin/**");
     }

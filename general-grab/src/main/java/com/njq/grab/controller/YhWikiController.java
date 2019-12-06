@@ -50,28 +50,29 @@ public class YhWikiController {
     public String getPage(Model model) {
 //        login();
         BaseTitle base = new BaseTitle();
-        
-        String context = yhWikiPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
-                .ofUrl("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=3544929")
-                .ofBaseTitle(base)
-                .build());
-        model.addAttribute("doc", context);
+//        
+//        String context = yhWikiPageAnalysis.analysisPage(new AnalysisPageRequestBuilder()
+//                .ofUrl("http://wiki.yonghuivip.com/pages/viewpage.action?pageId=3544929")
+//                .ofBaseTitle(base)
+//                .build());
+//        model.addAttribute("doc", context);
         
         
 //        yhWikiPageAnalysis.saveDoc(context, "题题题题题题11");
 //        String js = "D:\\worksts\\ppcong\\customClearStyle.js";
 //        String fun = "decodeStr";
 //        base.setId(14193L);
-//        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage(new AnalysisPageRequestBuilder()
-//                .ofUrl("https://blog.csdn.net/m0_37190495/article/details/80360804")
-//                .ofBaseTitle(base)
-//                .build()));
+        model.addAttribute("doc", csdnPageAnalysisPerformer.analysisPage(new AnalysisPageRequestBuilder()
+                .ofUrl("https://blog.csdn.net/qq_41058526/article/details/80631548")
+                .ofType(false)
+                .ofBaseTitle(base)
+                .build()));
         return "grab/view";
     }
 
     @RequestMapping("gpage")
     public String gpage(Model model,Long docId) {
-    	model.addAttribute("doc", grabService.queryById(docId).getDoc());
+    	model.addAttribute("doc", grabService.readDoc(docId).getDoc());
     	return "grab/view";
     }
     

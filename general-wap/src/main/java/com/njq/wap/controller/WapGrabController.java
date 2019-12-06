@@ -54,7 +54,7 @@ public class WapGrabController {
 
     @RequestMapping(value = "/grab/{noteId}", method = RequestMethod.GET)
     public String grab(Model model, @PathVariable(value = "noteId") Long noteId) {
-        GrabDoc doc = grabService.queryById(noteId);
+        GrabDoc doc = grabService.readDoc(noteId);
         if(doc == null) {
         	return "wap/grab/abc";
         }
