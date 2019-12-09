@@ -96,6 +96,9 @@
             ul.classList.add("pre-numbering");
             var height = $($("pre")[i]).height();
             var num = Number(height / 22);
+            if((height % 22)>0){
+    			num+=1;
+    		}
             for (var j = 0; j < num; j++) {
                 var li = document.createElement("li");
                 li.innerHTML = j + 1;

@@ -58,7 +58,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             title.setModiBy(ConstantsCommon.Oper_User.ADMIN);
             title.setTypeId(request.getTypeId());
             baseTitleGrabDao.save(title);
-            baseTypeService.addNum(request.getChannel(), request.getTypeId());
+            baseTypeService.addNum(request.getChannel(), request.getTypeId(),title.getId());
             baseTipService.addNum(request.getTips(),title.getId(),TitleType.GRAB_TITLE);
             /**
              * 标记父标签
@@ -70,8 +70,7 @@ public class GrabSaveTitlePerformerImpl implements SaveTitlePerformer {
             	baseTitleGrabDao.updateByPrimaryKeySelective(pt);
             }
         } catch (Exception e) {
-            logger.info("加载下载菜单出错", e);
-            throw new BaseKnownException("加载下载菜单出错");
+            throw new BaseKnownException("加载下载菜单出错-- "+e.getMessage());
         }
         return convertTitle(title);
     }

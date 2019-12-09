@@ -1,10 +1,11 @@
 package com.njq.grab.service.impl;
 
-import com.njq.common.enumreg.channel.ChannelType;
-import com.njq.common.util.string.StringUtil;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.njq.common.enumreg.channel.ChannelType;
+import com.njq.common.util.string.StringUtil;
 
 /**
  * @author: nijiaqi
@@ -30,5 +31,13 @@ public class GrabImgPerformer {
                                 imgUrl));
             }
         });
+    }
+    
+    
+    
+    public static void resetImg(Element enode) {
+    	enode.getElementsByClass("lazy-image-holder").forEach(n -> {
+    		n.html("<img src='"+n.attr("dataurl")+"'>");
+    	});
     }
 }

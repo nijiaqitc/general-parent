@@ -27,6 +27,7 @@ public class TxsqBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
             est = doc.getElementsByTag("body");
         }
         if (config.getType()) {
+        	GrabImgPerformer.resetImg(est.first());
             GrabImgPerformer.loadImg(est.first(), ChannelType.TXSQ, config);
         }
         return est.first().html();

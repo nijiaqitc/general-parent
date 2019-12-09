@@ -1,5 +1,8 @@
 package com.njq.grab.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
@@ -16,8 +19,6 @@ import com.njq.common.util.string.StringUtil2;
 import com.njq.grab.service.PageAnalysisPerformer;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author: nijiaqi
@@ -29,12 +30,15 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
     private final SaveTitlePerformer grabSaveTitlePerformer;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
     private final GrabDocSaveOperation grabDocSaveOperation;
-
+    private ChannelType channelType;
     public AbstractPageAnalysisPerformer(BaseTitleService baseTitleService, SaveTitlePerformer grabSaveTitlePerformer, GrabDocUpdateOperation grabDocUpdateOperation, GrabDocSaveOperation grabDocSaveOperation) {
         this.baseTitleService = baseTitleService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
         this.grabDocSaveOperation = grabDocSaveOperation;
+    }
+    public void setChannelType(ChannelType type) {
+    	this.channelType = type;
     }
 
     @Override
@@ -56,7 +60,7 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
         baseTitleService.saveTitle(new SaveTitleRequestBuilder()
                 .onMenu(menu)
                 .ofTypeId(typeId)
-                .ofChannel(ChannelType.JIANSHU.getValue())
+                .ofChannel(channelType.getValue())
                 .ofTitleType(TitleType.GRAB_TITLE)
                 .build());
     }
@@ -91,7 +95,7 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
     @Override
     public Long saveDoc(String doc, String title) {
         return grabDocSaveOperation.saveDoc(new GrabDocSaveRequestBuilder()
-                .ofChannel(ChannelType.JIANSHU.getValue())
+                .ofChannel(channelType.getValue())
                 .ofDoc(doc)
                 .ofTitle(title)
                 .build())
