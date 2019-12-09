@@ -14,12 +14,14 @@ public class PerformerService {
 
     @Autowired
     public PerformerService(PageAnalysisPerformer yhWikiPageAnalysis, PageAnalysisPerformer cgblogsPageAnalysis,
-                            PageAnalysisPerformer csdnPageAnalysisPerformer, PageAnalysisPerformer jianshuPageAnalysisPerformer) {
+                            PageAnalysisPerformer csdnPageAnalysisPerformer, PageAnalysisPerformer jianshuPageAnalysisPerformer,
+                            PageAnalysisPerformer txsqPageAnalysisPerformer) {
         analyMap = new HashMap<>();
         analyMap.put(ChannelType.YH_WIKI, yhWikiPageAnalysis);
         analyMap.put(ChannelType.CNBLOGS, cgblogsPageAnalysis);
         analyMap.put(ChannelType.CSDN, csdnPageAnalysisPerformer);
         analyMap.put(ChannelType.JIANSHU, jianshuPageAnalysisPerformer);
+        analyMap.put(ChannelType.TXSQ, txsqPageAnalysisPerformer);
     }
 
     public Map<ChannelType, PageAnalysisPerformer> getAnalysisPerformerMap() {

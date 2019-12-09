@@ -1,12 +1,11 @@
 package com.njq.grab.service.impl.csdn;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import com.njq.common.enumreg.channel.ChannelType;
-import com.njq.common.util.string.StringUtil;
 import com.njq.grab.service.HtmlAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabImgPerformer;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 /**
  * @author: nijiaqi
@@ -25,22 +24,8 @@ public class CsdnBodyAnalysisPerformerImpl implements HtmlAnalysisPerformer {
         if (enode == null) {
             enode = doc.getElementsByTag("body").first();
         }
-        if(config.getType()) {
-        	enode.getElementsByTag("img").forEach(n -> {
-        		String imgUrl="";
-            	if(StringUtil.IsNotEmpty(n.attr("src"))) {
-            		imgUrl = n.attr("src");
-            	}else if(StringUtil.IsNotEmpty(n.attr("data-original-src"))) {
-            		imgUrl = n.attr("data-original-src");
-            	}
-            	if(StringUtil.IsNotEmpty(imgUrl)) {
-            		n.attr("src", config.getBaseFileService()
-            				.dealImgSrc(config.getBaseTitle().getTypeId(),
-            						ChannelType.CSDN,
-            						config.getGrabUrl(),
-            						imgUrl));            		
-            	}
-        	});
+        if (config.getType()) {
+            GrabImgPerformer.loadImg(enode, ChannelType.CSDN, config);
         }
         return enode.html();
     }

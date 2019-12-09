@@ -1,13 +1,5 @@
 package com.njq.grab.service.impl.custom;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.base.config.SpringContextUtil;
@@ -18,10 +10,19 @@ import com.njq.common.model.po.BaseTitle;
 import com.njq.common.model.ro.GrabDocSaveRequestBuilder;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.grab.HtmlGrabUtil;
-import com.njq.common.util.string.StringUtil;
+import com.njq.grab.service.impl.GrabConfig;
+import com.njq.grab.service.impl.GrabConfigBuilder;
+import com.njq.grab.service.impl.GrabImgPerformer;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CustomAnalysisPerformer {
@@ -34,7 +35,7 @@ public class CustomAnalysisPerformer {
     private GrabDocSaveOperation grabDocSaveOperation;
     @Autowired
     private GrabDocUpdateOperation grabDocUpdateOperation;
-    
+
     public Long grabAndSave(String url, String name, int type, BaseTitle baseTitle) {
         String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
@@ -42,12 +43,12 @@ public class CustomAnalysisPerformer {
     }
 
     public Long grabAndReload(String url, String name, int type, BaseTitle baseTitle) {
-    	logger.info("重新加载url" + url);
+        logger.info("重新加载url" + url);
         String doc = this.analysisPage(url, name, type, baseTitle.getTypeId());
         CustomAnalysisPerformer impl = SpringContextUtil.getBean(CustomAnalysisPerformer.class);
         return impl.updateDoc(doc, baseTitle.getTitle(), baseTitle.getId());
     }
-    
+
     public Long saveLoadingDoc(String doc, BaseTitle baseTitle) {
         Long docId = this.saveDoc(doc, baseTitle);
         baseTitleService.updateLoadSuccess(docId,
@@ -92,18 +93,16 @@ public class CustomAnalysisPerformer {
         } else {
             uriStr = "http://" + uriStr;
         }
-        String uri = uriStr;
-        enode.getElementsByTag("img").forEach(n -> {
-        	String imgUrl="";
-        	if(StringUtil.IsNotEmpty(n.attr("src"))) {
-        		imgUrl = n.attr("src");
-        	}else if(StringUtil.IsNotEmpty(n.attr("data-original-src"))) {
-        		imgUrl = n.attr("data-original-src");
-        	}
-        	if(StringUtil.IsNotEmpty(imgUrl)) {
-        		n.attr("src", baseFileService.dealImgSrc(typeId, ChannelType.CUSTOM, uri, imgUrl));        		
-        	}
-        });
+        BaseTitle t = new BaseTitle();
+        t.setTypeId(typeId);
+        GrabConfig config = new GrabConfigBuilder()
+                .ofBaseFileService(baseFileService)
+                .ofBaseTitle(t)
+                .ofGrabUrl(uriStr)
+                .ofUrl(uriStr)
+                .ofType(true)
+                .build();
+        GrabImgPerformer.loadImg(enode, ChannelType.CUSTOM, config);
         return HtmlDecodeUtil.decodeHtml(enode.html(), GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
     }
 
@@ -115,7 +114,7 @@ public class CustomAnalysisPerformer {
                 .build())
                 .getId();
     }
-    
+
     public Long updateDoc(String doc, String title, Long id) {
         return grabDocUpdateOperation.updateDoc(new GrabDocSaveRequestBuilder()
                 .ofTitle(title)

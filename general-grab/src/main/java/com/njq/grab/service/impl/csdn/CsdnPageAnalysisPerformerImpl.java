@@ -1,13 +1,5 @@
 package com.njq.grab.service.impl.csdn;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -26,11 +18,19 @@ import com.njq.common.model.vo.LeftMenu;
 import com.njq.common.util.grab.HtmlDecodeUtil;
 import com.njq.common.util.string.StringUtil2;
 import com.njq.grab.service.PageAnalysisPerformer;
+import com.njq.grab.service.impl.CommonTipAnalysisPerformer;
 import com.njq.grab.service.impl.GrabConfig;
 import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author: nijiaqi
@@ -46,10 +46,11 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
     private final GrabDocSaveOperation grabDocSaveOperation;
     private final GrabDocUpdateOperation grabDocUpdateOperation;
     private final CsdnPreHandler csdnPreHandler;
+
     @Autowired
     public CsdnPageAnalysisPerformerImpl(BaseTitleService baseTitleService, BaseTipService baseTipService,
                                          BaseFileService baseFileService, SaveTitlePerformer grabSaveTitlePerformer,
-                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation,CsdnPreHandler csdnPreHandler) {
+                                         GrabDocSaveOperation grabDocSaveOperation, GrabDocUpdateOperation grabDocUpdateOperation, CsdnPreHandler csdnPreHandler) {
         this.baseTitleService = baseTitleService;
         this.baseTipService = baseTipService;
         this.baseFileService = baseFileService;
@@ -75,17 +76,17 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public void loadMenu(String url, Long typeId) {
-    	logger.info("待加载的url:"+url);
+        logger.info("待加载的url:" + url);
         Document doc = csdnPreHandler.preLoad(url);
         Element element = doc.getElementById("asideArchive");
         if (element == null) {
-        	logger.info("未读取到id:asideArchive");
-        	logger.info("读取到的元素:"+doc.html());
+            logger.info("未读取到id:asideArchive");
+            logger.info("读取到的元素:" + doc.html());
             return;
         }
         Elements elements = element.getElementsByTag("ul").get(0).getElementsByTag("a");
-        if(elements.isEmpty()) {
-        	return;
+        if (elements.isEmpty()) {
+            return;
         }
         elements.parallelStream().forEach(n -> {
             Elements spanElements = n.getElementsByTag("span");
@@ -108,10 +109,10 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                     String[] urlspl = href.split("/");
                     menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
                     try {
-                    	this.saveTitle(menu, typeId, null);						
-					} catch (Exception e) {
-						logger.error("保存标题出错"+e.getMessage(),e);
-					}
+                        this.saveTitle(menu, typeId, null);
+                    } catch (Exception e) {
+                        logger.error("保存标题出错" + e.getMessage(), e);
+                    }
                 });
             }
         });
@@ -140,17 +141,17 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
 
     @Override
     public Long grabAndReload(AnalysisPageRequest request) {
-    	logger.info("重新加载url" + request.getUrl());
+        logger.info("重新加载url" + request.getUrl());
         String doc = this.analysisPage(request);
         CsdnPageAnalysisPerformerImpl impl = SpringContextUtil.getBean(CsdnPageAnalysisPerformerImpl.class);
         return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getDocId());
     }
-    
+
     @Override
     public Long saveLoadingDoc(AnalysisPageRequest request) {
-    	if(StringUtil2.isEmpty(request.getDoc())) {
-    		throw new BaseKnownException("空白页面，不要:"+request.getUrl());
-    	}
+        if (StringUtil2.isEmpty(request.getDoc())) {
+            throw new BaseKnownException("空白页面，不要:" + request.getUrl());
+        }
         Long docId = this.saveDoc(request.getDoc(), request.getBaseTitle().getTitle());
         baseTitleService.updateLoadSuccess(docId,
                 request.getBaseTitle().getId());
@@ -202,7 +203,7 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
                 .build();
         String body = new CsdnBodyAnalysisPerformerImpl(config).analysis(doc);
         if (request.getType()) {
-            new CsdnTipAnalysisPerformerImpl(config).analysis(doc);
+            new CommonTipAnalysisPerformer(config).analysis(doc, "tags-box");
         }
 
         return HtmlDecodeUtil.decodeHtml(body, GrabUrlInfoFactory.getDecodeJsPlace(), "decodeStr");
