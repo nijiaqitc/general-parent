@@ -2,6 +2,7 @@ package com.njq.grab.service.impl.txsq;
 
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
+import com.njq.basis.service.impl.BaseTipService;
 import com.njq.basis.service.impl.BaseTitleService;
 import com.njq.common.enumreg.channel.ChannelType;
 import com.njq.common.exception.BaseKnownException;
@@ -31,17 +32,21 @@ import java.util.List;
  */
 @Component("txsqPageAnalysisPerformer")
 public class TxsqPageAnalysisPerformerImpl extends AbstractPageAnalysisPerformer {
-    private static final Logger logger = LoggerFactory.getLogger(TxsqPageAnalysisPerformerImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(TxsqPageAnalysisPerformerImpl.class);
     private final TxsqPreHandler txsqPreHandler;
     private final BaseFileService baseFileService;
-
-    @Autowired
-    public TxsqPageAnalysisPerformerImpl(BaseTitleService baseTitleService, SaveTitlePerformer grabSaveTitlePerformer, GrabDocUpdateOperation grabDocUpdateOperation, GrabDocSaveOperation grabDocSaveOperation, TxsqPreHandler txsqPreHandler, BaseFileService baseFileService) {
-        super(baseTitleService, grabSaveTitlePerformer, grabDocUpdateOperation, grabDocSaveOperation);
-        this.txsqPreHandler = txsqPreHandler;
-        this.baseFileService = baseFileService;
-    }
-
+    private final BaseTipService baseTipService;
+    
+    public TxsqPageAnalysisPerformerImpl(BaseTitleService baseTitleService, SaveTitlePerformer grabSaveTitlePerformer,
+			GrabDocUpdateOperation grabDocUpdateOperation, GrabDocSaveOperation grabDocSaveOperation,
+			TxsqPreHandler txsqPreHandler, BaseFileService baseFileService, BaseTipService baseTipService) {
+		super(baseTitleService, grabSaveTitlePerformer, grabDocUpdateOperation, grabDocSaveOperation);
+		this.txsqPreHandler = txsqPreHandler;
+		this.baseFileService = baseFileService;
+		this.baseTipService = baseTipService;
+		super.setChannelType(ChannelType.TXSQ);
+	}
+    
     @Override
     public void loadMenu(String url, Long typeId) {
         List<LeftMenu> list = txsqPreHandler.loadAllMenu(url);
@@ -71,6 +76,7 @@ public class TxsqPageAnalysisPerformerImpl extends AbstractPageAnalysisPerformer
 
         GrabConfig config = new GrabConfigBuilder()
                 .ofBaseFileService(baseFileService)
+                .ofBaseTipService(baseTipService)
                 .ofBaseTitle(request.getBaseTitle())
                 .ofGrabUrl(grabUrl)
                 .ofUrl(url)

@@ -66,14 +66,14 @@ public class BaseTypeService {
      * @param channel
      * @param typeId
      */
-    public void addNum(String channel, Long typeId) {
+    public void addNum(String channel, Long typeId,Long titleId) {
     	if(typeId==null) {
     		return;
     	}
     	if(StringUtil2.isEmpty(channel)) {
     		return;
     	}
-        String lockKey = StringUtil2.format("typeaddNum-{0}-{1}", typeId, channel);
+        String lockKey = StringUtil2.format("typeaddNum-{0}-{1}-{2}", typeId, channel,titleId);
         try (JedisLock jedisLock = this.jedisLockFactory.getLock(lockKey)) {
             if (!jedisLock.acquire()) {
                 throw new BaseKnownException("type添加数量并发获取锁失败！");
