@@ -356,7 +356,9 @@ public class NovelController {
     public String queryNovelDoc(Model model,HttpServletRequest request,Long menuId) {
         GrabNovelMenu beforeMenu = titleService.queryBeforeMenu(menuId);
         model.addAttribute("menuId", menuId);
-        model.addAttribute("beforeMenuId", beforeMenu.getId());
+        if(beforeMenu != null){
+            model.addAttribute("beforeMenuId", beforeMenu.getId());
+        }
         return "wap/grabNovelDoc";
     }
     
