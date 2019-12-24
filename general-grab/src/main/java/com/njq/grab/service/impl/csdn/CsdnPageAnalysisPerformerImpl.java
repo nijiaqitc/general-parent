@@ -80,6 +80,11 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         Document doc = csdnPreHandler.preLoad(url);
         Element element = doc.getElementById("asideArchive");
         if (element == null) {
+            element = doc.getElementById("asideCategory");
+            if (element != null) {
+                loadMenuByType(element, typeId);
+                return;
+            }
             logger.info("未读取到id:asideArchive");
             logger.info("读取到的元素:" + doc.html());
             return;
@@ -118,6 +123,28 @@ public class CsdnPageAnalysisPerformerImpl implements PageAnalysisPerformer {
         });
     }
 
+    private void loadMenuByType(Element element, Long typeId) {
+        Elements ets = element.getElementsByTag("a");
+        ets.parallelStream().forEach(n -> {
+            Elements ss = csdnPreHandler.preLoad(n.attr("href")).getElementsByClass("column_article_title");
+            ss.forEach(m -> {
+                LeftMenu menu = new LeftMenu();
+                Elements titles = m.getElementsByClass("title");
+                if (!titles.isEmpty()) {
+                    menu.setName(titles.get(0).html());
+                }
+                String href = m.parent().attr("href");
+                menu.setValue(href);
+                String[] urlspl = href.split("/");
+                menu.setDocId(urlspl[urlspl.length - 1].split("\\.")[0]);
+                try {
+                    this.saveTitle(menu, typeId, null);
+                } catch (Exception e) {
+                    logger.error("保存标题出错" + e.getMessage(), e);
+                }
+            });
+        });
+    }
 
     public void saveTitle(LeftMenu menu, Long typeId, String tip) {
         logger.info("csdn:" + menu.getName() + " :----: " + menu.getValue() + "------" + tip);
