@@ -215,12 +215,13 @@ public class TbkTypeService {
 	 */
 	@SuppressWarnings("unchecked")
 	public TbkType queryTbktypeByDocId(Long docId) {
-		String hql="select new com.njq.common.model.po.TbkType(p.id,p.name,p.createBy,p.createDate) " +
-				"from TbkType p ,TbkTypeDocConfig c where p.id=c.typeId and p.status=1 and c.status=1 and c.docId=:docId ";
-		Map<String, Object> paramMap=new HashMap<String, Object>();
-		paramMap.put("docId", docId);
-		List<TbkType> tbktypeList = (List<TbkType>)tbktypeDao.queryHqlByParam(hql, paramMap);
-		return tbktypeList.size()>0?tbktypeList.get(0):null;
+		return null;
+//		String hql="select new com.njq.common.model.po.TbkType(p.id,p.name,p.createBy,p.createDate) " +
+//				"from TbkType p ,TbkTypeDocConfig c where p.id=c.typeId and p.status=1 and c.status=1 and c.docId=:docId ";
+//		Map<String, Object> paramMap=new HashMap<String, Object>();
+//		paramMap.put("docId", docId);
+//		List<TbkType> tbktypeList = (List<TbkType>)tbktypeDao.queryHqlByParam(hql, paramMap);
+//		return tbktypeList.size()>0?tbktypeList.get(0):null;
 	}
 	
 	/**

@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -432,12 +433,13 @@ public class TbkDocService {
      * @return
      */
     public List<Map<String, Object>> queryTypeVO(int page, int size) {
-        String sql = " select t.id,t.name , count(c.typeId) num from tbk_type t left join tbk_type_doc_config c on t.id=c.typeId where t.status=1 and c.status=1 group by t.id ,t.name order by num desc,t.id   ";
-        Map<String, Object> paramMap = new HashMap<String, Object>();
-        ConditionsCommon cc = new ConditionsCommon();
-        cc.addPageParam(page, size);
-        List<Map<String, Object>> list = tbkRecommendDocViewDao.querySqlByParamForMap(sql, paramMap, cc);
-        return list;
+        return Collections.emptyList();
+//        String sql = " select t.id,t.name , count(c.typeId) num from tbk_type t left join tbk_type_doc_config c on t.id=c.typeId where t.status=1 and c.status=1 group by t.id ,t.name order by num desc,t.id   ";
+//        Map<String, Object> paramMap = new HashMap<String, Object>();
+//        ConditionsCommon cc = new ConditionsCommon();
+//        cc.addPageParam(page, size);
+//        List<Map<String, Object>> list = tbkRecommendDocViewDao.querySqlByParamForMap(sql, paramMap, cc);
+//        return list;
     }
 
     /**
