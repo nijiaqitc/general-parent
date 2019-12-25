@@ -1,8 +1,8 @@
 package com.njq.junit;
 
-import com.alibaba.fastjson.JSON;
 import com.njq.common.util.grab.HtmlGrabUtil;
 import com.njq.common.util.grab.SendConstants;
+import com.njq.common.util.grab.UrlChangeUtil;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 
 /**
  * @author: nijiaqi
@@ -36,26 +35,48 @@ public class GrabByUrlTest {
 
     @Test
     public void loadDoc1() {
-        String urlPath = "https://cloud.tencent.com/developer/column/2205";
+//        String urlPath = "http://blog.itpub.net/29715045/viewspace-2653621";
 //        Document doc = HtmlGrabUtil
 //                .build("swerer111")
 //                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 //                .getDoc(urlPath);
-        Txmodel md = new Txmodel();
-        md.setAction("FetchColumnArticles");
-        Payload payload = new Payload();
-        payload.setColumnId(2205);
-        payload.setPageNumber(1);
-        payload.setPageSize(20);
-        payload.setTagId(0);
-        md.setPayload(payload);
+//        Elements tips = doc.select(".mess a");
+//        System.out.println(tips.first());
 
-        String doc = HtmlGrabUtil
-                .build("swerer222")
-                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-                .sendPostFromUrlJson("https://cloud.tencent.com/developer/services/ajax/column/article", JSON.toJSONString(md));
-        HashMap<String,String> hashMap = JSON.parseObject(doc, HashMap.class);
-        System.out.println(hashMap.get("data"));
+        try {
+            UrlChangeUtil.downLoad("http://img.blog.itpub.net/blog/2019/08/12/3d4b90f0f6c56f99.png?x-oss-process=style/bb", "D:\\test\\aaaa.png", "123");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        System.out.println(doc.html());
+//        Elements titles = doc.getElementsByClass("title");
+//        if(titles.isEmpty()){
+//            System.out.println("空空空");
+//        }
+//        titles.forEach(n -> {
+//            String href = n.parent().attr("href");
+//            String[] strs = href.split("/");
+//
+//            System.out.println(href+"---"+n.html());
+//            System.out.println(strs[strs.length-1]+"  "+strs[strs.length-2]);
+//        });
+
+//        Txmodel md = new Txmodel();
+//        md.setAction("FetchColumnArticles");
+//        Payload payload = new Payload();
+//        payload.setColumnId(2205);
+//        payload.setPageNumber(1);
+//        payload.setPageSize(20);
+//        payload.setTagId(0);
+//        md.setPayload(payload);
+//
+//        String doc = HtmlGrabUtil
+//                .build("swerer222")
+//                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+//                .sendPostFromUrlJson("https://cloud.tencent.com/developer/services/ajax/column/article", JSON.toJSONString(md));
+//        HashMap<String,String> hashMap = JSON.parseObject(doc, HashMap.class);
+//        System.out.println(hashMap.get("data"));
 
 
 //        String doc =this.sendPostFromUrlJson1("https://cloud.tencent.com/developer/services/ajax/column/article", JSON.toJSONString(md));
@@ -111,7 +132,7 @@ public class GrabByUrlTest {
                 }
 
                 if (response != null) {
-                    ((CloseableHttpResponse)response).close();
+                    ((CloseableHttpResponse) response).close();
                 }
             } catch (Exception var16) {
             }
@@ -120,17 +141,6 @@ public class GrabByUrlTest {
 
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     public class Txmodel implements Serializable {
@@ -154,7 +164,7 @@ public class GrabByUrlTest {
         }
     }
 
-    public class Payload implements Serializable{
+    public class Payload implements Serializable {
         private int columnId;
         private int pageNumber;
         private int pageSize;
