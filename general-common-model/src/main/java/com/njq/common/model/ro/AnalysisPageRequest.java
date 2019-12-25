@@ -9,6 +9,9 @@ import com.njq.common.model.po.BaseTitle;
 public class AnalysisPageRequest {
     private String url;
     private BaseTitle baseTitle;
+    /**
+        * 是否需要保存标签（一般在调试时设置为false）
+    */
     private Boolean type = true;
     private String doc;
 

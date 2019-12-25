@@ -1,5 +1,12 @@
 package com.njq.grab.service.impl.txsq;
 
+import java.util.List;
+
+import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import com.njq.basis.service.SaveTitlePerformer;
 import com.njq.basis.service.impl.BaseFileService;
 import com.njq.basis.service.impl.BaseTipService;
@@ -18,13 +25,6 @@ import com.njq.grab.service.impl.GrabConfigBuilder;
 import com.njq.grab.service.impl.GrabUrlInfoFactory;
 import com.njq.grab.service.operation.GrabDocSaveOperation;
 import com.njq.grab.service.operation.GrabDocUpdateOperation;
-import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author: nijiaqi

@@ -31,7 +31,8 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
     private final GrabDocUpdateOperation grabDocUpdateOperation;
     private final GrabDocSaveOperation grabDocSaveOperation;
     private ChannelType channelType;
-    public AbstractPageAnalysisPerformer(BaseTitleService baseTitleService, SaveTitlePerformer grabSaveTitlePerformer, GrabDocUpdateOperation grabDocUpdateOperation, GrabDocSaveOperation grabDocSaveOperation) {
+    public AbstractPageAnalysisPerformer(BaseTitleService baseTitleService, SaveTitlePerformer grabSaveTitlePerformer, 
+    		GrabDocUpdateOperation grabDocUpdateOperation, GrabDocSaveOperation grabDocSaveOperation) {
         this.baseTitleService = baseTitleService;
         this.grabSaveTitlePerformer = grabSaveTitlePerformer;
         this.grabDocUpdateOperation = grabDocUpdateOperation;
@@ -69,7 +70,7 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
     public Long grabAndSave(AnalysisPageRequest request) {
         logger.info("重新加载url" + request.getUrl());
         String doc = this.analysisPage(request);
-        AbstractPageAnalysisPerformer impl = SpringContextUtil.getBean(AbstractPageAnalysisPerformer.class);
+        PageAnalysisPerformer impl = SpringContextUtil.getBean(PerformerService.class).getAnalysisPerformer(channelType);
         request.setDoc(doc);
         return impl.saveLoadingDoc(request);
     }
@@ -88,7 +89,7 @@ public abstract class AbstractPageAnalysisPerformer implements PageAnalysisPerfo
     @Override
     public Long grabAndReload(AnalysisPageRequest request) {
         String doc = this.analysisPage(request);
-        AbstractPageAnalysisPerformer impl = SpringContextUtil.getBean(AbstractPageAnalysisPerformer.class);
+        PageAnalysisPerformer impl = SpringContextUtil.getBean(PerformerService.class).getAnalysisPerformer(channelType);
         return impl.updateDoc(doc, request.getBaseTitle().getTitle(), request.getBaseTitle().getDocId());
     }
 
