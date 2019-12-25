@@ -1,12 +1,14 @@
 package com.njq.grab.service.impl;
 
-import com.njq.common.enumreg.title.TitleType;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.njq.common.enumreg.title.TitleType;
+import com.njq.common.util.string.StringUtil2;
 
 /**
  * @author: nijiaqi
@@ -42,4 +44,17 @@ public class CommonTipAnalysisPerformer {
             }
         }
     }
+    
+    
+    public void analysis(String tagName) {
+    	if(StringUtil2.isEmpty(tagName)) {
+    		return;
+    	}
+    	config.getBaseTipService().addNum(config.getBaseTipService()
+                .checkAndSaveTips(tagName),
+        config.getBaseTitle().getId(),
+        TitleType.GRAB_TITLE);
+    }
+    
+    
 }
