@@ -44,7 +44,7 @@ public class GrabByUrlTest {
 //        System.out.println(tips.first());
 
         try {
-            UrlChangeUtil.downLoad("http://img.blog.itpub.net/blog/2019/08/12/3d4b90f0f6c56f99.png?x-oss-process=style/bb", "D:\\test\\aaaa.png", "123");
+            UrlChangeUtil.downLoad("http://upload-images.jianshu.io/upload_images/13825820-230ca973b629e103.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/641/format/webp", "D:\\test\\aaaa2.png", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
