@@ -8,7 +8,28 @@
     </encoder>
     <!-- 日志级别过滤器 -->
   </appender>
-  
+
+  <!-- info日志 -->
+  <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 过滤日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>DENY</onMatch>  <!-- 如果命中就禁止这条日志 -->
+      <onMismatch>ACCEPT</onMismatch>  <!-- 如果没有命中就使用这条规则 -->
+    </filter>
+
+    <encoder>
+      <pattern>
+        %msg%n
+      </pattern>
+    </encoder>
+    <!-- 滚动策略 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 设置info日志路径 -->
+      <fileNamePattern>D://logs//info.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+
   <!-- 文件保存日志的相关配置 --> 
   <appender name="ERROR-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
      <!-- 保存日志文件的路径 -->
