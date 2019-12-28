@@ -60,5 +60,6 @@
 		<class>com.njq.common.model.po.GrabNovelUrl</class>
 		<class>com.njq.common.model.po.YxlNotesChunk</class>
 		<class>com.njq.common.model.po.YxlNotesReview</class>
+		<class>com.njq.common.model.po.BaseVisitRecord</class>
 	</persistence-unit>
 </persistence>

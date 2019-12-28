@@ -3,11 +3,12 @@
  */
 package com.njq.start.filter;
 
-import com.njq.common.base.other.IpUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,13 +19,25 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.dubbo.common.json.JSON;
+import com.njq.basis.service.impl.BaseVisitRecordService;
+import com.njq.common.base.other.IpUtil;
 
 @Component
 @WebFilter(urlPatterns = "/", filterName = "filterName")
 public class LoginFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(LoginFilter.class);
-
+    @Resource
+    private BaseVisitRecordService visitRecordService;
+    @Resource
+    private ThreadPoolTaskExecutor totalTaskExecutor;
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -39,8 +52,23 @@ public class LoginFilter implements Filter {
         String servletPath = servletRequest.getServletPath();
         HttpSession session = servletRequest.getSession();
         session.setAttribute("basePath", servletRequest.getRequestURI());
-        logger.info("访问ip:"+IpUtil.getIpAddr((HttpServletRequest)request)+" -- "+((HttpServletRequest) request).getServletPath());
-
+        String ip = IpUtil.getIpAddr((HttpServletRequest)request);
+        String url = ((HttpServletRequest) request).getServletPath();
+        logger.info("访问ip:"+ip+" -- "+url+" param:"+servletRequest.getQueryString());
+        totalTaskExecutor.submit(()->{        	
+        	String param = null;        	
+        	try {
+        		if("GET".equals(servletRequest.getMethod())){
+        			param = doGet(servletRequest);
+        		}else if("POST".equals(servletRequest.getMethod())){
+        			param = doPost(servletRequest);
+        		}
+				visitRecordService.addRecord(ip, servletRequest.getMethod(), url, servletRequest.getContentType(), param, JSON.json(servletRequest.getParameterMap()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        
 		/*
 		Object sessionId = session.getAttribute("sessionId");
 		String url = servletPath.split("/")[1];
@@ -91,6 +119,46 @@ public class LoginFilter implements Filter {
     }
 
 
+    private static String doGet(HttpServletRequest req) {
+        return req.getQueryString();
+    }
+
+    private static String doPost(HttpServletRequest req){
+        InputStream is = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+        	StringBuffer sb = new StringBuffer();
+        	is = req.getInputStream();
+        	isr = new InputStreamReader(is);
+        	br = new BufferedReader(isr);
+        	String s = "";
+        	while ((s = br.readLine()) != null) {
+        		sb.append(s);
+        	}
+        	return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+        	try {
+        		if(is != null) {
+        			is.close();        			
+        		}
+        		if(isr != null) {
+        			isr.close();        			
+        		}
+        		if(br != null) {
+        			br.close();        			
+        		}
+			} catch (IOException e) {
+				logger.info("关闭流出错！！"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+        return null;
+    }
+    
+    
     @Override
     public void destroy() {
         // TODO Auto-generated method stub

@@ -23,6 +23,7 @@ import com.njq.common.model.po.BaseTypeNum;
 import com.njq.common.model.po.BaseUser;
 import com.njq.common.model.po.BaseUserChannelConfig;
 import com.njq.common.model.po.BaseUserRuleConfig;
+import com.njq.common.model.po.BaseVisitRecord;
 import com.njq.common.model.po.GrabDoc;
 import com.njq.common.model.po.GrabNovelDoc;
 import com.njq.common.model.po.GrabNovelMenu;
@@ -160,6 +161,11 @@ public class DaoBeanConfig {
         return new DaoCommon<BaseMenu>(BaseMenu.class);
     }
 
+    @Bean
+    public DaoCommon<BaseVisitRecord> visitRecordDao() {
+        return new DaoCommon<BaseVisitRecord>(BaseVisitRecord.class);
+    }
+    
     @Bean
     public DaoCommon<GrabDoc> grabDocDao() {
         return new DaoCommon<GrabDoc>(GrabDoc.class);
