@@ -69,7 +69,6 @@ public class GrabController {
     
     @RequestMapping("index")
     public String index(Model model) {
-    	logger.info("ssssss");
         return "/grab/grabIndex";
     }
 
